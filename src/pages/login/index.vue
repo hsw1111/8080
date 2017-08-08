@@ -391,7 +391,7 @@ div.footer h4 {
 
 div#login {
     width: 100%;
-    background: url(/static/img/1.4f76242.jpg) no-repeat;
+    background: url('../../assets/img/1.jpg') no-repeat;
     background-position: left;
     border-radius: 4px;
     overflow: hidden;
@@ -441,13 +441,15 @@ div#login div.content div.loginForm {
     border-radius: 4px;
     width: 390px;
     /* margin: 0 auto; */
-    display: inline-block;
     float: right;
     color: #fff;
     background: #fff;
     height: 334px;
     margin-right: 80px;
-    margin-top: 200px;
+    right:20px;
+    top:50%;
+    margin-top:-167px;
+    position: absolute
 }
 
 div#login div.content div.loginForm form.el-form {
