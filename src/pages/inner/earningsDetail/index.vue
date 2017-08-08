@@ -521,14 +521,14 @@ export default {
                 }
               }
             }
-            console.log(endTime)
             request
-              .post(host + 'franchisee/revenue/exportRevenueData?type=' + newType)
+              .post(host + 'beepartner/fran/order /exportOrders')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
               .send({
-                'account': {
-                  'franchiseeId': '123456',
-                  'userId': 'admin'
-                },
+                type:newType,
                 'startTime': startTime,
                 'endTime': endTime
               })

@@ -17,7 +17,8 @@
 			<h1>账户信息</h1>
 			<ul>
 					<li>
-					<span><i class="iconfont">&#xe600;</i></span>
+					<span v-if="wrong"><i class="iconfont">&#xe600;</i></span>
+					<span class="right" v-if="right"><i class="iconfont">&#xe616;</i></span>
 					<span>手机验证</span>
 					<span>未绑定</span>
 					<span>您的手机号：bie18@163.com尚未验证，请尽快进行验证</span>
@@ -157,7 +158,7 @@
  		background: #fff;
  		line-height: 60px;
  	}
-
+	.homepage_select ul li span.right i{color:green;font-size: 22px;}
  	.homepage_select h1 {
  		border-bottom: 2px solid #444;
  		text-align: left;
@@ -267,7 +268,10 @@ export default {
 	name: 'HomePage',
 	data: function (){
 		return {
-			updateEmail: ''
+			updateEmail: '',
+			wrong:true,
+			right:false
+			
 		}
 	},
   methods: {

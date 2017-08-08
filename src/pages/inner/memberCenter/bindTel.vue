@@ -214,15 +214,20 @@ export default {
             })
           },1000)
          
-          request.post(host + 'franchisee/userCenter/getVerCode')
+          request.post(host + 'beepartner/Franchisee/Own/getPhoneCode')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
             .send({
-              mobileNo: this.ruleForm.tel
+              phoneNo: this.ruleForm.tel
             })
             .end(function(err,res){
               if(err) {
                 console.log(err)
               } else {
-                that.ruleForm.verCode = JSON.parse(res.text)
+                console.log(JSON.parse(res.text))
+                that.ruleForm.verificationCode = JSON.parse(res.text).data
               }
           })
       }
@@ -238,24 +243,28 @@ export default {
           })
         .then(() => {
           that.loading = true
-          request.post(host + 'franchisee/userCenter/bindingPhone')
+          request.post(host + 'beepartner/Franchisee/Own/updateFranchiseeUser')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
               .send({
                 phoneNo: that.ruleForm.tel,
-                verCode: that.ruleForm.verCode,
-                pwd: that.ruleForm.account_password
+                phoneCode: that.ruleForm.verificationCode,
+                passWord: that.ruleForm.account_password
               })
               .end((err, res) => {
                 if (err) {
                   console.log(err)
                   that.loading = false
-                  that.$router.push('/index/memberCenter')
+                  //that.$router.push('/index/memberCenter')
                   that.$message({
                     message: 'sorry，服务器请求超时，请稍候再试',
                     type: 'error'
                   })
                 } else {
-                  var status = JSON.parse(res.text).code
-                  if (status === 0) {
+                  var status = JSON.parse(res.text).resultCode
+                  if (status === 1) {
                     that.loading = false
                     that.$router.push('/index/memberCenter')
                     that.$message({
