@@ -21,8 +21,8 @@
                   获取验证码
                 </el-button>
 							</el-form-item>
-							<el-form-item label="验证码" prop="verificationCode" style="width: 500px;">
-								<el-input v-model="ruleForm.verificationCode" placeholder='请输入手机收到的验证码'></el-input>
+							<el-form-item label="验证码" prop="verCode" style="width: 500px;">
+								<el-input v-model="ruleForm.verCode" placeholder='请输入手机收到的验证码'></el-input>
 							</el-form-item>
 							<el-form-item label="账户密码" prop="account_password" style="width: 500px;">
 								<el-input type='password' v-model="ruleForm.account_password" placeholder='为保障账号安全，您需要填写当前登录账号和密码'></el-input>
@@ -226,7 +226,6 @@ export default {
               if(err) {
                 console.log(err)
               } else {
-                console.log(JSON.parse(res.text))
                 that.ruleForm.verificationCode = JSON.parse(res.text).data
               }
           })
@@ -249,15 +248,15 @@ export default {
                 'content-type': 'application/x-www-form-urlencoded'
               })
               .send({
-                phoneNo: that.ruleForm.tel,
-                phoneCode: that.ruleForm.verificationCode,
-                passWord: that.ruleForm.account_password
+                'phoneNo': that.ruleForm.tel,
+                'phoneCode': that.ruleForm.verCode,
+                'passWord': that.ruleForm.account_password
               })
               .end((err, res) => {
                 if (err) {
                   console.log(err)
                   that.loading = false
-                  //that.$router.push('/index/memberCenter')
+                  that.$router.push('/index/memberCenter')
                   that.$message({
                     message: 'sorry，服务器请求超时，请稍候再试',
                     type: 'error'
@@ -281,10 +280,10 @@ export default {
                 }
               })
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消绑定操作'
-          })
+          // this.$message({
+          //   type: 'info',
+          //   message: '已取消绑定操作'
+          // })
         })
         } else {
           console.log('error submit!!')

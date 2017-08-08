@@ -124,6 +124,7 @@
       
 <script>
 import request from 'superagent'
+import { host } from '../../../config/index.js'
 export default {
   data () {
     var validatePass = (rule, value, callback) => {
@@ -175,8 +176,15 @@ export default {
         .then(() => {
           that.loading = true
           setTimeout(() => {
-            request.post(host + 'franchisee/userCenter/modifyPwd')
-              .send({id: 1123339, oldPwd: this.ruleForm.pass, newPwd: this.ruleForm.checkPass})
+            request.post(host + 'beepartner/Franchisee/Own/updateFranchiseeUser')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
+              .send({
+                'exPassWord': this.ruleForm.pass, 
+                'passWord': this.ruleForm.checkPass
+              })
               .end((err, res) => {
                 if (err) {
                   console.log(err)
@@ -184,27 +192,27 @@ export default {
                   that.$message.error('sorry,服务器请求超时，请稍候再试！')
                   that.$router.push('./')
                 } else {
-                  var status = Number(JSON.parse(res.text).code)
+                  var status = Number(JSON.parse(res.text).resultCode)
                   var cbText = JSON.parse(res.text).data
-                  if (status !== 0) {
-                    that.loading = false
-                    this.$message.error('sorry,修改密码失败' )
-                  } else {
+                  if (status === 1) {
                     that.loading = false
                     that.$message({
                       message: '恭喜你，密码修改成功',
                       type: 'success'
                     })
                     that.$router.push('./')
+                  } else {
+                    that.loading = false
+                    this.$message.error('sorry,修改密码失败' )
                   }
                 }
               })
           }, 1000)
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '修改已取消！'
-          })
+          // this.$message({
+          //   type: 'info',
+          //   message: '修改已取消！'
+          // })
         })
         } else {
           console.log('error submit!!')

@@ -12,7 +12,7 @@
 					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 							<el-form-item label="手机号" prop="tel" style="width: 550px;">
 								<el-input v-model="ruleForm.tel" placeholder='请输入手机号'></el-input>
-                 <el-button 
+                <el-button 
                   class="getVerCode"
                   @click="getVerCode(ruleForm.tel)"
                   :plain="isPlain"
@@ -21,8 +21,8 @@
                   获取验证码
                 </el-button>
 							</el-form-item>
-							<el-form-item label="验证码" prop="verificationCode" style="width: 500px;">
-								<el-input v-model="ruleForm.verificationCode" placeholder='请输入手机收到的验证码'></el-input>
+							<el-form-item label="验证码" prop="verCode" style="width: 500px;">
+								<el-input v-model="ruleForm.verCode" placeholder='请输入手机收到的验证码'></el-input>
 							</el-form-item>
 							<el-form-item label="账户密码" prop="account_password" style="width: 500px;">
 								<el-input type='password' v-model="ruleForm.account_password" placeholder='为保障账号安全，您需要填写当前登录账号和密码'></el-input>
@@ -36,7 +36,7 @@
 	</div>
 </template>
 <style scoped>
-
+  button.getVerCode{width:102px;}
   @media screen and (min-width:1367px) {
     #memberCenter_form {
       /*  适配好的样式 */
@@ -133,8 +133,8 @@
       
 <script>
 import {checkMobile, IsEmpty} from '../../../../utils/index.js'
-import $ from 'jquery'
 import request from 'superagent'
+import $ from 'jquery'
 import {host} from '../../../config/index'
 export default {
   data () {
@@ -187,15 +187,15 @@ export default {
   },
   methods: {
     getVerCode (val) {
-      var that = this
-      var $btn = $('button.getVerCode')
-      var text = $btn.text()
-      this.initText = text
-      var initTime = 60
-      if(!IsEmpty(val)&&checkMobile(val)){
-         this.isDisabled = true
-         this.isPlain = false
-            var timer = setInterval(function(){
+       var that = this
+       var $btn = $('button.getVerCode')
+       var text = $btn.text()
+       this.initText = text
+       var initTime = 60
+      if(checkMobile(val)){
+          this.isDisabled = true
+          this.isPlain = false
+           var timer = setInterval(function(){
               initTime--
               if(initTime<=0){
                 that.isDisabled = false
@@ -208,20 +208,25 @@ export default {
               }
           },1000)
           setTimeout(function(){
-              that.$message({
+             that.$message({
               message: '已向您的手机发送验证码，请查收！！！',
               type: 'success'
             })
           },1000)
-          request.post(host + 'franchisee/userCenter/getVerCode')
+         
+          request.post(host + 'beepartner/Franchisee/Own/getPhoneCode')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
             .send({
-              mobileNo: this.ruleForm.tel
+              phoneNo: this.ruleForm.tel
             })
             .end(function(err,res){
               if(err) {
                 console.log(err)
               } else {
-                that.ruleForm.verCode = JSON.parse(res.text)
+                that.ruleForm.verificationCode = JSON.parse(res.text).data
               }
           })
       }
@@ -232,17 +237,20 @@ export default {
         if (valid) {
           this.$confirm('确认修改吗?', '提示', {
             confirmButtonText: '确定',
-            cancelButtonText: '取消',
+            cancelButtonText: '信息有误',
             type: 'warning'
           })
         .then(() => {
           that.loading = true
-          request.post(host + 'franchisee/account/updatePhone4Fran')
+          request.post(host + 'beepartner/Franchisee/Own/updateFranchiseeUser')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
               .send({
-                	id:1123339,
-                  phoneNo: that.ruleForm.tel,
-                  verCode: that.ruleForm.verCode,
-                  pwd: that.ruleForm.account_password
+                'phoneNo': that.ruleForm.tel,
+                'phoneCode': that.ruleForm.verCode,
+                'passWord': that.ruleForm.account_password
               })
               .end((err, res) => {
                 if (err) {
@@ -254,8 +262,8 @@ export default {
                     type: 'error'
                   })
                 } else {
-                  var status = JSON.parse(res.text).code
-                  if (status === 0) {
+                  var status = JSON.parse(res.text).resultCode
+                  if (status === 1) {
                     that.loading = false
                     that.$router.push('/index/memberCenter')
                     that.$message({
@@ -272,10 +280,10 @@ export default {
                 }
               })
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消绑定操作'
-          })
+          // this.$message({
+          //   type: 'info',
+          //   message: '已取消绑定操作'
+          // })
         })
         } else {
           console.log('error submit!!')

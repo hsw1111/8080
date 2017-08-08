@@ -6,9 +6,8 @@
 					<img src="../../../assets/homepage/2.jpg">
 				</h1>
 				<div class="homepage_info">
-					<h2>张菲</h2>
-					<p>zhangfei</p>
-					<!--<h3>管理员</h3>-->
+					<h2>{{name}}</h2>
+					<p>{{userName}}</p>
 				</div>
 			</div>
 		</div>
@@ -17,11 +16,13 @@
 			<h1>账户信息</h1>
 			<ul>
 					<li>
-					<span v-if="wrong"><i class="iconfont">&#xe600;</i></span>
-					<span class="right" v-if="right"><i class="iconfont">&#xe616;</i></span>
+					<span>
+						<i v-if="telBinded" class="iconfont right">&#xe616;</i>
+						<i v-else class="iconfont err">&#xe600;</i>
+					</span>
 					<span>手机验证</span>
-					<span>未绑定</span>
-					<span>您的手机号：bie18@163.com尚未验证，请尽快进行验证</span>
+					<span>{{this.phone === null?'未绑定':'已绑定'}}</span>
+					<span>{{this.phone === null?'您尚未绑定手机，请尽快绑定手机号':'手机号码' + this.phone + '已验证'}}</span>
 
 					<span>
 						<button @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
@@ -31,11 +32,11 @@
 						<button @click='$router.push({path:"/index/memberCenter/updateTel"})'>修改手机号</button>
 					</span>
 				</li>
-				<li>
-					<span><i class="iconfont">&#xe600;</i></span>
+				<!-- <li>
+					<span><i v-if="emailBinded" class="iconfont">&#xe616;</i><i v-else class="iconfont right">&#xe600;</i></span>
 					<span>邮箱验证</span>
-					<span>未绑定</span>
-					<span>您的邮箱：bie18@163.com尚未验证，请尽快登录邮箱进行验证</span>
+					<span>{{this.email === ''?'未绑定':'已绑定'}}</span>
+					<span>{{this.email === ''?'您尚未验证邮箱，请尽快登录邮箱进行验证':'邮箱' + this.email + '已验证'}}</span>
 					
 					<span>
 						<button @click='$router.push({path:"/index/memberCenter/bindEamil"})'>绑定邮箱</button>
@@ -44,10 +45,10 @@
 					<span>	
 						<button @click='$router.push({path:"/index/memberCenter/updateEmail"})'>修改邮箱</button>
 					</span>
-				</li>
+				</li> -->
 			
 				<li>
-					<span><i class="iconfont">&#xe616;</i></span>
+					<span><i class="iconfont right">&#xe616;</i></span>
 					<span>登录密码</span>
 					<span>建议使用6-20个字符，包含字母、数字、下划线</span>
 					<button @click='$router.push({path:"/index/memberCenter/amendPassword"})'>修改密码</button>
@@ -158,7 +159,7 @@
  		background: #fff;
  		line-height: 60px;
  	}
-	.homepage_select ul li span.right i{color:green;font-size: 22px;}
+
  	.homepage_select h1 {
  		border-bottom: 2px solid #444;
  		text-align: left;
@@ -187,7 +188,6 @@
 	}
 
 	.homepage_select ul li span:nth-of-type(1) i {
-		color: red;
 		margin-right: 10px;
 	}
 
@@ -244,11 +244,11 @@
 		margin-right: 20px;
 		cursor: pointer;
 	}
-
+/* 
 	.homepage_select ul li:nth-of-type(3) span:nth-child(1) i {
 		color: green;
 		font-size: 22px;
-	}
+	} */
 
 	.homepage_select ul li:nth-of-type(3) span:nth-child(3) {
 		margin-left: 110px;
@@ -260,18 +260,33 @@
 		margin-right: 20px;
 		cursor: pointer;
 	}
+
+	.homepage_select ul li .right {
+		color: green;
+		font-size: 22px;
+	}
+
+	.homepage_select ul li .err {
+		color: red;
+	}
 </style>
 
 <script>
 import {updateEmail} from '../../../api/modifyEmail.api'
+import $ from 'jquery'
+import request from 'superagent'
+import { host } from '../../../config/index.js'
 export default {
 	name: 'HomePage',
 	data: function (){
 		return {
 			updateEmail: '',
-			wrong:true,
-			right:false
-			
+			name: '姓名',
+			userName: '用户名',
+			phone: '',
+			email: '',
+			telBinded: false,
+			emailBinded: false
 		}
 	},
   methods: {
@@ -320,8 +335,45 @@ export default {
           message: '取消输入'
         })
       })
-    }
-  }
+		},
+    getInfo () {
+      request
+        .post(host + 'beepartner/Franchisee/Own/findFranchiseeUserOwn')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send()
+        .end((err, res) => {
+          if (err) {
+            console.log('err:' + err)
+          } else {
+						console.log(JSON.parse(res.text).data)
+						this.name = JSON.parse(res.text).data.name
+						this.userName = JSON.parse(res.text).data?JSON.parse(res.text).data.userName:''
+						this.phone = JSON.parse(res.text).data?JSON.parse(res.text).data.phoneNo:''
+						if (this.phone === null) {
+							this.telBinded = false
+						} else {
+							this.telBinded = true
+						}
+
+						if (this.email === '') {
+							this.emailBinded = false
+						} else {
+							this.emailBinded = true
+						}
+          }
+        })
+		}
+	},
+	mounted () {
+		this.getInfo()
+		//alert(this.phone)	
+	},
+	watch:{
+		'$route':'getInfo'
+	}
 }
 </script>
 

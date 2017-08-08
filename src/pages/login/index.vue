@@ -397,7 +397,7 @@ div.footer h4 {
 
 div#login {
     width: 100%;
-    background: url(/static/img/1.4f76242.jpg) no-repeat;
+    background: url('../../assets/img/1.jpg') no-repeat;
     background-position: left;
     border-radius: 4px;
     overflow: hidden;
