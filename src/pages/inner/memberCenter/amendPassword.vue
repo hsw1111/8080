@@ -182,7 +182,7 @@ export default {
                 'content-type': 'application/x-www-form-urlencoded'
               })
               .send({
-                'exPassWord': this.ruleForm.pass, 
+                'exPassWord': this.ruleForm.oldPassword, 
                 'passWord': this.ruleForm.checkPass
               })
               .end((err, res) => {
