@@ -8,7 +8,7 @@
           <el-button @click='getWeekDate' v-bind:class="{active: isWeek}">本周</el-button>
           <el-button @click='getMonthDate' v-bind:class="{active: isMonth}">本月</el-button>
           <el-button @click='getAllDate' v-bind:class="{active: AllTime}">所有日期</el-button>
-          <el-button @click='handleChangeType'>指定时间段</el-button>
+          <el-button @click='handleChangeType' v-bind:class="{active: spceTime}">指定时间段</el-button>
         </div>
         <el-date-picker v-model="timeLine" style="vertical-align: middle; margin-top: 0px;" v-show="show" type="datetimerange" :picker-options="pickerOptions2" placeholder="选择时间范围" align="right">
         </el-date-picker>
@@ -41,24 +41,24 @@
         >
       </el-table-column>
       <el-table-column
-        prop="orderDate"
+        prop="placeOrderTime"
         min-width="15%"
         label="下单时间">
       </el-table-column>
       <el-table-column
-        prop="placeOrderTime"
+        prop="rideTime"
         label="骑行时间（分钟）"
         min-width="10%"
        >
       </el-table-column>
       <el-table-column
-        prop="journey"
+        prop="rideMileage"
         label="骑行里程（公里）"
         min-width="10%"
         >
       </el-table-column>
       <el-table-column
-        prop="money"
+        prop="orderMoney"
         label="订单费用"
         min-width="15%"
         >
@@ -295,6 +295,7 @@ export default {
       isWeek:false,
       isMonth:false,
       AllTime:false,
+      spceTime:false,
       timer: null,
       totalPage: '',
       pickerOptions2: {
@@ -338,68 +339,16 @@ export default {
   },
   mounted () {
     this.loading2 = true
-    var type = this.$route.query.type
-    if(type === 'getRevenueCurDay') {
-      this.isDay = true
-      this.isWeek = false
-      this.isMonth = false
-      this.AllTime = false
-    }else if(type === 'getRevenueCurWeek'){
-      this.isWeek = true
-      this.isDay = false
-      this.isMonth = false
-      this.AllTime = false
-    }else if(type === 'getRevenueCurMonth'){
-      this.isMonth = true
-      this.isWeek = false
-      this.isDay = false
-      this.AllTime = false
-    }else{
-      this.AllTime = true
-      this.isMonth = false
-      this.isWeek = false
-      this.isDay = false
-      this.AllTime = false
-    }
-    request
-      .post(host + 'franchisee/revenue/' + type)
-      .send({
-        'franchiseeId': '123456',
-        'userId': 'admin'
-      })
-      .end((err, res) => {
-        if (err) {
-          this.loading2 = false
-          this.emptyText = '暂无数据'
-          console.log('err:' + err)
-        } else {
-          var newArr = JSON.parse(res.text).list
-          var pageNumber = JSON.parse(res.text).totalPage
-          this.totalPage = pageNumber
-          if(pageNumber>1){
-            this.emptyText = ' '
-            this.pageShow = true
-          }else {
-            this.pageShow = false
-            this.emptyText = '暂无数据'
-          }
-          var arr2 = this.tableDataDel(newArr)
-          this.$store.dispatch('earningsDate_action', { arr2 })
-          // loading 关闭
-          this.loading2 = false
-          this.tableData = this.$store.state.earningsDate.arr2
-          this.totalItems  = JSON.parse(res.text).totalItems
-        }
-      })
+    this.loadData(this.currentPage3)
     // 点击切换查看类型
-    $('#earD_header button').click('button', function () {
-      $('button.active').removeClass('active')
-      $(this).addClass('active')
-    })
-    var that = this
-    $('.time_earning button').on('click', function (e) {
-      that.handleChangeType(e)
-    })
+    // $('#earD_header button').click('button', function () {
+    //   $('button.active').removeClass('active')
+    //   $(this).addClass('active')
+    // })
+    // var that = this
+    // $('.time_earning button').on('click', function (e) {
+    //   that.handleChangeType(e)
+    // })
   },
   beforeUpdate () {
     var that = this
@@ -411,6 +360,95 @@ export default {
     //this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
   },
   methods: {
+    loadData (currentPage) {
+      var type = this.$route.query.type
+      if(type === 'getRevenueCurDay') {
+        this.isDay = true
+        this.isWeek = false
+        this.isMonth = false
+        this.AllTime = false
+        this.spceTime = false
+        type = 0
+        this.show = false
+        this.show2 = false
+      }else if(type === 'getRevenueCurWeek'){
+        this.show = false
+        this.show2 = false
+        this.isWeek = true
+        this.isDay = false
+        this.isMonth = false
+        this.AllTime = false
+        this.spceTime = false
+        type = 1
+      }else if(type === 'getRevenueCurMonth'){
+        this.show = false
+        this.show2 = false
+        this.isMonth = true
+        this.isWeek = false
+        this.isDay = false
+        this.AllTime = false
+        this.spceTime = false
+        type = 2
+      }else if(type === 'getAllRevenue'){
+        this.show = false
+        this.show2 = false
+        this.isMonth = false
+        this.isWeek = false
+        this.isDay = false
+        this.AllTime = true
+        this.spceTime = false
+        type = 3
+      }else{
+        this.isMonth = false
+        this.isWeek = false
+        this.isDay = false
+        this.AllTime = false
+        this.spceTime = true
+        this.show = true
+        this.show2 = true
+        type = 4
+      }
+        this.loading2 = true
+      request
+        .post(host + 'beepartner/fran/order/getOrders')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send(
+          {
+            type:type,
+            startTime: this.startTime,
+            endTime: this.endTime,
+            pageNum:currentPage
+          }
+        )
+        .end((err, res) => {
+          if (err) {
+            this.loading2 = false
+            this.emptyText = '暂无数据'
+            console.log('err:' + err)
+          } else {
+            this.loading2 = false
+            var newArr = JSON.parse(res.text).data
+            var pageNumber = JSON.parse(res.text).totalPage
+            this.totalPage = pageNumber
+            if(pageNumber>1){
+              this.emptyText = ' '
+              this.pageShow = true
+            }else {
+              this.pageShow = false
+              this.emptyText = '暂无数据'
+            }
+            // var arr2 = this.tableDataDel(newArr)
+            this.$store.dispatch('earningsDate_action', { newArr })
+            // loading 关闭
+            this.loading2 = false
+            this.tableData = this.$store.state.earningsDate.newArr
+            this.totalItems  = Number(JSON.parse(res.text).totalItems)
+          }
+        })
+    },
     handleSizeChange(val) {
       
     },
@@ -422,9 +460,16 @@ export default {
         this.$router.push('/index/earningsDetail?type=getRevenueDefine')    
         this.show = true
         this.show2 = true
+        this.spceTime = true
+        this.isDay = false
+        this.isMonth = false
+        this.AllTime = false
+        this.isWeek = false
+        this.startTime = ' '
+        this.endTime = ' '
       } else {
-        this.show = false
-        this.show2 = false
+        //this.show = false
+        //this.show2 = false
       }
     },
     export_excel () {
@@ -525,7 +570,7 @@ export default {
         var obj = {}
         obj.money = arr[i].money
         obj.bikeCode = arr[i].bikeCode
-        obj.placeOrderTime = Math.floor((arr[i].time) / 60000) + ' 分钟'
+        obj.placeOrderTime = arr[i].placeOrderTime
         obj.journey = arr[i].mileage
         obj.orderDate = moment(arr[i].chargeTime).format('YYYY-MM-DD')
         /**
@@ -540,105 +585,26 @@ export default {
     },
     getAllDate () {
       this.$router.push('/index/earningsDetail?type=getAllRevenue')
+      this.currentPage3 = 1
+      this.loadData(this.currentPage3)
     },
     getMonthDate () {
       this.$router.push('/index/earningsDetail?type=getRevenueCurMonth')
       this.loading2 = true
-      request
-        .post(host + 'franchisee/revenue/getRevenueCurMonth')
-        .send({
-          'franchiseeId': '123456',
-          'userId': 'admin'
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log('err:' + err)
-          } else {
-            var newArr = JSON.parse(res.text).list
-            var pageNumber = JSON.parse(res.text).totalPage
-            var arr2 = this.tableDataDel(newArr)
-            this.totalPage = pageNumber
-            // loading 关闭
-            this.loading2 = false
-            this.$store.dispatch('earningsDate_action', { arr2 })
-            this.tableData = this.$store.state.earningsDate.arr2
-            $('.M-box').pagination({
-              pageCount: pageNumber,
-              jump: true,
-              coping: true,
-              homePage: '首页',
-              endPage: '尾页',
-              prevContent: '«',
-              nextContent: '»'
-            })
-          }
-        })
+      this.currentPage3 = 1
+      this.loadData(this.currentPage3)
     },
     getDailyDate () {
       this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
       this.loading2 = true
-      request
-        .post(host + 'franchisee/revenue/getRevenueCurDay')
-        .send({
-          'franchiseeId': '123456',
-          'userId': 'admin'
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log('err:' + err)
-          } else {
-            var newArr = JSON.parse(res.text).list
-            var pageNumber = JSON.parse(res.text).totalPage
-            var arr2 = this.tableDataDel(newArr)
-            this.totalPage = pageNumber
-            // loading关闭
-            this.loading2 = false
-            this.$store.dispatch('earningsDate_action', { arr2 })
-            this.tableData = this.$store.state.earningsDate.arr2
-            $('.M-box').pagination({
-              pageCount: pageNumber,
-              jump: true,
-              coping: true,
-              homePage: '首页',
-              endPage: '尾页',
-              prevContent: '«',
-              nextContent: '»'
-            })
-          }
-        })
+      this.currentPage3 = 1
+      this.loadData(this.currentPage3)
     },
     getWeekDate () {
       this.$router.push('/index/earningsDetail?type=getRevenueCurWeek')
       this.loading2 = true
-      request
-        .post(host + 'franchisee/revenue/getRevenueCurWeek')
-        .send({
-          'franchiseeId': '123456',
-          'userId': 'admin'
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log('err:' + err)
-          } else {
-            var newArr = JSON.parse(res.text).list
-            var pageNumber = JSON.parse(res.text).totalPage
-            var arr2 = this.tableDataDel(newArr)
-            // loading关闭
-            this.loading2 = false
-            this.totalPage = pageNumber
-            this.$store.dispatch('earningsDate_action', { arr2 })
-            this.tableData = this.$store.state.earningsDate.arr2
-            $('.M-box').pagination({
-              pageCount: pageNumber,
-              jump: true,
-              coping: true,
-              homePage: '首页',
-              endPage: '尾页',
-              prevContent: '«',
-              nextContent: '»'
-            })
-          }
-        })
+      this.currentPage3 = 1
+      this.loadData(this.currentPage3)
     },
     pageUpdate (e) {
       var that = this
@@ -688,35 +654,7 @@ export default {
         return
       } else {
         this.loading2 = true
-        request
-          .post(host + 'franchisee/revenue/' + type)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
-          })
-          .end((error, res) => {
-            if (error) {
-              this.loading2 = false
-              console.log('error:', error)
-            } else {
-              this.loading2 = false
-              var pagedata = (JSON.parse(res.text)).list
-              var pageNumber = JSON.parse(res.text).totalPage
-              this.totalItems = JSON.parse(res.text).totalItems
-              if(pageNumber>1){
-                this.pageShow = true
-              }else {
-                this.pageShow = false
-              }
-              // loading 关闭
-              this.loading2 = false
-
-              var arr2 = this.tableDataDel(pagedata)
-              this.totalPage = pageNumber
-              this.$store.dispatch('earningsDate_action', { arr2 })
-              this.tableData = this.$store.state.earningsDate.arr2
-            }
-          })
+        this.loadData()
       }
     },
     searchByTimeLine () {
@@ -729,38 +667,8 @@ export default {
         this.startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:MM:SS')
         this.endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:MM:SS')
         this.loading2 = true
-        request
-          .post(host + 'franchisee/revenue/getRevenueDefine')
-          .send({
-            "account": {
-              'franchiseeId': '123456',
-              'userId': 'admin'
-            },
-            'startTime': this.startTime,
-            'endTime': this.endTime
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              var pagedata = (JSON.parse(res.text)).list
-              var arr2 = this.tableDataDel(pagedata)
-              this.$store.dispatch('earningsDate_action', { arr2 })
-
-              // loading关闭
-              this.loading2 = false
-
-              this.tableData = this.$store.state.earningsDate.arr2
-              var pageNumber = JSON.parse(res.text).totalPage
-              this.totalPage = pageNumber
-              this.totalItems = JSON.parse(res.text).totalItems
-              if (pageNumber > 1) {
-                this.pageShow =  true
-              } else {
-                this.pageShow = false
-              }
-            }
-          })
+        this.loadData(this.currentPage3)
+        this.spceTime = true
       }
     }
   },
@@ -768,36 +676,10 @@ export default {
     //this.dataUpdate()
   },
   watch: {
-    '$route': 'dataUpdate',
     currentPage3: {
       handler: function(val,oldVal){
         var type = this.$route.query.type || 'getRevenueCurDay'
-        request
-        .post(host + 'franchisee/revenue/'+ type +'?page=' + val)
-        .send({
-           "account": {
-              'franchiseeId': '123456',
-              'userId': 'admin'
-            },
-          startTime: this.startTime,
-          endTime : this.endTime
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log('err:' + err)
-          } else {
-            var newArr = JSON.parse(res.text).list
-            var pageNumber = JSON.parse(res.text).totalPage
-            this.totalPage = pageNumber
-            var arr2 = this.tableDataDel(newArr)
-            this.$store.dispatch('earningsDate_action', { arr2 }) 
-            // loading 关闭
-            this.loading2 = false
-            this.tableData = this.$store.state.earningsDate.arr2
-            this.totalItems  = JSON.parse(res.text).totalItems
-            this.pageShow = true
-          }
-        })
+        this.loadData(val)
       },
       deep: true
     }

@@ -22,7 +22,7 @@
                   </el-form-item>
                   <div class="button-group" style="">
                     <el-row>
-                       <el-button class="login" type="primary" name="userName" @click="handleSubmit">登录</el-button>
+                        <el-button class="login" name="userName" @click="handleSubmit">登录</el-button>
                     </el-row>
                    <el-row>
                       <el-button class="forget_psd" @click="handleFindPsd" name="passWord">忘记密码</el-button>
@@ -345,19 +345,25 @@ export default {
 </script>
 <style>
 button.login {
-    width: 273px;
-    height: 38px;
-    background: #f1c234;
-    color: #000;
-    margin-left: 60px;
+    width: 275px;
+    height: 36px;
     border-radius: 4px;
-    font-size: 22px;
-    margin-top: 13px;
+    outline: none;
+    border: none;
+    background: rgba(241, 194, 52, 1);
+    color: #fff !important;
+    cursor: pointer;
+    margin-left: 60px;
 }
 
 button.login:hover {
-    background: #f1c234;
-    color: #000;
+  background: rgba(241, 194, 52, 0.8);
+  color: #fff !important;
+}
+
+button.login:active {
+  background: rgba(241, 194, 52, 0.8);
+  color: #fff !important;
 }
 
 div.signIn {
@@ -391,7 +397,7 @@ div.footer h4 {
 
 div#login {
     width: 100%;
-    background: url('../../assets/img/1.jpg') no-repeat;
+    background: url(/static/img/1.4f76242.jpg) no-repeat;
     background-position: left;
     border-radius: 4px;
     overflow: hidden;
@@ -455,11 +461,11 @@ div#login div.content div.loginForm {
 div#login div.content div.loginForm form.el-form {
     height: 100%;
     /* background: #292626; */
-    padding: 30px 0 40px 0;
+    padding: 20px 0 0px 0;
 }
 
 div#login div.content div.loginForm form.el-form input {
-    border: 1px solid #000;
+    border: 1px solid #888585;
     border-radius: 4px;
     width: 273px;
 }
@@ -510,6 +516,10 @@ button.forget_psd span {
     color: rgba(102, 102, 102, 1);
 }
 
+button.forget_psd span:hover {
+    text-decoration: underline;
+}
+
 .findPsdBtn {
     width: 120px;
     height: 50px;
@@ -525,6 +535,7 @@ button.forget_psd span {
 .logo img {
     display: inline-block;
 }
+
 
 </style>
 
