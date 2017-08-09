@@ -283,8 +283,8 @@ export default {
 			updateEmail: '',
 			name: '姓名',
 			userName: '用户名',
-			phone: '',
-			email: '',
+			phone: null,
+			email: null,
 			telBinded: false,
 			emailBinded: false
 		}
@@ -352,6 +352,7 @@ export default {
 						this.name = JSON.parse(res.text).data.name
 						this.userName = JSON.parse(res.text).data?JSON.parse(res.text).data.userName:''
 						this.phone = JSON.parse(res.text).data?JSON.parse(res.text).data.phoneNo:''
+						console.log(this.name)
 						if (this.phone === null) {
 							this.telBinded = false
 						} else {

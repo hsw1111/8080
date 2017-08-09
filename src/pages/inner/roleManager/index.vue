@@ -47,7 +47,7 @@
       </h1>
   
       <!-- 表单 -->
-      <el-table :data="tableData" style="width: 100%; font-size:13px;" v-loading="loading2">
+      <el-table :data="tableData" style="width: 100%; font-size:13px;" :empty-text="emptyText" v-loading="loading2" element-loading-text="拼命加载中">
         <el-table-column prop="roleName" label="角色名称"  min-width="160"></el-table-column>
         <el-table-column prop="description" label="备注" min-width="160"></el-table-column>
         <el-table-column label="包含用户" min-width="170">
@@ -136,6 +136,7 @@ export default {
         }
       }
     return {
+      emptyText: ' ',
       flag: false,
       isQuery:false,
       currentPage3:1,
@@ -369,6 +370,7 @@ export default {
     loadRole () {
       var that = this
       this.loading2 = true
+      this.emptyText = ' '
        request
      .post(host + 'beepartner/Franchisee/Role/findFranchiseeRole')
       .withCredentials()
@@ -383,6 +385,7 @@ export default {
        if (err) {
          console.log(err)
          this.loading2 = false
+         this.emptyText = '暂无数据'
        } else {
          this.loading2 = false
          var result = JSON.parse(res.text).data
@@ -397,6 +400,7 @@ export default {
            this.pageShow = true
          }else {
            this.pageShow = false
+           this.emptyText = '暂无数据'
          }
          this.totalItems = Number(JSON.parse(res.text).totalItems)
          that.tableData  = newArr

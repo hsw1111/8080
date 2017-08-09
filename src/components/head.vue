@@ -9,7 +9,7 @@
                 <div class="admin">
                     <i class="icon iconfont icon-touxiang"></i>
                     <span class="username">管理员</span>
-                    <i class="icon iconfont icon-xinfeng"></i>
+                    <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
                 </div>
             </el-col>
@@ -80,7 +80,7 @@ div.admin span.username {
 div.admin i.iconfont {
     font-size: 30px;
     vertical-align: middle;
-    margin-right: 10px;
+    margin-right: 0;
     cursor: pointer;
 }
 

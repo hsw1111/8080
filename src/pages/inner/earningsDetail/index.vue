@@ -409,6 +409,7 @@ export default {
         type = 4
       }
         this.loading2 = true
+        this.emptyText =  ' '
       request
         .post(host + 'beepartner/fran/order/getOrders')
         .withCredentials()
@@ -487,7 +488,7 @@ export default {
             that.$loading({customClass: 'loading_class'}).close()
             const { export_json_to_excel } = require('../../../assets/lib/js/Export2Excel.js')
             const tHeader = ['车辆编号', '下单时间', '骑行时间（分钟）', '骑行里程(公里)', '订单费用', '优惠券支付','实际收益（元）']
-            const filterVal = ['bikeCode', 'orderDate', 'placeOrderTime', 'journey', 'money', 'couponPayfor', 'actualAmount']
+            const filterVal = ['bikeCode', 'placeOrderTime', 'rideTime', 'rideMileage', 'orderMoney', 'couponAmount', 'userPayAmount']
             var type = that.$route.query.type
             var newType
             var startTime,endTime
