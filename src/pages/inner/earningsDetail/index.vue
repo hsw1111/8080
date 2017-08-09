@@ -412,7 +412,7 @@ export default {
         this.loading2 = true
         this.emptyText =  ' '
       request
-        .post(host + 'beepartner/fran/order/getOrders')
+        .post(host + 'beepartner/franchisee/order/getOrders')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
@@ -525,7 +525,7 @@ export default {
               }
             }
             request
-              .post(host + 'beepartner/fran/order /exportOrders')
+              .post(host + 'beepartner/franchisee/order /exportOrders')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'
@@ -608,47 +608,6 @@ export default {
       this.loading2 = true
       this.currentPage3 = 1
       this.loadData(this.currentPage3)
-    },
-    pageUpdate (e) {
-      var that = this
-      clearTimeout(this.timer)
-      this.loading2 = true
-      if (e.target.tagName === 'A' || e.target.tagName === 'SPAN') {
-        if (e.target.innerHTML === '首页') {
-          e.target.innerHTML = 1
-        } else if (e.target.innerHTML === '尾页') {
-          e.target.innerHTML = this.totalPage
-        } else if (e.target.innerHTML === '«') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) - 1
-        } else if (e.target.innerHTML === '»') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) + 1
-        } else if (e.target.innerHTML === '...') {
-          return
-        }
-      } else {
-        return
-      }
-      var type = this.$route.query.type
-      this.timer = setTimeout(function () {
-        request
-          .post(host + 'franchisee/revenue/' + type + '?page=' + e.target.innerHTML)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              var pagedata = (JSON.parse(res.text)).list
-              var arr2 = that.tableDataDel(pagedata)
-              // loading关闭
-              that.loading2 = false
-              that.$store.dispatch('earningsDate_action', { arr2 })
-              that.tableData = that.$store.state.earningsDate.arr2
-            }
-          })
-      }, 200)
     },
     dataUpdate () {
        this.currentPage3 = 1

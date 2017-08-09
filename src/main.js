@@ -44,7 +44,6 @@ new Vue({
             if(input){
               input.prop('type','text')
             }
-            
         }
     },
     mounted () {

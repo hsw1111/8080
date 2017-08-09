@@ -338,7 +338,7 @@ export default {
 		},
     getInfo () {
       request
-        .post(host + 'beepartner/Franchisee/Own/findFranchiseeUserOwn')
+        .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
@@ -346,22 +346,13 @@ export default {
         .send()
         .end((err, res) => {
           if (err) {
-            console.log('err:' + err)
+            console.log('err2:' + err)
           } else {
-						console.log(JSON.parse(res.text).data)
-						this.name = JSON.parse(res.text).data ===null ?'姓名':JSON.parse(res.text).data.name
-						this.userName = JSON.parse(res.text).data ===null ?'用户名':JSON.parse(res.text).data.userName
-						this.phone = JSON.parse(res.text).data === null?null:JSON.parse(res.text).data.phoneNo
-						console.log(this.name)
-						if (this.phone === null) {
-							this.telBinded = false
-						} else {
+						if(JSON.parse(res.text).data){
+							this.name = JSON.parse(res.text).data.name
+							this.userName = JSON.parse(res.text).data.userName
+							this.phone = JSON.parse(res.text).data.phoneNo
 							this.telBinded = true
-						}
-
-						if (this.email === '') {
-							this.emailBinded = false
-						} else {
 							this.emailBinded = true
 						}
           }

@@ -248,8 +248,9 @@ export default {
               console.log('error:', error)
             } else {
               if (JSON.parse(res.text).resultCode === 1) {
+                 var message = JSON.parse(res.text).message
                 this.$message({
-                  message: '登录成功！',
+                  message: message,
                   type: 'success'
                 })
                 // var data = JSON.parse(JSON.parse(res.text).data)
@@ -257,7 +258,8 @@ export default {
                 // this.$store.commit('getUserInfo',data)
                  this.$router.push('/index')
               } else {
-                this.$message.error('登录失败');
+                var message = JSON.parse(res.text).message
+                this.$message.error(message);
               }
             }
           })

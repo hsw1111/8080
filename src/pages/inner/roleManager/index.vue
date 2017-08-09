@@ -372,7 +372,7 @@ export default {
       this.loading2 = true
       this.emptyText = ' '
        request
-     .post(host + 'beepartner/Franchisee/Role/findFranchiseeRole')
+     .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
       .withCredentials()
       .set({
         'content-type': 'application/x-www-form-urlencoded'
@@ -414,38 +414,37 @@ export default {
       if(this.roleName.trim().length===0){
         var that = this
         request
-        .post(host + 'franchisee/account/getRole')
-        .end((err, res) => {
-          if (err) {
-            console.log(err)
-          } else {
-            var result = JSON.parse(res.text).list
-            var totalPage = JSON.parse(res.text).totalPage
-            if(totalPage>1){
-              this.pageShow = true
-            }else {
-              this.pageShow = false
-            }
-            this.totalItems = JSON.parse(res.text).totalItems
-            var newArr = result.map(function(item, index) {
-                console.log(item)
-                var res = item.auth.split('-')
-                var fathCode = []
-                var childrenCode = []
-                for(var i=0; i < res.length; i++){
-                  if(res[i] % 100 == 0) {
-                    fathCode.push(Number(res[i]))
-                  } else {
-                    childrenCode.push(Number(res[i]))
-                  }
-                }
-                var obj = Object.assign({},item, {fathCode: fathCode},{childrenCode: childrenCode})
-                return obj
+          .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
+            .send({
+              currentPage:1,
+              roleName: this.roleName.trim()
+            })
+          .end((err, res) => {
+            if (err) {
+              console.log(err)
+            } else {
+              var result = JSON.parse(res.text).data
+              var totalPage = JSON.parse(res.text).totalPage
+              var newArr = result.map((item)=>{
+                  var arr = item.franchiseeUserList.map((item)=>{
+                    return item.userName
+                  })
+                return Object.assign({},item,{franchiseeUserList:arr})
               })
-            that.tableData  = newArr
-            that.initData = that.tableData
-          }
-        })
+              if(totalPage>1){
+                this.pageShow = true
+              }else {
+                this.pageShow = false
+              }
+              this.totalItems = Number(JSON.parse(res.text).totalItems)
+              that.tableData  = newArr
+              that.initData = that.tableData
+            }
+          })
       }
     },
     queryRole () {
@@ -453,7 +452,7 @@ export default {
       if(this.roleName.trim().length!==0){
         this.isQuery = true
         request
-          .post(host + 'beepartner/Franchisee/Role/findFranchiseeRole')
+          .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'
@@ -555,7 +554,7 @@ export default {
         }).then(() => {
           this.loading = true
           request
-            .post(host + 'beepartner/Franchisee/Role/deleteFranchiseeRole')
+            .post(host + 'beepartner/franchisee/Role/deleteFranchiseeRole')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'
@@ -600,7 +599,7 @@ export default {
           if(valid){
               this.dialogFormVisible = false
               request
-                .post(host + 'beepartner/Franchisee/Role/addFranchiseeRole')
+                .post(host + 'beepartner/franchisee/Role/addFranchiseeRole')
                 .withCredentials()
                 .set({
                   'content-type': 'application/x-www-form-urlencoded'
@@ -662,7 +661,7 @@ export default {
           this.loading2 = true
           // 初始化查询
             request
-            .post(host + 'beepartner/Franchisee/Role/findFranchiseeRole')
+            .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'
@@ -699,7 +698,7 @@ export default {
           // 筛选查询
           this.loading2 = true
            request
-          .post(host + 'beepartner/Franchisee/Role/findFranchiseeRole')
+          .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'

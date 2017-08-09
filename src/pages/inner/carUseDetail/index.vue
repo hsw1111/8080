@@ -204,7 +204,7 @@ export default {
     //this.bikeInfo.code = '000000009' 
     this.loading2 = true
     this.bikeInfo.code = this.$route.query.code
-    request.post(host + 'beepartner/admin/Bike/getBikeDetail')
+    request.post(host + 'beepartner/franchisee/bike/getBikeDetail')
      .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -420,7 +420,7 @@ export default {
     currentPage3:{
       handler: function(val,oldVal){
       this.loading2 = true
-       request.post(host + 'beepartner/admin/Bike/getBikeDetail')
+       request.post(host + 'beepartner/admin/franchisee/Bike/getBikeDetail')
         .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'

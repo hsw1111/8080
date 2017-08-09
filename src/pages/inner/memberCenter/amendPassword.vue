@@ -176,7 +176,7 @@ export default {
         .then(() => {
           that.loading = true
           setTimeout(() => {
-            request.post(host + 'beepartner/Franchisee/Own/updateFranchiseeUser')
+            request.post(host + 'beepartner/franchisee/Own/updateFranchiseeUser')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'

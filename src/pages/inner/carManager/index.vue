@@ -42,7 +42,7 @@
         <el-table-column min-width="80" label="车辆号" prop='bikeCode'>
           <template scope="scope">
             <!-- <a>{{scope.row.bikeCode}}</a> -->
-            <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/beepartner/admin/Bike/getBikeDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
+            <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/carUseDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
             <!-- <a @click="$router.push({path:'/carUseDetail', query: {code:scope.row.bikeCode}})">{{scope.row.bikeCode}}</a>  -->
           </template>
         </el-table-column>
@@ -119,7 +119,7 @@ export default {
         this.loading2 = true
         this.emptyText = ' '
         request
-          .post(host + 'beepartner/bike/findBike')
+          .post(host + 'beepartner/franchisee/bike/findBike')
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -158,7 +158,7 @@ export default {
         this.currentPage3 = 1
          this.loading2 = true
         request
-          .post(host + 'beepartner/bike/findBike')
+          .post(host + 'beepartner/franchisee/bike/findBike')
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -227,7 +227,7 @@ export default {
           } else {
             this.loading2 = true
             request
-              .post(host + 'beepartner/bike/findBike')
+              .post(host + 'beepartner/franchisee/bike/findBike')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'
@@ -269,7 +269,7 @@ export default {
             })
           } else {
             request
-              .post(host + 'beepartner/bike/findBike')
+              .post(host + 'beepartner/franchisee/bike/findBike')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'
@@ -342,7 +342,7 @@ export default {
 
         var radio = this.checkList.toString()
         request
-          .post(host + 'beepartner/bike/findBike')
+          .post(host + 'beepartner/franchisee/bike/findBike')
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -387,7 +387,7 @@ export default {
         endTime = moment(this.form.data2).format('YYYY-MM-DD')
       }
       request
-        .post(host + 'beepartner/bike/findBike')
+        .post(host + 'beepartner/franchisee/bike/findBike')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
@@ -439,7 +439,7 @@ export default {
           var radio = this.checkList.toString()
           //return
           request
-            .post(host + 'beepartner/bike/findBike')
+            .post(host + 'beepartner/franchisee/bike/findBike')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'
@@ -466,7 +466,7 @@ export default {
             })
         } else {
           request
-            .post(host + 'beepartner/bike/findBike')
+            .post(host + 'beepartner/franchisee/bike/findBike')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'

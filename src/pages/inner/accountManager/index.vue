@@ -361,7 +361,7 @@ export default {
       }
       var that = this
       if (this.accountOrUsername.trim().length > 0 || this.telOrMail.trim().length > 0) {
-        request.post(host + 'beepartner/Franchisee/User/findFranchiseeUser')
+        request.post(host + 'beepartner/franchisee/User/findFranchiseeUser')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
@@ -429,7 +429,7 @@ export default {
             }
           })
         } else {
-          request.post(host + 'beepartner/Franchisee/User/findFranchiseeUser')
+          request.post(host + 'beepartner/franchisee/User/findFranchiseeUser')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'

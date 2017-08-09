@@ -213,7 +213,7 @@ export default {
             })
           },1000)
          
-          request.post(host + 'beepartner/Franchisee/Own/getPhoneCode')
+          request.post(host + 'beepartner/franchisee/Own/getPhoneCode')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'
@@ -241,7 +241,7 @@ export default {
           })
         .then(() => {
           that.loading = true
-          request.post(host + 'beepartner/Franchisee/Own/updateFranchiseeUser')
+          request.post(host + 'beepartner/franchisee/Own/updateFranchiseeUser')
               .withCredentials()
               .set({
                 'content-type': 'application/x-www-form-urlencoded'
