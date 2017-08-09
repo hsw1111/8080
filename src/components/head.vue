@@ -18,6 +18,11 @@
 </template>
 <script>
 export default {
+    data () {
+        return {
+            hidden:false
+        }
+    },
   methods: {
     handleLoginOut () {
       this.$router.push({ path: '/' })
