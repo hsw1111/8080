@@ -20,7 +20,7 @@
 			<div id="earD_all">
 				<h1>
           <el-tooltip class="item" effect="dark" content="所有车辆骑行收益" placement="bottom-end"> 
-					  <p>实际收益合计：<span>30000元</span></p>
+					  <p>实际收益合计：<span>{{sumMoney}}元</span></p>
           </el-tooltip>
 					<p @click='export_excel'>导出明细到Excel</p>
 				</h1>
@@ -37,7 +37,7 @@
       <el-table-column
         prop="bikeCode"
         label="车辆编号"
-        min-width="20%"
+        min-width="10%"
         >
       </el-table-column>
       <el-table-column
@@ -48,7 +48,7 @@
       <el-table-column
         prop="rideTime"
         label="骑行时间（分钟）"
-        min-width="10%"
+        min-width="15%"
        >
       </el-table-column>
       <el-table-column
@@ -60,13 +60,13 @@
       <el-table-column
         prop="orderMoney"
         label="订单费用"
-        min-width="15%"
+        min-width="10%"
         >
       </el-table-column>
       <el-table-column
         prop="couponAmount"
         label="优惠券支付"
-        min-width="15%"
+        min-width="10%"
        >
       </el-table-column>
       <el-table-column
@@ -271,7 +271,7 @@
   div.el-pagination{margin-top: 20px;
     margin-left: 0;
     padding-left: 0;
-    margin-bottom: 20px;}
+    margin-bottom: 10px;}
 </style>
 
 <script>
@@ -291,6 +291,7 @@ export default {
       totalItems: null,
       pageShow: false,
       tableData: [],
+      sumMoney:'',
       isDay:false,
       isWeek:false,
       isMonth:false,
@@ -434,6 +435,7 @@ export default {
             var newArr = JSON.parse(res.text).data
             var pageNumber = JSON.parse(res.text).totalPage
             this.totalPage = pageNumber
+            this.sumMoney = JSON.parse(res.text).sumMoney
             if(pageNumber>1){
               this.emptyText = ' '
               this.pageShow = true

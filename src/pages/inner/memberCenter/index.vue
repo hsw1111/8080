@@ -349,9 +349,9 @@ export default {
             console.log('err:' + err)
           } else {
 						console.log(JSON.parse(res.text).data)
-						this.name = JSON.parse(res.text).data.name
-						this.userName = JSON.parse(res.text).data?JSON.parse(res.text).data.userName:''
-						this.phone = JSON.parse(res.text).data?JSON.parse(res.text).data.phoneNo:''
+						this.name = JSON.parse(res.text).data ===null ?'姓名':JSON.parse(res.text).data.name
+						this.userName = JSON.parse(res.text).data ===null ?'用户名':JSON.parse(res.text).data.userName
+						this.phone = JSON.parse(res.text).data === null?null:JSON.parse(res.text).data.phoneNo
 						console.log(this.name)
 						if (this.phone === null) {
 							this.telBinded = false

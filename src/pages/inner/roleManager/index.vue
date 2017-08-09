@@ -504,6 +504,7 @@ export default {
     },
     handleEditRole () {
       var that = this
+      this.flag = false
       this.menuList = this.getCheckedKeys().map((item)=>{
         return item
       })
@@ -536,9 +537,10 @@ export default {
                 //that.tableData.splice(that.editForm.index,1,{roleName: that.editForm.roleName,des: that.editForm.des, id: that.editForm.id})
                 that.dialogEditVisible = false
             } else {
+              var message = JSON.parse(res.text).message
               that.$message({
                   type: 'error',
-                  message: '修改失败!'
+                  message: message
               })
             }
           }
@@ -909,7 +911,10 @@ div.account>h1 button:hover {
 
 .el-switch__label, .el-switch__label *{font-size:12px;}
 ul.roleList li {list-style-type: none;float:left;}
-span.el-tag{margin-left:10px;padding:0 10px;}
+span.el-tag{margin-left: 10px;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;}
 i.el-icon-edit, i.el-icon-close{cursor:pointer}
  .eidtRoleBtn {
     width: 120px;
