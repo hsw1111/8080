@@ -348,6 +348,10 @@ export default {
           if (err) {
             console.log('err2:' + err)
           } else {
+						var message = JSON.parse(res.text).message
+						if(message === '用户登录超时'){
+							window.location.href = 'http://localhost:8080'
+						}
 						if(JSON.parse(res.text).data){
 							this.name = JSON.parse(res.text).data.name
 							this.userName = JSON.parse(res.text).data.userName
