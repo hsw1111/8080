@@ -27,6 +27,7 @@ export default {
     },
   methods: {
     handleLoginOut () {
+        var that = this
       request.post(host + 'beepartner/system/login/removeFranchiseeSession')
         .withCredentials()
         .set({
@@ -39,7 +40,19 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 console.log(code)
-                this.$router.push({ path: '/' })
+                if(code === 1){
+                    that.$message({
+                        type:'success',
+                        message:message
+                    })
+                    window.location.href = 'http://localhost:8080'
+                }else{
+                    that.$message({
+                        type:'error',
+                        message:message
+                    })
+                }
+                
             }
         })
     }
