@@ -432,7 +432,7 @@ export default {
             console.log('err:' + err)
           } else {
             this.loading2 = false
-            var newArr = JSON.parse(res.text).data
+            var newArr = JSON.parse(res.text).data||[]
             var pageNumber = JSON.parse(res.text).totalPage
             this.totalPage = pageNumber
             this.sumMoney = JSON.parse(res.text).sumMoney

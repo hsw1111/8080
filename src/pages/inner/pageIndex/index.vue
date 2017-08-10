@@ -42,7 +42,7 @@
               <el-col :span="5" class="using">待出租1900辆</el-col>
               <el-col :span="5">已出租99辆</el-col>
               <el-col :span="5">已预定1辆</el-col>
-              <el-col :span="4">维护中1辆 <span  style=" float:right;cursor:pointer" class="arrow">&gt;&gt;</span></el-col>
+              <el-col :span="4">维护中1辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col>
           </el-row>
         </div>
@@ -58,7 +58,7 @@
             <span class="data_display ">24小时趋势
             </span>
             <span  style="font-weight:normal;font-size:12px;color:rgba(148,148,148,1);">时间段内车辆接单数,每10分钟自动刷新</span>
-            <span class="arrow" @click="$router.push({path:'/index/allDaysData?type=0'})">>></span>
+            <span class="arrow">>></span>
           </div>
           <div class="Histogram">
             <myCanvas></myCanvas>

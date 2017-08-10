@@ -3,7 +3,7 @@
 		<div id="addaccount_form">
 						<h1 id="addaccount_title">添加账号
               <span>
-                <a href="javascript:void(0)" @click="$router.push({path:'/index/accountManager'})">
+                <a href="javascript:void(0)" style="color:#000;" @click="$router.push({path:'/index/accountManager'})">
                   <i class="el-icon-close">
                   </i>
                 </a>
@@ -14,8 +14,8 @@
 								<el-input v-model="ruleForm.userName" placeholder='不超过100个字符'></el-input>
 							</el-form-item>
 							<el-form-item label="密码" prop="passWord">
-								<el-input type="password" v-model="ruleForm.passWord" placeholder='请输入密码'></el-input>
-                <span class="tips">6-20位字符，可包括字母数字，区分大小写</span>
+								<el-input type="password" v-model="ruleForm.passWord" placeholder='6-20位字符，可包括字母数字，区分大小写'></el-input>
+                <!-- <span class="tips">6-20位字符，可包括字母数字，区分大小写</span> -->
 							</el-form-item>
 							<el-form-item label="所属角色" prop="roleName">
 								<el-select v-model="ruleForm.roleName" placeholder="选择角色类型"
@@ -56,14 +56,13 @@
 	</div>
 </template>
 <style scoped>
-
   @media screen and (min-width:1367px) {
     #addaccount_form {
       /*  适配好的样式 */
       min-height: 30%;
       /*overflow-y: scroll; 
       overflow-x: hidden;*/
-      width: 63%;
+      width: 830px;
       box-shadow: 0 5px 15px rgba(0,0,0,.5);
       position: fixed;
       display: block;
@@ -82,7 +81,7 @@
 @media screen and (max-width:1367px) {
   #addaccount_form {
     min-height: 30%;
-    width: 62%;
+    width: 830px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
     position: fixed;
     display: block;

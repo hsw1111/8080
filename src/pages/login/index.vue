@@ -30,7 +30,7 @@
                   </div>
                 </el-form>
               </div>
-              <el-dialog title="找回密码" :visible.sync="dialogFormVisible">
+              <el-dialog class="forgetPsd" title="找回密码" :visible.sync="dialogFormVisible">
                 <el-form :model="findForm" :rules="findFormRule" ref="findPsd">
                   <el-form-item label="手机号" prop="tel" :label-width="formLabelWidth">
                     <el-input v-model="findForm.tel" auto-complete="off"></el-input>
@@ -44,8 +44,8 @@
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                  <el-button class="findPsdBtn" @click="dialogFormVisible = false">取 消</el-button>
-                  <el-button class="findPsdBtn" type="primary" @click="findPsd">确 定</el-button>
+                   <el-button class="findPsdBtn confirm" type="primary" @click="findPsd">确定</el-button>
+                  <el-button class="findPsdBtn cancle" @click="dialogFormVisible = false">取消</el-button>
                 </div>
               </el-dialog>
               <el-dialog title="重置密码" :visible.sync="resetFormVisible">
@@ -201,17 +201,20 @@ export default {
                     type: 'success'
                   })
                 }, 1000)
-                request.post(host + 'franchisee/userCenter/getVerCode')
-                  .send({
-                    mobileNo: that.findForm.tel
-                  })
-                  .end(function (err, res) {
-                    if (err) {
-                      console.log(err)
-                    } else {
-                      console.log(res)
-                      that.findForm.verificationCode = JSON.parse(res.text)
-                    }
+                 request.post(host + 'beepartner/franchisee/Own/getPhoneCode')
+                    .withCredentials()
+                    .set({
+                      'content-type': 'application/x-www-form-urlencoded'
+                    })
+                    .send({
+                      phoneNo: this.ruleForm.tel
+                    })
+                    .end(function(err,res){
+                      if(err) {
+                        console.log(err)
+                      } else {
+                        that.ruleForm.verificationCode = JSON.parse(res.text).data
+                      }
                   })
               } else {
                 // 手机号未注册过
@@ -526,13 +529,18 @@ button.forget_psd span:hover {
     width: 120px;
     height: 50px;
 }
-
+.dialog-footer{text-align: left;padding-left:100px;}
 .logo {
     width: 100%;
     margin: 0 auto;
     text-align: center;
     display: none
 }
+button.confirm{background:#f87e2b;}
+button.confirm:hover{background:rgba(248,126,43,0.9);}
+button.confirm:focus{background:#f87e2b;}
+button.cancle:hover{border: 1px solid rgb(248,126,43);
+		color: rgb(248,126,43);}
 
 .logo img {
     display: inline-block;

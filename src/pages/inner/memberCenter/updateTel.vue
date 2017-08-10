@@ -40,7 +40,7 @@
   @media screen and (min-width:1367px) {
     #memberCenter_form {
       /*  适配好的样式 */
-      height: 40%;
+      /* height: 40%; */
       /*overflow-y: scroll; 
       overflow-x: hidden;*/
       width: 40%;
@@ -61,7 +61,7 @@
 
   @media screen and (max-width:1367px) {
     #memberCenter_form {
-      height: 40%;
+      /* height: 40%; */
       width: 40%;
       box-shadow: 0 5px 15px rgba(0,0,0,.5);
       position: fixed;
@@ -71,7 +71,7 @@
       /*overflow-y: scroll;*/
       margin-left: -22%;
       margin-top: -24%;
-      padding: 80px 40px 60px 30px;
+      padding: 80px 40px 0 30px;
       margin-right: 20px;
       border: 1px solid #ccc;
       background: #fff;
@@ -104,29 +104,34 @@
 		height: 50px;
 	}
 
-	#addaccount_title {
+	#addaccount_title{
     position: absolute;
     left: 0px;
     top: 0px;
     padding-left: 20px;
     width: 98%;
-    height: 40px;
+    height: 60px;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
     overflow-x: hidden;
-    line-height: 40px;
+    line-height: 60px;
     color: #444;
     border-bottom: 1px solid #eee;
-	}
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    font-size: 24px;}
 
   #addaccount_title span {
 		float: right;
 		margin-right: 14px;
-		cursor: pointer;
+    cursor: pointer;
+    font-size: 18px;
+    color:#000;
 	}
 
   #addaccount_title span a:hover {
-    color: #777;
+    color: #000;
   }
 
 </style>

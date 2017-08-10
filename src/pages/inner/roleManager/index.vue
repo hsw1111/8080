@@ -390,6 +390,11 @@ export default {
          this.loading2 = false
          var result = JSON.parse(res.text).data
          var totalPage = JSON.parse(res.text).totalPage
+         var message = JSON.parse(res.text).message
+          if(message = '用户登录超时'){
+            this.emptyText = '暂无数据'
+            return;
+          }
          var newArr = result.map((item)=>{
             var arr = item.franchiseeUserList.map((item)=>{
               return item.userName
@@ -954,7 +959,8 @@ div.account>h1 .addRoleBtn:nth-of-type(2):hover {border: 1px solid rgb(248, 126,
     margin-top: -43px;}
     div.addfooter{text-align: left;
     padding-left: 120px;
-    margin-top: -51px;}
+    margin-top: -51px;
+    margin-bottom:8px;}
 div.rolename{font-weight:normal;}
 </style>
 
