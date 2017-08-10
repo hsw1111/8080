@@ -48,7 +48,7 @@
                   <el-button class="findPsdBtn cancle" @click="dialogFormVisible = false">取消</el-button>
                 </div>
               </el-dialog>
-              <el-dialog title="重置密码" :visible.sync="resetFormVisible">
+              <el-dialog id="resetPsd" title="重置密码" :visible.sync="resetFormVisible">
                 <el-form :model="resetForm" :label-position="labelPosition" :rules="resetFormRule" ref="resetForm">
                   <el-form-item label="密码" prop="pass" :label-width="formLabelWidth">
                     <el-input type="passWord" v-model="resetForm.pass" auto-complete="off"></el-input>
@@ -59,8 +59,8 @@
           
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                  <el-button @click="resetFormVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="resetPsd">确 定</el-button>
+                  <el-button class="restConfirm" type="primary" @click="resetPsd">确 定</el-button>
+                  <el-button class="restCancel" @click="resetFormVisible = false">取 消</el-button>
                 </div>
               </el-dialog>
             </div>
@@ -320,7 +320,7 @@ export default {
                     type: 'success',
                     message:message
                   })
-                  that.dialogFormVisible = false
+                   that.dialogFormVisible = false
                    that.resetFormVisible = true
                 }else{
                   that.$message({
@@ -573,7 +573,22 @@ button.cancle:hover{border: 1px solid rgb(248,126,43);
 .logo img {
     display: inline-block;
 }
-
-
+#resetPsd div.el-dialog.el-dialog--small{
+  width:585px;
+}
+#resetPsd .el-dialog__body{padding-bottom: 0}
+#resetPsd .el-dialog__footer{padding-top:0;padding-bottom:22px}
+button.restConfirm{
+    width: 120px;
+    height: 50px;
+    background: #f87e2b;
+    }
+button.restCancel{ width: 120px;
+    height: 50px;}    
+button.restConfirm:focus{background:#f87e2b;}    
+button.restConfirm:hover{background:rgba(248,126,43,0.9);}
+button.restCancel:hover{border: 1px solid rgb(248,126,43);
+		color: rgb(248,126,43);}    
+div.el-dialog__wrapper.forgetPsd .el-dialog__footer{padding-bottom: 23px;padding-top:0;}
 </style>
 
