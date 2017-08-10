@@ -85,13 +85,11 @@ export function setCookie (name, value) {
  * 读取cookie
  */
 export function getCookie (name) {
+  // console.log(name)
   var arr = null
   var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-  if (arr === document.cookie.match(reg)) {
-    return unescape(arr[2])
-  } else {
-    return null
-  }
+  arr = document.cookie.match(reg)
+  return arr[2]
 }
 /**
  * 删除cookie

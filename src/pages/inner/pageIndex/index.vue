@@ -329,21 +329,60 @@ export default {
     Gamp
   },
   methods:{
+    loadIndexData(){
+       request
+      .post(host + 'beepartner/franchisee/home/allianceIndex')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+        } else {
+          var result = JSON.parse(res.text).data
+        }
+      })
+    },
+    checkoutSeesion(){
+      request
+        .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
+        .withCredentials()
+        .set({
+        'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send()
+        .end((err, res) => {
+          if (err) {
+              console.log('err2:' + err)
+              var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+              var result = urlRegex.test(window.location.href)
+              console.log(result)
+              if(!result){
+                  window.location.href="http://localhost:8080/"
+              }else{
+                  return false
+              }
+          } else {
+              var message = JSON.parse(res.text).message
+              if(message === '用户登录超时'){
+                  var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+                  var result = urlRegex.test(window.location.href)
+                  console.log(result)
+                  if(!result){
+                     window.location.href="http://localhost:8080/"
+                  }else{
+                      return false
+                  }
+              }else{
+                return
+              }
+          }
+      })
+    } 
   },
   mounted:function(){
-     request
-     .post(host + 'franchisee/home/allianceIndex')
-      .withCredentials()
-      .set({
-        'content-type': 'application/x-www-form-urlencoded'
-      })
-     .end((err, res) => {
-       if (err) {
-         console.log(err)
-       } else {
-         var result = JSON.parse(res.text).data
-       }
-     })
+    this.checkoutSeesion()
   }
 }
 </script>

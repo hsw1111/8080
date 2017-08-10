@@ -17,6 +17,8 @@
     </header>
 </template>
 <script>
+import request from 'superagent'
+import {host} from '../config/index.js'
 export default {
     data () {
         return {
@@ -25,7 +27,21 @@ export default {
     },
   methods: {
     handleLoginOut () {
-      this.$router.push({ path: '/' })
+      request.post(host + 'beepartner/system/login/removeFranchiseeSession')
+        .withCredentials()
+        .set({
+            'content-type': 'application/x-www-form-urlencoded'
+        })
+        .end((err,res)=>{
+            if(err){
+                console.log(err)
+            }else{
+                var code = JSON.parse(res.text).resultCode
+                var message = JSON.parse(res.text).message
+                console.log(code)
+                this.$router.push({ path: '/' })
+            }
+        })
     }
   }
 }

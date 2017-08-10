@@ -120,6 +120,7 @@ export default {
       }
     };
     return {
+      sendPhoneCode:false,
       labelPosition: 'right',
       isPlain: false,
       isDisabled: false,
@@ -167,10 +168,14 @@ export default {
       var $btn = $('button.getVerCode')
       var text = $btn.text()
       this.initText = text
-      var initTime = 60
+      var initTime = 10
       if (checkMobile(val)) {
         // 像后台发送 手机号，确认手机号是否已经注册，如果注册 则 发送验证码，否则返回 该手机号未注册
-        request.post(host + 'franchisee/account/checkPhone')
+        request.post(host + 'beepartner/system/login/checkFranchiseePhone')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
           .send({
             phoneNo: this.findForm.tel
           })
@@ -178,44 +183,53 @@ export default {
             if (error) {
               console.log(error)
             } else {
-              var code = JSON.parse(res.text).code
-              if (code === 0) {
-                // 手机已经绑定，可以找回密码
-                that.isDisabled = true
-                that.isPlain = false
-                var timer = setInterval(function () {
-                  initTime--
-                  if (initTime <= 0) {
-                    that.isDisabled = false
-                    that.isPlain = true
-                    $btn.text(that.initText)
-                    clearInterval(timer)
-                    return
-                  } else {
-                    $btn.text(initTime + 's')
-                  }
-                }, 1000)
-                setTimeout(function () {
-                  that.$message({
-                    message: '已向您的手机发送验证码，请查收！！！',
-                    type: 'success'
-                  })
-                }, 1000)
-                 request.post(host + 'beepartner/franchisee/Own/getPhoneCode')
+              var code = JSON.parse(res.text).resultCode
+              var message = JSON.parse(res.text).message
+              if (code === 1) {
+                that.$message({
+                  type: 'success',
+                  message: message
+                })
+                that.sendPhoneCode = true
+                if(that.sendPhoneCode){
+                  // 手机已经绑定，可以找回密码
+                  that.isDisabled = true
+                  that.isPlain = false
+                  var timer = setInterval(function () {
+                    initTime--
+                    if (initTime <= 0) {
+                      that.isDisabled = false
+                      that.isPlain = true
+                      $btn.text(that.initText)
+                      clearInterval(timer)
+                      return
+                    } else {
+                      $btn.text(initTime + 's')
+                    }
+                  }, 1000)
+                  setTimeout(function () {
+                    that.$message({
+                      message: '已向您的手机发送验证码，请查收！！！',
+                      type: 'success'
+                    })
+                  }, 1000)
+                  request.post(host + 'beepartner/system/login/getphoneCode')
                     .withCredentials()
                     .set({
                       'content-type': 'application/x-www-form-urlencoded'
                     })
                     .send({
-                      phoneNo: this.ruleForm.tel
+                      phoneNo: that.findForm.tel
                     })
                     .end(function(err,res){
                       if(err) {
                         console.log(err)
                       } else {
-                        that.ruleForm.verificationCode = JSON.parse(res.text).data
+                        that.findForm.verificationCode = JSON.parse(res.text).data
+                        var message = JSON.parse(res.text).message
                       }
                   })
+                }  
               } else {
                 // 手机号未注册过
                 that.$message({
@@ -225,8 +239,7 @@ export default {
               }
             }
           })
-        return false
-
+       
       }
     },
     handleSubmit() {
@@ -249,6 +262,10 @@ export default {
           .end((error, res) => {
             if (error) {
               console.log('error:', error)
+              this.$message({
+                type:'error',
+                message:'网络请求超时，请稍候再试'
+              })
             } else {
               if (JSON.parse(res.text).resultCode === 1) {
                  var message = JSON.parse(res.text).message
@@ -282,29 +299,36 @@ export default {
       this.$refs.findPsd.validate((valid) => {
         if (valid) {
           // 这里 还需要 对验证码进行验证 若验证 通过 则可以 找回密码
-          request.post(host + 'franchisee/account/checkPhoneAndVerCode')
+          request.post(host + 'beepartner/system/login/checkFranchiseePhoneCode')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
             .send({
               phoneNo: that.findForm.tel,
-              verCode: that.findForm.verificationCode
+              phoneCode: that.findForm.vercode
             })
             .end(function (error, res) {
               if (error) {
                 console.log(error)
               } else {
                 console.log(res)
-                var code = JSON.parse(res.text).code
-                that.dialogFormVisible = false
-                that.resetFormVisible = true
-                return
-                if (code == 0) {
+                var code = JSON.parse(res.text).resultCode
+                var message = JSON.parse(res.text).message
+                if(code===1){
+                  that.$message({
+                    type: 'success',
+                    message:message
+                  })
                   that.dialogFormVisible = false
-                  that.resetFormVisible = true
-                } else {
+                   that.resetFormVisible = true
+                }else{
                   that.$message({
                     type: 'error',
-                    message: '对不起，验证码输出错误'
+                    message:message
                   })
                 }
+                return
               }
             })
         }
@@ -315,7 +339,11 @@ export default {
         var that = this
         if (valid) {
           // 像服务器发送 重置密码的请求
-          request.post(host + 'franchisee/account/resetPwd')
+          request.post(host + 'beepartner/system/login/setFranchiseeNewPassword')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
             .send({
               passWord: that.resetForm.pass
             })
@@ -323,9 +351,9 @@ export default {
               if (err) {
                 console.log(err)
               } else {
-                var code = JSON.parse(res.text).code
-                console.log(JSON.parse(res.text))
-                if (code === 0) {
+                var code = JSON.parse(res.text).resultCode
+                var message = JSON.parse(res.text).message
+                if (code === 1) {
                   that.$message({
                     type: 'success',
                     message: '恭喜您，重置密码成功,请重新登录！'

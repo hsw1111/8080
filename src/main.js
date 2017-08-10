@@ -8,6 +8,9 @@ import router from './router/index.js'
 import store from './store/store'
 import Vuex from 'vuex'
 import $ from 'jquery'
+import request from 'superagent'
+import  {host} from './config/index.js'
+import {getCookie,setCookie,delCookie} from '../utils/index'
 // const VueResourceProgressBarInterceptor = require('vue-resource-progressbar-interceptor')
 
 // Vue.use(VueResourceProgressBarInterceptor)
@@ -44,10 +47,44 @@ new Vue({
             if(input){
               input.prop('type','text')
             }
+        },
+        checkoutSeesion(){
+                 request
+                    .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
+                    .withCredentials()
+                    .set({
+                    'content-type': 'application/x-www-form-urlencoded'
+                    })
+                    .send()
+                    .end((err, res) => {
+                    if (err) {
+                        console.log('err2:' + err)
+                    } else {
+                        var message = JSON.parse(res.text).message
+                        console.log(message)
+                        if(message === '用户登录超时'){
+                            var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+                            var result = urlRegex.test(window.location.href)
+                            console.log(result)
+                            if(!result){
+                               console.log('session out')
+                               this.$router.push('/')
+                            }else{
+                                return false
+                            }
+                        }else{
+                            return
+                        }
+                    }
+                })
         }
     },
     mounted () {
         this.checkInput()
+    },
+    beforeUpdate:function(){
+       this.checkoutSeesion()
+       //this.checkLogin()
     }
      // watch: {
     //   '$route': 'checkLogin'
