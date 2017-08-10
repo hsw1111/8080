@@ -52,7 +52,8 @@ import operationLog from '../pages/inner/logManager/operationLog.vue'
 
 import NotFoundPage from '../pages/404/index.vue'
 export default [
-    { path: '*', component: NotFoundPage },
+    {path:'*',redirect:'/'},
+    // { path: '*', component: NotFoundPage },
     {
         path: '/',
         name: '登录',
