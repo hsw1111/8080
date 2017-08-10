@@ -346,11 +346,20 @@ export default {
         .send()
         .end((err, res) => {
           if (err) {
-            console.log('err2:' + err)
+						console.log('err2:' + err)
+						var urlRegex = new RegExp("^" + host +"$")
+						var result = urlRegex.test(window.location.href)
+						console.log(result)
+						if(!result){
+								console.log('session out')
+								this.$router.push('/')
+						}else{
+								return false
+						}
           } else {
 						var message = JSON.parse(res.text).message
 						if(message === '用户登录超时'){
-							window.location.href = 'http://localhost:8080'
+							window.location.href = host
 						}
 						if(JSON.parse(res.text).data){
 							this.name = JSON.parse(res.text).data.name

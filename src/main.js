@@ -59,11 +59,20 @@ new Vue({
                     .end((err, res) => {
                     if (err) {
                         console.log('err2:' + err)
+                        var urlRegex = new RegExp("^" + host +"$")
+                        var result = urlRegex.test(window.location.href)
+                        console.log(result)
+                        if(!result){
+                            console.log('session out')
+                            this.$router.push('/')
+                        }else{
+                            return false
+                        }
                     } else {
                         var message = JSON.parse(res.text).message
                         console.log(message)
                         if(message === '用户登录超时'){
-                            var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+                            var urlRegex = new RegExp("^" + host +"$")
                             var result = urlRegex.test(window.location.href)
                             console.log(result)
                             if(!result){
