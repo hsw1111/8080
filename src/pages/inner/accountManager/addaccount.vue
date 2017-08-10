@@ -223,7 +223,7 @@ export default {
         this.loading = true;
         setTimeout(() => {
           this.loading = false
-          request.post(host + 'beepartner/Franchisee/User/findRole')
+          request.post(host + 'beepartner/franchisee/User/findRole')
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
