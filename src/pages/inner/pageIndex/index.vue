@@ -355,22 +355,22 @@ export default {
         .end((err, res) => {
           if (err) {
               console.log('err2:' + err)
-              var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+              var urlRegex = new RegExp("^" + host +"$")
               var result = urlRegex.test(window.location.href)
               console.log(result)
               if(!result){
-                  window.location.href="http://localhost:8080/"
+                  window.location.href=host
               }else{
                   return false
               }
           } else {
               var message = JSON.parse(res.text).message
               if(message === '用户登录超时'){
-                  var urlRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)(localhost:8080)$/
+                  var urlRegex = new RegExp("^" + host +"$")
                   var result = urlRegex.test(window.location.href)
                   console.log(result)
                   if(!result){
-                     window.location.href="http://localhost:8080/"
+                     window.location.href = host
                   }else{
                       return false
                   }
