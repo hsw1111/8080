@@ -136,6 +136,7 @@ export default {
         }
       }
     return {
+      timer:null,
       emptyText: ' ',
       flag: false,
       isQuery:false,
@@ -391,7 +392,7 @@ export default {
          var result = JSON.parse(res.text).data
          var totalPage = JSON.parse(res.text).totalPage
          var message = JSON.parse(res.text).message
-          if(message = '用户登录超时'){
+          if(message == '用户登录超时'){
             this.emptyText = '暂无数据'
             return;
           }
@@ -401,6 +402,7 @@ export default {
             })
            return Object.assign({},item,{franchiseeUserList:arr})
          })
+         console.log(newArr)
          if(totalPage>1){
            this.pageShow = true
          }else {
@@ -409,7 +411,7 @@ export default {
          }
          this.totalItems = Number(JSON.parse(res.text).totalItems)
          that.tableData  = newArr
-         that.initData = that.tableData
+         //that.initData = that.tableData
        }
      })
     },
@@ -557,7 +559,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.loading = true
+          this.loading2 = true
           request
             .post(host + 'beepartner/franchisee/Role/deleteFranchiseeRole')
             .withCredentials()
@@ -571,16 +573,17 @@ export default {
               if(err) {
                 console.log(err)
               } else {
-                that.loading = false
                 var code = JSON.parse(res.text).resultCode
                 if(code === 1) {
-                   this.$message({
+                   that.$message({
                       type: 'success',
                       message: '删除成功!'
                     })
                     that.tableData.splice(scope.$index,1)
+                    that.loading2 = false
                 } else {
-                  this.$message({
+                  that.loading2 = false
+                  that.$message({
                       type: 'error',
                       message: '删除失败!'
                   })
@@ -602,38 +605,42 @@ export default {
         var that = this
         this.$refs.ruleForm.validate((valid) => {
           if(valid){
-              this.dialogFormVisible = false
-              request
-                .post(host + 'beepartner/franchisee/Role/addFranchiseeRole')
-                .withCredentials()
-                .set({
-                  'content-type': 'application/x-www-form-urlencoded'
-                })
-                .send({
-                  description: that.form.description,
-                  roleName: that.form.roleName,
-                  menuStr: this.menuStr,
-                })
-                .end((err, res) => {
-                  if (err) {
-                    console.log(err)
-                  } else {
-                    var code = JSON.parse(res.text).resultCode
-                    if(code === 1) {
-                      that.$message({
-                        type: 'success',
-                        message: '恭喜您！添加角色成功'
-                      })
-                      this.flag = true
-                      //that.tableData.unshift({description: that.form.description,franchiseeUserList:[],roleName:that.form.roleName})
+              clearTimeout(this.timer)
+              this.timer = setTimeout(function(){
+                 request
+                  .post(host + 'beepartner/franchisee/Role/addFranchiseeRole')
+                  .withCredentials()
+                  .set({
+                    'content-type': 'application/x-www-form-urlencoded'
+                  })
+                  .send({
+                    description: that.form.description,
+                    roleName: that.form.roleName,
+                    menuStr: that.menuStr,
+                  })
+                  .end((err, res) => {
+                    if (err) {
+                      console.log(err)
                     } else {
-                      that.$message({
-                        type: 'error',
-                        message: 'sorry!添加角色失败'
-                      })
+                      var code = JSON.parse(res.text).resultCode
+                      if(code === 1) {
+                        that.$message({
+                          type: 'success',
+                          message: '恭喜您！添加角色成功'
+                        })
+                        that.flag = true
+                         that.dialogFormVisible = false
+                        //that.tableData.unshift({description: that.form.description,franchiseeUserList:[],roleName:that.form.roleName})
+                      } else {
+                         that.dialogFormVisible = false
+                        that.$message({
+                          type: 'error',
+                          message: 'sorry!添加角色失败'
+                        })
+                      }
                     }
-                  }
-                })
+                  })
+                },200)
           }else {
             console.log('error submit!!');
             return false;

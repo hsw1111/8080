@@ -57,8 +57,8 @@
                 </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer editfooter">
-                <el-button class="accountMangerBtn" type="primary" @click="handleEditAccount">确 定</el-button>
-                <el-button class="accountMangerBtn" @click="dialogVisible = false">取 消</el-button>
+                <el-button class="accountMangerBtn" type="primary" @click="handleEditAccount">确定</el-button>
+                <el-button class="accountMangerBtn" @click="dialogVisible = false">取消</el-button>
               </div>
             </el-dialog>
             <!--dialog 弹窗结束-->
@@ -89,6 +89,7 @@ import request from 'superagent'
 export default {
   data() {
     return {
+      editLoading: false,
       isQuery: false,
       accountOrUsername: '',
       telOrMail: '',
@@ -124,7 +125,6 @@ export default {
   methods: {
     loadAccount(){
       var that = this
-       that.loading = true
        getAllAccount({},function (error, res) {
         if (error) {
           console.log(error)
@@ -207,7 +207,6 @@ export default {
       this.editAccount.index = scope.$index
     },
     handleEditAccount() {
-      this.dialogVisible = false
       var newAccountInfo = {}
       var that = this
       newAccountInfo.role = this.editAccount.role
@@ -219,6 +218,7 @@ export default {
       newAccountInfo.status = this.editAccount.status
       var index = this.editAccount.index
       this.$refs.editRuleForm.validate((valid) => {
+        this.dialogVisible = false
         if (valid) {
           updateAccount(
             {
@@ -400,6 +400,7 @@ export default {
   mounted() {
     this.currentPage = 1
     this.loadingText = '拼命加载中'
+     this.loading = true
     this.loadAccount()
   },
   watch: {

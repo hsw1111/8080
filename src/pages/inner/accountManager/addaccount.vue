@@ -9,7 +9,7 @@
                 </a>
               </span>
             </h1>
-					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+					<el-form v-loading="loading" element-loading-text="拼命加载中" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 							<el-form-item label="用户名" prop="userName">
 								<el-input v-model="ruleForm.userName" placeholder='不超过100个字符'></el-input>
 							</el-form-item>
@@ -20,8 +20,8 @@
 							<el-form-item label="所属角色" prop="roleName">
 								<el-select v-model="ruleForm.roleName" placeholder="选择角色类型"
                   :remote-method="remoteMethod"
-                  remote
-                  :loading="loading"
+                   remote
+                   :loading="isloading"
                   :disabled = "isDisabled"
                 >
                   <el-option
@@ -190,6 +190,8 @@ export default {
       }
     }
     return {
+      isloading:true,
+      timer:null,
       isDisabled: true,
       options4:[],
       loading: false,
@@ -220,9 +222,10 @@ export default {
   },
   methods: {
     remoteMethod() {
+        var that = this
         this.loading = true;
         setTimeout(() => {
-          this.loading = false
+          that.loading = false
           request.post(host + 'beepartner/franchisee/User/findRole')
           .withCredentials()
           .set({
@@ -231,9 +234,10 @@ export default {
           .end((error,res)=>{
             if(error){
               console.log(error)
-               this.options4 = []
+               that.options4 = []
             }else{
               console.log(res)
+              that.isloading = false
               var roles = JSON.parse(res.text).data.map((item)=>{
                   var obj = {}
                   obj.value = item.roleName
@@ -242,9 +246,9 @@ export default {
                   return obj
               })
               if(roles.length>0){
-                this.isDisabled = false
+                that.isDisabled = false
               }
-              this.options4 = roles
+              that.options4 = roles
             }
           })
         }, 200)
@@ -264,47 +268,53 @@ export default {
               this.ruleForm.roleId = item.id
             }
           })
-          request.post(host + 'beepartner/Franchisee/User/addFranchiseeUser')
-          .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-           .send({
-                roleName: this.ruleForm.roleName,
-                name: this.ruleForm.name,
-                userName: this.ruleForm.userName,
-                email: this.ruleForm.email,
-                phoneNo: this.ruleForm.phoneNo,
-                passWord: this.ruleForm.passWord,
-                roleId: this.ruleForm.roleId,
-                description:this.ruleForm.description
-            })
-          .end( (err, res)=>{
-            if (err) {
-              console.log(err)
-            } else {
-              var code = JSON.parse(res.text).resultCode
-              if (code === 1) {
-                 this.$router.push('/index/accountManager')
-                 this.$message({
-                    type: 'success',
-                    message: '添加成功'
+          that.loading = true
+          clearTimeout(that.timer)
+          that.timer = setTimeout(function(){
+              request.post(host + 'beepartner/franchisee/User/addFranchiseeUser')
+                .withCredentials()
+                .set({
+                  'content-type': 'application/x-www-form-urlencoded'
+                })
+                .send({
+                      roleName: that.ruleForm.roleName,
+                      name: that.ruleForm.name,
+                      userName: that.ruleForm.userName,
+                      email: that.ruleForm.email,
+                      phoneNo: that.ruleForm.phoneNo,
+                      passWord: that.ruleForm.passWord,
+                      roleId: that.ruleForm.roleId,
+                      description:that.ruleForm.description
                   })
-                 
-              } else {
-                  this.$router.push('/index/accountManager')
-                this.$message({
-                    type: 'error',
-                    message: '对不起，添加失败'
-                 })
-              }
-            }
-          })
+                .end( (err, res)=>{
+                  if (err) {
+                    console.log(err)
+                    that.loading = false
+                  } else {
+                    var code = JSON.parse(res.text).resultCode
+                    if (code === 1) {
+                      that.$router.push('/index/accountManager')
+                      that.$message({
+                          type: 'success',
+                          message: '添加成功'
+                        })
+                        that.loading = false
+                    } else {
+                        that.$router.push('/index/accountManager')
+                        that.$message({
+                            type: 'error',
+                            message: '对不起，添加失败'
+                        })
+                        that.loading = false
+                    }
+                  }
+                })
+              },400)
         }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消添加'
-            })
+            // this.$message({
+            //   type: 'info',
+            //   message: '已取消添加'
+            // })
           })
         } else {
           console.log('error submit!!')
@@ -315,6 +325,7 @@ export default {
   },
   mounted: function (){
     this.remoteMethod()
+    this.loading = false
   }
 }
 </script>
