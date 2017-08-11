@@ -17,13 +17,13 @@
 
         <ul> 
           <li>结算月份：
-            <button class="active">2017-01</button>
+            <button class="active">{{withDrawMonth}}</button>
           </li>
-          <li>本次可结算金额:10000元<span>*每月结算一次，结算金额=上个月所有车辆的盈利*80%+以前遗留的未结算金额。</span></li>
+          <li>本次可结算金额:{{withDrawRecord.canApplyMoney}}元<span>*每月结算一次，结算金额=上个月所有车辆的盈利*80%+以前遗留的未结算金额。</span></li>
           <li>
-            <span>申请结算金额：</span>
+            <span>申请结算金额：{{withDrawRecord.applyMoney}}</span>
             <!-- <input type="text" ref="my_val" id="apply_money" readonly> -->
-            <button class="status">{{status}}</button>
+            <button class="status">{{withDrawRecord.statusName}}</button>
           </li>
         </ul>
     </div>
@@ -35,20 +35,27 @@
       <el-table 
             :data="tableData"
             v-loading="loading2"
+            :empty-text="emptyText"
             element-loading-text="拼命加载中"
             style="width: 100%; font-size:13px;">
-        <el-table-column prop="order_time" label="订单时间" min-width="260"></el-table-column>
-        <el-table-column prop="bike_number" label="车牌号" min-width="180"></el-table-column>
-        <el-table-column prop="riding_time" label="骑行时间" min-width="180"></el-table-column>
-        <el-table-column prop="riding_dis" label="骑行距离" min-width="200"></el-table-column>
-        <el-table-column prop="riding_consume" label="消费金额"></el-table-column>
+        <el-table-column prop="placeOrderTimeStr" label="订单时间" min-width="260"></el-table-column>
+        <el-table-column prop="bikeCode" label="车牌号" min-width="180"></el-table-column>
+        <el-table-column prop="rideTime" label="骑行时间" min-width="180"></el-table-column>
+        <el-table-column prop="rideMileage" label="骑行距离" min-width="200"></el-table-column>
+        <el-table-column prop="actualAmount" label="消费金额"></el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="10"
+        layout="prev, pager, next, jumper"
+        :total="totalItems"
+        v-show="pageShow"
+        >
+      </el-pagination>
     </div>
   
-    <div id="apply_account_page">
-      <div class="M-box">
-      </div>
-    </div>
 
   </div>
 </template>
@@ -63,6 +70,12 @@ import {host} from '../../../config/index'
 export default {
   data () {
     return {
+      emptyText: ' ',
+      currentPage3:1,
+      totalItems:1,
+      pageShow:false,
+      withDrawRecord:{},
+      withDrawMonth:'',
       input: '',
       totalPage: 3,
       tableData: [{
@@ -80,128 +93,91 @@ export default {
     }
   },
   mounted () {
-    var data1 = this.$route.params.id.split('&')[0]
-
-    if (this.$route.params.id.split('&')[1] === '1') {
-      this.status = '审核中'
-      $('button.status').css({
-        'background':'rgb(255,153,0)',
-        'color': '#fff'
-      })
-    } else {
-      this.status = '已审核'
-      $('button.status').css('background', 'green')
-    }
-
-    // console.log(data1)
+    var data1 = this.$route.params.id
+    this.withDrawMonth = data1
     this.loading2 = true
     request
-      .post(host + 'franchisee/withdrawal/getWithdrawalDetail')
+      .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
+      })
       .send({
-        'franchiseeId': '123456',
-        'userId': 'admin',
-        'withdrawalCode': data1
+        currentPage:1,
+        withDrawMonth:this.withDrawMonth
       })
       .end((err, res) => {
         if (err) {
           console.log('err:' + err)
+            this.loading2 = false
         } else {
-          console.log(res)
-          console.log()
-          console.log(JSON.parse(res.text).list)
+          this.withDrawRecord = JSON.parse(res.text).withDrawRecord
           var pageNumber = JSON.parse(res.text).totalPage
-          var arr = this.tableDataDel(JSON.parse(res.text).list)
-          
+          this.totalItems = Number(JSON.parse(res.text).totalItems)
+          if(pageNumber >1) {
+            this.pageShow = true
+            this.emptyText = ' '
+          }else{
+            this.pageShow = false
+            this.emptyText = '暂无数据'
+          }
           // loading关闭
           this.loading2 = false
-
-          this.tableData = arr
-          this.totalPage = pageNumber
-          $('.M-box').pagination({
-            pageCount: pageNumber,
-            jump: true,
-            coping: true,
-            homePage: '首页',
-            endPage: '尾页',
-            prevContent: '«',
-            nextContent: '»'
-          })
+          this.tableData = JSON.parse(res.text).data
         }
       })
   },
-  beforeUpdate () {
-    var that = this
-    $('.M-box').click('a', function (e) {
-      console.log(e)
-      that.pageUpdate(e)
-    })
-  },
   methods: {
+     handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
     change () {
       console.log('this is entry')
       this.$router.push('/index/accountManager/addaccount')
       this.router_show = true
-    },
-    tableDataDel (arr) {
-      var arrDeled = []
-      for (var i = 0; i < arr.length; i++) {
-        var obj = {}
-        obj.order_time = moment(arr[i].chargeTime).format('YYYY-MM-DD')
-        obj.bike_number = arr[i].bikeCode
-        obj.riding_time = arr[i].time
-				obj.riding_dis = arr[i].mileage
-				obj.riding_consume = arr[i].money
-        arrDeled.push(obj)
-      }
-
-      // console.log('arrDeled:', arrDeled)
-      return arrDeled
-    },
-    pageUpdate (e) {
-      this.loading2 = true
-      var that = this
-      clearTimeout(this.timer)
-      if (e.target.tagName === 'A' || e.target.tagName === 'SPAN') {
-        if (e.target.innerHTML === '首页') {
-          e.target.innerHTML = 1
-        } else if (e.target.innerHTML === '尾页') {
-          e.target.innerHTML = this.totalPage
-        } else if (e.target.innerHTML === '«') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) - 1
-        } else if (e.target.innerHTML === '»') {
-          console.log($('.M-box span.active')[0].innerHTML)
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) + 1
-        } else if (e.target.innerHTML === '...') {
-          return
-        }
-      } else {
-        return
-      }
-      var data1 = this.$route.params.id.split('&')[0]
-      this.timer = setTimeout(function () {
+    }
+  },
+  watch:{
+    currentPage3:{
+      handler:function (val,oldVal) {
+         this.loading2 = true
         request
-          .post(host + 'franchisee/withdrawal/getWithdrawalDetail?page=' + e.target.innerHTML)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin',
-            'withdrawalCode': data1
+          .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
           })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
+          .send({
+            currentPage:val,
+            withDrawMonth:this.withDrawMonth
+          })
+          .end((err, res) => {
+            if (err) {
+              console.log('err:' + err)
+                this.loading2 = false
             } else {
-              console.log(JSON.parse(res.text))
-              var pagedata = (JSON.parse(res.text)).list
-
-              // loading 关闭
-              that.loading2 = false
-
-              var arr2 = that.tableDataDel(pagedata)
-              that.$store.dispatch('earningsDate_action', { arr2 })
-              that.tableData = that.$store.state.earningsDate.arr2
+              console.log(res)
+              console.log(JSON.parse(res.text).data)
+              this.withDrawRecord = JSON.parse(res.text).withDrawRecord
+              var pageNumber = JSON.parse(res.text).totalPage
+              this.totalItems = Number(JSON.parse(res.text).totalItems)
+              if(pageNumber >1) {
+                this.pageShow = true
+                this.emptyText = ' '
+              }else{
+                this.pageShow = false
+                this.emptyText = '暂无数据'
+              }
+              // loading关闭
+              this.loading2 = false
+              this.tableData = JSON.parse(res.text).data
             }
           })
-      }, 200)
+      },
+      deep:true
     }
   }
 }
@@ -423,4 +399,5 @@ export default {
   }
 
   .el-switch__label, .el-switch__label *{font-size:12px;}
+  div.el-pagination{margin-left:0;padding-left:0;margin-top:20px;margin-bottom:10px;}
   </style>

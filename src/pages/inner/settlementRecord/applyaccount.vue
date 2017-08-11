@@ -6,10 +6,13 @@
   
       <ul>
         <li>结算月份：
-          <button class="month" v-bind:key="list"
+          <button class="month" v-bind:key="list.month"
                   v-for="(list, index) in monthLists" 
                   v-bind:class="[(index===0)?'active':'']"
-                  :myCode=list.withdrawalCode>{{list.month}}
+                  :myCode="list.month"
+                   @click="loadMonth(index)"
+                  >{{list.month}}
+
           </button>
           <el-input style="width:120px;background:none;margin-left:32px;"
             placeholder="暂无未结算月份"
@@ -23,7 +26,7 @@
         </li>
         <li>
           申请结算金额：
-          <input v-show="moneyIn" v-model.number="crash" type="number" ref="my_val" id="apply_money">
+          <input v-show="moneyIn" :value="allMoney[currentIndex]" readonly  ref="my_val" id="apply_money">
           
           <el-input style="width:120px;background:none;"
             placeholder="暂无未结算金额"
@@ -31,7 +34,7 @@
             :plain="true"
             :disabled="true">
           </el-input>
-          <button v-show="confirm">确定</button>
+          <button v-show="confirm" @click="withDrawMoney">确定</button>
         </li>
       </ul>
     </div>
@@ -46,14 +49,24 @@
           :data="tableData"
           :empty-text="emptyText" 
           style="width: 100%; font-size:13px;">
-        <el-table-column prop="order_time" label="下单时间" min-width="200"></el-table-column>
-        <el-table-column prop="riding_time" label="骑行时间（分钟）" min-width="150"></el-table-column>
-        <el-table-column prop="riding_dis" label="骑行历程（公里）" min-width="180"></el-table-column>
-        <el-table-column prop="riding_consume" label="订单费用"></el-table-column>
+        <el-table-column prop="placeOrderTimeStr" label="下单时间" min-width="200"></el-table-column>
+        <el-table-column prop="rideTime" label="骑行时间（分钟）" min-width="150"></el-table-column>
+        <el-table-column prop="rideMileage" label="骑行历程（公里）" min-width="180"></el-table-column>
+        <el-table-column prop="actualAmount" label="订单费用"></el-table-column>
         <!-- <el-table-column prop="bike_number" label="车牌号" min-width="150"></el-table-column> -->
-        <el-table-column prop="couponPayfor" label="优惠券支付" min-width="150"></el-table-column>
-        <el-table-column prop="actualAmount" label="实际收益（元）" min-width="150"></el-table-column>
+        <el-table-column prop="couponAmount" label="优惠券支付" min-width="150"></el-table-column>
+        <el-table-column prop="userPayAmount" label="实际收益（元）" min-width="150"></el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="10"
+        layout="prev, pager, next, jumper"
+        :total="totalItems"
+        v-show="pageShow"
+        >
+      </el-pagination>
     </div>
   
     <div id="apply_account_page">
@@ -75,6 +88,10 @@ import {host} from '../../../config/index'
 export default {
   data() {
     return {
+      isApply:false,
+      currentPage3:1,
+      totalItems:1,
+      pageShow:false,
       emptyText:' ',
       btnShow:true,
       initMoneyShow: false,
@@ -85,7 +102,7 @@ export default {
       input: '',
       tableData: [],
       router_show: false,
-      apply_money_data: '2017-01',
+      apply_money_data: ' ',
       monthLists: [],
       totalPage: '',
       currentCode: '',
@@ -96,6 +113,135 @@ export default {
     }
   },
   methods: {
+    loadData(){
+       request
+        .post(host + 'beepartner/franchisee/withDraw/applyWithDraw')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log('err:' + err)
+            this.loading2 = false
+            this.initMoneyShow = true
+              this.initSetMoney = true
+              this.initMonth = true
+              this.confirm = false
+              this.moneyIn = false
+              this.emptyText = '暂无数据'
+          } else {
+            // loading 关闭
+                this.loading2 = false
+            var allMonth = JSON.parse(res.text).withDraws
+            this.monthLists = []
+            if(allMonth.length>0){
+              for (var i = 0; i < allMonth.length; i++) {
+                var mon = {}
+                mon.month = allMonth[i].month
+                this.monthLists.push(mon)
+                this.allMoney.push(allMonth[i].money)
+              }
+              this.currentCode = JSON.parse(res.text).withDraws[0].month
+              this.apply_money_data = JSON.parse(res.text).withDraws[0].month
+              // 根据渲染的未结算月份显示当前月份的详细数据
+              this.getDataByTime()
+            } else {
+              this.initMoneyShow = true
+              this.initSetMoney = true
+              this.initMonth = true
+              this.confirm = false
+              this.moneyIn = false
+            }
+          }
+        })
+    },
+    withDrawMoney () {
+      this.isApply = false
+      //alert(this.currentCode)
+      var that = this
+      const h = that.$createElement
+      that.$msgbox({
+        title: '提现申请确认',
+        message: h('p', null, [
+          h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
+          h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
+        ]),
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+            var that = this
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '结算中...';
+              setTimeout(() => {
+                done();
+                setTimeout(() => {
+                   request
+                      .post(host + 'beepartner/franchisee/withDraw/applyWithDrawMoney ')
+                      .withCredentials()
+                      .set({
+                        'content-type': 'application/x-www-form-urlencoded'
+                      })
+                      .send({
+                        'applyMoney': $('#apply_money').val(),
+                        'withDrawMonth': that.currentCode
+                      })
+                      .end(function(error,res){
+                        if(error){
+                          console.log(error)
+                          instance.confirmButtonLoading = false;
+                        }else{
+                          var code =JSON.parse(res.text).resultCode
+                          var message = JSON.parse(res.text).message
+                          if(code === 0){
+                            that.$message({
+                              type:'error',
+                              message: message
+                            })
+                          }else if(code === 1){
+                            that.$message({
+                              type:'success',
+                              message: message
+                            })
+                            that.isApply = true
+                          }
+                        instance.confirmButtonLoading = false;
+                    }
+                  })
+                }, 300);
+              }, 3000);
+            } else {
+              done();
+            }
+          }
+        }).then(action => {
+          // this.$message({
+          //   type: 'info',
+          //   message: 'action: ' + action
+          // });
+        });
+    },
+     handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      },
+    loadMonth(index){
+      console.log(index)
+      this.currentPage3 = 1
+      $('button').removeClass('active')
+       $('button').eq(index).addClass('active')
+      this.currentIndex = index
+      // console.log($(this).attr('myCode'))
+      // 点击不同月份调用数据
+      this.currentCode =  $('button').eq(index).attr('myCode')
+      $('button').eq(index).addClass('active')
+      this.getDataByTime()
+      this.apply_money_data = $('button').eq(index).text()
+    },
     change() {
       console.log('this is entry')
       this.$router.push('/index/accountManager/addaccount')
@@ -126,222 +272,162 @@ export default {
     getDataByTime () {
       this.loading2 = true
       request
-        .post(host + 'franchisee/withdrawal/getWithdrawalDetail')
+        .post(host + 'beepartner/franchisee/withDraw/applyWithDraw')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
         .send({
-          'franchiseeId': '123456',
-          'userId': 'admin',
-          'withdrawalCode': this.currentCode
+          'month': this.currentCode
         })
         .end((err, res) => {
           if (err) {
             console.log('err:' + err)
           } else {
             // console.log(JSON.parse(res.text).list)
-            var arr = JSON.parse(res.text).list
-            var pageNumber = JSON.parse(res.text).totalPage
-            var newArr = this.tableDataDel(arr)
-            this.tableData = newArr
-            this.totalPage = pageNumber
-
+            var arr = JSON.parse(res.text).data
+            var pageNumber = Number(JSON.parse(res.text).totalPage)
+            this.totalItems = Number(JSON.parse(res.text).totalItems) 
+            if(pageNumber>1){
+              this.pageShow = true
+              this.emptyText = ' '
+            }else{
+              this.pageShow = false
+              this.emptyText = '暂无数据'
+            }
+            this.tableData = arr
             // 关闭loading
             this.loading2 = false
-            $('.M-box').pagination({
-              pageCount: pageNumber,
-              jump: true,
-              coping: true,
-              homePage: '首页',
-              endPage: '尾页',
-              prevContent: '«',
-              nextContent: '»'
-            })
+           
           }
         })
-    },
-    pageUpdate (e) {
-      var that = this
-      clearTimeout(this.timer)
-
-      this.loading2 = true
-
-      if (e.target.tagName === 'A' || e.target.tagName === 'SPAN') {
-        if (e.target.innerHTML === '首页') {
-          e.target.innerHTML = 1
-        } else if (e.target.innerHTML === '尾页') {
-          e.target.innerHTML = this.totalPage
-        } else if (e.target.innerHTML === '«') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) - 1
-        } else if (e.target.innerHTML === '»') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) + 1
-        } else if (e.target.innerHTML === '...') {
-          return
-        }
-      } else {
-        return
-      }
-
-      this.timer = setTimeout(function () {
-        request
-          .post(host + 'franchisee/withdrawal/getWithdrawalDetail?page=' + e.target.innerHTML)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin',
-            'withdrawalCode': that.currentCode
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              // console.log(JSON.parse(res.text))
-              var pagedata = (JSON.parse(res.text)).list
-              var arr2 = that.tableDataDel(pagedata)
-
-              // 关闭loading
-              that.loading2 = false
-
-              that.tableData = arr2
-            }
-          })
-      }, 200)
     }
   },
   mounted() {
     this.loading2 = true
-    request
-      .post(host + 'franchisee/withdrawal/getNotWithdrawal')
-      .send({
-        'franchiseeId': '123456',
-        'userId': 'admin'
-      })
-      .end((err, res) => {
-        if (err) {
-          console.log('err:' + err)
-          this.loading2 = false
-          this.initMoneyShow = true
-            this.initSetMoney = true
-            this.initMonth = true
-            this.confirm = false
-            this.moneyIn = false
-            this.emptyText = '暂无数据'
-        } else {
-           // loading 关闭
-              this.loading2 = false
-          var allMonth = JSON.parse(res.text).list
-          console.log(allMonth)
-          if(allMonth.length>0){
-            for (var i = 0; i < allMonth.length; i++) {
-              var mon = {}
-              mon.month = allMonth[i].month
-              mon.withdrawalCode = allMonth[i].withdrawalCode
-              this.monthLists.push(mon)
-              this.allMoney.push(allMonth[i].money)
-            }
-            this.currentCode = JSON.parse(res.text).list[0].withdrawalCode
-            // 根据渲染的未结算月份显示当前月份的详细数据
-            this.getDataByTime()
-          } else {
-            this.initMoneyShow = true
-            this.initSetMoney = true
-            this.initMonth = true
-            this.confirm = false
-            this.moneyIn = false
-          }
+    this.loadData()
+  },
+  // updated () {
+    
+  //   $('#apply_account_header ul li:nth-of-type(3) button').click(function () {
+  //     if ($('#apply_money').val() < 1) {
+  //       that.$message({
+  //         message: '提交现金必须是数字哦！',
+  //         type: '警告'
+  //       })
+  //     } else if ($('#apply_money').val() > that.allMoney[that.currentIndex]) {
+  //       that.$alert('提现金额超过当前可提现最大金额', '警告', {
+  //         confirmButtonText: '确定'
+  //       })
+  //     } else {  
+  //       const h = that.$createElement
+  //       that.$msgbox({
+  //         title: '提现申请确认',
+  //         message: h('p', null, [
+  //           h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
+  //           h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
+  //         ]),
+  //         showCancelButton: true,
+  //         confirmButtonText: '确定',
+  //         cancelButtonText: '取消',
+  //         beforeClose: (action, instance, done) => {
+  //           if (action === 'confirm') {
+  //             request
+  //               .post(host + 'franchisee/withdrawal/applyWithdrawal')
+  //               .send({
+  //                 'franchiseeId': '123456',
+  //                 'userId': 'admin',
+  //                 'money': $('#apply_money').val(),
+  //                 'withdrawalCode': that.currentCode
+  //               })
+  //               .end((error, res) => {
+  //                 instance.confirmButtonLoading = true
+  //                 instance.confirmButtonText = '申请提交中...'
+  //                 if (error) {
+  //                   console.log('error:', error)
+  //                 } else {
+  //                   console.log(JSON.parse(res.text).code)
+  //                   // if ( JSON.parse(res.text).code === 0) {
+  //                     setTimeout(() => {
+  //                       if (JSON.parse(res.text).code === 0) {
+  //                         done()
+  //                         instance.confirmButtonLoading = false
+  //                         that.$refs.my_val.value = ''
+  //                       } else {
+  //                         that.$message('提交错误')
+  //                       }
+  //                     }, 600)
+  //                   // } else {
+  //                   //   that.$message('提交错误')
+  //                   // }
+  //                 }
+  //               })
+  //           } else {
+  //             action === 'cancel'
+  //             done()
+  //           }
+  //         }
+  //       }).then(action => {
+  //         if (action === 'confirm') {
+  //           that.$message({
+  //             type: 'info',
+  //             message: '提现申请已提交, 预计1-2个工作日到账'
+  //           })
+  //           that.$router.push('/index/settlementRecord')
+  //         } else {
+  //           // that.$message({
+  //           //   type: 'info',
+  //           //   message: '提现申请已取消'
+  //           // })
+  //         }
+  //       })
+  //     }
+  //   })
+  // },
+  watch:{
+    isApply:{
+      handler:function(){
+        if(this.isApply){
+          this.loadData()
         }
-      })
-  },
-  updated () {
-    var that = this
-    $('#apply_account_header ul li:nth-of-type(1) button').click('button', function () {
-      $('button.active').removeClass('active')
-      that.currentIndex = $(this).index()
-      // console.log($(this).attr('myCode'))
-      // 点击不同月份调用数据
-      that.currentCode = $(this).attr('myCode')
-      that.getDataByTime()
-      $(this).addClass('active')
-      that.apply_money_data = $(this).text()
-    })
-
-    $('#apply_account_header ul li:nth-of-type(3) button').click(function () {
-      if ($('#apply_money').val() < 1) {
-        that.$message({
-          message: '提交现金必须是数字哦！',
-          type: '警告'
-        })
-      } else if ($('#apply_money').val() > that.allMoney[that.currentIndex]) {
-        that.$alert('提现金额超过当前可提现最大金额', '警告', {
-          confirmButtonText: '确定'
-        })
-      } else {  
-        const h = that.$createElement
-        that.$msgbox({
-          title: '提现申请确认',
-          message: h('p', null, [
-            h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
-            h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
-          ]),
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              request
-                .post(host + 'franchisee/withdrawal/applyWithdrawal')
-                .send({
-                  'franchiseeId': '123456',
-                  'userId': 'admin',
-                  'money': $('#apply_money').val(),
-                  'withdrawalCode': that.currentCode
-                })
-                .end((error, res) => {
-                  instance.confirmButtonLoading = true
-                  instance.confirmButtonText = '申请提交中...'
-                  if (error) {
-                    console.log('error:', error)
-                  } else {
-                    console.log(JSON.parse(res.text).code)
-                    // if ( JSON.parse(res.text).code === 0) {
-                      setTimeout(() => {
-                        if (JSON.parse(res.text).code === 0) {
-                          done()
-                          instance.confirmButtonLoading = false
-                          that.$refs.my_val.value = ''
-                        } else {
-                          that.$message('提交错误')
-                        }
-                      }, 600)
-                    // } else {
-                    //   that.$message('提交错误')
-                    // }
-                  }
-                })
+      },
+      deep:true
+    },
+    currentPage3:{
+      handler:function(val,oldVal){
+        this.loading2 = true
+        request
+          .post(host + 'beepartner/franchisee/withDraw/applyWithDraw')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+          .send({
+            'month': this.currentCode,
+             currentPage:val
+          })
+          .end((err, res) => {
+            if (err) {
+              console.log('err:' + err)
             } else {
-              action === 'cancel'
-              done()
+              // console.log(JSON.parse(res.text).list)
+              var arr = JSON.parse(res.text).data
+              var pageNumber = JSON.parse(res.text).totalPage
+              this.totalItems = Number(JSON.parse(res.text).totalItems) 
+              if(pageNumber>1){
+                this.pageShow = true
+              }else{
+                this.pageShow = false
+              }
+              this.tableData = arr
+              // 关闭loading
+              this.loading2 = false
+            
             }
-          }
-        }).then(action => {
-          if (action === 'confirm') {
-            that.$message({
-              type: 'info',
-              message: '提现申请已提交, 预计1-2个工作日到账'
-            })
-            that.$router.push('/index/settlementRecord')
-          } else {
-            // that.$message({
-            //   type: 'info',
-            //   message: '提现申请已取消'
-            // })
-          }
-        })
-      }
-    })
-  },
-  beforeUpdate () {
-    var that = this
-    $('.M-box').click('a', function (e) {
-      // console.log(e)
-      that.pageUpdate(e)
-    })
+          })
+      },
+      deep:true
+    }
   }
 }
 </script>
@@ -579,4 +665,9 @@ div.apply_account_table>h1 button:hover {
 .el-switch__label * {
   font-size: 12px;
 }
+div.el-pagination{margin-left: 0;
+    border-left: 0;
+    padding-left: 0;
+    margin-top: 20px;
+    margin-bottom: 10px;}
 </style>

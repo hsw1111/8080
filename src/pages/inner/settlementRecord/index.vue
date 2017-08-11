@@ -5,13 +5,13 @@
 		<div id="settleRed_header">
       <p class="total">*每月结算一次，本月结算的是上月收益的分成；本月的收益分成，次月进行结算。</p>
 			<h2>
-				<p>可结算金额：</p><span>10000</span><span>元</span>
+				<p>可结算金额：</p><span>{{cityPartner.canWidthDrawMoney}}</span><span>元</span>
 			</h2>
 			<button @click="$router.push({path:'/index/applyaccount'})">申请结算</button>
 			<span></span>
 			<h3>
-				<p>本月已获收益分成：</p><span>20000</span><span>元</span>
-				<p>累计已结算金额：</p><span>90000</span><span>元</span>
+				<p>本月已获收益分成：</p><span>{{cityPartner.currentMonthIncome}}</span><span>元</span>
+				<p>累计已结算金额：</p><span>{{cityPartner.alreadyWidthDrawMoney}}</span><span>元</span>
 			</h3>
 		</div>	
 	</div>
@@ -26,29 +26,31 @@
       :empty-text="emptyText"
       >
       <el-table-column
-        prop="settled_time"
         label="结算月份"
 				myId="withdrawalCode"
 				myAdmin='id'
         min-width="100">
+        <template scope="scope">
+           <router-link :to='"/index/applysubmitted/" + scope.row.withDrawMonth'> {{scope.row.withDrawMonth}}</router-link>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="amount"
+        prop="applyMoney"
         label="结算金额"
         min-width="100">
       </el-table-column>
       <el-table-column
-        prop="apply_time"
+        prop="applyTimeStr"
         label="申请时间"
         min-width="120">
       </el-table-column>
       <el-table-column
-        prop="status"
+        prop="statusName"
         label="状态"
         min-width="100">
       </el-table-column>
       <el-table-column
-        prop="remark"
+        prop="description"
         label="财务备注">
       </el-table-column>
     </el-table>
@@ -212,6 +214,7 @@ import '../../../assets/css/pagination.css'
 export default {
   data () {
     return {
+      cityPartner:{},
       tableData: [],
       totalPage: '',
       loading2: false,
@@ -238,6 +241,7 @@ export default {
         } else {
           console.log(JSON.parse(res.text).data)
           var newArr = JSON.parse(res.text).data
+          this.cityPartner = JSON.parse(res.text).cityPartner
           // 页面总数
           var pageNumber = JSON.parse(res.text).totalPage
           // 总记录数
@@ -254,8 +258,8 @@ export default {
           this.loading2 = false
 
           var arr2 = this.tableDataDel(newArr)
-          this.$store.dispatch('settlementDate_action', { arr2 })
-          this.tableData = this.$store.state.settlementDate.arr2
+          this.$store.dispatch('settlementDate_action', { newArr })
+          this.tableData = this.$store.state.settlementDate.newArr
         }
       })
   },
@@ -358,32 +362,41 @@ export default {
     currentPage3:{
       handler: function(val,oldVal){
         request
-        .post( host + 'franchisee/withdrawal/getAllWithdrawal?page=' + val)
+        .post( host + 'beepartner/franchisee/withDraw/findWithDraw')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
         .send({
-          'franchiseeId': '123456',
-          'userId': 'admin'
+          currentPage:val
         })
         .end((err, res) => {
           if (err) {
             console.log('err:' + err)
+            this.loading2 = false
+            this.emptyText = '暂无数据'
+            this.pageShow = false
           } else {
-            console.log(JSON.parse(res.text).list)
-            var newArr = JSON.parse(res.text).list
+            console.log(JSON.parse(res.text).data)
+            var newArr = JSON.parse(res.text).data
             // 页面总数
             var pageNumber = JSON.parse(res.text).totalPage
             // 总记录数
-            this.totalItems = JSON.parse(res.text).totalItems
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
             this.totalPage = pageNumber
             if(pageNumber>1){
               this.pageShow = true
             }else {
               this.pageShow = false
+              this.emptyText = ' 暂无数据'
             }
+            this.emptyText = '  '
             // loading 关闭
             this.loading2 = false
+
             var arr2 = this.tableDataDel(newArr)
-            this.$store.dispatch('settlementDate_action', { arr2 })
-            this.tableData = this.$store.state.settlementDate.arr2
+            this.$store.dispatch('settlementDate_action', { newArr })
+            this.tableData = this.$store.state.settlementDate.newArr
           }
         })
       },
