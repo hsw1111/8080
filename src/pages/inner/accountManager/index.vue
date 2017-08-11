@@ -124,6 +124,7 @@ export default {
   methods: {
     loadAccount(){
       var that = this
+       that.loading = true
        getAllAccount({},function (error, res) {
         if (error) {
           console.log(error)

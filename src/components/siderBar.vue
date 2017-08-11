@@ -60,8 +60,8 @@
           }
         },
         mounted: function () {
-            this.handlerUserInfo()
-           this.checkMenu(this.authList)
+          //this.handlerUserInfo()
+           //this.checkMenu(this.authList)
         },
         methods: {
           checkMenu (authList) {

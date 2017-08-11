@@ -295,7 +295,7 @@ div.gmap{
 
 </style>
 <script>
-import AMap from 'AMap'
+// import AMap from 'AMap'
 import { siblings } from '../../../../utils/index.js'
 import moment from 'moment'
 import request from 'superagent'
@@ -355,118 +355,118 @@ export default {
   },
   mounted: function () {
     this.$router.push({ query: { type:  'curHour'}})
-    // 加载实时热力图
-    request
-      .post(host + 'franchisee/report/hot/curHour')
-      .send({
-        'franchiseeId': '123456',
-        'userId': 'admin'
-      })
-      .end((err, res) => {
-        if (err) {
-          console.log('err:' + err)
-        } else {
-          // console.log(JSON.parse(res.text))
-          var arr = JSON.parse(res.text)
-          this.init(arr)
-        }
-      })
+    // // 加载实时热力图
+    // request
+    //   .post(host + 'franchisee/report/hot/curHour')
+    //   .send({
+    //     'franchiseeId': '123456',
+    //     'userId': 'admin'
+    //   })
+    //   .end((err, res) => {
+    //     if (err) {
+    //       console.log('err:' + err)
+    //     } else {
+    //       // console.log(JSON.parse(res.text))
+    //       var arr = JSON.parse(res.text)
+    //       this.init(arr)
+    //     }
+    //   })
 
-    this.nowTime = moment().format('YYYY-MM-DD')
+    // this.nowTime = moment().format('YYYY-MM-DD')
   },
   methods: {
-    init (arr) {
-      map = new AMap.Map('map-container', {
-        zoom: 13,
-        center: [116.397428, 39.90923],
-        resizeEnable: true
-      })
-      // 安装插件
-      AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.Heatmap', 'AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Driving', 'AMap.Geolocation', 'AMap.CitySearch'], function () {
-        map.addControl(new AMap.ToolBar())
-        map.addControl(new AMap.Scale())
-        map.addControl(new AMap.Autocomplete())
-        map.addControl(new AMap.PlaceSearch())
-        map.addControl(new AMap.Driving())
-        map.addControl(new AMap.Geolocation())
-        map.addControl(new AMap.CitySearch())
-        // 热力图数据这里我用的模拟数据（北京部分公园数据）
-        var heatmapData = arr
-        // 初始化heatmap对象
-        heatmap = new AMap.Heatmap(map, {
-          radius: 25, // 给定半径
-          opacity: [0, 0.8],
-          // 颜色配置
-          gradient: {
-            0.5: 'blue',
-            0.65: 'rgb(117,211,248)',
-            0.7: 'rgb(0, 255, 0)',
-            0.9: '#ffea00',
-            1.0: 'red'
-          }
-        })
-        // 设置数据集：该数据为北京部分“公园”数据
-        heatmap.setDataSet({
-          data: heatmapData,
-          max: 100
-        })
-      })
-      auto = new AMap.Autocomplete(autoOptions)
-      // 构造地点查询类
-      placeSearch = new AMap.PlaceSearch({
-        map: map
-      })
-      // 注册监听，当选中某条记录 会触发
-      AMap.event.addListener(auto, 'select', this.selectCity)
-      // 构造驾车路线导航类
-      driving = new AMap.Driving({
-        map: map,
-        panel: 'panel'
-      })
-    },
-    heatmapShow () {
-      heatmap.show()
-    },
-    heatmapHide () {
-      heatmap.hide()
-    },
-    selectCity (e) {
-      placeSearch.setCity(e.poi.adcode)
-      // 关键字查询
-      placeSearch.search(e.poi.name)
-    },
-    queryDrivingPath () {
-      // 根据起终点名称规划驾车导航路线
-      if (this.isShowDriving === '' || this.endDriving === '') {
-        alert('起点或终点不能为空！')
-      } else {
-        driving.search([
-          {keyword: this.startDriving, city: this.city},
-          {keyword: this.endDriving, city: this.city}
-        ])
-        this.isShowDriving = true
-        this.startDriving = ''
-        this.endDriving = ''
-      }
-    },
-    showCurrentCity () {
-      // 实例化城市查询类
-      citysearch = new AMap.CitySearch()
-      // 自动获取用户IP，返回当前城市
-      citysearch.getLocalCity(function (status, result) {
-        if (status === 'complete' && result.info === 'OK') {
-          if (result && result.city && result.bounds) {
-            var cityinfo = result.city
-            var citybounds = result.bounds
-            console.log('您当前所在城市：' + cityinfo)
-            // 地图显示当前城市
-            map.setBounds(citybounds)
-          }
-        } else {
-          console.log(result.info)
-        }
-      })
-    },
+    // init (arr) {
+    //   map = new AMap.Map('map-container', {
+    //     zoom: 13,
+    //     center: [116.397428, 39.90923],
+    //     resizeEnable: true
+    //   })
+    //   // 安装插件
+    //   AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.Heatmap', 'AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Driving', 'AMap.Geolocation', 'AMap.CitySearch'], function () {
+    //     map.addControl(new AMap.ToolBar())
+    //     map.addControl(new AMap.Scale())
+    //     map.addControl(new AMap.Autocomplete())
+    //     map.addControl(new AMap.PlaceSearch())
+    //     map.addControl(new AMap.Driving())
+    //     map.addControl(new AMap.Geolocation())
+    //     map.addControl(new AMap.CitySearch())
+    //     // 热力图数据这里我用的模拟数据（北京部分公园数据）
+    //     var heatmapData = arr
+    //     // 初始化heatmap对象
+    //     heatmap = new AMap.Heatmap(map, {
+    //       radius: 25, // 给定半径
+    //       opacity: [0, 0.8],
+    //       // 颜色配置
+    //       gradient: {
+    //         0.5: 'blue',
+    //         0.65: 'rgb(117,211,248)',
+    //         0.7: 'rgb(0, 255, 0)',
+    //         0.9: '#ffea00',
+    //         1.0: 'red'
+    //       }
+    //     })
+    //     // 设置数据集：该数据为北京部分“公园”数据
+    //     heatmap.setDataSet({
+    //       data: heatmapData,
+    //       max: 100
+    //     })
+    //   })
+    //   auto = new AMap.Autocomplete(autoOptions)
+    //   // 构造地点查询类
+    //   placeSearch = new AMap.PlaceSearch({
+    //     map: map
+    //   })
+    //   // 注册监听，当选中某条记录 会触发
+    //   AMap.event.addListener(auto, 'select', this.selectCity)
+    //   // 构造驾车路线导航类
+    //   driving = new AMap.Driving({
+    //     map: map,
+    //     panel: 'panel'
+    //   })
+    // },
+    // heatmapShow () {
+    //   heatmap.show()
+    // },
+    // heatmapHide () {
+    //   heatmap.hide()
+    // },
+    // selectCity (e) {
+    //   placeSearch.setCity(e.poi.adcode)
+    //   // 关键字查询
+    //   placeSearch.search(e.poi.name)
+    // },
+    // queryDrivingPath () {
+    //   // 根据起终点名称规划驾车导航路线
+    //   if (this.isShowDriving === '' || this.endDriving === '') {
+    //     alert('起点或终点不能为空！')
+    //   } else {
+    //     driving.search([
+    //       {keyword: this.startDriving, city: this.city},
+    //       {keyword: this.endDriving, city: this.city}
+    //     ])
+    //     this.isShowDriving = true
+    //     this.startDriving = ''
+    //     this.endDriving = ''
+    //   }
+    // },
+    // showCurrentCity () {
+    //   // 实例化城市查询类
+    //   citysearch = new AMap.CitySearch()
+    //   // 自动获取用户IP，返回当前城市
+    //   citysearch.getLocalCity(function (status, result) {
+    //     if (status === 'complete' && result.info === 'OK') {
+    //       if (result && result.city && result.bounds) {
+    //         var cityinfo = result.city
+    //         var citybounds = result.bounds
+    //         console.log('您当前所在城市：' + cityinfo)
+    //         // 地图显示当前城市
+    //         map.setBounds(citybounds)
+    //       }
+    //     } else {
+    //       console.log(result.info)
+    //     }
+    //   })
+    // },
     handleChangeType (e) {
       var siblingsBtn = siblings(e.currentTarget)
       for (var i = 0; i < siblingsBtn.length; i++) {

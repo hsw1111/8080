@@ -224,10 +224,10 @@ export default {
   mounted () {
     this.loading2 = true
     request
-      .post( host + 'franchisee/withdrawal/getAllWithdrawal')
-      .send({
-        'franchiseeId': '123456',
-        'userId': 'admin'
+      .post( host + 'beepartner/franchisee/withDraw/findWithDraw')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
       })
       .end((err, res) => {
         if (err) {
@@ -236,17 +236,18 @@ export default {
           this.emptyText = '暂无数据'
           this.pageShow = false
         } else {
-          console.log(JSON.parse(res.text).list)
-          var newArr = JSON.parse(res.text).list
+          console.log(JSON.parse(res.text).data)
+          var newArr = JSON.parse(res.text).data
           // 页面总数
           var pageNumber = JSON.parse(res.text).totalPage
           // 总记录数
-          this.totalItems = JSON.parse(res.text).totalItems
+          this.totalItems = Number(JSON.parse(res.text).totalItems)
           this.totalPage = pageNumber
           if(pageNumber>1){
             this.pageShow = true
           }else {
             this.pageShow = false
+            this.emptyText = ' 暂无数据'
           }
           this.emptyText = '  '
           // loading 关闭

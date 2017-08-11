@@ -51,13 +51,20 @@ import loginlog from '../pages/inner/logManager/loginlog.vue'
 import operationLog from '../pages/inner/logManager/operationLog.vue'
 
 import NotFoundPage from '../pages/404/index.vue'
+import stautsError from '../pages//500/index.vue'
 export default [
-    {path:'*',redirect:'/'},
-    // { path: '*', component: NotFoundPage },
+    { path: '*', component: NotFoundPage },
+    {path:'/index/error',component:stautsError},
     {
         path: '/',
         name: '登录',
         component: login
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: login,
+        redirect:'/'
     },
     {
         path: '/index',
@@ -224,7 +231,7 @@ export default [
     },
     {
         auth: 1200,
-        path: '/carUseDetail',
+        path: '/index/carManager/carUseDetail',
         name: '车辆明细',
         component: carUseDetail
     },

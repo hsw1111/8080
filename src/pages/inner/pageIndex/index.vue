@@ -278,7 +278,7 @@ div.settlementInfo div.el-col-8:nth-child(3){text-align: right;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'
-import Gamp from '../../../components/map.vue'
+// import Gamp from '../../../components/map.vue'
 import request from 'superagent'
 import {host} from '../../../config/index'
 export default {
@@ -326,7 +326,7 @@ export default {
   },
   components: {
     myCanvas,
-    Gamp
+    // Gamp
   },
   methods:{
     loadIndexData(){
@@ -355,25 +355,10 @@ export default {
         .end((err, res) => {
           if (err) {
               console.log('err2:' + err)
-              // var urlRegex = new RegExp("^" + host.replace(/8090/,"8080") +"$")
-              // var result = urlRegex.test(window.location.href)
-              // console.log(result)
-              // if(!result){
-              //     window.location.href= host.replace(/8090/,"8080")
-              // }else{
-              //     return false
-              // }
           } else {
               var message = JSON.parse(res.text).message
               if(message === '用户登录超时'){
-                  var urlRegex = new RegExp("^" + host.replace(/8090/,"8080") +"$")
-                  var result = urlRegex.test(window.location.href)
-                  // console.log(result)
-                  // if(!result){
-                  //    window.location.href = host.replace(/8090/,"8080")
-                  // }else{
-                  //     return false
-                  // }
+                  this.$router.push('/login')
               }else{
                 return
               }
