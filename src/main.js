@@ -49,27 +49,34 @@ new Vue({
             }
         },
         checkoutSeesion(){
-                 request
-                    .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
-                    .withCredentials()
-                    .set({
-                    'content-type': 'application/x-www-form-urlencoded'
-                    })
-                    .send()
-                    .end((err, res) => {
-                    if (err) {
-                        console.log('err2:' + err)
-                        //this.$router.push({path:'/index/error'})
-                    } else {
-                        var message = JSON.parse(res.text).message
-                        console.log(message)
-                        if(message === '用户登录超时'){
-                            this.$router.push('/login')
-                        }else{
-                            return
+                var cookie = getCookie('userInfo')||null
+                console.log(cookie)
+               if(cookie === null || cookie.trim().length === 0){
+                   this.$router.push('/login')
+               }else{
+                    request
+                        .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
+                        .withCredentials()
+                        .set({
+                        'content-type': 'application/x-www-form-urlencoded'
+                        })
+                        .send()
+                        .end((err, res) => {
+                        if (err) {
+                            console.log('err2:' + err)
+                            //this.$router.push({path:'/index/error'})
+                        } else {
+                            var message = JSON.parse(res.text).message
+                            console.log(message)
+                            if(message === '用户登录超时'){
+                                this.$router.push('/login')
+                            }else{
+                                return
+                            }
                         }
-                    }
-                })
+                    })
+               }
+                 
         }
     },
     mounted () {
@@ -78,8 +85,8 @@ new Vue({
     beforeUpdate:function(){
        this.checkoutSeesion()
        //this.checkLogin()
+    },
+     watch: {
+      '$route': 'checkoutSeesion'
     }
-     // watch: {
-    //   '$route': 'checkLogin'
-    // }
 })

@@ -7,12 +7,13 @@ const state = {
     consumeData: [],
     earningsDate: [],
     settlementDate: [],
-    timeline: [],
+    timeline: {},
     allData: [],
     partnerList: [],
     platTableData: [],
     joinTableData: [],
-    keepParnterAccount:[]
+    keepParnterAccount:[],
+    consumeDataType: ''
 }
 
 const mutations = {
@@ -22,9 +23,9 @@ const mutations = {
     addJoinAcount(state, {obj}) {
         state.joinTableData.push(obj)
     },
-    consumeData_evaluation(state, { newArr }) {
+    consumeData_evaluation(state, arr) {
         console.log('[[ consumeData_evaluation is commited ]]')
-        state.consumeData = newArr.newArr
+        state.consumeData =arr
         // console.log(state.consumeData)
     },
     earningDate_detail(state, { arr }) {
@@ -35,8 +36,7 @@ const mutations = {
         console.log('[[ settlementDate_detail is commited ]]')
         state.settlementDate = arr
     },
-    setTimeLine(state, { obj }) {
-        console.log('[[ timeline is setted ]]')
+    setTimeLine(state, obj) {
         state.timeline = obj
     },
     setAllData(state, { obj }) {
@@ -64,12 +64,15 @@ const mutations = {
     },
     keepParnterAccount(state,obj){
         state.keepParnterAccount.unshift(obj)
+    },
+    recodeConsumeDataType(state,str){
+        state.consumeDataType =  str
     }
 }
 
 const actions = {
     //  报表管理 消费数据模块 start ====>
-    consumeData_action: ({ commit }, newArr) => commit('consumeData_evaluation', { newArr }),
+    consumeData_action: ({ commit }, newArr) => commit('consumeData_evaluation', newArr),
     //  <=====  end
     // 营收记录 收益明细 结算记录模块 start ====>
     earningsDate_action: ({ commit }, arr) => commit('earningDate_detail', { arr }),

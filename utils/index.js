@@ -88,7 +88,11 @@ export function getCookie (name) {
   // console.log(name)
   var arr = null
   var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-  arr = document.cookie.match(reg)
+  if (document.cookie) {
+    arr = document.cookie.match(reg)  
+  } else {
+    arr = []
+  }
   return arr[2]
 }
 /**

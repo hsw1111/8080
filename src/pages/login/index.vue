@@ -74,7 +74,7 @@
 <script>
 import request from 'superagent'
 import $ from 'jquery'
-import { checkMobile, IsEmpty } from '../../../utils/index.js'
+import { checkMobile, IsEmpty,setCookie,getCookie,delCookie } from '../../../utils/index.js'
 import { host } from '../../config/index'
 export default {
   data() {
@@ -273,6 +273,7 @@ export default {
                   message: message,
                   type: 'success'
                 })
+                setCookie('userInfo','wwwwwwwww')
                 // var data = JSON.parse(JSON.parse(res.text).data)
                 // localStorage.setItem('userinfo',JSON.parse(res.text).data)
                 // this.$store.commit('getUserInfo',data)

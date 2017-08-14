@@ -126,7 +126,8 @@ export default {
   },
   methods: {
     handleClick () {
-      this.$router.push('/index/consumeData')
+      var type = this.$route.query.type
+      this.$router.push('/index/consumeData?type=' + type)
     }
   },
   components: {

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
 import { siblings } from '../../../../utils/index.js'
 import moment from 'moment'
 export default {
@@ -37,55 +37,67 @@ export default {
         type: 'date',
         formatType: 'yyyy-MM-dd'
       },
-      active: false
+      active: false,
+      datetype:''
     }
   },
   mounted () {
     var timeType = this.$route.query.type
-    if(timeType === 'day') {
-      this.isDay = true
-      this.isWeek = false
-      this.isMonth = false
+    if(timeType!=null){
+        if(timeType === 'daily') {
+        this.isDay = true
+        this.isWeek = false
+        this.isMonth = false
+        
+      }else if(timeType === 'weekly') {
+        this.isDay = false
+        this.isWeek = true
+        this.isMonth = false
       
-    }else if(timeType === 'week') {
-      this.isDay = false
-      this.isWeek = true
-      this.isMonth = false
-     
-    }else {
-      this.isDay = false
-      this.isWeek = false
-      this.isMonth = true
-      
+      }else {
+        this.isDay = false
+        this.isWeek = false
+        this.isMonth = true
+        
+      }
+    }else{
+      console.log($('button.active').text())
     }
+    
     this.$store.commit('recodeConsumeDataType',timeType)
-    console.log(this.$store.state.consumeDataType)
+    this.getDateByTimeLine()
   },
   methods: {
     handleChangeType(e) {
       switch (e.target.innerText) {
         case '日': {
           this.form.type = 'date'
-          this.$router.push({ query: { type: 'day' } })
-          this.form.formatType = 'yyyy-MM-dd'
-          this.$store.commit('recodeConsumeDataType','day')
-          console.log(this.$store.state.consumeDataType)
+          this.$router.push({ query: { type: 'daily' } })
+          this.form.formatType = 'yyyy-MM-DD'
+          this.datetype = 'daily'
+          this.$store.commit('recodeConsumeDataType',this.datetype)
+          this.form.data1 = ''
+          this.form.data2 = ''
           break
         }
         case '周': {
+          this.form.data1 = ''
+          this.form.data2 = ''
           this.form.type = 'week'
-          this.$router.push({ query: { type: 'week' } })
-          this.form.formatType = 'yyyy 第 WW 周'
-          this.$store.commit('recodeConsumeDataType','week')
-          console.log(this.$store.state.consumeDataType)
+          this.$router.push({ query: { type: 'weekly' } })
+          this.form.formatType = 'yyyy第WW周'
+          this.datetype = 'weekly'
+          this.$store.commit('recodeConsumeDataType',this.datetype)
           break
         }
         case '月': {
+           this.form.data1 = ''
+          this.form.data2 = ''
           this.form.type = 'month'
-          this.$router.push({ query: { type: 'month' } })
-          this.form.formatType = ''
-          this.$store.commit('recodeConsumeDataType','month')
-          console.log(this.$store.state.consumeDataType)
+          this.$router.push({ query: { type: 'monthly' } })
+          this.form.formatType = 'yyyy-MM'
+          this.datetype = 'monthly'
+          this.$store.commit('recodeConsumeDataType', this.datetype)
           break
         }
       }
@@ -94,20 +106,36 @@ export default {
         siblingsBtn[i].setAttribute('class', 'el-button el-button--default')
       }
       e.currentTarget.setAttribute('class', 'el-button active el-button--default')
+     this.$store.state.timeline = {startTime:'',endTime:''}
     },
     getDateByTimeLine() {
-      if (this.form.data1 === '' || this.form.data2 === '') {
-        this.$message({
-          message: '请输入日期',
-          type: 'warning'
-        })
+      this.datetype = this.$route.query.type
+      if (this.form.data1 === ''&&this.form.data2 === '') {
+        var newObj = {startTime:'',endTime:''}
+        this.$store.commit('setTimeLine', newObj)
       } else {
-        var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
-        var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
-        var newObj = {}
-        newObj.time1 = timeStart
-        newObj.time2 = timeEnd
-        this.$store.dispatch('timeline_action', { newObj })
+        if( this.datetype === 'daily'){
+           var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
+            var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
+            var newObj = {}
+            newObj.startTime = timeStart
+            newObj.endTime = timeEnd
+        }else if(this.datetype === 'weekly'){
+           var timeStart = moment(this.form.data1).format('YYYY年第WW周')
+            var timeEnd = moment(this.form.data2).format('YYYY年第WW周')
+            var newObj = {}
+            newObj.startTime = timeStart
+            newObj.endTime = timeEnd
+        }else{
+           var timeStart = moment(this.form.data1).format('YYYY-MM')
+            var timeEnd = moment(this.form.data2).format('YYYY-MM')
+            var newObj = {}
+            newObj.startTime = timeStart
+            newObj.endTime = timeEnd
+        }
+        this.$store.commit('setTimeLine', newObj)
+        this.form.data1 = ''
+        this.form.data2 = ''
       }
     }
   }

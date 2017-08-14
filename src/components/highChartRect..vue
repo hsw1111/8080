@@ -15,6 +15,7 @@
   import request from 'superagent'
   import moment from 'moment'
   import {host} from '../config/index'
+  import $ from 'jquery'
   // import Vue from 'vue'
   export default {
     data () {
@@ -27,51 +28,39 @@
     },
     mounted: function () {
       var type = this.$store.state.consumeDataType
-      if (this.$store.state.consumeData.length === 0) {
-        request
-          .post(host + 'franchisee/report/consume/' + type)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
-          })
-          .end((error, res) => {
-            // console.log('this is entry')
-            if (error) {
-              console.log('error:', error)
-              this.noData = true
-            } else {
-              if (JSON.parse(res.text).list.length === 0) {
-                $('#container').html('')
-                this.noData = true
-              } else {
-                this.noData = false
-                var arr = JSON.parse(res.text).list
-                var newArr = []
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  if(type==='day'){
-                      obj.time = moment(arr[i].time).format('YYYY年MM月DD号') 
-                  }else if(type==='week'){
-                     obj.time = moment(arr[i].time).format('YYYY年第WW周')
-                  }else{
-                     obj.time = moment(arr[i].time).format('YYYY年MM月')
-                  }
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }
-
-                this.$store.dispatch('consumeData_action', {newArr})
-                this.getChartDate()
-                this.createChartsShap()
-              }
-            }
-          })
-      } else {
-        this.getChartDate()
-        this.createChartsShap()
-        return
-      }
+      console.log("chart type: " + type)
+      request
+      .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+      .send({
+        'startTimeStr': this.$store.state.timeline.startTime,
+        'endTimeStr': this.$store.state.timeline.endTime,
+        'type': type,
+        showType:'chart',
+        currentPage:1
+      })
+      .end((error, res) => {
+        // console.log('this is entry')
+        if (error) {
+          console.log('error:', error)
+          this.noData = true
+        } else {
+          console.log(JSON.parse(res.text).data.length)
+          if (JSON.parse(res.text).data.length === 0) {
+            $('#container').html('')
+            this.noData = true
+          } else {
+            this.noData = false
+            var arr = JSON.parse(res.text).data
+            this.$store.dispatch('consumeData_action', arr)
+            this.getChartDate()
+            this.createChartsShap()
+          }
+        }
+      })
     },
     methods: {
       createChartsShap () {
@@ -156,7 +145,7 @@
       getChartDate () {
         console.log(this.$store.state.consumeData)
         var res = this.$store.state.consumeData.map((item) => {
-          return item.time
+          return item.statisticId
         })
 
         var order = this.$store.state.consumeData.map((item) => {
@@ -164,7 +153,7 @@
         })
 
         var allMoney = this.$store.state.consumeData.map((item) => {
-          return item.money
+          return item.totalMoney
         })
         this.x_data = res
         this.orderNumber = order
@@ -192,39 +181,37 @@
         if (this.$route.query.type === undefined) {
           return
         } else if (flag === true) {
-          request
-            .post(host + 'franchisee/report/consume/' + this.$route.query.type)
+          var type = this.$route.query.type
+           request
+            .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
             .send({
-              'franchiseeId': '123456',
-              'userId': 'admin'
+              'startTimeStr': this.$store.state.timeline.startTime,
+              'endTimeStr': this.$store.state.timeline.endTime,
+              'type': type,
+              showType:'chart',
+              currentPage:1
             })
             .end((error, res) => {
               // console.log('this is entry')
               if (error) {
                 console.log('error:', error)
+                this.noData = true
               } else {
-                // console.log(res)
-                // console.log(JSON.parse(res.text))
-                if (JSON.parse(res.text).list.length === 0) {
+                if (JSON.parse(res.text).data.length === 0) {
                   $('#container').html('')
                   this.noData = true
                 } else {
                   this.noData = false
-                  var arr = JSON.parse(res.text).list
-                  var newArr = []
-                  for (var i = 0; i < arr.length; i++) {
-                    var obj = {}
-                    obj.time = moment(arr[i].time).format('YYYY-MM-DD')
-                    obj.totalBill = arr[i].totalBill
-                    obj.money = arr[i].money
-                    newArr.push(obj)
-                  }
-
-                  this.getChartByRoute(newArr)
+                  var arr = JSON.parse(res.text).data
+                  this.$store.dispatch('consumeData_action', arr)
+                  this.getChartDate()
                   this.createChartsShap()
-                  flag = false
+                  flag = true
                 }
-
               }
             })
         } else {
@@ -235,47 +222,39 @@
         if (this.$store.state.timeline.length === 0) {
           return
         } else { 
-          var type
-          if (this.$route.query.type === 'day') {
-            type = 0
-          } else if (this.$route.query.type === 'week') {
-            type = 1
-          } else {
-            type = 2
-          }
-            request
-              .post(host + 'franchisee/report/consume/userDefine')
-              .send({
-                'franchiseeId': '123456',
-                'userId': 'admin',
-                'start': this.$store.state.timeline.newObj.time1,
-                'end': this.$store.state.timeline.newObj.time2,
-                'type': type
-              })
-              .end((error, res) => {
-                if (error) {
-                  console.log('error:', error)
-                } else {
-                  if (JSON.parse(res.text).list.length === 0) {
-                    $('#container').html('')
-                    this.noData = true
-                  } else {
-                    this.noData = false
-                    var arr = JSON.parse(res.text).list
-                    var newArr = []
-                    for (var i = 0; i < arr.length; i++) {
-                      var obj = {}
-                      obj.time = moment(arr[i].time).format('YYYY-MM-DD')
-                      obj.totalBill = arr[i].totalBill
-                      obj.money = arr[i].money
-                      newArr.push(obj)
-                    }
-                    this.getChartByRoute(newArr)
-                    this.createChartsShap()                    
-                  }
-                }
-              })
-
+          alert(this.$route.query.type)
+          request
+          .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
+          .send({
+            'startTimeStr': this.$store.state.timeline.startTime,
+            'endTimeStr': this.$store.state.timeline.endTime,
+            'type': this.$route.query.type,
+            showType:'chart',
+            currentPage:1
+          })
+          .end((error, res) => {
+            // console.log('this is entry')
+            if (error) {
+              console.log('error:', error)
+              this.noData = true
+            } else {
+              if (JSON.parse(res.text).data.length === 0) {
+                $('#container').html('')
+                this.noData = true
+              } else {
+                this.noData = false
+                var arr = JSON.parse(res.text).data
+                this.$store.dispatch('consumeData_action', arr)
+                console.log(arr)
+                this.getChartDate()
+                this.createChartsShap()
+              }
+            }
+          })
         }
       }
     },
@@ -285,9 +264,9 @@
     //   }
     //   this.dataUpdate()
     // },
-    beforeMount () {
-      this.time()
-    },
+    // beforeMount () {
+    //   this.time()
+    // },
     watch: {
       '$route': 'dataUpdate',
       '$store.state.timeline': 'time'

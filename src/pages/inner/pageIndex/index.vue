@@ -8,10 +8,10 @@
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
           </div>
           <div class="income_count monthcount">
-            ￥18800000.00
+            ￥{{monthIncoming}}
           </div>
           <div class="income_diff">
-            <span>较上月：+12300.00</span>
+            <span>较上月：{{monthIncrease}}</span>
           </div>
         </el-col>
         <el-col :span='12' class="dayIncoming">
@@ -20,10 +20,10 @@
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
           <div class="income_count daycount">
-            ￥900000.00
+            ￥{{todayIncoming}}
           </div>
           <div class="income_diff">
-            <span>较昨日：+300.00</span>
+            <span>较昨日：{{todayIncrease}}</span>
           </div>
         </el-col>
       </el-row>
@@ -38,11 +38,11 @@
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
             <el-col :span="24">
-              <el-col :span="5">车辆总数2000辆</el-col>
-              <el-col :span="5" class="using">待出租1900辆</el-col>
-              <el-col :span="5">已出租99辆</el-col>
-              <el-col :span="5">已预定1辆</el-col>
-              <el-col :span="4">维护中1辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
+              <el-col :span="5" class="using">待出租{{allKindsCars[0].cnt}}辆</el-col>
+              <el-col :span="5">已出租{{allKindsCars[1].cnt}}辆</el-col>
+              <el-col :span="5">已预定{{allKindsCars[2].cnt}}辆</el-col>
+              <el-col :span="4">维护中{{allKindsCars[3].cnt}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col>
           </el-row>
         </div>
@@ -90,13 +90,13 @@
       <div class="settlementInfo module">
         <el-row>
           <el-col :span="8">
-            当前已为您赚到<span class="earn">￥18800000.00</span>
+            当前已为您赚到<span class="earn">￥{{franchiseeAllIncome}}</span>
           </el-col>
           <el-col :span="8">
-            已结算<span class="settle">￥60000.00</span>
+            已结算<span class="settle">￥{{alreadyWidthDrawMoney}}</span>
           </el-col>
           <el-col :span="8">
-            待结算<span class="wait">￥300000.00</span>
+            待结算<span class="wait">￥{{canWidthDrawMoney}}</span>
             <el-button class="withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
           </el-col>
         </el-row>
@@ -284,6 +284,15 @@ import {host} from '../../../config/index'
 export default {
   data: function () {
     return {
+      monthIncoming:'',
+      monthIncrease:'',
+      todayIncoming:'',
+      todayIncrease:'',
+      cityPartner:{},
+      allKindsCars:[],
+      alreadyWidthDrawMoney:'',
+      canWidthDrawMoney:'',
+      franchiseeAllIncome:'',
       status: [
         {
           money: 99,
@@ -330,19 +339,58 @@ export default {
   },
   methods:{
     loadIndexData(){
+      /*今日营收*/
        request
-      .post(host + 'beepartner/franchisee/home/allianceIndex')
+        .post(host + 'beepartner/franchisee/statistics/franchiseeRevenue')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            var result = JSON.parse(res.text).data
+            this.todayIncoming = result.currentRevenue
+            this.todayIncrease = result.todayIncrease
+          }
+        })
+        /*本月营收*/
+        request
+        .post(host + 'beepartner/franchisee/statistics/franchiseeMonthRevenue')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            var result = JSON.parse(res.text).data
+            this.monthIncoming = result.monthRevenue
+            this.monthIncrease = result.monthIncrease
+          }
+        })
+        /*车辆运营信息*/
+        request
+        .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
         .withCredentials()
         .set({
-          'content-type': 'application/x-www-form-urlencoded'
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            this.cityPartner = JSON.parse(res.text).cityPartner
+            console.log(this.cityPartner)
+            this.allCarsNum = this.cityPartner.bikeNum
+            this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
+            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+            this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
+            this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+          }
         })
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          var result = JSON.parse(res.text).data
-        }
-      })
     },
     checkoutSeesion(){
       request
@@ -368,6 +416,7 @@ export default {
   },
   mounted:function(){
     this.checkoutSeesion()
+    this.loadIndexData()
   }
 }
 </script>

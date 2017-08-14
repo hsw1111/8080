@@ -13,7 +13,7 @@
           <template slot="title">
             <i class="iconfont my_icon_class">&#xe67d;</i>报表统计</template>
           <el-menu-item-group>
-            <el-menu-item index="/index/consumeData?type=day" class="sign" name="1301">订单数据</el-menu-item>
+            <el-menu-item index="/index/consumeData?type=daily" class="sign" name="1301">订单数据</el-menu-item>
             <!-- <el-menu-item index="/index/allDaysData?type=0" class="sign" name="1302">24小时数据走势</el-menu-item>
             <el-menu-item index="/index/hotMap?type=curHour" class="sign" name="1303">热力图</el-menu-item> -->
             <!-- <el-menu-item index="/index/abnormalData" class="sign" name="1304">异常数据</el-menu-item> -->

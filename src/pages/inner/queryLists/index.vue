@@ -13,7 +13,7 @@
         :empty-text="emptyText"
         style="width: 100%">
         <el-table-column
-          prop="time"
+          prop="statisticId"
           label="订单日期"
           sortable
           min-width="120">
@@ -24,17 +24,17 @@
           min-width="120">
         </el-table-column>
         <el-table-column
-          prop="money"
+          prop="totalMoney"
           label="订单总额">
         </el-table-column>
         <el-table-column
-          prop="couponApplyMoney"
+          prop="totalDiscount"
           label="优惠卷支付总额">
         </el-table-column>
         <el-table-column
           min-width="80"
           label="实际收益（元） ?"
-          prop='bikeCode'>
+          prop='actualMoney'>
           <template scope="scope">
             <el-tooltip placement="top">
               <!--<div slot="content">多行信息<br/>第二行信息</div>
@@ -152,7 +152,8 @@ export default {
         console.log(`当前页: ${val}`);
       },
     handeClick () {
-      this.$router.push('/index/consumeData/queryCharts')
+      var type = this.$route.query.type
+      this.$router.push('/index/consumeData/queryCharts?type=' + type)
     },
     dataUpdate () {
       var flag = true
@@ -160,60 +161,43 @@ export default {
       if (this.$route.query.type === undefined) {
         return
       } else if (flag === true) {
-        console.log(this.$route.query)
+        var type = this.$store.state.consumeDataType
         request
-          .post(host + 'franchisee/report/consume/' + this.$route.query.type)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
+        .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+         .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
           })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-              this.loading2 = false
-            } else {
-              var arr = JSON.parse(res.text).list
-              var pageNumber = JSON.parse(res.text).totalPage
-              this.totalItems = JSON.parse(res.text).totalItems
-              if(pageNumber>1) {
-                this.pageShow = true
-              }else {
-                this.pageShow = false
-              }
-              // loading关闭
-              this.loading2 = false
-              var newArr = []
-              if (this.$route.query.type === 'week') {
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年第WW周')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }
-              } else if (this.$route.query.type === 'day') {
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年MM月DD号')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }              
-              } else { 
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年MM月')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }                
-              }
-              // console.log(newArr)
-              this.$store.dispatch('consumeData_action', {newArr})
-              this.lists = this.$store.state.consumeData
-              flag = false
+        .send({
+         'startTimeStr': this.$store.state.timeline.startTime,
+          'endTimeStr': this.$store.state.timeline.endTime,
+          'type': type,
+          showType:'table',
+          currentPage:1
+        })
+        .end((error, res) => {
+          // console.log('this is entry')
+          if (error) {
+            console.log('error:', error)
+            this.loading2 = false
+            this.emptyText = ' 暂无数据'
+          } else {
+            var arr = JSON.parse(res.text).data
+            this.loading2 = false  
+            var pageNumber = JSON.parse(res.text).totalPage
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
+            if(pageNumber>1){
+              this.pageShow = true
+            }else {
+              this.pageShow = false
+              this.emptyText = ' 暂无数据'
             }
-          })
+            this.$store.dispatch('consumeData_action', arr)
+            console.log(this.$store.state.consumeData)
+            this.lists = this.$store.state.consumeData
+            flag = true
+          }
+        })
       } else {
         return
       }
@@ -223,10 +207,17 @@ export default {
        //alert(this.$store.state.consumeDataType)
       var timeType = this.$store.state.consumeDataType
       request
-        .post(host +'franchisee/report/consume/' + timeType)
+        .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+         .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
         .send({
-          'franchiseeId': '123456',
-          'userId': 'admin'
+         'startTimeStr': this.$store.state.timeline.startTime,
+          'endTimeStr': this.$store.state.timeline.endTime,
+          'type': type,
+          showType:'table',
+          currentPage:1
         })
         .end((error, res) => {
           // console.log('this is entry')
@@ -235,181 +226,153 @@ export default {
             this.loading2 = false
             this.emptyText = ' 暂无数据'
           } else {
-            var arr = JSON.parse(res.text).list
+            var arr = JSON.parse(res.text).data
             this.loading2 = false
             console.log(arr)
             // loading关闭
             this.loading2 = false
+            return
             var pageNumber = JSON.parse(res.text).totalPage
-            this.totalItems = JSON.parse(res.text).totalItems
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
             if(pageNumber>1){
               this.pageShow = true
             }else {
               this.pageShow = false
               this.emptyText = ' 暂无数据'
             }
-            var newArr = []
-            for (var i = 0; i < arr.length; i++) {
-              var obj = {}
-              if(timeType==='day'){
-                obj.time = moment(arr[i].time).format('YYYY年MM月DD号')
-              }else if(timeType==='week'){
-                obj.time = moment(arr[i].time).format('YYYY第WW周')
-              }else {
-                obj.time = moment(arr[i].time).format('YYYY年MM月')
-              }
-              obj.totalBill = arr[i].totalBill
-              obj.money = arr[i].money
-              newArr.push(obj)
-            }
-            this.$store.dispatch('consumeData_action', {newArr})
+            this.$store.dispatch('consumeData_action', arr)
+            console.log(this.$store.state.consumeData)
             this.lists = this.$store.state.consumeData
           }
         })
     },
     time () {
-      if (this.$store.state.timeline.length === 0) {
-        return
-      } else { 
-        var type
-        if (this.$route.query.type === 'day') {
-          type = 0
-        } else if (this.$route.query.type === 'week') {
-          type = 1
-        } else {
-          type = 2
-        }
-        this.loading2 = true
-        var that = this
-          request
-            .post(host + 'franchisee/report/consume/userDefine')
-            .send({
-              'franchiseeId': '123456',
-              'userId': 'admin',
-              'start': that.$store.state.timeline.newObj.time1,
-              'end': that.$store.state.timeline.newObj.time2,
-              'type': type
-            })
-            .end((error, res) => {
-              if (error) {
-                console.log('error:', error)
-                this.loading2 = false
+      var type = this.$route.query.type
+      this.loading2 = true
+      var that = this
+      request
+        .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send({
+          'startTimeStr': this.$store.state.timeline.startTime.length>0?this.$store.state.timeline.startTime:'',
+          'endTimeStr': this.$store.state.timeline.endTime.length>0?this.$store.state.timeline.endTime:'',
+          'type': type,
+            showType:'table',
+            currentPage:1
+        })
+        .end((error, res) => {
+          if (error) {
+            console.log('error:', error)
+            this.loading2 = false
+          } else {
+            this.loading2  = false
+              console.log(JSON.parse(res.text))
+              var totalPage = JSON.parse(res.text).totalPage
+               this.totalItems = Number(JSON.parse(res.text).totalItems)
+              if (totalPage>1) {
+                that.pageShow = true
+                this.emptyText = ' '
               } else {
-                // console.log(JSON.parse(res.text))
-                if (JSON.parse(res.text).list.length === 0) {
-                  this.lists = ''
-                  that.pageShow = false
-                  this.loading2 = false
-                  this.emptyText = ' 暂无数据'
-                } else {
-                    var arr = JSON.parse(res.text).list
-                    var newArr = []
-
-                    // 关闭Loading
-                    this.loading2 = false
-
-                    for (var i = 0; i < arr.length; i++) {
-                      var obj = {}
-                      if (this.$route.query.type === 'day') {
-                         obj.time = moment(arr[i].time).format('YYYY年MM月DD号')
-                      } else if (this.$route.query.type === 'week') {
-                         obj.time = moment(arr[i].time).format('YYYY年第WW周')
-                      } else {
-                         obj.time = moment(arr[i].time).format('YYYY年MM月')
-                      }
-                      obj.totalBill = arr[i].totalBill
-                      obj.money = arr[i].money
-                      newArr.push(obj)
-                    }
-                    that.$store.dispatch('consumeData_action', {newArr})
-                    that.lists = that.$store.state.consumeData
-                  }
-                }
-            })
-      }
+                that.pageShow = false
+                this.emptyText = '暂无数据'
+              }
+              that.lists = []
+              var arr = JSON.parse(res.text).data
+              that.$store.dispatch('consumeData_action', arr)
+              console.log(that.$store.state.consumeData)
+              that.lists = that.$store.state.consumeData
+          }
+        })
     }
   },
   mounted () {
-    if (this.$store.state.timeline.length === 0) {
-      this.getDateMount()
-    } else {
-      return
-    }
-  },
-  beforeMount () {
-    if (this.$store.state.consumeData === '') {
-      this.noDate = true
-    }
-    this.time()
-  },
-  beforeUpdate () {
-    if (this.lists === '') {
-      this.noDate = true
-    } else {
-      this.noDate = false
-      return
-    }
+    var type = this.$store.state.consumeDataType
+    console.log("type:" + type)
+    var that = this
+    request
+      .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
+      })
+      .send({
+        'startTimeStr': '',
+        'endTimeStr':'',
+        'type': type,
+          showType:'table',
+          currentPage:1
+      })
+      .end((error, res) => {
+        if (error) {
+          console.log('error:', error)
+          this.loading2 = false
+        } else {
+          this.loading2  = false
+            var totalPage = JSON.parse(res.text).totalPage
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
+            if (totalPage>1) {
+              that.pageShow = true
+              this.emptyText = ' '
+            } else {
+              that.pageShow = false
+              this.emptyText = '暂无数据'
+            }
+            that.lists = []
+            var arr = JSON.parse(res.text).data
+            that.$store.dispatch('consumeData_action', arr)
+            that.lists = that.$store.state.consumeData
+        }
+      })
   },
   watch: {
-    '$route': 'dataUpdate',
-    '$store.state.timeline': 'time',
+    // '$route': 'dataUpdate',
+    '$store.state.consumeDataType':'time',
+    '$store.state.timeline':'time',
     currentPage3: {
       handler: function(val,oldVal){
-          request
-          .post(host + 'franchisee/report/consume/' + this.$route.query.type + '?page=' + val)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              var arr = JSON.parse(res.text).list
-              if(arr.length===0) {
-                this.pageShow = true
-              }else {
-                this.pageShow = true
+      var type = this.$route.query.type
+      this.loading2 = true
+      var that = this
+      request
+        .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send({
+          'startTimeStr': this.$store.state.timeline.startTime.length>0?this.$store.state.timeline.startTime:'',
+          'endTimeStr': this.$store.state.timeline.endTime.length>0?this.$store.state.timeline.endTime:'',
+          'type': type,
+            showType:'table',
+            currentPage:val
+        })
+        .end((error, res) => {
+          if (error) {
+            console.log('error:', error)
+            this.loading2 = false
+          } else {
+            this.loading2  = false
+              console.log(JSON.parse(res.text))
+              var totalPage = JSON.parse(res.text).totalPage
+               this.totalItems = Number(JSON.parse(res.text).totalItems)
+              if (totalPage>1) {
+                that.pageShow = true
+                this.emptyText = ' '
+              } else {
+                that.pageShow = false
+                this.emptyText = '暂无数据'
               }
-              var pageNumber = JSON.parse(res.text).totalPage
-
-              // loading关闭
-              this.loading2 = false
-              // 设置data分页
-              this.pageTotal = pageNumber
-              // 这里需要设置分页总数！！！！！！
-              var newArr = []
-              if (this.$route.query.type === 'week') {
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年第ww周')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }
-              } else if (this.$route.query.type === 'day') {
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年MM月DD号')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }              
-              } else { 
-                for (var i = 0; i < arr.length; i++) {
-                  var obj = {}
-                  obj.time = moment(arr[i].time).format('YYYY年MM月')
-                  obj.totalBill = arr[i].totalBill
-                  obj.money = arr[i].money
-                  newArr.push(obj)
-                }                
-              }
-              // console.log(newArr)
-              this.$store.dispatch('consumeData_action', {newArr})
-              this.lists = this.$store.state.consumeData
-              this.flag = false
-            }
-          })
+              that.lists = []
+              var arr = JSON.parse(res.text).data
+              console.log(arr)
+              that.$store.dispatch('consumeData_action', arr)
+              console.log(that.$store.state.consumeData)
+              that.lists = that.$store.state.consumeData
+          }
+        })
       },
       deep: true
     }
