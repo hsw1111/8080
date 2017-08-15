@@ -250,6 +250,7 @@ export default {
       var type = this.$route.query.type
       this.loading2 = true
       var that = this
+      this.currentPage3 = 1
       request
         .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
         .withCredentials()
@@ -290,6 +291,7 @@ export default {
   },
   mounted () {
     var type = this.$store.state.consumeDataType
+    this.currentPage3 = 1
     console.log("type:" + type)
     var that = this
     request

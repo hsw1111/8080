@@ -42,7 +42,7 @@
             <i class="el-icon-close" title="删除" @click="openDelete(scope)"></i>
             <!--dialog 弹窗开始-->
             <el-dialog title="账号信息" :visible.sync="dialogVisible" :modal="true" :modal-append-to-body="false">
-              <el-form class="editAccount" :model="editAccount" :rules="editAccountRule" ref="editRuleForm">
+              <el-form class="editAccount" v-loading="loading2" :model="editAccount" :rules="editAccountRule" ref="editRuleForm">
                 <el-form-item label="用户名" prop="userName" :label-width="formLabelWidth">
                   <el-input v-model="editAccount.userName" auto-complete="off"></el-input>
                 </el-form-item>
@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       editLoading: false,
+      loading2:false,
       isQuery: false,
       accountOrUsername: '',
       telOrMail: '',
@@ -134,7 +135,7 @@ export default {
         } else {
           that.loading = false
           that.totalPage = JSON.parse(res.text).totalPage
-          var arr = JSON.parse(res.text).data
+          var arr = JSON.parse(res.text).data||[]
           if (that.totalPage > 1) {
             that.emptyText = ' '
             that.pageShow = true
@@ -309,6 +310,7 @@ export default {
       var that = this
       var initObj = Object.assign({}, scope.row, { status: scope.row.status })
       var obj = Object.assign({}, scope.row, { status: !scope.row.status })
+      this.loading = true
       modifyAccountState(
         {
           id: scope.row.id,
@@ -329,12 +331,14 @@ export default {
                 message: '恭喜你，修改成功'
               })
               that.tableData.splice(scope.$index, 1, obj)
+              that.loading = false
             } else {
               that.$message({
                 type: 'error',
                 message: '对不起，修改失败'
               })
               that.tableData.splice(scope.$index, 1, initObj)
+              that.loading = false
             }
           }
         }

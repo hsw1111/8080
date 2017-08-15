@@ -22,15 +22,6 @@ Vue.directive('title', {
     }
 })
 
-// Vue.interceptors.push((request, next) => {
-//   console.log(this)
-
-//   request.method = 'POST'
-//   　　next((response) => {
-//   　　response.body = '...'
-//   　  return response
-//   })
-// })
 
 Vue.config.productionTip = false
 Vue.use(Element)

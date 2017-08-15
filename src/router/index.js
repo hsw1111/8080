@@ -5,22 +5,24 @@ import routeConfig from './router-config.js'
 
 function assignRouter() {
     var userInfo = localStorage.getItem('userinfo')
-    var authList = JSON.parse(userInfo).auth.split('-')
+    var authList = JSON.parse(userInfo)
     var _index = null
     var obj = {}
     var arr = []
+    console.log(routeConfig)
     authList.map((auth)=>{
-      routeConfig[2].children.map((item)=>{
+      routeConfig[3].children.map((item)=>{
             if(auth*1 === item.auth){
                 arr.push(item)
              }
         })
     })
-   routeConfig[2] = Object.assign({},routeConfig[2],{children:arr})
-   routeConfig.splice(2,1, routeConfig[2])
+    console.log(authList)
+   routeConfig[3] = Object.assign({},routeConfig[3],{children:arr})
+   routeConfig.splice(3,1, routeConfig[3])
   //console.log(routeConfig)
 }
-// assignRouter()
+assignRouter()
 
 Vue.use(Router)
 export default new Router({

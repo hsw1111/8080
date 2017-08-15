@@ -7,11 +7,13 @@
             <span class="income_time mounthtime ">本月营收</span>
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
           </div>
-          <div class="income_count monthcount">
-            ￥{{monthIncoming}}
-          </div>
-          <div class="income_diff">
-            <span>较上月：{{monthIncrease}}</span>
+          <div v-loading="loading2" element-loading-text="拼命加载中">
+            <div class="income_count monthcount">
+              ￥{{monthIncoming}}
+            </div>
+            <div class="income_diff">
+              <span>较上月：{{monthIncrease}}</span>
+            </div>
           </div>
         </el-col>
         <el-col :span='12' class="dayIncoming">
@@ -19,12 +21,15 @@
             <span class="income_time daytime ">今日营收</span>
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div class="income_count daycount">
-            ￥{{todayIncoming}}
+          <div v-loading="loading3" element-loading-text="拼命加载中">
+             <div class="income_count daycount">
+              ￥{{todayIncoming}}
+            </div>
+            <div class="income_diff">
+              <span>较昨日：{{todayIncrease}}</span>
+            </div>
           </div>
-          <div class="income_diff">
-            <span>较昨日：{{todayIncrease}}</span>
-          </div>
+         
         </el-col>
       </el-row>
     </div>
@@ -37,13 +42,13 @@
               </span>
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
-            <el-col :span="24">
+            <!-- <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
               <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
               <el-col :span="5" class="using">待出租{{allKindsCars[0].cnt}}辆</el-col>
               <el-col :span="5">已出租{{allKindsCars[1].cnt}}辆</el-col>
               <el-col :span="5">已预定{{allKindsCars[2].cnt}}辆</el-col>
               <el-col :span="4">维护中{{allKindsCars[3].cnt}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
-            </el-col>
+            </el-col> -->
           </el-row>
         </div>
         <!-- <div class="mapWrap">
@@ -69,14 +74,14 @@
             <span>当前动态</span>
             <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div class="list">
+          <div class="list" v-loading="loading" element-loading-text="拼命加载中">
             <div>
               <ul>
                 <li v-bind:key="statu.carNum" v-for="statu of status">
                   <el-row>
-                    <el-col :span="6">+{{statu.money}}</el-col>
-                    <el-col :span="6">车辆：{{statu.carNum}}</el-col>
-                    <el-col :span="12">{{statu.time}}</el-col>
+                    <el-col :span="6">+{{statu.balanceAmount}}</el-col>
+                    <el-col :span="6">车辆：{{statu.bikeCode}}</el-col>
+                    <el-col :span="12">{{statu.endTimeStr}}</el-col>
                   </el-row>
                 </li>
               </ul>
@@ -88,7 +93,7 @@
   
     <div style="background:#fff;">
       <div class="settlementInfo module">
-        <el-row>
+        <el-row v-loading="loading5" element-loading-text="拼命加载中">
           <el-col :span="8">
             当前已为您赚到<span class="earn">￥{{franchiseeAllIncome}}</span>
           </el-col>
@@ -168,7 +173,7 @@ span.income_detail {
 }
 
 div.status {
-  background: #ffc0cb;
+  background: #fff;
   padding: 0;
 }
 
@@ -197,7 +202,7 @@ div.datas_title span.arrow {
   float: right;
   cursor: pointer
 }
-
+div.status div.list{height:237px;}
 div.status div.list ul li {
   list-style-type: none;
   background: #ffffff;
@@ -284,6 +289,11 @@ import {host} from '../../../config/index'
 export default {
   data: function () {
     return {
+      loading:true,
+      loading2:true,
+      loading3:true,
+      loading4:true,
+      loading5:false,
       monthIncoming:'',
       monthIncrease:'',
       todayIncoming:'',
@@ -293,44 +303,7 @@ export default {
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
       franchiseeAllIncome:'',
-      status: [
-        {
-          money: 99,
-          countNum: 1011,
-          time: '2017-01-01 10:01:01'
-
-        },
-        {
-          money: 199,
-          countNum: 1111,
-          time: '2017-02-02 10:01:01'
-
-        },
-        {
-          money: 299,
-          countNum: 1211,
-          time: '2017-03-03 10:01:01'
-
-        },
-        {
-          money: 399,
-          countNum: 1311,
-          time: '2017-04-04 10:01:01'
-
-        },
-        {
-          money: 399,
-          countNum: 1311,
-          time: '2017-04-04 10:01:01'
-
-        },
-        {
-          money: 399,
-          countNum: 1311,
-          time: '2017-04-04 10:01:01'
-
-        }
-      ]
+      status: []
     }
   },
   components: {
@@ -349,7 +322,9 @@ export default {
         .end((err, res) => {
           if (err) {
             console.log(err)
+            this.loading3  = false
           } else {
+            this.loading3  = false
             var result = JSON.parse(res.text).data
             this.todayIncoming = result.currentRevenue
             this.todayIncrease = result.todayIncrease
@@ -365,32 +340,52 @@ export default {
         .end((err, res) => {
           if (err) {
             console.log(err)
+            this.loading2  = false
           } else {
+            this.loading2  = false
             var result = JSON.parse(res.text).data
             this.monthIncoming = result.monthRevenue
             this.monthIncrease = result.monthIncrease
           }
         })
-        /*车辆运营信息*/
+        // /*车辆运营信息*/
+        // request
+        // .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
+        // .withCredentials()
+        // .set({
+        //     'content-type': 'application/x-www-form-urlencoded'
+        //   })
+        // .end((err, res) => {
+        //   if (err) {
+        //     console.log(err)
+        //   } else {
+        //     this.cityPartner = JSON.parse(res.text).cityPartner
+        //     console.log(this.cityPartner)
+        //     this.allCarsNum = this.cityPartner.bikeNum
+        //     this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
+        //     this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+        //     this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
+        //     this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+        //   }
+        // })
+        /*当前动态*/
         request
-        .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
-        .withCredentials()
-        .set({
-            'content-type': 'application/x-www-form-urlencoded'
+          .post(host + 'beepartner/franchisee/statistics/franchiseeCurrent')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
+          .end((err, res) => {
+            if (err) {
+              console.log(err)
+              this.loading  = false
+            } else {
+               this.loading  = false
+              var result = JSON.parse(res.text).data
+              this.status = result
+              console.log(result)
+            }
           })
-        .end((err, res) => {
-          if (err) {
-            console.log(err)
-          } else {
-            this.cityPartner = JSON.parse(res.text).cityPartner
-            console.log(this.cityPartner)
-            this.allCarsNum = this.cityPartner.bikeNum
-            this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
-            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-            this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
-            this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
-          }
-        })
     },
     checkoutSeesion(){
       request

@@ -60,8 +60,8 @@
           }
         },
         mounted: function () {
-          //this.handlerUserInfo()
-           //this.checkMenu(this.authList)
+          this.handlerUserInfo()
+          this.checkMenu(this.authList)
         },
         methods: {
           checkMenu (authList) {
@@ -75,7 +75,7 @@
           },
           handlerUserInfo () {
             this.userInfo = localStorage.getItem('userinfo')
-            this.authList = JSON.parse(this.userInfo).auth.split('-')
+            this.authList = JSON.parse(this.userInfo)
           }
         }
     }

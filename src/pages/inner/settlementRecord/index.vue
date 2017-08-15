@@ -31,7 +31,7 @@
 				myAdmin='id'
         min-width="100">
         <template scope="scope">
-           <router-link :to='"/index/applysubmitted/" + scope.row.withDrawMonth'> {{scope.row.withDrawMonth}}</router-link>
+           <router-link style="text-decoration:none;color:#000;" :to='"/index/applysubmitted/" + scope.row.withDrawMonth'> {{scope.row.withDrawMonth}}</router-link>
         </template>
       </el-table-column>
       <el-table-column

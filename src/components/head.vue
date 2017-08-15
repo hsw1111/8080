@@ -19,6 +19,7 @@
 <script>
 import request from 'superagent'
 import {host} from '../config/index.js'
+import {delCookie} from '../../utils/index'
 export default {
     data () {
         return {
@@ -45,7 +46,9 @@ export default {
                         type:'success',
                         message:message
                     })
-                    window.location.href = 'http://localhost:8080'
+                   this.$router.push('/login')
+                   delCookie('userInfo')
+                   localStorage.removeItem('userinfo')
                 }else{
                     that.$message({
                         type:'error',

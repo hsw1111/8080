@@ -35,7 +35,8 @@
                 show-checkbox
                 ref="tree"
                 node-key="id"
-                :props="defaultProps">
+                :props="defaultProps"
+                >
               </el-tree>
             </el-form-item>
           </el-form>
@@ -559,42 +560,49 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.loading2 = true
-          request
+          // this.loading2 = true
+          if(scope.row.franchiseeUserList.length>0){
+            that.$message({
+              type: 'error',
+              message: '该角色下有用户，不可删除!'
+            })
+          }else{
+           request
             .post(host + 'beepartner/franchisee/Role/deleteFranchiseeRole')
-            .withCredentials()
-            .set({
-              'content-type': 'application/x-www-form-urlencoded'
-            })
-            .send({
-              id: scope.row.id,
-            })
-            .end((err, res) => {
-              if(err) {
-                console.log(err)
-              } else {
-                var code = JSON.parse(res.text).resultCode
-                if(code === 1) {
-                   that.$message({
-                      type: 'success',
-                      message: '删除成功!'
-                    })
-                    that.tableData.splice(scope.$index,1)
-                    that.loading2 = false
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
+              })
+              .send({
+                id: scope.row.id,
+              })
+              .end((err, res) => {
+                if(err) {
+                  console.log(err)
                 } else {
-                  that.loading2 = false
-                  that.$message({
-                      type: 'error',
-                      message: '删除失败!'
-                  })
+                  var code = JSON.parse(res.text).resultCode
+                  if(code === 1) {
+                    that.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                      })
+                      that.tableData.splice(scope.$index,1)
+                      that.loading2 = false
+                  } else {
+                    that.loading2 = false
+                    that.$message({
+                        type: 'error',
+                        message: '删除失败!'
+                    })
+                  }
                 }
-              }
-            })
+              }) 
+          }
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })   
+          // this.$message({
+          //   type: 'info',
+          //   message: '已取消删除'
+          // })   
         })
     },
     handleAddRole () {
@@ -969,5 +977,7 @@ div.account>h1 .addRoleBtn:nth-of-type(2):hover {border: 1px solid rgb(248, 126,
     margin-top: -51px;
     margin-bottom:8px;}
 div.rolename{font-weight:normal;}
+div.el-tree{width:340px;}
+div.el-textarea{width:340px;}
 </style>
 

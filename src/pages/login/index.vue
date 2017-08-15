@@ -120,6 +120,7 @@ export default {
       }
     };
     return {
+      authList:[],
       sendPhoneCode:false,
       labelPosition: 'right',
       isPlain: false,
@@ -274,9 +275,13 @@ export default {
                   type: 'success'
                 })
                 setCookie('userInfo','wwwwwwwww')
-                // var data = JSON.parse(JSON.parse(res.text).data)
-                // localStorage.setItem('userinfo',JSON.parse(res.text).data)
-                // this.$store.commit('getUserInfo',data)
+                var data = JSON.parse(res.text).data
+                console.log(data)
+                this.authList = data.map((item)=>{
+                  return item.menuCode
+                })
+                console.log(this.authList)
+                localStorage.setItem('userinfo',JSON.stringify(this.authList))
                  this.$router.push('/index')
               } else {
                 var message = JSON.parse(res.text).message
