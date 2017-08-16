@@ -276,13 +276,11 @@ export default {
                 })
                 setCookie('userInfo','wwwwwwwww')
                 var data = JSON.parse(res.text).data
-                console.log(data)
                 this.authList = data.map((item)=>{
                   return item.menuCode
                 })
-                console.log(this.authList)
                 localStorage.setItem('userinfo',JSON.stringify(this.authList))
-                 this.$router.push('/index')
+                this.$router.push('/index')
               } else {
                 var message = JSON.parse(res.text).message
                 this.$message.error(message);
@@ -318,7 +316,6 @@ export default {
               if (error) {
                 console.log(error)
               } else {
-                console.log(res)
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code===1){

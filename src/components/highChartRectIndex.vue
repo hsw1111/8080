@@ -91,7 +91,6 @@
         })
       },
       loadData(){
-        console.log(this.categories)
         request.post(host + 'beepartner/franchisee/statistics/franchiseeTrend')
         .withCredentials()
         .set({
@@ -108,7 +107,6 @@
             var res = data.map((item)=>{
               return {totalBill:item.totalBill}
             })
-            console.log(res)
             this.data =  [
               {
                 color: 'red',

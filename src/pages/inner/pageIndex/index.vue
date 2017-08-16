@@ -44,10 +44,10 @@
             </el-col> -->
              <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
               <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
-              <el-col :span="5" class="using">待出租{{allKindsCars[0].cnt}}辆</el-col>
-              <el-col :span="5">已出租{{allKindsCars[1].cnt}}辆</el-col>
-              <el-col :span="5">已预定{{allKindsCars[2].cnt}}辆</el-col>
-              <el-col :span="4">维护中{{allKindsCars[3].cnt}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
+              <el-col :span="5">已出租{{rented}}辆</el-col>
+              <el-col :span="5">已预定{{ordered}}辆</el-col>
+              <el-col :span="4">维护中{{repaired}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -300,6 +300,10 @@ export default {
       todayIncrease:'',
       cityPartner:{},
       allKindsCars:[],
+      waitLend:'',
+      rented:'',
+      ordered:'',
+      repaired:'',
       allCarsNum:'',
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
@@ -361,9 +365,12 @@ export default {
             console.log(err)
           } else {
             this.cityPartner = JSON.parse(res.text).cityPartner
-            console.log(this.cityPartner)
             this.allCarsNum = this.cityPartner.bikeNum
             this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
+            this.waitLend = this.allKindsCars[0].cnt
+            this.rented = this.allKindsCars[1].cnt
+            this.ordered = this.allKindsCars[2].cnt
+            this.repaired = this.allKindsCars[3].cnt
             this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
             this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
             this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
@@ -384,7 +391,6 @@ export default {
                this.loading  = false
               var result = JSON.parse(res.text).data
               this.status = result
-              console.log(result)
             }
           })
     },
@@ -411,8 +417,10 @@ export default {
     } 
   },
   mounted:function(){
-    this.checkoutSeesion()
+   this.checkoutSeesion()
     this.loadIndexData()
+    var res = localStorage.getItem('userinfo')
+    this.$router.push('/index')
   }
 }
 </script>

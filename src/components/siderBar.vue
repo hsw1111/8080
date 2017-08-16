@@ -79,6 +79,7 @@
           },
           handlerUserInfo () {
             this.userInfo = localStorage.getItem('userinfo')
+            console.log(this.userInfo)
             this.authList = JSON.parse(this.userInfo) || '[]'
           }
         }

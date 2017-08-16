@@ -41,7 +41,6 @@ new Vue({
         },
         checkoutSeesion(){
                 var cookie = getCookie('userInfo')||null
-                console.log(cookie)
                if(cookie === null || cookie.trim().length === 0){
                    this.$router.push('/login')
                }else{
@@ -58,7 +57,6 @@ new Vue({
                             //this.$router.push({path:'/index/error'})
                         } else {
                             var message = JSON.parse(res.text).message
-                            console.log(message)
                             if(message === '用户登录超时'){
                                 this.$router.push('/login')
                             }else{
