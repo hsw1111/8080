@@ -254,7 +254,6 @@ div.settlementInfo button.withdrawal {
   color: #fff;
   border-radius: 6px;
   display: block;
-  margin-left: 30px;
 }
 div.settlementInfo button.withdrawal:hover{background:rgba(255,153,0,1);}
 
@@ -279,7 +278,7 @@ div.mapTitle span {
 span.earn, span.settle {color:rgba(134,134,134,1);font-weight: bold;margin-left:8px;}
 span.wait{color:rgba(255,102,0,1);font-weight: bold;margin-left:8px;}
 div.using{color:rgba(255,102,0,1);}
-div.settlementInfo div.el-col-8:nth-child(3){text-align: right;}
+div.settlementInfo div.el-col-8:nth-child(3){text-align: left;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'

@@ -22,6 +22,19 @@ Vue.directive('title', {
     }
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.path == '/login') {
+    localStorage.removeItem('userinfo');
+  }
+  let user = localStorage.getItem('userinfo') || '[]'
+//   if (!user && to.path != '/login' && user.length === 0 ) {
+  if (user.length === 0 || !user) {
+    next({ path: '/login' })
+  } else {
+    next()
+  }
+})
+
 
 Vue.config.productionTip = false
 Vue.use(Element)
