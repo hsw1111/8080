@@ -123,7 +123,7 @@
  		float: left;
     height: 30px;
     text-align: left;
-    width: 80px;
+    /* width: 80px; */
     line-height: 30px;
     margin-top: 25px;
  	}

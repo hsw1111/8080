@@ -42,13 +42,13 @@
               </span>
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
-            <!-- <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
+             <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
               <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
               <el-col :span="5" class="using">待出租{{allKindsCars[0].cnt}}辆</el-col>
               <el-col :span="5">已出租{{allKindsCars[1].cnt}}辆</el-col>
               <el-col :span="5">已预定{{allKindsCars[2].cnt}}辆</el-col>
               <el-col :span="4">维护中{{allKindsCars[3].cnt}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
-            </el-col> -->
+            </el-col> 
           </el-row>
         </div>
         <!-- <div class="mapWrap">
@@ -349,25 +349,25 @@ export default {
           }
         })
         // /*车辆运营信息*/
-        // request
-        // .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
-        // .withCredentials()
-        // .set({
-        //     'content-type': 'application/x-www-form-urlencoded'
-        //   })
-        // .end((err, res) => {
-        //   if (err) {
-        //     console.log(err)
-        //   } else {
-        //     this.cityPartner = JSON.parse(res.text).cityPartner
-        //     console.log(this.cityPartner)
-        //     this.allCarsNum = this.cityPartner.bikeNum
-        //     this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
-        //     this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-        //     this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
-        //     this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
-        //   }
-        // })
+        request
+        .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
+        .withCredentials()
+        .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            this.cityPartner = JSON.parse(res.text).cityPartner
+            console.log(this.cityPartner)
+            this.allCarsNum = this.cityPartner.bikeNum
+            this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
+            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+            this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
+            this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+          }
+        })
         /*当前动态*/
         request
           .post(host + 'beepartner/franchisee/statistics/franchiseeCurrent')
