@@ -51,10 +51,10 @@ import loginlog from '../pages/inner/logManager/loginlog.vue'
 import operationLog from '../pages/inner/logManager/operationLog.vue'
 
 import NotFoundPage from '../pages/404/index.vue'
-import stautsError from '../pages//500/index.vue'
+import stautsError from '../pages/500/index.vue'
 export default [
     { path: '*', component: NotFoundPage },
-    // {path:'/index/error',component:stautsError},
+    //{path:'/index/error',component:stautsError},
     {
         path: '/',
         name: '登录',

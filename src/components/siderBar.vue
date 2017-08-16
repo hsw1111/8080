@@ -66,16 +66,20 @@
         methods: {
           checkMenu (authList) {
               var all  = $('.sign')
-              for(var i =0;i<all.length;i++){
-                var res = authList.indexOf(all[i].getAttribute('name'))
-                if(res === -1) {
-                  $('.sign').eq(i).hide()
-                }
-              } 
+              if(authList.length===0){
+                $('.siderBar').hide()
+              }else{
+                 for(var i =0;i<all.length;i++){
+                  var res = authList.indexOf(all[i].getAttribute('name'))
+                  if(res === -1) {
+                    $('.sign').eq(i).hide()
+                  }
+                } 
+              }
           },
           handlerUserInfo () {
             this.userInfo = localStorage.getItem('userinfo')
-            this.authList = JSON.parse(this.userInfo)
+            this.authList = JSON.parse(this.userInfo) || '[]'
           }
         }
     }

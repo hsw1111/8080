@@ -31,17 +31,31 @@
     import myHeader from '../../components/head.vue'
     import siderBar from '../../components/siderBar.vue'
     import $ from 'jquery'
+    import {setCookie,getCookie,delCookie } from '../../../utils/index'
     export default {
       components: {
         myHeader,
         siderBar
       },
-      watch: {
-        '$route' : 'isMenu'
-      },
+     mounted:function () {
+       this.isMenu()
+     },
       methods: {
         isMenu () {
-        console.log('页面路由变化了')
+          var authList = localStorage.getItem('userinfo')||'[]'
+          //console.error(authList)
+         if(JSON.parse(authList).length===0){
+           $('.leftEntry').hide()
+           console.log($('.rightEntry').position().left)
+           $('.rightEntry').css({
+             left:0,
+             width:'100%'
+           })
+           $('.entryInner').css({
+             top:0,
+             left:0
+           })
+         }
         }
       }
     }

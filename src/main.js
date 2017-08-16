@@ -72,6 +72,7 @@ new Vue({
     },
     mounted () {
         this.checkInput()
+        this.checkoutSeesion()
     },
     beforeUpdate:function(){
        this.checkoutSeesion()
