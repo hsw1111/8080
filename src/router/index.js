@@ -7,6 +7,7 @@ var initRouter = routeConfig
 function assignRouter() {
     var userInfo = localStorage.getItem('userinfo') || '[]'
     var authList = JSON.parse(userInfo)
+    console.log('authList:' + authList)
     var _index = null
     var obj = {}
     var arr = []
