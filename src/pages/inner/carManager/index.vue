@@ -8,7 +8,7 @@
             <el-col>
               <el-form-item class="filtercar">
                 <span class="labelAlign">关键字</span>
-                <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号\车辆名称">
+                <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号">
               </el-form-item>
               <el-form-item class="filtercar">
                 <span class="labelAlign">状态</span>
@@ -181,7 +181,7 @@ export default {
               var newData = this.tableDataDel(data)
               this.pagetotal = (JSON.parse(res.text)).totalPage
               this.tableData = newData
-              this.totalItems = (JSON.parse(res.text)).totalItems
+              this.totalItems = Number((JSON.parse(res.text)).totalItems)
               // loading 关闭
               this.loading2 = false
               if (this.pagetotal > 1) {
