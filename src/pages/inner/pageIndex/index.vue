@@ -300,7 +300,7 @@ export default {
       todayIncrease:'',
       cityPartner:{},
       allKindsCars:[],
-      allCarsNum,
+      allCarsNum:'',
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
       franchiseeAllIncome:'',
