@@ -20,7 +20,7 @@
 			<div id="earD_all">
 				<h1>
           <el-tooltip class="item" effect="dark" content="所有车辆骑行收益" placement="bottom-end"> 
-					  <p>实际收益合计：<span>{{sumMoney}}元</span></p>
+					  <p>实际收益合计：<span>{{sumMoney?sumMoney:0}}元</span></p>
           </el-tooltip>
 					<p @click='export_excel'>导出明细到Excel</p>
 				</h1>
