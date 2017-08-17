@@ -78,8 +78,8 @@
                 :modal-append-to-body="false"
                 :modal="true"
               >
-                <el-form v-model="editForm">
-                  <el-form-item label="角色名称" class="rolename" :label-width="formLabelWidth">
+                <el-form v-model="editForm" :rules="editRules" refs="editRuleForm">
+                  <el-form-item label="角色名称" prop="roleName" class="rolename" :label-width="formLabelWidth">
                     <el-input v-model="editForm.roleName" placeholder="请输入角色名称"></el-input>
                   </el-form-item>
                   <el-form-item label="备注" :label-width="formLabelWidth">
@@ -202,6 +202,10 @@ export default {
                   // }
                 ]
               },
+              //  {
+              //   id: 2000,
+              //   label: '账号管理'
+              // },
               {
                 id: 1402,
                 label: '结算管理'
@@ -301,6 +305,10 @@ export default {
                   // }
                 ]
               },
+              //  {
+              //   id: 2000,
+              //   label: '账号管理'
+              // },
               {
                 id: 1402,
                 label: '结算管理'
@@ -359,7 +367,12 @@ export default {
           roleName: [
             { validator: validateRoleName, trigger: 'blur', required: true }
           ]
-        }
+      },
+      editRules:{
+        roleName: [
+            { message: '角色名称不能为空', trigger: 'blur', required: true }
+          ]
+      }
     }
   },
   methods: {
@@ -517,39 +530,46 @@ export default {
       })
       console.log(this.menuList)
       this.menuStr = this.menuList.join('-')
-      request
-        .post(host + 'beepartner/admin/Role/updateRole')
-        .withCredentials()
-        .set({
-          'content-type': 'application/x-www-form-urlencoded'
-        })
-        .send({
-          id: that.editForm.id,
-          roleName:that.editForm.roleName,
-          description: that.editForm.description,
-          menuStr: this.menuStr
-        })
-        .end(function(err,res){
-          if(err){
-            console.log(err)
-          } else {
-            that.loading2 = false
-            var code = JSON.parse(res.text).resultCode
-            if(code === 1) {
-                that.$message({
-                  type: 'success',
-                  message: '修改成功!'
-                })
-                that.flag = true
-                //that.tableData.splice(that.editForm.index,1,{roleName: that.editForm.roleName,des: that.editForm.des, id: that.editForm.id})
-                that.dialogEditVisible = false
-            } else {
-              var message = JSON.parse(res.text).message
-              that.$message({
-                  type: 'error',
-                  message: message
+      this.$refs[editRuleForm].validate((valid) => {
+          if (valid) {
+            request
+              .post(host + 'beepartner/admin/Role/updateRole')
+              .withCredentials()
+              .set({
+                'content-type': 'application/x-www-form-urlencoded'
               })
-            }
+              .send({
+                id: that.editForm.id,
+                roleName:that.editForm.roleName,
+                description: that.editForm.description,
+                menuStr: this.menuStr
+              })
+              .end(function(err,res){
+                if(err){
+                  console.log(err)
+                } else {
+                  that.loading2 = false
+                  var code = JSON.parse(res.text).resultCode
+                  if(code === 1) {
+                      that.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                      })
+                      that.flag = true
+                      //that.tableData.splice(that.editForm.index,1,{roleName: that.editForm.roleName,des: that.editForm.des, id: that.editForm.id})
+                      that.dialogEditVisible = false
+                  } else {
+                    var message = JSON.parse(res.text).message
+                    that.$message({
+                        type: 'error',
+                        message: message
+                    })
+                  }
+                }
+              })
+          } else {
+            console.log('error submit!!');
+            return false;
           }
         })
     },

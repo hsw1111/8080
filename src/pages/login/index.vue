@@ -280,7 +280,7 @@ export default {
                   return item.menuCode
                 })
                 localStorage.setItem('userinfo',JSON.stringify(this.authList))
-                this.$router.push('/index')
+                this.$router.replace('/index/user/back')
               } else {
                 var message = JSON.parse(res.text).message
                 this.$message.error(message);

@@ -25,7 +25,7 @@
 					<span>{{this.phone === null?'您尚未绑定手机，请尽快绑定手机号':'手机号码' + this.phone + '已验证'}}</span>
 
 					<span>
-						<button @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
+						<button :class="{disabled:btnDisabled}" disabled @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
 					</span>
 
 					<span>
@@ -269,6 +269,11 @@
 	.homepage_select ul li .err {
 		color: red;
 	}
+.homepage_select ul li button.disabled{
+
+    color: #bfcbd9;
+    text-decoration: none;
+}
 </style>
 
 <script>
@@ -280,6 +285,7 @@ export default {
 	name: 'HomePage',
 	data: function (){
 		return {
+			btnDisabled:false,
 			updateEmail: '',
 			name: '姓名',
 			userName: '用户名',
@@ -347,24 +353,17 @@ export default {
         .end((err, res) => {
           if (err) {
 						console.log('err2:' + err)
-						// var urlRegex = new RegExp("^" + host.replace(/8090/,"8080") +"$")
-						// var result = urlRegex.test(window.location.href)
-						// console.log(result)
-						// if(!result){
-						// 		console.log('session out')
-						// 		this.$router.push('/')
-						// }else{
-						// 		return false
-						// }
           } else {
 						var message = JSON.parse(res.text).message
-						// if(message === '用户登录超时'){
-						// 	window.location.href = host.replace(/8090/,"8080")
-						// }
 						if(JSON.parse(res.text).data){
 							this.name = JSON.parse(res.text).data.name
 							this.userName = JSON.parse(res.text).data.userName
 							this.phone = JSON.parse(res.text).data.phoneNo
+							if(this.phone){
+								this.btnDisabled = true
+							}else{
+								this.btnDisabled = false
+							}
 							this.telBinded = true
 							this.emailBinded = true
 						}

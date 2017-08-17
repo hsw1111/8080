@@ -222,7 +222,6 @@
         if (this.$store.state.timeline.length === 0) {
           return
         } else { 
-          alert(this.$route.query.type)
           request
           .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
             .withCredentials()
@@ -242,6 +241,7 @@
               console.log('error:', error)
               this.noData = true
             } else {
+              console.log(JSON.parse(res.text).data)
               if (JSON.parse(res.text).data.length === 0) {
                 $('#container').html('')
                 this.noData = true

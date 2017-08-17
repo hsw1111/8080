@@ -35,10 +35,14 @@
       :empty-text="emptyText"
       style="width: 100%">
       <el-table-column
-        prop="bikeCode"
         label="车辆编号"
         min-width="10%"
         >
+         <template scope="scope">
+            <!-- <a>{{scope.row.bikeCode}}</a> -->
+            <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/index/carManager/carUseDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
+            <!-- <a @click="$router.push({path:'/carUseDetail', query: {code:scope.row.bikeCode}})">{{scope.row.bikeCode}}</a>  -->
+          </template>
       </el-table-column>
       <el-table-column
         prop="placeOrderTime"
@@ -70,7 +74,7 @@
        >
       </el-table-column>
       <el-table-column
-        prop="userPayAmount"
+        prop="balanceAmount"
         label="实际收益（元）"
         min-width="15%"
        >
@@ -626,12 +630,19 @@ export default {
           type: 'warning'
         })
       } else {
-        this.startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:MM:SS')
-        this.endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:MM:SS')
+        if(this.timeLine[0]&&this.timeLine[1]){
+          this.startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:MM:SS')
+          this.endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:MM:SS')
+        }else{
+          this.startTime = ''
+          this.endTime = ''
+        }
+        
         this.loading2 = true
         this.loadData(this.currentPage3)
         this.spceTime = true
       }
+      this.form
     }
   },
   created () {

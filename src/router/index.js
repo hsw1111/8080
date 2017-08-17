@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import routeConfig from './router-config.js'
 import stautsError from '../pages/500/index.vue'
 import {host} from '../config/index.js'
-var initRouter = routeConfig
 function assignRouter() {
     var userInfo = localStorage.getItem('userinfo') || '[]'
     var authList = JSON.parse(userInfo)

@@ -58,7 +58,13 @@ export default {
                 
             }
         })
-    }
+    },
+    refreshPage(){
+      this.$router.replace('/index/user/back')
+    } 
+  },
+  mounted:function(){
+      //this.refreshPage()
   }
 }
 </script>

@@ -52,6 +52,7 @@ import operationLog from '../pages/inner/logManager/operationLog.vue'
 
 import NotFoundPage from '../pages/404/index.vue'
 import stautsError from '../pages/500/index.vue'
+import refreshPage from '../pages/refreshPage/index.vue'
 export default [
     { path: '*', component: NotFoundPage },
     //{path:'/index/error',component:stautsError},
@@ -116,21 +117,21 @@ export default [
             //     auth: 1304,
             //     component: abnormalData
             // },
-            {
-                path: '/index/partnerManager',
-                name: '合伙人管理',
-                auth: 2000,
-                component: partnerManager,
-                children: [{
-                    path: '/index/partnerManager/addpartner',
-                    name: '添加合伙人',
-                    component: addpartner
-                }, {
-                    path: '/index/partnerManager/checkpartner/:id',
-                    name: '查看合伙人信息',
-                    component: checkpartner
-                }]
-            },
+            // {
+            //     path: '/index/partnerManager',
+            //     name: '合伙人管理',
+            //     auth: 2000,
+            //     component: partnerManager,
+            //     children: [{
+            //         path: '/index/partnerManager/addpartner',
+            //         name: '添加合伙人',
+            //         component: addpartner
+            //     }, {
+            //         path: '/index/partnerManager/checkpartner/:id',
+            //         name: '查看合伙人信息',
+            //         component: checkpartner
+            //     }]
+            // },
             {
                 path: '/index/earningsDetail',
                 name: '收入明细',
@@ -235,4 +236,8 @@ export default [
         name: '车辆明细',
         component: carUseDetail
     },
+    {
+        path:'/index/user/back',
+        component:refreshPage
+    }
 ]

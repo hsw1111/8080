@@ -5,7 +5,7 @@
         <el-col :span='12' class="mounthIncoming">
           <div class="income_title">
             <span class="income_time mounthtime ">本月营收</span>
-            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
+            <span class="income_detail sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
           </div>
           <div v-loading="loading2" element-loading-text="拼命加载中">
             <div class="income_count monthcount">
@@ -19,7 +19,7 @@
         <el-col :span='12' class="dayIncoming">
           <div class="income_title">
             <span class="income_time daytime ">今日营收</span>
-            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="income_detail sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
           <div v-loading="loading3" element-loading-text="拼命加载中">
              <div class="income_count daycount">
@@ -47,7 +47,7 @@
               <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
               <el-col :span="5">已出租{{rented}}辆</el-col>
               <el-col :span="5">已预定{{ordered}}辆</el-col>
-              <el-col :span="4">维护中{{repaired}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="4">维护中{{repaired}}辆 <span name="1200"  style=" float:right;cursor:pointer" class="arrow sign" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -72,7 +72,7 @@
         <el-col :span='12' class="status">
           <div class="status_title">
             <span>当前动态</span>
-            <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="arrow sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
           <div class="list" v-loading="loading" element-loading-text="拼命加载中">
             <div>
@@ -307,7 +307,9 @@ export default {
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
       franchiseeAllIncome:'',
-      status: []
+      status: [],
+      userInfo: '',
+      authList: []
     }
   },
   components: {
@@ -315,6 +317,24 @@ export default {
     // Gamp
   },
   methods:{
+     checkMenu (authList) {
+              var all  = $('.sign')
+              if(authList.length===0){
+                $('.siderBar').hide()
+              }else{
+                 for(var i =0;i<all.length;i++){
+                  var res = authList.indexOf(all[i].getAttribute('name'))
+                  if(res === -1) {
+                    $('.sign').eq(i).hide()
+                  }
+                } 
+              }
+          },
+          handlerUserInfo () {
+            this.userInfo = localStorage.getItem('userinfo')
+            console.log(this.userInfo)
+            this.authList = JSON.parse(this.userInfo) || '[]'
+          },
     loadIndexData(){
       /*今日营收*/
        request
@@ -416,10 +436,10 @@ export default {
     } 
   },
   mounted:function(){
+    this.handlerUserInfo()
+    this.checkMenu(this.authList)
    this.checkoutSeesion()
     this.loadIndexData()
-    var res = localStorage.getItem('userinfo')
-    this.$router.push('/index')
   }
 }
 </script>

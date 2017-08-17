@@ -10,7 +10,7 @@
               </span>
             </h1>
 					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-							<el-form-item label="原始密码" prop="oldPassword" style="width: 500px;">
+							<el-form-item label="原始密码" prop="checkOldPass" style="width: 500px;">
 								<el-input type="password" v-model="ruleForm.oldPassword" placeholder='请输入原密码'></el-input>
 							</el-form-item>
 							<el-form-item label="新密码" prop="pass" style="width: 500px;">
@@ -136,6 +136,9 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
+        if(6<=value.trim().length<=20){
+          callback(new Error('密码字母数字下划线长度6-20'))
+        }
         if (this.ruleForm.checkPass !== '') {
           this.$refs.ruleForm.validateField('checkPass')
         }
@@ -164,7 +167,8 @@ export default {
         ],
         checkPass: [
           { validator: validateCheckPass, trigger: 'blur' }
-        ]
+        ],
+        checkOldPass:[{ required: true, message: '请输入活动名称', trigger: 'blur' }]
       }
     }
   },

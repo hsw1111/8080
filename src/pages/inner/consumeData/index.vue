@@ -114,29 +114,177 @@ export default {
         var newObj = {startTime:'',endTime:''}
         this.$store.commit('setTimeLine', newObj)
       } else {
-        if( this.datetype === 'daily'){
-           var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
-            var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
-            var newObj = {}
-            newObj.startTime = timeStart
-            newObj.endTime = timeEnd
-        }else if(this.datetype === 'weekly'){
-           var timeStart = moment(this.form.data1).format('YYYY年第WW周')
-            var timeEnd = moment(this.form.data2).format('YYYY年第WW周')
-            var newObj = {}
-            newObj.startTime = timeStart
-            newObj.endTime = timeEnd
+         var _startTime = new Date(this.form.data1).getTime()
+          var _endTime = new Date(this.form.data2).getTime()
+          _endTime = isNaN(_endTime) ? 0 : _endTime
+          _startTime = isNaN(_startTime) ? 0 : _startTime
+          console.log(_endTime, _startTime)
+           var _startTime = new Date(this.form.data1).getTime()
+        var _endTime = new Date(this.form.data2).getTime()
+        _endTime = isNaN(_endTime) ? 0 : _endTime
+        _startTime = isNaN(_startTime) ? 0 : _startTime
+        console.log(_endTime, _startTime)
+        if (_endTime > _startTime) {
+          if (_endTime > 1 && _startTime <= 1) {
+            this.$message({
+              type: 'error',
+              message: '开始日期不能为空'
+            })
+          } else {
+                if( this.datetype === 'daily'){
+                  var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
+                    var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }else if(this.datetype === 'weekly'){
+                  var timeStart = moment(this.form.data1).format('YYYY年第WW周')
+                    var timeEnd = moment(this.form.data2).format('YYYY年第WW周')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }else{
+                  var timeStart = moment(this.form.data1).format('YYYY-MM')
+                    var timeEnd = moment(this.form.data2).format('YYYY-MM')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }
+                this.$store.commit('setTimeLine', newObj)
+                //this.form.data1 = ''
+                //this.form.data2 = ''
+              }
         }else{
-           var timeStart = moment(this.form.data1).format('YYYY-MM')
-            var timeEnd = moment(this.form.data2).format('YYYY-MM')
-            var newObj = {}
-            newObj.startTime = timeStart
-            newObj.endTime = timeEnd
+           if (_endTime < _startTime) {
+            this.$message({
+              type: 'error',
+              message: '开始日期不能大于结束日期'
+            })
+          }else{
+            if( this.datetype === 'daily'){
+                  var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
+                    var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }else if(this.datetype === 'weekly'){
+                  var timeStart = moment(this.form.data1).format('YYYY年第WW周')
+                    var timeEnd = moment(this.form.data2).format('YYYY年第WW周')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }else{
+                  var timeStart = moment(this.form.data1).format('YYYY-MM')
+                    var timeEnd = moment(this.form.data2).format('YYYY-MM')
+                    var newObj = {}
+                    newObj.startTime = timeStart
+                    newObj.endTime = timeEnd
+                }
+                this.$store.commit('setTimeLine', newObj)
+                //this.form.data1 = ''
+                //this.form.data2 = ''
+          }
         }
-        this.$store.commit('setTimeLine', newObj)
-        this.form.data1 = ''
-        this.form.data2 = ''
+        
       }
+    }
+  },
+  watch:{
+     "form.data1": {
+      handler: function (val, oldVal) {
+        if (val.toString().length === 0 && this.form.data2.toString().length === 0) {
+          var timeType = this.$route.query.type
+          if(timeType!=null){
+              if(timeType === 'daily') {
+              this.isDay = true
+              this.isWeek = false
+              this.isMonth = false
+              
+            }else if(timeType === 'weekly') {
+              this.isDay = false
+              this.isWeek = true
+              this.isMonth = false
+            
+            }else {
+              this.isDay = false
+              this.isWeek = false
+              this.isMonth = true
+              
+            }
+          }else{
+            console.log($('button.active').text())
+          }
+          
+          this.$store.commit('recodeConsumeDataType',timeType)
+          this.getDateByTimeLine()
+        }
+        var startTime = new Date(val).getTime()
+        var endTime = new Date(this.form.data2).getTime()
+        endTime = isNaN(endTime) ? 0 : endTime
+        console.log(endTime.toString().length)
+        if ((startTime > endTime) && endTime.toString().length > 1) {
+          this.$message({
+            type: 'error',
+            message: '开始日期不能大于结束日期'
+          })
+        } else if ((startTime > endTime) && endTime.toString().length === 1) {
+          this.$message({
+            type: 'error',
+            message: '请输入结束日期'
+          })
+        } else {
+          return
+        }
+      },
+      deep: true
+    },
+    "form.data2": {
+      handler: function (val, oldVal) {
+        if (val.toString().length === 0 && this.form.data1.toString().length === 0 ) {
+          var timeType = this.$route.query.type
+          if(timeType!=null){
+              if(timeType === 'daily') {
+              this.isDay = true
+              this.isWeek = false
+              this.isMonth = false
+              
+            }else if(timeType === 'weekly') {
+              this.isDay = false
+              this.isWeek = true
+              this.isMonth = false
+            
+            }else {
+              this.isDay = false
+              this.isWeek = false
+              this.isMonth = true
+              
+            }
+          }else{
+            console.log($('button.active').text())
+          }
+          
+          this.$store.commit('recodeConsumeDataType',timeType)
+          this.getDateByTimeLine()
+        }
+        var endTime = new Date(val).getTime()
+        var startTime = new Date(this.form.data1).getTime()
+        startTime = isNaN(startTime) ? 0 : startTime
+        console.log(startTime.toString().length)
+        if ((endTime < startTime) && startTime.toString().length > 1) {
+          this.$message({
+            type: 'error',
+            message: '开始日期不能大于结束日期'
+          })
+        } else if ((endTime > startTime) && startTime.toString().length === 1) {
+          this.$message({
+            type: 'error',
+            message: '开始日期不能为空'
+          })
+        } else {
+          return
+        }
+      },
+      deep: true
     }
   }
 }

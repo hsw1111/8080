@@ -3,7 +3,7 @@
     <div id="am_search">
       <label>
         <span>关键字</span>
-        <input type="text" placeholder="账号/用户名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input">
+        <input type="text" placeholder="用户名/姓名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input">
       </label>
       <label>
         <span>联系方式</span>
@@ -119,7 +119,7 @@ export default {
         index: ''
       },
       editAccountRule: {
-        userId: [{ required: true, trigger: 'blur', message: '请输入用户名' }]
+        userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }]
       }
     }
   },
