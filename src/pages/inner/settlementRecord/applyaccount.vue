@@ -21,12 +21,12 @@
             :disabled="true">
           </el-input>
         </li>
-        <li>可结算金额:     &nbsp;&nbsp;&nbsp;{{allMoney[currentIndex]}} <b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
+        <li>可结算金额:     &nbsp;&nbsp;&nbsp;<span class="diffMoney" style="font-size: 16px;color: #000;"> 0.67</span><b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
           <span>*每月结算一次，结算金额=上个月所有车辆的盈利*80%+以前遗留的未结算金额。</span>
         </li>
         <li>
           申请结算金额：
-          <input v-show="moneyIn" :value="allMoney[currentIndex]" readonly  ref="my_val" id="apply_money">
+          <input v-show="moneyIn" :value="allMoney[currentIndex]" v-model="appleySetMoney"   ref="my_val" id="apply_money">
           
           <el-input style="width:120px;background:none;"
             placeholder="暂无未结算金额"
@@ -88,6 +88,7 @@ import {host} from '../../../config/index'
 export default {
   data() {
     return {
+      appleySetMoney:'',
       isApply:false,
       currentPage3:1,
       totalItems:1,
@@ -113,6 +114,17 @@ export default {
     }
   },
   methods: {
+    testMoney(){
+      var flag = Number(this.appleySetMoney) > Number($('.diffMoney').text())
+      if(flag){
+        this.$message({
+          type:'error',
+          message:'最大可结算金额为' + $('.diffMoney').text()
+        })
+      }
+      return !flag
+      
+    },
     loadData(){
        request
         .post(host + 'beepartner/franchisee/withDraw/applyWithDraw')
@@ -157,11 +169,13 @@ export default {
         })
     },
     withDrawMoney () {
+     
       this.isApply = false
       //alert(this.currentCode)
       var that = this
       const h = that.$createElement
-      that.$msgbox({
+       if(this.testMoney()){
+         that.$msgbox({
         title: '提现申请确认',
         message: h('p', null, [
           h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
@@ -173,6 +187,8 @@ export default {
         beforeClose: (action, instance, done) => {
             var that = this
             if (action === 'confirm') {
+              alert(this.appleySetMoney)
+              return
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '结算中...';
               setTimeout(() => {
@@ -221,7 +237,8 @@ export default {
           //   type: 'info',
           //   message: 'action: ' + action
           // });
-        });
+        }); 
+      }
     },
      handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
