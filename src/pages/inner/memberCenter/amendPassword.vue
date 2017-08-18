@@ -9,8 +9,8 @@
                 </a>
               </span>
             </h1>
-					<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-							<el-form-item label="原始密码" prop="checkOldPass" style="width: 500px;">
+					<el-form :model="ruleForm" :rules="modifyRules" ref="modifyRulesForm" label-width="100px" class="demo-ruleForm">
+							<el-form-item label="原始密码" prop="oldPassword" style="width: 500px;">
 								<el-input type="password" v-model="ruleForm.oldPassword" placeholder='请输入原密码'></el-input>
 							</el-form-item>
 							<el-form-item label="新密码" prop="pass" style="width: 500px;">
@@ -136,12 +136,16 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        if(6<=value.trim().length<=20){
+        if(6>value.trim().length||value.trim().length>20){
           callback(new Error('请使用6-20位字符，包含字母、数字、下划线'))
         }
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
-        }
+        callback()
+      }
+    }
+    var validateOldPass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入原始密码'))
+      } else {
         callback()
       }
     }
@@ -161,21 +165,23 @@ export default {
         pass: '',
         checkPass: ''
       },
-      rules: {
+      modifyRules: {
         pass: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: validatePass, trigger: 'blur',required:true }
         ],
         checkPass: [
-          { validator: validateCheckPass, trigger: 'blur' }
+          { validator: validateCheckPass, trigger: 'blur',required:true }
         ],
-        checkOldPass:[{ required: true, message: '请输入活动名称', trigger: 'blur' }]
+        oldPassword:[{validator:validateOldPass, trigger: 'blur',required:true} ]
       }
     }
   },
   methods: {
     modifyPass () {
       var that = this
-      this.$refs.ruleForm.validate((valid) => {
+      console.log(this.$refs)
+      return
+      this.$refs.modifyRulesForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认修改吗?', '提示', {
             confirmButtonText: '确定',
