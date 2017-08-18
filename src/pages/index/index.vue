@@ -38,7 +38,7 @@
         siderBar
       },
      mounted:function () {
-       this.isMenu()
+       //this.isMenu()
      },
       methods: {
         isMenu () {

@@ -146,7 +146,8 @@ export default {
           { required: true, message: '请输入用户名', trigger: 'blur' },
         ],
         passWord: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {min:6,max:20,message:'请使用6-20位字符，包含字母、数字、下划线'}
         ]
       },
       findFormRule: {

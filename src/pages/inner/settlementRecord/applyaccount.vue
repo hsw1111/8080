@@ -128,7 +128,7 @@ export default {
            cell:true
          },
          attrs:{
-           style:'background:#eee'
+           style:'background:#eee;margin-left:-20px;'
          }
        },[
          h('span','实际收益'),

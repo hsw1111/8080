@@ -17,12 +17,13 @@ function assignRouter() {
         })
     })
     console.log(authList)
-   if(authList.length===0){
-       //{path:'/index/error',component:stautsError}
-        routeConfig[3] = Object.assign({},routeConfig[3],{children:[{path:'/',component:stautsError}]})
-    }else{
-        routeConfig[3] = Object.assign({},routeConfig[3],{children:arr})
-    }
+//    if(authList.length===0){
+//        //{path:'/index/error',component:stautsError}
+//         routeConfig[3] = Object.assign({},routeConfig[3],{children:[{path:'/',component:stautsError}]})
+//     }else{
+//         routeConfig[3] = Object.assign({},routeConfig[3],{children:arr})
+//     }
+    routeConfig[3] = Object.assign({},routeConfig[3],{children:arr})
     //routeConfig[3] = Object.assign({},routeConfig[3],{children:arr})
     routeConfig.splice(3,1, routeConfig[3])
 }

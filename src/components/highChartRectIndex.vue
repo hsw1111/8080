@@ -1,5 +1,5 @@
 <template>
-   <div id="container" v-loading="loading" element-loading-text="拼命加载中"></div>
+   <div id="container" v-loading="loading"></div>
 </template>
 <script>
   var Highcharts = require('highcharts')

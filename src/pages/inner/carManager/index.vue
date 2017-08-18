@@ -290,7 +290,7 @@ export default {
                   var newData = this.tableDataDel(data)
                   this.pagetotal = (JSON.parse(res.text)).totalPage
                   this.tableData = newData
-                  this.totalItems = (JSON.parse(res.text)).totalItems
+                  this.totalItems = Number((JSON.parse(res.text)).totalItems)
                   // loading 关闭
                   this.loading2 = false
                   if (this.pagetotal > 1) {

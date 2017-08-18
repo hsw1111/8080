@@ -60,27 +60,28 @@
               :data="tableData"
               style="width:100%"
               v-loading="loading2"
+              :empty-text='emptyText'
               element-loading-text="拼命加载中"
             >
-              <el-table-column prop="placeOrderTimeStr" label="下单时间">
+              <el-table-column prop="placeOrderTimeStr" label="下单时间" min-width="15%">
               </el-table-column>
               <el-table-column label="骑行时间（分钟）" prop="rideTime"
-              min-width="10%"
+              min-width="15%"
               >
 
               </el-table-column>
-              <el-table-column label="里程（公里）" prop="rideMileage">
+              <el-table-column label="骑行里程（公里）" min-width="15%" prop="rideMileage">
 
               </el-table-column>
-              <el-table-column label="订单费用" prop="actualAmount">
+              <el-table-column label="订单费用" prop="actualAmount" min-width="10%">
 
               </el-table-column>
-              <el-table-column label="优惠券支付" prop="couponAmount">
+              <el-table-column label="优惠券支付" prop="couponAmount" min-width="12%">
 
               </el-table-column>
               <el-table-column label="实际收益" prop="userPayAmount"
                  :render-header="rendHeader"
-                 min-width="10%"
+                 min-width="15%"
               >
 
               </el-table-column>
@@ -185,6 +186,7 @@ export default {
       currentPage3:1,
       pageShow:false,
       totalItems:1,
+      emptyText:' ',
       tableData:[],
       router: this.$route.query.carNum,
       activeName: 'first',
@@ -209,7 +211,7 @@ export default {
     //this.bikeInfo.code = '000000009' 
     this.loading2 = true
     this.bikeInfo.code = this.$route.query.code
-    request.post(host + 'beepartner/franchisee/bike/getBikeDetail')
+    request.post(host + 'beepartner/admin/Bike/getBikeDetail')
      .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -221,17 +223,19 @@ export default {
         if(error){
           console.log(error)
            this.loading2 = false
+           this.emptyText = '暂无数据'
         }else {
            this.loading2 = false
           this.bikeInfo = Object.assign({},JSON.parse(res.text).bike,{onlineTime:moment(JSON.parse(res.text).bike.onlineTime).format('YYYY-MM-DD')})
-
           this.tableData = JSON.parse(res.text).data
           this.totalPage = JSON.parse(res.text).totalPage
           this.totalItems = Number(JSON.parse(res.text).totalItems)
             if(this.totalPage>1){
               this.pageShow  = true
+               this.emptyText = ' '
             }else {
               this.pageShow = false
+               this.emptyText = '暂无数据'
             }
           }
       })
@@ -252,7 +256,7 @@ export default {
            cell:true
          },
          attrs:{
-           style:'background:#eee'
+           style:'background:#eee;margin-left:-20px;'
          }
        },[
          h('span','实际收益'),
