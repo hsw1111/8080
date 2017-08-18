@@ -137,7 +137,7 @@ export default {
         callback(new Error('请输入密码'))
       } else {
         if(6<=value.trim().length<=20){
-          callback(new Error('密码字母数字下划线长度6-20'))
+          callback(new Error('请使用6-20位字符，包含字母、数字、下划线'))
         }
         if (this.ruleForm.checkPass !== '') {
           this.$refs.ruleForm.validateField('checkPass')

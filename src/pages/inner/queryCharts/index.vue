@@ -1,6 +1,7 @@
 <template>
   <div class="queryCharts">
     <el-row class="watchLists">
+      <span class="tips">*统计图只显示数据周期内的12个最近日期的柱状图，统计的数据为订单实际收益</span>
       <button class="btn_list" @click="handleClick">查看列表</button>
     </el-row>
     <el-row class="watchButton">
@@ -61,7 +62,7 @@ div.queryCharts div.watchLists button {
   margin-right: 0px;
   width: 137px;
 }
-
+div.queryCharts div.watchLists span.tips{float:left;font-size:14px;color:rgba(134,134,134,1);}
 div.queryCharts div.watchButton {
   margin-bottom: 20px;
   margin-top: 20px;

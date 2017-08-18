@@ -209,7 +209,7 @@ export default {
         userName: [{ validator: validateUserId, trigger: 'blur', required: true}],
         passWord: [
           { required: true, message: '请填写密码', trigger: 'blur' },
-          { min: 6, message: '密码应不少于6位', trigger: 'blur' }
+          { min: 6, max:20, message: '请使用6-20位字符，包含字母、数字、下划线', trigger: 'blur' }
         ],
         roleName:[{ validator: validateRole, trigger: 'change', required: true}],
         name: [
