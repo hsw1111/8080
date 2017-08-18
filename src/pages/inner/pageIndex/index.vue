@@ -387,9 +387,9 @@ export default {
             this.allCarsNum = this.cityPartner.bikeNum
             this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
             this.waitLend = this.allKindsCars[0].cnt
-            this.rented = this.allKindsCars[1].cnt
-            this.ordered = this.allKindsCars[2].cnt
-            this.repaired = this.allKindsCars[3].cnt
+            this.rented = this.allKindsCars[2].cnt
+            this.ordered = this.allKindsCars[3].cnt
+            this.repaired = this.allKindsCars[1].cnt
             this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
             this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
             this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
