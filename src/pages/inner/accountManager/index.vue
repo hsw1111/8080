@@ -306,8 +306,7 @@ export default {
       })
     },
     changeState(scope) {
-      //console.log(scope)
-      
+      console.log(scope)
       var that = this
       var initObj = Object.assign({}, scope.row, { status: scope.row.status })
       var obj = Object.assign({}, scope.row, { status: !scope.row.status })
@@ -315,7 +314,7 @@ export default {
       modifyAccountState(
         {
           id: scope.row.id,
-          status: scope.row.status===true ? 1 : 0,
+          status: scope.row.status === true?0:1
         }, function (error, res) {
           if (error) {
             console.log(error)
@@ -333,6 +332,7 @@ export default {
               })
               that.tableData.splice(scope.$index, 1, obj)
               that.loading = false
+              that.loadAccount()
             } else {
               that.$message({
                 type: 'error',
