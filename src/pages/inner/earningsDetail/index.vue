@@ -58,7 +58,7 @@
       <el-table-column
         prop="rideMileage"
         label="骑行里程（公里）"
-        min-width="10%"
+        min-width="15%"
         >
       </el-table-column>
       <el-table-column
@@ -74,8 +74,9 @@
        >
       </el-table-column>
       <el-table-column
+        :render-header="rendHeader"
         prop="balanceAmount"
-        label="实际收益（元）"
+        label="实际收益（元）?"
         min-width="15%"
        >
       </el-table-column>
@@ -115,42 +116,6 @@
     background: #fff;
     border: 1px solid #e7ecf1;
 	}
-
-  /*#earD_header .earD_con {
-    background: #f3f0f0;
-    padding: 10px;
-  }*/
-
-	/*#earD_header button {
-		width: 100px;
-    height: 30px;
-		font-size: 12px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    border-radius: 4px;
-		outline: none;
-    color: #878787;
-    border: 1px solid #cecece;
-    transition: all .2s linear 0s;
-	}
-
-	#earD_header button:nth-of-type(1) {
-		margin-left: 30px;
-	}*/
-
-	/*#earD_header button:hover {
-    background: rgb(66,66,66);
-    border: 1px solid rgb(66,66,66);
-		color: #fff;
-	}*/
-
-	/*#earD_header button.active {
-    font-size: 12px;
-    color: #fff;
-    background: rgba(66,66,66, 0.8);
-    border: 1px solid rgb(66,66,66);
-	}*/
 
   .el-table td:nth-of-type(1) .cell {
     color: #f60;
@@ -345,26 +310,39 @@ export default {
   mounted () {
     this.loading2 = true
     this.loadData(this.currentPage3)
-    // 点击切换查看类型
-    // $('#earD_header button').click('button', function () {
-    //   $('button.active').removeClass('active')
-    //   $(this).addClass('active')
-    // })
-    // var that = this
-    // $('.time_earning button').on('click', function (e) {
-    //   that.handleChangeType(e)
-    // })
-  },
-  beforeUpdate () {
-    var that = this
-    $('.M-box').click('a', function (e) {
-      that.pageUpdate(e)
-    })
-  }, 
-  beforeMount () {
-    //this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
   },
   methods: {
+    mouseEnterHandler(){
+      this.$notify.warning({
+        title: '温馨提示',
+        message: '实际收益就是用户实际支付的金额，但不等于订单费用减去优惠券支付金额；优惠券支付的金额可能大于订单费用；例如某笔订单骑行费用是3元，然后用户可能是用5元的优惠券抵扣的。',
+        offset: 100
+      });
+    },
+    rendHeader(h,{column,$index}){
+       return  h('div',{
+         class:{
+           tips:true,
+           cell:true
+         },
+         attrs:{
+           style:'background:#eee'
+         }
+       },[
+         h('span','实际收益'),
+         h('i',{
+           class:{
+             'icon iconfont icon-wenhao':true
+           },
+           attrs:{
+             style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
+           },
+           on: {
+            mouseenter: this.mouseEnterHandler
+          }
+         })
+       ])
+    },
     loadData (currentPage) {
       var type = this.$route.query.type
       if(type === 'getRevenueCurDay') {

@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import Element from 'element-ui'
-import './assets/font/iconfont.css'
+//import './assets/font/iconfont.css'
 import router from './router/index.js'
 import store from './store/store'
 import Vuex from 'vuex'

@@ -146,7 +146,7 @@ export default {
                 this.pageShow = false
                 this.emptyText = ' 暂无数据'
               }
-              this.totalItems = JSON.parse((JSON.parse(res.text)).totalItems)
+              this.totalItems = Number(JSON.parse((JSON.parse(res.text)).totalItems))
               // loading 关闭
               this.loading2 = false
               this.tableData = newData

@@ -21,11 +21,11 @@
 						<i v-else class="iconfont err">&#xe600;</i>
 					</span>
 					<span>手机验证</span>
-					<span>{{this.phone === null?'未绑定':'已绑定'}}</span>
-					<span>{{this.phone === null?'您尚未绑定手机，请尽快绑定手机号':'手机号码' + this.phone + '已验证'}}</span>
+					<span>{{this.phoneNoBand === 0?'未绑定':'已绑定'}}</span>
+					<span>{{this.phoneNoBand === 0?'您的手机号' +this.phone+ '尚未绑定，请尽快绑定账号':'手机号码' + this.phone + '已验证'}}</span>
 
 					<span>
-						<button :class="{disabled:btnDisabled}" disabled @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
+						<button :class="{disabled:btnDisabled}" :disabled="btnDisabled" @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
 					</span>
 
 					<span>
@@ -270,7 +270,6 @@
 		color: red;
 	}
 .homepage_select ul li button.disabled{
-
     color: #bfcbd9;
     text-decoration: none;
 }
@@ -285,6 +284,7 @@ export default {
 	name: 'HomePage',
 	data: function (){
 		return {
+			phoneNoBand:'',
 			btnDisabled:false,
 			updateEmail: '',
 			name: '姓名',
@@ -359,13 +359,15 @@ export default {
 							this.name = JSON.parse(res.text).data.name
 							this.userName = JSON.parse(res.text).data.userName
 							this.phone = JSON.parse(res.text).data.phoneNo
-							if(this.phone){
-								this.btnDisabled = true
-							}else{
+							this.phoneNoBand = JSON.parse(res.text).data.phoneNoBand
+							if(this.phoneNoBand===0){
 								this.btnDisabled = false
+								this.telBinded = false
+							}else{
+								this.btnDisabled = true
+								this.telBinded = true
 							}
-							this.telBinded = true
-							this.emailBinded = true
+							
 						}
           }
         })

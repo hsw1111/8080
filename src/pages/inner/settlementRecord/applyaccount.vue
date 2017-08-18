@@ -49,13 +49,13 @@
           :data="tableData"
           :empty-text="emptyText" 
           style="width: 100%; font-size:13px;">
-        <el-table-column prop="placeOrderTimeStr" label="下单时间" min-width="200"></el-table-column>
-        <el-table-column prop="rideTime" label="骑行时间（分钟）" min-width="150"></el-table-column>
-        <el-table-column prop="rideMileage" label="骑行历程（公里）" min-width="180"></el-table-column>
-        <el-table-column prop="actualAmount" label="订单费用"></el-table-column>
+        <el-table-column prop="placeOrderTimeStr" label="下单时间" min-width="10%"></el-table-column>
+        <el-table-column prop="rideTime" label="骑行时间（分钟）" min-width="10%"></el-table-column>
+        <el-table-column prop="rideMileage" label="骑行历程（公里）" min-width="10%"></el-table-column>
+        <el-table-column prop="actualAmount" label="订单费用" min-width="10%"></el-table-column>
         <!-- <el-table-column prop="bike_number" label="车牌号" min-width="150"></el-table-column> -->
-        <el-table-column prop="couponAmount" label="优惠券支付" min-width="150"></el-table-column>
-        <el-table-column prop="userPayAmount" label="实际收益（元）" min-width="150"></el-table-column>
+        <el-table-column prop="couponAmount" label="优惠券支付" min-width="10%"></el-table-column>
+        <el-table-column prop="userPayAmount" label="实际收益（元）"  :render-header="rendHeader" min-width="10%" ></el-table-column>
       </el-table>
       <el-pagination
         @size-change="handleSizeChange"
@@ -114,6 +114,37 @@ export default {
     }
   },
   methods: {
+    mouseEnterHandler(){
+      this.$notify.warning({
+        title: '温馨提示',
+        message: '实际收益就是用户实际支付的金额，但不等于订单费用减去优惠券支付金额；优惠券支付的金额可能大于订单费用；例如某笔订单骑行费用是3元，然后用户可能是用5元的优惠券抵扣的。',
+        offset: 100
+      });
+    },
+    rendHeader(h,{column,$index}){
+       return  h('div',{
+         class:{
+           tips:true,
+           cell:true
+         },
+         attrs:{
+           style:'background:#eee'
+         }
+       },[
+         h('span','实际收益'),
+         h('i',{
+           class:{
+             'icon iconfont icon-wenhao':true
+           },
+           attrs:{
+             style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
+           },
+           on: {
+            mouseenter: this.mouseEnterHandler
+          }
+         })
+       ])
+    },
     testMoney(){
       var flag = Number(this.appleySetMoney) > Number($('.diffMoney').text())
       if(flag){
