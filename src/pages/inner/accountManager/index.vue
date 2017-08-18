@@ -315,7 +315,7 @@ export default {
       modifyAccountState(
         {
           id: scope.row.id,
-          status: scope.row.status ? 1 : 0,
+          status: scope.row.status===true ? 1 : 0,
         }, function (error, res) {
           if (error) {
             console.log(error)
