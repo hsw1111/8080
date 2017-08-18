@@ -102,7 +102,7 @@
           </el-col>
           <el-col :span="8">
             待结算<span class="wait">￥{{canWidthDrawMoney}}</span>
-            <el-button class="withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
+            <el-button class="withdrawal sign" name="1402" @click="$router.push('/index/settlementRecord')">结算</el-button>
           </el-col>
         </el-row>
       </div>
