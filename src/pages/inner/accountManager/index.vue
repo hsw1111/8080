@@ -308,8 +308,6 @@ export default {
     changeState(scope) {
       console.log(scope)
       var that = this
-      var initObj = Object.assign({}, scope.row, { status: scope.row.status })
-      var obj = Object.assign({}, scope.row, { status: !scope.row.status })
       this.loading = true
       modifyAccountState(
         {
@@ -322,7 +320,6 @@ export default {
               type: 'error',
               message: '对不起，修改失败'
             })
-            that.tableData.splice(scope.$index, 1, initObj)
           } else {
             var code = JSON.parse(res.text).resultCode
             if (code === 1) {
@@ -330,7 +327,6 @@ export default {
                 type: 'success',
                 message: '恭喜你，修改成功'
               })
-              that.tableData.splice(scope.$index, 1, obj)
               that.loading = false
               that.loadAccount()
             } else {
@@ -338,7 +334,6 @@ export default {
                 type: 'error',
                 message: '对不起，修改失败'
               })
-              that.tableData.splice(scope.$index, 1, initObj)
               that.loading = false
             }
           }

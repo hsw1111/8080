@@ -34,14 +34,9 @@
         <el-table-column
           min-width="80"
           label="实际收益（元） ?"
-          prop='actualMoney'>
-          <template scope="scope">
-            <el-tooltip placement="top">
-              <!--<div slot="content">多行信息<br/>第二行信息</div>
-              <el-button>Top center</el-button>-->
-            </el-tooltip>
-            <span>11</span>
-          </template>
+          prop='actualMoney'
+           :render-header="rendHeader"
+          >
         </el-table-column>
       </el-table>
     </div>
@@ -145,6 +140,37 @@ export default {
     }
   },
   methods: {
+     mouseEnterHandler(){
+      this.$notify.warning({
+        title: '温馨提示',
+        message: '实际收益就是用户实际支付的金额，但不等于订单费用减去优惠券支付金额；优惠券支付的金额可能大于订单费用；例如某笔订单骑行费用是3元，然后用户可能是用5元的优惠券抵扣的。',
+        offset: 100
+      });
+    },
+    rendHeader(h,{column,$index}){
+       return  h('div',{
+         class:{
+           tips:true,
+           cell:true
+         },
+         attrs:{
+           style:'background:#eee;margin-left:-20px;'
+         }
+       },[
+         h('span','实际收益'),
+         h('i',{
+           class:{
+             'icon iconfont icon-wenhao':true
+           },
+           attrs:{
+             style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
+           },
+           on: {
+            mouseenter: this.mouseEnterHandler
+          }
+         })
+       ])
+    },
     handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
