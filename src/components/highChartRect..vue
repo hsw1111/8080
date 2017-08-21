@@ -47,6 +47,7 @@
           this.noData = true
         } else {
           if (JSON.parse(res.text).data.length === 0) {
+            console.log( $('#container'))
             $('#container').html('')
             this.noData = true
           } else {
@@ -62,82 +63,137 @@
     methods: {
       createChartsShap () {
          // 创建图表
+        // Highcharts.chart('container', {
+        //   /** Highcharts 配置 */
+        //   lang: {
+        //     printChart: '打印图表',
+        //     contextButtonTitle: '图表导出菜单',
+        //     decimalPoint: '.',
+        //     downloadJPEG: '下载JPEG图片',
+        //     downloadPDF: '下载PDF文件',
+        //     downloadPNG: '下载PNG文件',
+        //     downloadSVG: '下载SVG文件'
+        //   },
+        //   chart: {
+        //     type: 'column',
+        //     backgroundColor: 'rgba(255,255,255,0)'                        // 指定图表的类型，默认是折线图（line）
+        //   },
+        //   title: {
+        //     text: ''                 // 指定图表标题
+        //   },
+        //   xAxis: {
+        //     categories: this.x_data,
+        //     crosshair: true
+        //   },
+        //   yAxis: [
+        //     {
+        //       title: {
+        //         text: ''
+        //       }
+        //     }
+        //   ],
+        //   credits: {
+        //     enabled: true,
+        //     text:"北京蜜蜂出行科技有限公司",  
+        //     href: "http://www.mmuu.com" 
+        //   },
+        //   exporting:{  
+        //     enabled: false //用来设置是否显示‘打印’,'导出'等功能按钮，不设置时默认为显示  
+        //   },  
+        //   legend: {
+        //     layout: 'vertical',
+        //     align: 'left',
+        //     verticalAlign: 'top',
+        //     borderWidth: 0
+        //   },
+        //   series: [
+        //     {
+        //       name: ' Employees',
+        //       color: '#996600',
+        //       data: this.orderNumber,
+        //       tooltip: {
+        //         valueSuffix: '单',
+        //         useHTML: true,
+        //         headerFormat: '<span style="font-size: 12px">日期: {point.key}</span><br/>',
+        //         pointFormatter: function () {
+        //           return '<span style="color:{' + this.series.color + '}"></span>单数: <b>' + this.y + '</b>'
+        //         }
+        //       }
+        //     },
+        //     {
+        //       name: ' Profit',
+        //       color: '#00cdcd',
+        //       data: this.consumeMoney,
+        //       tooltip: {
+        //         valuePrefix: '￥',
+        //         useHTML: true,
+        //         headerFormat: '<span style="font-size: 12px">日期: {point.key}</span><br/>',
+        //         pointFormatter: function () {
+        //           return '<span style="color:{' + this.series.color + '}"></span>金额: <b>￥' + this.y + '</b>'
+        //         }
+        //       }
+        //     }
+        //   ]
+
+        // })
         Highcharts.chart('container', {
-          /** Highcharts 配置 */
-          lang: {
-            printChart: '打印图表',
-            contextButtonTitle: '图表导出菜单',
-            decimalPoint: '.',
-            downloadJPEG: '下载JPEG图片',
-            downloadPDF: '下载PDF文件',
-            downloadPNG: '下载PNG文件',
-            downloadSVG: '下载SVG文件'
-          },
-          chart: {
-            type: 'column',
-            backgroundColor: 'rgba(255,255,255,0)'                        // 指定图表的类型，默认是折线图（line）
-          },
-          title: {
-            text: ''                 // 指定图表标题
-          },
-          xAxis: {
-            categories: this.x_data,
-            crosshair: true
-          },
-          yAxis: {
-            title: {
-              text: ''
-            },
-            plotLines: [{
-              value: 0,
-              width: 1,
-              color: '#808080'
-            }]
-          },
-          credits: {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: ' '
+    },
+    xAxis: {
+        categories: this.x_data
+    },
+    yAxis: [{
+        min: 0,
+        title: {
+            text: '单数'
+        }
+    }, {
+        title: {
+            text: '利润'
+        },
+        opposite: true
+    }],
+     credits: {
             enabled: true,
             text:"北京蜜蜂出行科技有限公司",  
-            href: "http://www.mmuu.com" 
+            href: "javascript:void(0)" 
           },
-          exporting:{  
-            enabled: false //用来设置是否显示‘打印’,'导出'等功能按钮，不设置时默认为显示  
-          },  
-          legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
+    legend: {
+        shadow: false
+    },
+    tooltip: {
+        shared: true
+    },
+    plotOptions: {
+        column: {
+            grouping: false,
+            shadow: false,
             borderWidth: 0
-          },
-          series: [
-            {
-              name: ' ',
-              color: '#996600',
-              data: this.orderNumber,
-              tooltip: {
-                valueSuffix: '单',
-                useHTML: true,
-                headerFormat: '<span style="font-size: 12px">日期: {point.key}</span><br/>',
-                pointFormatter: function () {
-                  return '<span style="color:{' + this.series.color + '}"></span>单数: <b>' + this.y + '</b>'
-                }
-              }
-            },
-            {
-              name: ' ',
-              color: '#00cdcd',
-              data: this.consumeMoney,
-              tooltip: {
-                valuePrefix: '￥',
-                useHTML: true,
-                headerFormat: '<span style="font-size: 12px">日期: {point.key}</span><br/>',
-                pointFormatter: function () {
-                  return '<span style="color:{' + this.series.color + '}"></span>金额: <b>￥' + this.y + '</b>'
-                }
-              }
-            }
-          ]
-
-        })
+        }
+    },
+    series: [{
+        name: '单数',
+        color: 'rgba(165,170,217,1)',
+        data: this.orderNumber,
+        pointPadding: 0.3,
+        pointPlacement: -0.2
+    }, {
+        name: '利润',
+        color: 'rgba(248,161,63,1)',
+        data: this.consumeMoney,
+        tooltip: {
+            valuePrefix: '￥',
+            valueSuffix: ' 元'
+        },
+        pointPadding: 0.3,
+        pointPlacement: 0.2,
+        yAxis: 1
+    }]
+});
       },
       getChartDate () {
         var res = this.$store.state.users.consumeData.map((item) => {
