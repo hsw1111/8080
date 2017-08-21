@@ -187,7 +187,7 @@ export default {
       if (this.$route.query.type === undefined) {
         return
       } else if (flag === true) {
-        var type = this.$store.state.consumeDataType
+        var type = this.$store.state.users.consumeDataType
         request
         .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
          .withCredentials()
@@ -195,8 +195,8 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
         .send({
-         'startTimeStr': this.$store.state.timeline.startTime,
-          'endTimeStr': this.$store.state.timeline.endTime,
+         'startTimeStr': this.$store.state.users.timeline.startTime,
+          'endTimeStr': this.$store.state.users.timeline.endTime,
           'type': type,
           showType:'table',
           currentPage:1
@@ -219,8 +219,7 @@ export default {
               this.emptyText = ' 暂无数据'
             }
             this.$store.dispatch('consumeData_action', arr)
-            console.log(this.$store.state.consumeData)
-            this.lists = this.$store.state.consumeData
+            this.lists = this.$store.state.users.consumeData
             flag = true
           }
         })
@@ -231,7 +230,7 @@ export default {
     getDateMount () {
       this.loading2 = true
        //alert(this.$store.state.consumeDataType)
-      var timeType = this.$store.state.consumeDataType
+      var timeType = this.$store.state.users.consumeDataType
       request
         .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
          .withCredentials()
@@ -239,8 +238,8 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
         .send({
-         'startTimeStr': this.$store.state.timeline.startTime,
-          'endTimeStr': this.$store.state.timeline.endTime,
+         'startTimeStr': this.$store.state.users.timeline.startTime,
+          'endTimeStr': this.$store.state.users.timeline.endTime,
           'type': type,
           showType:'table',
           currentPage:1
@@ -254,7 +253,6 @@ export default {
           } else {
             var arr = JSON.parse(res.text).data
             this.loading2 = false
-            console.log(arr)
             // loading关闭
             this.loading2 = false
             return
@@ -267,8 +265,7 @@ export default {
               this.emptyText = ' 暂无数据'
             }
             this.$store.dispatch('consumeData_action', arr)
-            console.log(this.$store.state.consumeData)
-            this.lists = this.$store.state.consumeData
+            this.lists = this.$store.state.users.consumeData
           }
         })
     },
@@ -284,8 +281,8 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          'startTimeStr': this.$store.state.timeline.startTime.length>0?this.$store.state.timeline.startTime:'',
-          'endTimeStr': this.$store.state.timeline.endTime.length>0?this.$store.state.timeline.endTime:'',
+          'startTimeStr': this.$store.state.users.timeline.startTime.length>0?this.$store.state.users.timeline.startTime:'',
+          'endTimeStr': this.$store.state.users.timeline.endTime.length>0?this.$store.state.users.timeline.endTime:'',
           'type': type,
             showType:'table',
             currentPage:1
@@ -309,16 +306,14 @@ export default {
               that.lists = []
               var arr = JSON.parse(res.text).data
               that.$store.dispatch('consumeData_action', arr)
-              console.log(that.$store.state.consumeData)
-              that.lists = that.$store.state.consumeData
+              that.lists = that.$store.state.users.consumeData
           }
         })
     }
   },
   mounted () {
-    var type = this.$store.state.consumeDataType
+    var type = this.$store.state.users.consumeDataType
     this.currentPage3 = 1
-    console.log("type:" + type)
     var that = this
     request
       .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
@@ -351,14 +346,14 @@ export default {
             that.lists = []
             var arr = JSON.parse(res.text).data
             that.$store.dispatch('consumeData_action', arr)
-            that.lists = that.$store.state.consumeData
+            that.lists = that.$store.state.users.consumeData
         }
       })
   },
   watch: {
     // '$route': 'dataUpdate',
-    '$store.state.consumeDataType':'time',
-    '$store.state.timeline':'time',
+    '$store.state.users.consumeDataType':'time',
+    '$store.state.users.timeline':'time',
     currentPage3: {
       handler: function(val,oldVal){
       var type = this.$route.query.type
@@ -371,8 +366,8 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          'startTimeStr': this.$store.state.timeline.startTime.length>0?this.$store.state.timeline.startTime:'',
-          'endTimeStr': this.$store.state.timeline.endTime.length>0?this.$store.state.timeline.endTime:'',
+          'startTimeStr': this.$store.state.users.timeline.startTime.length>0?this.$store.state.users.timeline.startTime:'',
+          'endTimeStr': this.$store.state.users.timeline.endTime.length>0?this.$store.state.users.timeline.endTime:'',
           'type': type,
             showType:'table',
             currentPage:val
@@ -395,9 +390,7 @@ export default {
               }
               that.lists = []
               var arr = JSON.parse(res.text).data
-              console.log(arr)
               that.$store.dispatch('consumeData_action', arr)
-              console.log(that.$store.state.consumeData)
               that.lists = that.$store.state.consumeData
           }
         })

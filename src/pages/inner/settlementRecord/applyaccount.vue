@@ -21,7 +21,7 @@
             :disabled="true">
           </el-input>
         </li>
-        <li>可结算金额:     &nbsp;&nbsp;&nbsp;<span class="diffMoney" style="font-size: 16px;color: #000;"> 0.67</span><b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
+        <li>可结算金额:     &nbsp;&nbsp;&nbsp;<span class="diffMoney" style="font-size: 16px;color: #000;"> {{diffMoney}}</span><b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
           <span>*每月结算一次，结算金额=上个月所有车辆的盈利*80%+以前遗留的未结算金额。</span>
         </li>
         <li>
@@ -88,6 +88,7 @@ import {host} from '../../../config/index'
 export default {
   data() {
     return {
+      diffMoney:'',
       appleySetMoney:'',
       isApply:false,
       currentPage3:1,
@@ -146,14 +147,23 @@ export default {
        ])
     },
     testMoney(){
-      var flag = Number(this.appleySetMoney) > Number($('.diffMoney').text())
-      if(flag){
+      var text = $('.diffMoney').text();
+      if(text.trim().length===0){
         this.$message({
           type:'error',
-          message:'最大可结算金额为' + $('.diffMoney').text()
+          message:'结算金额不能为空'
         })
+        return false
+      }else{
+           var flag = Number(this.appleySetMoney) > Number($('.diffMoney').text())
+            if(flag){
+              this.$message({
+                type:'error',
+                message:'最大可结算金额为' + $('.diffMoney').text()
+              })
+            }
+            return !flag
       }
-      return !flag
       
     },
     loadData(){
@@ -187,6 +197,7 @@ export default {
               }
               this.currentCode = JSON.parse(res.text).withDraws[0].month
               this.apply_money_data = JSON.parse(res.text).withDraws[0].month
+              this.diffMoney = JSON.parse(res.text).withDraws[0].money
               // 根据渲染的未结算月份显示当前月份的详细数据
               this.getDataByTime()
             } else {
@@ -205,71 +216,82 @@ export default {
       //alert(this.currentCode)
       var that = this
       const h = that.$createElement
-       if(this.testMoney()){
-         that.$msgbox({
-        title: '提现申请确认',
-        message: h('p', null, [
-          h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
-          h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
-        ]),
-        showCancelButton: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-            var that = this
-            if (action === 'confirm') {
-              alert(this.appleySetMoney)
-              return
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = '结算中...';
-              setTimeout(() => {
-                done();
-                setTimeout(() => {
-                   request
-                      .post(host + 'beepartner/franchisee/withDraw/applyWithDrawMoney ')
-                      .withCredentials()
-                      .set({
-                        'content-type': 'application/x-www-form-urlencoded'
-                      })
-                      .send({
-                        'applyMoney': $('#apply_money').val(),
-                        'withDrawMonth': that.currentCode
-                      })
-                      .end(function(error,res){
-                        if(error){
-                          console.log(error)
-                          instance.confirmButtonLoading = false;
-                        }else{
-                          var code =JSON.parse(res.text).resultCode
-                          var message = JSON.parse(res.text).message
-                          if(code === 0){
-                            that.$message({
-                              type:'error',
-                              message: message
-                            })
-                          }else if(code === 1){
-                            that.$message({
-                              type:'success',
-                              message: message
-                            })
-                            that.isApply = true
-                          }
-                        instance.confirmButtonLoading = false;
-                    }
-                  })
-                }, 300);
-              }, 3000);
-            } else {
-              done();
+      if(this.appleySetMoney.trim().length===0){
+        this.$message({
+          type:'error',
+          message:'结算金额不能为空'
+        })
+      }else{
+           var flag = Number(this.appleySetMoney) > Number($('.diffMoney').text())
+            if(flag){
+              this.$message({
+                type:'error',
+                message:'最大可结算金额为' + $('.diffMoney').text()
+              })
+            }else{
+                 that.$msgbox({
+                    title: '提现申请确认',
+                    message: h('p', null, [
+                      h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
+                      h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
+                    ]),
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    beforeClose: (action, instance, done) => {
+                        var that = this
+                        if (action === 'confirm') {
+                          alert(this.appleySetMoney)
+                          return
+                          instance.confirmButtonLoading = true;
+                          instance.confirmButtonText = '结算中...';
+                          setTimeout(() => {
+                            done();
+                            setTimeout(() => {
+                              request
+                                  .post(host + 'beepartner/franchisee/withDraw/applyWithDrawMoney ')
+                                  .withCredentials()
+                                  .set({
+                                    'content-type': 'application/x-www-form-urlencoded'
+                                  })
+                                  .send({
+                                    'applyMoney': $('#apply_money').val(),
+                                    'withDrawMonth': that.currentCode
+                                  })
+                                  .end(function(error,res){
+                                    if(error){
+                                      console.log(error)
+                                      instance.confirmButtonLoading = false;
+                                    }else{
+                                      var code =JSON.parse(res.text).resultCode
+                                      var message = JSON.parse(res.text).message
+                                      if(code === 0){
+                                        that.$message({
+                                          type:'error',
+                                          message: message
+                                        })
+                                      }else if(code === 1){
+                                        that.$message({
+                                          type:'success',
+                                          message: message
+                                        })
+                                        that.isApply = true
+                                      }
+                                    instance.confirmButtonLoading = false;
+                                }
+                              })
+                            }, 300);
+                          }, 3000);
+                        } else {
+                          done();
+                        }
+                      }
+                    }).then(action => {
+                    })
             }
-          }
-        }).then(action => {
-          // this.$message({
-          //   type: 'info',
-          //   message: 'action: ' + action
-          // });
-        }); 
+            
       }
+      
     },
      handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -355,83 +377,6 @@ export default {
     this.loading2 = true
     this.loadData()
   },
-  // updated () {
-    
-  //   $('#apply_account_header ul li:nth-of-type(3) button').click(function () {
-  //     if ($('#apply_money').val() < 1) {
-  //       that.$message({
-  //         message: '提交现金必须是数字哦！',
-  //         type: '警告'
-  //       })
-  //     } else if ($('#apply_money').val() > that.allMoney[that.currentIndex]) {
-  //       that.$alert('提现金额超过当前可提现最大金额', '警告', {
-  //         confirmButtonText: '确定'
-  //       })
-  //     } else {  
-  //       const h = that.$createElement
-  //       that.$msgbox({
-  //         title: '提现申请确认',
-  //         message: h('p', null, [
-  //           h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算月份 : ' + that.apply_money_data),
-  //           h('p', { style: 'color: #f60; font-size: 16px; font-weight:bold; letter-spacing:1px; width:100%; padding: 2px 10px; text-align:center;' }, '结算金额 : ' + $('#apply_money').val() + '元')
-  //         ]),
-  //         showCancelButton: true,
-  //         confirmButtonText: '确定',
-  //         cancelButtonText: '取消',
-  //         beforeClose: (action, instance, done) => {
-  //           if (action === 'confirm') {
-  //             request
-  //               .post(host + 'franchisee/withdrawal/applyWithdrawal')
-  //               .send({
-  //                 'franchiseeId': '123456',
-  //                 'userId': 'admin',
-  //                 'money': $('#apply_money').val(),
-  //                 'withdrawalCode': that.currentCode
-  //               })
-  //               .end((error, res) => {
-  //                 instance.confirmButtonLoading = true
-  //                 instance.confirmButtonText = '申请提交中...'
-  //                 if (error) {
-  //                   console.log('error:', error)
-  //                 } else {
-  //                   console.log(JSON.parse(res.text).code)
-  //                   // if ( JSON.parse(res.text).code === 0) {
-  //                     setTimeout(() => {
-  //                       if (JSON.parse(res.text).code === 0) {
-  //                         done()
-  //                         instance.confirmButtonLoading = false
-  //                         that.$refs.my_val.value = ''
-  //                       } else {
-  //                         that.$message('提交错误')
-  //                       }
-  //                     }, 600)
-  //                   // } else {
-  //                   //   that.$message('提交错误')
-  //                   // }
-  //                 }
-  //               })
-  //           } else {
-  //             action === 'cancel'
-  //             done()
-  //           }
-  //         }
-  //       }).then(action => {
-  //         if (action === 'confirm') {
-  //           that.$message({
-  //             type: 'info',
-  //             message: '提现申请已提交, 预计1-2个工作日到账'
-  //           })
-  //           that.$router.push('/index/settlementRecord')
-  //         } else {
-  //           // that.$message({
-  //           //   type: 'info',
-  //           //   message: '提现申请已取消'
-  //           // })
-  //         }
-  //       })
-  //     }
-  //   })
-  // },
   watch:{
     isApply:{
       handler:function(){

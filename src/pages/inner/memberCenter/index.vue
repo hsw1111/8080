@@ -375,7 +375,8 @@ export default {
 	},
 	mounted () {
 		this.getInfo()
-		//alert(this.phone)	
+		 $(".sign").removeClass('is-active')
+      $('.sign[name="1600"]').addClass('is-active')
 	},
 	watch:{
 		'$route':'getInfo'

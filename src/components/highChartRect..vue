@@ -28,7 +28,6 @@
     },
     mounted: function () {
       var type = this.$store.state.users.consumeDataType
-      console.log("chart type: " + type)
       request
       .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
         .withCredentials()
@@ -43,12 +42,10 @@
         currentPage:1
       })
       .end((error, res) => {
-        // console.log('this is entry')
         if (error) {
           console.log('error:', error)
           this.noData = true
         } else {
-          console.log(JSON.parse(res.text).data.length)
           if (JSON.parse(res.text).data.length === 0) {
             $('#container').html('')
             this.noData = true
@@ -240,7 +237,6 @@
               console.log('error:', error)
               this.noData = true
             } else {
-              console.log(JSON.parse(res.text).data)
               if (JSON.parse(res.text).data.length === 0) {
                 $('#container').html('')
                 this.noData = true
@@ -248,7 +244,6 @@
                 this.noData = false
                 var arr = JSON.parse(res.text).data
                 this.$store.dispatch('consumeData_action', arr)
-                console.log(arr)
                 this.getChartDate()
                 this.createChartsShap()
               }

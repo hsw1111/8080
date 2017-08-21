@@ -42,6 +42,7 @@ export default {
     }
   },
   mounted () {
+
     var timeType = this.$route.query.type
     if(timeType!=null){
         if(timeType === 'daily') {
@@ -61,11 +62,11 @@ export default {
         
       }
     }else{
-      console.log($('button.active').text())
+      
     }
-    
     this.$store.commit('recodeConsumeDataType',timeType)
     this.getDateByTimeLine()
+    
   },
   methods: {
     handleChangeType(e) {
@@ -106,7 +107,8 @@ export default {
         siblingsBtn[i].setAttribute('class', 'el-button el-button--default')
       }
       e.currentTarget.setAttribute('class', 'el-button active el-button--default')
-     this.$store.state.timeline = {startTime:'',endTime:''}
+     this.$store.commit('setTimeLine', {startTime:'',endTime:''})
+   
     },
     getDateByTimeLine() {
       this.datetype = this.$route.query.type
@@ -118,12 +120,10 @@ export default {
           var _endTime = new Date(this.form.data2).getTime()
           _endTime = isNaN(_endTime) ? 0 : _endTime
           _startTime = isNaN(_startTime) ? 0 : _startTime
-          console.log(_endTime, _startTime)
            var _startTime = new Date(this.form.data1).getTime()
         var _endTime = new Date(this.form.data2).getTime()
         _endTime = isNaN(_endTime) ? 0 : _endTime
         _startTime = isNaN(_startTime) ? 0 : _startTime
-        console.log(_endTime, _startTime)
         if (_endTime > _startTime) {
           if (_endTime > 1 && _startTime <= 1) {
             this.$message({
@@ -212,7 +212,6 @@ export default {
               
             }
           }else{
-            console.log($('button.active').text())
           }
           
           this.$store.commit('recodeConsumeDataType',timeType)
@@ -221,7 +220,6 @@ export default {
         var startTime = new Date(val).getTime()
         var endTime = new Date(this.form.data2).getTime()
         endTime = isNaN(endTime) ? 0 : endTime
-        console.log(endTime.toString().length)
         if ((startTime > endTime) && endTime.toString().length > 1) {
           this.$message({
             type: 'error',
@@ -260,7 +258,6 @@ export default {
               
             }
           }else{
-            console.log($('button.active').text())
           }
           
           this.$store.commit('recodeConsumeDataType',timeType)
@@ -269,7 +266,6 @@ export default {
         var endTime = new Date(val).getTime()
         var startTime = new Date(this.form.data1).getTime()
         startTime = isNaN(startTime) ? 0 : startTime
-        console.log(startTime.toString().length)
         if ((endTime < startTime) && startTime.toString().length > 1) {
           this.$message({
             type: 'error',

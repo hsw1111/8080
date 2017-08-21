@@ -227,7 +227,7 @@ export default {
   mounted () {
     this.loading2 = true
      $(".sign").removeClass('is-active')
-    $('.sign[name="1301"]').addClass('is-active')
+    $('.sign[name="1402"]').addClass('is-active')
     request
       .post( host + 'beepartner/franchisee/withDraw/findWithDraw')
       .withCredentials()
@@ -241,7 +241,6 @@ export default {
           this.emptyText = '暂无数据'
           this.pageShow = false
         } else {
-          console.log(JSON.parse(res.text).data)
           var newArr = JSON.parse(res.text).data
           this.cityPartner = JSON.parse(res.text).cityPartner
           // 页面总数
@@ -261,16 +260,9 @@ export default {
 
           var arr2 = this.tableDataDel(newArr)
           this.$store.dispatch('settlementDate_action', { newArr })
-          this.tableData = this.$store.state.settlementDate.newArr
+          this.tableData = this.$store.state.users.settlementDate.newArr
         }
       })
-  },
-  beforeUpdate () {
-    var that = this
-    // $('.M-box').click('a', function (e) {
-    //   // console.log(e)
-    //   that.pageUpdate(e)
-    // })
   },
   methods: {
     handleSizeChange(val) {
@@ -301,11 +293,9 @@ export default {
         arrDeled.push(obj)
       }
 
-      // console.log('arrDeled:', arrDeled)
       return arrDeled
     },
 		goDetail (row, column, cell) {
-			console.log(row)
 			if (column.label === '结算月份' && row.status === '审核中') {
 				this.$router.push('/index/applysubmitted/' + row.myId + '&1')
 			} else if (column.label === '结算月份' && row.status === '已结算') {
@@ -314,51 +304,6 @@ export default {
         return
       }
 		},
-    pageUpdate (e) {
-      var that = this
-      clearTimeout(this.timer)
-      this.loading2 = true
-      if (e.target.tagName === 'A' || e.target.tagName === 'SPAN') {
-        if (e.target.innerHTML === '首页') {
-          e.target.innerHTML = 1
-        } else if (e.target.innerHTML === '尾页') {
-          e.target.innerHTML = this.totalPage
-        } else if (e.target.innerHTML === '«') {
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) - 1
-        } else if (e.target.innerHTML === '»') {
-          console.log($('.M-box span.active')[0].innerHTML)
-          e.target.innerHTML = Number($('.M-box span.active')[0].innerHTML) + 1
-        } else if (e.target.innerHTML === '...') {
-          return
-        }
-      } else {
-        return
-      }
-      var type = this.$route.query.type
-      this.timer = setTimeout(function () {
-        request
-          .post(host + 'franchisee/withdrawal/getAllWithdrawal?page=' + e.target.innerHTML)
-          .send({
-            'franchiseeId': '123456',
-            'userId': 'admin'
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              console.log(JSON.parse(res.text))
-              var pagedata = (JSON.parse(res.text)).list
-              var arr2 = that.tableDataDel(pagedata)
-              
-              //关闭loading 
-              that.loading2 = false
-
-							that.$store.dispatch('settlementDate_action', { arr2 })
-							that.tableData = that.$store.state.settlementDate.arr2
-            }
-          })
-      }, 200)
-    }
   },
   watch: {
     currentPage3:{
@@ -379,7 +324,6 @@ export default {
             this.emptyText = '暂无数据'
             this.pageShow = false
           } else {
-            console.log(JSON.parse(res.text).data)
             var newArr = JSON.parse(res.text).data
             // 页面总数
             var pageNumber = JSON.parse(res.text).totalPage

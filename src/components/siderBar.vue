@@ -62,8 +62,8 @@
          this.generateMenu()
           var router = this.$router.currentRoute.fullPath;
           if(router === '/system/office'){
-            $("li.sign").removeClass('is-active')
-            $('li.sign[name="1100"]').addClass('is-active')
+            $(".sign").removeClass('is-active')
+            $('.sign[name="1100"]').addClass('is-active')
           }
           
         },

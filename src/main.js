@@ -37,13 +37,9 @@ router.beforeEach((route, redirect, next) => {
   if (!authList && route.path !== '/login') {  
     next({ path: '/login' })  
   } else {
-      console.log(route.name)  
     if (route.name) {  
       next()
-      console.log($('div.editcontainer'))
       if($('div.editcontainer').length>0){
-          console.log($('div.editcontainer').position())
-          console.log($('div.editcontainer').offset().top)
           $("div.scrollArea").animate({scrollTop: $('div.editcontainer').position().top}, 1000);    
       }
     } else {  
