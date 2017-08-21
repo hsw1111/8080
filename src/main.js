@@ -21,10 +21,11 @@ Vue.config.productionTip = false
 Vue.use(Element)
 let authList = window.sessionStorage.getItem('authList') 
 let permission = window.sessionStorage.getItem('permission')
-let userName = window.sessionStorage.getItem('userName')
+let franchiseeUser = window.sessionStorage.getItem('franchiseeUser')
 if (authList) {
   store.commit(types.ADD_MENU,JSON.parse(authList) )
-  store.commit('updatLoginName',userName)
+  store.commit('updatLoginName',JSON.parse(franchiseeUser).userName)
+  store.commit('updatCityName',JSON.parse(franchiseeUser).cityName)
   router.addRoutes(store.state.menus.items)  
 }  
 

@@ -14,12 +14,16 @@ const state = {
     joinTableData: [],
     keepParnterAccount:[],
     consumeDataType: '',
-    userName:''
+    userName:'',
+    cityName:'',
 }
 
 const mutations = {
     updatLoginName(state,name){
         state.userName = name
+    },
+    updatCityName(state,cityName){
+        state.cityName = cityName
     },
     addPlatAcount(state, {obj}) {
         state.platTableData.push(obj)
@@ -69,6 +73,9 @@ const actions = {
   setUserName(context,userName){
     context.commit('updatLoginName',userName)
   },
+  setCityName(context,cityName){
+    context.commit('updatCityName',cityName)
+  },
    //  报表管理 消费数据模块 
   consumeData_action:({ commit }, newArr) => commit('consumeData_evaluation', newArr),
       // 营收记录 收益明细 结算记录模块 start
@@ -81,9 +88,10 @@ const actions = {
       // 合伙人管理模块 start
   partner_action : ({ commit }, arr) => commit('setPartnerList', { arr })
 }
-const aaa = state => state.userName
+const userName = state => state.userName
 const getters = {
-    userName : aaa
+    userName : userName,
+    cityName: state => state.cityName
 }
 export default {
   state,

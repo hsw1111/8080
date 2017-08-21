@@ -168,7 +168,7 @@ export default {
     ...mapGetters(['menuitems','isLoadRoutes'])
   },
   methods: {
-    ...mapActions(['addMenu','loadRoutes','setUserName']), 
+    ...mapActions(['addMenu','loadRoutes','setUserName','setCityName']), 
     getVerCode(val) {
       var that = this
       var $btn = $('button.getVerCode')
@@ -279,8 +279,12 @@ export default {
                   message: message,
                   type: 'success'
                 })
-                var userName = JSON.parse(res.text).userName
+                console.log(JSON.parse(res.text))
+                var franchiseeUser = JSON.parse(res.text).franchiseeUser
+                var userName = franchiseeUser.userName
+                var cityName = franchiseeUser.cityName
                 this.setUserName(userName)
+                this.setCityName(cityName)
                 var data = JSON.parse(res.text).data
                 this.authList = data.map((item)=>{
                   return item.menuCode
@@ -292,7 +296,7 @@ export default {
                 }
                 window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
                 window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
-                window.sessionStorage.setItem('userName',userName)   
+                window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
                 this.$router.push('/system/office')   
                 //this.$router.addRoutes(this.menuitems)  
               } else {

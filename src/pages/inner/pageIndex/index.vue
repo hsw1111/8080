@@ -7,7 +7,7 @@
             <span class="income_time mounthtime ">本月营收</span>
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
           </div>
-          <div v-loading="loading2" element-loading-text="拼命加载中">
+          <div v-loading="loading2">
             <div class="income_count monthcount">
               ￥{{monthIncoming}}
             </div>
@@ -21,7 +21,7 @@
             <span class="income_time daytime ">今日营收</span>
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div v-loading="loading3" element-loading-text="拼命加载中">
+          <div v-loading="loading3">
              <div class="income_count daycount">
               ￥{{todayIncoming}}
             </div>
@@ -42,7 +42,7 @@
               </span>
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
-             <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
+             <el-col :span="24" v-loading="loading3">
               <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
               <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
               <el-col :span="5">已出租{{rented}}辆</el-col>
@@ -74,7 +74,7 @@
             <span>当前动态</span>
             <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div class="list" v-loading="loading" element-loading-text="拼命加载中">
+          <div class="list" v-loading="loading">
             <div>
               <ul>
                 <li v-bind:key="statu.carNum" v-for="statu of status">
@@ -93,7 +93,7 @@
   
     <div style="background:#fff;">
       <div class="settlementInfo module">
-        <el-row v-loading="loading5" element-loading-text="拼命加载中">
+        <el-row v-loading="loading5">
           <el-col :span="8">
             当前已为您赚到<span class="earn">￥{{franchiseeAllIncome}}</span>
           </el-col>
