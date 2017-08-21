@@ -180,7 +180,6 @@ export default {
     modifyPass () {
       var that = this
       console.log(this.$refs)
-      return
       this.$refs.modifyRulesForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认修改吗?', '提示', {
