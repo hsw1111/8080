@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column label="状态" min-width="120" style="font-size:12px;">
           <template scope="scope">
-            <el-switch v-on:change="changeState(scope)" v-model="scope.row.status" on-text="开启" off-text="关闭" on-color="#13ce66" off-color="#ff4949">
+            <el-switch v-on:change="changeState(scope)" v-model="scope.row.status" on-text="启用" off-text="冻结" on-color="#13ce66" off-color="#ff4949">
             </el-switch>
           </template>
         </el-table-column>
