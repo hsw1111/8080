@@ -177,13 +177,13 @@
     },
     series: [{
         name: '单数',
-        color: 'rgba(165,170,217,1)',
+        color: '#996600',
         data: this.orderNumber,
         pointPadding: 0.3,
         pointPlacement: -0.2
     }, {
         name: '利润',
-        color: 'rgba(248,161,63,1)',
+        color: '#00cdcd',
         data: this.consumeMoney,
         tooltip: {
             valuePrefix: '￥',

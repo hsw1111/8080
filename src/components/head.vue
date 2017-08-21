@@ -8,7 +8,7 @@
                 <h3>城市合伙人管理平台<span>合肥</span></h3>
                 <div class="admin">
                     <i class="icon iconfont icon-touxiang"></i>
-                    <span class="username">管理员</span>
+                    <span class="username">{{userName}}</span>
                     <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
                 </div>
@@ -20,13 +20,18 @@
 import request from 'superagent'
 import {host} from '../config/index.js'
 import {delCookie} from '../../utils/index'
+import {mapActions, mapGetters } from 'vuex'  
 export default {
     data () {
         return {
             hidden:false
         }
     },
+    computed:{
+        ...mapGetters(['userName'])
+    },
   methods: {
+    ...mapActions(['setUserName']),
     handleLoginOut () {
         var that = this
       request.post(host + 'beepartner/system/login/removeFranchiseeSession')
@@ -48,6 +53,7 @@ export default {
                     })
                    window.sessionStorage.removeItem('permission')
                     window.sessionStorage.removeItem('authList')
+                    window.sessionStorage.removeItem('userName')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -61,7 +67,7 @@ export default {
     }
   },
   mounted:function(){
-      //this.refreshPage()
+      
   }
 }
 </script>

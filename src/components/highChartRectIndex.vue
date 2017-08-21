@@ -106,7 +106,9 @@
               this.loading = false
           } else {
             this.loading = false
-            var data = JSON.parse(res.text).data
+            var arr = JSON.parse(res.text).data
+           
+            var data = arr.splice(arr.length-7,arr.length-1)
             var res = data.map((item)=>{
               return {totalBill:item.totalBill}
             })
