@@ -162,6 +162,9 @@
             text:"北京蜜蜂出行科技有限公司",  
             href: "javascript:void(0)" 
           },
+            exporting:{  
+            enabled: false //用来设置是否显示‘打印’,'导出'等功能按钮，不设置时默认为显示  
+          }, 
     legend: {
         shadow: false
     },
