@@ -95,6 +95,8 @@ export default {
   },
   mounted: function () {
     this.mountedWay()
+    $(".sign").removeClass('is-active')
+    $('.sign[name="1200"]').addClass('is-active')
   },
   methods: {
     handleSizeChange(val) {

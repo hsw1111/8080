@@ -1,8 +1,8 @@
 <template>
   <div class="theme">
     <div class="siderBar">
-      <el-menu default-active="2" class="el-menu-vertical-demo" :router="true" :unique-opened="true">
-        <el-menu-item index="/index" class="sign" name="1100">
+      <el-menu default-active="2" class="el-menu-vertical-demo is-active" :router="true" :unique-opened="true">
+        <el-menu-item index="/system/office" class="sign" name="1100">
           <i class="iconfont my_icon_class">&#xe608;</i>首页
         </el-menu-item>
         <el-menu-item index="/index/carManager" class="sign" name="1200"                           >
@@ -55,32 +55,32 @@
     export default {
         data () {
           return {
-            userInfo: '',
             authList: []
           }
         },
         mounted: function () {
-          this.handlerUserInfo()
-          this.checkMenu(this.authList)
+         this.generateMenu()
+          var router = this.$router.currentRoute.fullPath;
+          if(router === '/system/office'){
+            $("li.sign").removeClass('is-active')
+            $('li.sign[name="1100"]').addClass('is-active')
+          }
+          
         },
         methods: {
-          checkMenu (authList) {
+          generateMenu () {
+            this.authList = JSON.parse(window.sessionStorage.getItem('authList'))
               var all  = $('.sign')
-              if(authList.length===0){
+              if(this.authList.length===0){
                 $('.siderBar').hide()
               }else{
                  for(var i =0;i<all.length;i++){
-                  var res = authList.indexOf(all[i].getAttribute('name'))
+                  var res = this.authList.indexOf(all[i].getAttribute('name'))
                   if(res === -1) {
                     $('.sign').eq(i).hide()
                   }
                 } 
               }
-          },
-          handlerUserInfo () {
-            this.userInfo = localStorage.getItem('userinfo')
-            console.log(this.userInfo)
-            this.authList = JSON.parse(this.userInfo) || '[]'
           }
         }
     }

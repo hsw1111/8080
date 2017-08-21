@@ -5,9 +5,9 @@
         <el-col :span='12' class="mounthIncoming">
           <div class="income_title">
             <span class="income_time mounthtime ">本月营收</span>
-            <span class="income_detail sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
+            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
           </div>
-          <div v-loading="loading2">
+          <div v-loading="loading2" element-loading-text="拼命加载中">
             <div class="income_count monthcount">
               ￥{{monthIncoming}}
             </div>
@@ -19,9 +19,9 @@
         <el-col :span='12' class="dayIncoming">
           <div class="income_title">
             <span class="income_time daytime ">今日营收</span>
-            <span class="income_detail sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div v-loading="loading3">
+          <div v-loading="loading3" element-loading-text="拼命加载中">
              <div class="income_count daycount">
               ￥{{todayIncoming}}
             </div>
@@ -42,12 +42,12 @@
               </span>
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
-             <el-col :span="24" v-loading="loading3" class="sign" name="1200" >
+             <el-col :span="24" v-loading="loading3" element-loading-text="拼命加载中">
               <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
               <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
               <el-col :span="5">已出租{{rented}}辆</el-col>
               <el-col :span="5">已预定{{ordered}}辆</el-col>
-              <el-col :span="4">维护中{{repaired}}辆 <span name="1200"  style=" float:right;cursor:pointer" class="arrow sign" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="4">维护中{{repaired}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -72,9 +72,9 @@
         <el-col :span='12' class="status">
           <div class="status_title">
             <span>当前动态</span>
-            <span class="arrow sign" name="1401" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
-          <div class="list" v-loading="loading">
+          <div class="list" v-loading="loading" element-loading-text="拼命加载中">
             <div>
               <ul>
                 <li v-bind:key="statu.carNum" v-for="statu of status">
@@ -93,7 +93,7 @@
   
     <div style="background:#fff;">
       <div class="settlementInfo module">
-        <el-row v-loading="loading5">
+        <el-row v-loading="loading5" element-loading-text="拼命加载中">
           <el-col :span="8">
             当前已为您赚到<span class="earn">￥{{franchiseeAllIncome}}</span>
           </el-col>
@@ -102,7 +102,7 @@
           </el-col>
           <el-col :span="8">
             待结算<span class="wait">￥{{canWidthDrawMoney}}</span>
-            <el-button class="withdrawal sign" name="1402" @click="$router.push('/index/settlementRecord')">结算</el-button>
+            <el-button  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
           </el-col>
         </el-row>
       </div>
@@ -292,7 +292,7 @@ export default {
       loading2:true,
       loading3:true,
       loading4:true,
-      loading5:true,
+      loading5:false,
       monthIncoming:'',
       monthIncrease:'',
       todayIncoming:'',
@@ -307,9 +307,7 @@ export default {
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
       franchiseeAllIncome:'',
-      status: [],
-      userInfo: '',
-      authList: []
+      status: []
     }
   },
   components: {
@@ -317,24 +315,6 @@ export default {
     // Gamp
   },
   methods:{
-     checkMenu (authList) {
-              var all  = $('.sign')
-              if(authList.length===0){
-                $('.siderBar').hide()
-              }else{
-                 for(var i =0;i<all.length;i++){
-                  var res = authList.indexOf(all[i].getAttribute('name'))
-                  if(res === -1) {
-                    $('.sign').eq(i).hide()
-                  }
-                } 
-              }
-          },
-          handlerUserInfo () {
-            this.userInfo = localStorage.getItem('userinfo')
-            console.log(this.userInfo)
-            this.authList = JSON.parse(this.userInfo) || '[]'
-          },
     loadIndexData(){
       /*今日营收*/
        request
@@ -382,16 +362,14 @@ export default {
         .end((err, res) => {
           if (err) {
             console.log(err)
-            this.loading5 = false
           } else {
-            this.loading5 = false
             this.cityPartner = JSON.parse(res.text).cityPartner
             this.allCarsNum = this.cityPartner.bikeNum
             this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
             this.waitLend = this.allKindsCars[0].cnt
-            this.rented = this.allKindsCars[2].cnt
-            this.ordered = this.allKindsCars[3].cnt
-            this.repaired = this.allKindsCars[1].cnt
+            this.rented = this.allKindsCars[1].cnt
+            this.ordered = this.allKindsCars[2].cnt
+            this.repaired = this.allKindsCars[3].cnt
             this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
             this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
             this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
@@ -438,10 +416,11 @@ export default {
     } 
   },
   mounted:function(){
-    this.handlerUserInfo()
-    this.checkMenu(this.authList)
+    $(".sign").removeClass('is-active')
+    $('.sign[name="1100"]').addClass('is-active')
    this.checkoutSeesion()
     this.loadIndexData()
+    
   }
 }
 </script>

@@ -27,7 +27,7 @@
       }
     },
     mounted: function () {
-      var type = this.$store.state.consumeDataType
+      var type = this.$store.state.users.consumeDataType
       console.log("chart type: " + type)
       request
       .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
@@ -36,8 +36,8 @@
           'content-type': 'application/x-www-form-urlencoded'
         })
       .send({
-        'startTimeStr': this.$store.state.timeline.startTime,
-        'endTimeStr': this.$store.state.timeline.endTime,
+        'startTimeStr': this.$store.state.users.timeline.startTime,
+        'endTimeStr': this.$store.state.users.timeline.endTime,
         'type': type,
         showType:'chart',
         currentPage:1
@@ -143,16 +143,15 @@
         })
       },
       getChartDate () {
-        console.log(this.$store.state.consumeData)
-        var res = this.$store.state.consumeData.map((item) => {
+        var res = this.$store.state.users.consumeData.map((item) => {
           return item.statisticId
         })
 
-        var order = this.$store.state.consumeData.map((item) => {
+        var order = this.$store.state.users.consumeData.map((item) => {
           return item.totalBill
         })
 
-        var allMoney = this.$store.state.consumeData.map((item) => {
+        var allMoney = this.$store.state.users.consumeData.map((item) => {
           return item.totalMoney
         })
         this.x_data = res
@@ -189,8 +188,8 @@
                 'content-type': 'application/x-www-form-urlencoded'
               })
             .send({
-              'startTimeStr': this.$store.state.timeline.startTime,
-              'endTimeStr': this.$store.state.timeline.endTime,
+              'startTimeStr': this.$store.state.users.timeline.startTime,
+              'endTimeStr': this.$store.state.users.timeline.endTime,
               'type': type,
               showType:'chart',
               currentPage:1
@@ -219,7 +218,7 @@
         }
       },
       time () {
-        if (this.$store.state.timeline.length === 0) {
+        if (this.$store.state.users.timeline.length === 0) {
           return
         } else { 
           request
@@ -229,8 +228,8 @@
               'content-type': 'application/x-www-form-urlencoded'
             })
           .send({
-            'startTimeStr': this.$store.state.timeline.startTime,
-            'endTimeStr': this.$store.state.timeline.endTime,
+            'startTimeStr': this.$store.state.users.timeline.startTime,
+            'endTimeStr': this.$store.state.users.timeline.endTime,
             'type': this.$route.query.type,
             showType:'chart',
             currentPage:1
@@ -269,7 +268,7 @@
     // },
     watch: {
       '$route': 'dataUpdate',
-      '$store.state.timeline': 'time'
+      '$store.state.users.timeline': 'time'
     }
   }
 </script>

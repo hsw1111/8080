@@ -43,6 +43,9 @@
           credits: {
             enabled: false // 禁用版权信息
           },
+          exporting:{  
+            enabled:false //用来设置是否显示‘打印’,'导出'等功能按钮，不设置时默认为显示  
+          },  
           chart: {
             type: 'column'                           // 指定图表的类型，默认是折线图（line）
           },

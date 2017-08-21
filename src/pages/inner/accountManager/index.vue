@@ -402,6 +402,8 @@ export default {
     this.loadingText = '拼命加载中'
      this.loading = true
     this.loadAccount()
+    $(".sign").removeClass('is-active')
+    $('.sign[name="1500"]').addClass('is-active')
   },
   watch: {
     '$route':'loadAccount',

@@ -681,6 +681,8 @@ export default {
   },
   mounted () {
    this.loadRole()
+    $(".sign").removeClass('is-active')
+    $('.sign[name="1700"]').addClass('is-active')
   },
   watch:{
     'flag':{

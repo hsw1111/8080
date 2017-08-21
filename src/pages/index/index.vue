@@ -38,25 +38,8 @@
         siderBar
       },
      mounted:function () {
-       //this.isMenu()
      },
       methods: {
-        isMenu () {
-          var authList = localStorage.getItem('userinfo')||'[]'
-          //console.error(authList)
-         if(JSON.parse(authList).length===0){
-           $('.leftEntry').hide()
-           console.log($('.rightEntry').position().left)
-           $('.rightEntry').css({
-             left:0,
-             width:'100%'
-           })
-           $('.entryInner').css({
-             top:0,
-             left:0
-           })
-         }
-        }
       }
     }
 </script>

@@ -76,7 +76,6 @@ import request from 'superagent'
 import $ from 'jquery'
 import { checkMobile, IsEmpty,setCookie,getCookie,delCookie } from '../../../utils/index.js'
 import { host } from '../../config/index'
-import {mapState, mapActions, mapGetters } from 'vuex'  
 export default {
   data() {
     var validateTel = (rule, value, callback) => {
@@ -147,7 +146,8 @@ export default {
           { required: true, message: '请输入用户名', trigger: 'blur' },
         ],
         passWord: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {min:6,max:20,message:'请使用6-20位字符，包含字母、数字、下划线'}
         ]
       },
       findFormRule: {
@@ -164,11 +164,7 @@ export default {
       }
     }
   },
-  computed:{
-    ...mapGetters(['menuitems','isLoadRoutes'])
-  },
   methods: {
-    ...mapActions(['addMenu','loadRoutes']), 
     getVerCode(val) {
       var that = this
       var $btn = $('button.getVerCode')
@@ -279,19 +275,13 @@ export default {
                   message: message,
                   type: 'success'
                 })
+                setCookie('userInfo','wwwwwwwww')
                 var data = JSON.parse(res.text).data
                 this.authList = data.map((item)=>{
                   return item.menuCode
                 })
-                this.addMenu(this.authList)
-                if (!this.isLoadRoutes) {  
-                  this.$router.addRoutes(this.menuitems)
-                  this.loadRoutes()  
-                }
-                window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
-                window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))   
-                this.$router.push('/system/office')   
-                //this.$router.addRoutes(this.menuitems)  
+                localStorage.setItem('userinfo',JSON.stringify(this.authList))
+                this.$router.replace('/index/user/back')
               } else {
                 var message = JSON.parse(res.text).message
                 this.$message.error(message);
@@ -387,11 +377,6 @@ export default {
         }
       })
     }
-  },
-  mounted(){
-    // console.log(this.$store)
-    // console.log(this.menuitems)
-    // console.log(this.isLoadRoutes)
   }
 }
 </script>

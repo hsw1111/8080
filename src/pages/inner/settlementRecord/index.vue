@@ -226,6 +226,8 @@ export default {
   },
   mounted () {
     this.loading2 = true
+     $(".sign").removeClass('is-active')
+    $('.sign[name="1301"]').addClass('is-active')
     request
       .post( host + 'beepartner/franchisee/withDraw/findWithDraw')
       .withCredentials()

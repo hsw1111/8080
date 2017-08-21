@@ -308,6 +308,8 @@ export default {
     }
   },
   mounted () {
+    $(".sign").removeClass('is-active')
+    $('.sign[name="1401"]').addClass('is-active')
     this.loading2 = true
     this.loadData(this.currentPage3)
   },
@@ -429,7 +431,7 @@ export default {
             this.$store.dispatch('earningsDate_action', { newArr })
             // loading 关闭
             this.loading2 = false
-            this.tableData = this.$store.state.earningsDate.newArr
+            this.tableData = this.$store.state.users.earningsDate.newArr
             this.totalItems  = Number(JSON.parse(res.text).totalItems)
           }
         })
