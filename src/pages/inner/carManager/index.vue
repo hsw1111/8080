@@ -1,6 +1,6 @@
 <template>
   <div class="carManager" style="margin-right: 20px;">
-    <div v-title>车辆管理</div>
+    <div v-title data-title="车辆管理"></div> 
     <div class="carManager_content">
       <div class="queryCarInfo">
         <el-form :model="form">
@@ -264,12 +264,19 @@ export default {
               })
           }
         } else {
-          if (_endTime < _startTime) {
+          if (_endTime <= 1) {
             this.$message({
               type: 'error',
-              message: '开始日期不能大于结束日期'
+              message: '结束日期不能为空'
             })
           } else {
+            if(_endTime<_startTime){
+              this.$message({
+                type: 'error',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+            }
             request
               .post(host + 'beepartner/franchisee/bike/findBike')
               .withCredentials()
@@ -330,7 +337,7 @@ export default {
       if (this.form.data1 === '' && this.form.data2 === '' && this.terminalNumber === '' && this.checkList.length === 0) {
         this.isQuery = false
         this.mountedWay()
-      } else {
+      } else {  
         this.isQuery = true
         var startTime = null
         var endTime = null
@@ -510,10 +517,10 @@ export default {
             message: '开始日期不能大于结束日期'
           })
         } else if ((startTime > endTime) && endTime.toString().length === 1) {
-          this.$message({
-            type: 'error',
-            message: '请输入结束日期'
-          })
+          // this.$message({
+          //   type: 'error',
+          //   message: '请输入结束日期'
+          // })
         } else {
           return
         }

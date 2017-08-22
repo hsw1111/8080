@@ -133,6 +133,9 @@ export default {
   },
   components: {
     highChartRect
+  },
+  mounted:function(){
+    document.title="报表管理-订单数据-统计图"
   }
 }
 </script>

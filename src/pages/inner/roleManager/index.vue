@@ -1,5 +1,6 @@
 <template>
   <div style="margin-right:20px;">
+     <div v-title data-title="角色管理"></div>
     <div id="am_search">
       <label>
         <el-form :inline="true"  class="demo-form-inline">

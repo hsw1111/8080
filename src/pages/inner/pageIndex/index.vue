@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-title data-title="首页"></div>
     <div class="incomming module">
       <el-row>
         <el-col :span='12' class="mounthIncoming">
@@ -47,7 +48,7 @@
               <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
               <el-col :span="5">已出租{{rented}}辆</el-col>
               <el-col :span="5">已预定{{ordered}}辆</el-col>
-              <el-col :span="4">维护中{{repaired}}辆 <span  style=" float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="4">维护中{{repaired}}辆 <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -62,7 +63,7 @@
           <div class="datas_title">
             <span class="data_display ">24小时趋势
             </span>
-            <span  style="font-weight:normal;font-size:12px;color:rgba(148,148,148,1);">时间段内车辆接单数,每10分钟自动刷新</span>
+            <span  style="font-weight:normal;font-size:12px;color:#bbb;">时间段内车辆接单数,每10分钟自动刷新</span>
             <span class="arrow">>></span>
           </div>
           <div class="Histogram">
@@ -140,6 +141,7 @@ div.el-col-12 .income_title .income_time {
 div.el-col-12 .income_title .income_detail {
   font-size: 14px;
   float: right;
+  color:gray
 }
 
 div.el-col-12 .income_count {
@@ -200,13 +202,15 @@ div.status_title span.arrow,
 div.datas_title span.arrow {
   margin: 0 10px 0 0;
   float: right;
-  cursor: pointer
+  cursor: pointer;
+  color:gray;
+  font-weight:normal;
 }
 div.status div.list{height:237px;}
 div.status div.list ul li {
   list-style-type: none;
   background: #ffffff;
-  color: #040404;
+  color: #a29696;
   line-height: 30px;
   height: 30px;
   padding: 5px 0;
@@ -247,7 +251,7 @@ div.settlementInfo {
 div.settlementInfo button.withdrawal {
   float: right;
   margin-right: 20px;
-  width: 120px;
+  width: 88px;
   height: 40px;
   border: 1px solid #f9f9f9;
   background: rgba(255,153,0,0.8);

@@ -1,6 +1,6 @@
 <template>
 <div style="margin-right:20px;">
-  <div v-title>结算记录</div>
+  <div v-title data-title="结算管理"></div>
 	<div id="settleRed_content">
 		<div id="settleRed_header">
       <p class="total">*每月结算一次，本月结算的是上月收益的分成；本月的收益分成，次月进行结算。</p>

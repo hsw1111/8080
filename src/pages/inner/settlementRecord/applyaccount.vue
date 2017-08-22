@@ -1,6 +1,7 @@
 <template>
   <div style="margin-right:20px;">
-  <div v-title>结算记录-申请结算</div>
+    <div v-title data-title="结算管理-申请结算"></div>
+ 
     <div id="apply_account_header">
       <h1>申请结算 <span @click="$router.push('/index/settlementRecord')">返回</span></h1>
   
@@ -26,7 +27,7 @@
         </li>
         <li>
           申请结算金额：
-          <input v-show="moneyIn" :value="allMoney[currentIndex]" v-model="appleySetMoney"   ref="my_val" id="apply_money">
+          <input v-show="moneyIn" v-model="appleySetMoney"   ref="my_val" id="apply_money">
           
           <el-input style="width:120px;background:none;"
             placeholder="暂无未结算金额"
@@ -111,7 +112,8 @@ export default {
       allMoney: [],
       currentIndex: 0,
       crash: '',
-      loading2: false
+      loading2: false,
+      canWithDrawMoney:'',
     }
   },
   methods: {
@@ -241,8 +243,6 @@ export default {
                     beforeClose: (action, instance, done) => {
                         var that = this
                         if (action === 'confirm') {
-                          alert(this.appleySetMoney)
-                          return
                           instance.confirmButtonLoading = true;
                           instance.confirmButtonText = '结算中...';
                           setTimeout(() => {
@@ -300,10 +300,11 @@ export default {
         console.log(`当前页: ${val}`);
       },
     loadMonth(index){
-      console.log(index)
+      //console.log(index)
       this.currentPage3 = 1
       $('button').removeClass('active')
        $('button').eq(index).addClass('active')
+      this.diffMoney = this.allMoney[index]
       this.currentIndex = index
       // console.log($(this).attr('myCode'))
       // 点击不同月份调用数据

@@ -45,6 +45,7 @@
 </script>
 
 <style scoped>
+
   #application{
     position: fixed;
     top: 0;
@@ -80,6 +81,7 @@
     left: 0%;
     height: 100%;
     width: 19%;
+    min-width: 196px;
   }
   div.Grid .GridEntry.rightEntry{
     background:#f3f3f5;
@@ -87,6 +89,7 @@
     left: 19%;
     height: 100%;
     width: 80%;
+    min-width:725px;
   }
   .Grid .GridEntry .entryInner{
     position: absolute;

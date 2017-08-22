@@ -1,6 +1,6 @@
 <template>
   <div class="consumeData">
-    <div v-title>报表管理-消费数据</div>
+     
     <div class="countInfo">
       <el-row class="countTitle">
         <span class="countDimension labelAlign" style="margin-right: 0px;">统计维度</span>

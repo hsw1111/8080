@@ -1,5 +1,6 @@
 <template>
 	<div style="margin-right: 20px;">
+		 <div v-title data-title="个人中心"></div>
 		<div id="homepage_content">
 			<div id="home_header">
 				<h1>

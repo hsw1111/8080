@@ -47,10 +47,6 @@ export default {
                 var message = JSON.parse(res.text).message
                 console.log(code)
                 if(code === 1){
-                    that.$message({
-                        type:'success',
-                        message:message
-                    })
                    window.sessionStorage.removeItem('permission')
                     window.sessionStorage.removeItem('authList')
                     window.sessionStorage.removeItem('userName')
@@ -120,7 +116,7 @@ div.admin {
 
 div.admin span.username {
     font-size: 14px;
-    margin-right: 5px;
+    margin-right: 15px;
 }
 
 div.admin i.iconfont {

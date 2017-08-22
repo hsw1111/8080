@@ -13,18 +13,21 @@
                 <div class="signIn">
                   登录
                 </div>
-                <el-form label-width="60px" :model="formLabelAlign" :rules="rules" ref="formLabelAlign">
+                <el-form label-width="60px" :model="formLabelAlign" ref="formLabelAlign">
                   <el-form-item class="userClass" prop="userName" label="">
-                    <el-input v-model="formLabelAlign.userName" placeholder="请输入用户名" autofocus="autofocus" tabindex="1"></el-input>
+                    <el-input v-model="formLabelAlign.userName" placeholder="请输入用户名" v-on:change="checkUserName" autofocus="autofocus" tabindex="1"></el-input>
+                    <div class="el-form-item__error" v-show="showUserNameError">请输入用户名</div>
                   </el-form-item>
                   <el-form-item class="userClass" prop="passWord" label="">
-                    <el-input v-model="formLabelAlign.passWord" @keyup.enter.native="handleEnter" type="passWord" placeholder="请输入密码" tabindex="2"></el-input>
+                    <el-input v-model="formLabelAlign.passWord" @keyup.enter.native="handleEnter" v-on:change="checkPsd" type="passWord" placeholder="请输入密码" tabindex="2"></el-input>
+                    <div class="el-form-item__error" v-show="showPsdError">请输入密码</div>
                   </el-form-item>
                   <div class="button-group" style="">
                     <el-row>
                         <el-button class="login" name="userName" @click="handleSubmit">登录</el-button>
                     </el-row>
                    <el-row>
+                      <div class="showErrorMsg" v-show="showErrorMsg">{{showMessage}}</div>
                       <el-button class="forget_psd" @click="handleFindPsd" name="passWord">忘记密码</el-button>
                    </el-row>
                   </div>
@@ -76,6 +79,7 @@ import request from 'superagent'
 import $ from 'jquery'
 import { checkMobile, IsEmpty,setCookie,getCookie,delCookie } from '../../../utils/index.js'
 import { host } from '../../config/index'
+import {mapState, mapActions, mapGetters } from 'vuex'  
 export default {
   data() {
     var validateTel = (rule, value, callback) => {
@@ -120,6 +124,10 @@ export default {
       }
     };
     return {
+      showErrorMsg:false,
+      showMessage:'',
+      showUserNameError:false,
+      showPsdError:false,
       authList:[],
       sendPhoneCode:false,
       labelPosition: 'right',
@@ -146,8 +154,7 @@ export default {
           { required: true, message: '请输入用户名', trigger: 'blur' },
         ],
         passWord: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          {min:6,max:20,message:'请使用6-20位字符，包含字母、数字、下划线'}
+          { required: true, message: '请输入密码', trigger: 'blur' }
         ]
       },
       findFormRule: {
@@ -164,7 +171,27 @@ export default {
       }
     }
   },
+  computed:{
+    ...mapGetters(['menuitems','isLoadRoutes'])
+  },
   methods: {
+    checkUserName(){
+      var userName = this.formLabelAlign.userName
+      if(userName.trim().length>0){
+        this.showUserNameError = false
+      }else{
+        this.showUserNameError = false
+      }
+    },
+    checkPsd(){
+      var passWord = this.formLabelAlign.passWord
+      if(passWord.trim().length>0){
+        this.showPsdError = false
+      }else{
+        this.showPsdError = false
+      }
+    },
+    ...mapActions(['addMenu','loadRoutes','setUserName','setCityName']), 
     getVerCode(val) {
       var that = this
       var $btn = $('button.getVerCode')
@@ -245,12 +272,13 @@ export default {
       }
     },
     handleSubmit() {
-      if (this.formLabelAlign.userName === '' && this.formLabelAlign.passWord) {
-        this.$message({
-          message: '请输入用户名和密码',
-          type: 'warning'
-        })
-      } else {
+      if (this.formLabelAlign.userName === '') {
+        this.showUserNameError = true
+      }
+      if(this.formLabelAlign.passWord === ''){
+        this.showPsdError = true
+      }
+      if(this.formLabelAlign.userName!==''&&this.formLabelAlign.passWord!==''){
         request
           .post(host + 'beepartner/system/login/franchiseeLogin')
            .withCredentials()
@@ -264,27 +292,36 @@ export default {
           .end((error, res) => {
             if (error) {
               console.log('error:', error)
-              this.$message({
-                type:'error',
-                message:'网络请求超时，请稍候再试'
-              })
+              this.showErrorMsg = true
+              this.showMessage = '网络请求超时，请稍候再试'
             } else {
               if (JSON.parse(res.text).resultCode === 1) {
                  var message = JSON.parse(res.text).message
-                this.$message({
-                  message: message,
-                  type: 'success'
-                })
-                setCookie('userInfo','wwwwwwwww')
+                 this.showErrorMsg = false
+                this.showMessage = message
+                var franchiseeUser = JSON.parse(res.text).franchiseeUser
+                var userName = franchiseeUser.userName
+                var cityName = franchiseeUser.cityName
+                this.setUserName(userName)
+                this.setCityName(cityName)
                 var data = JSON.parse(res.text).data
                 this.authList = data.map((item)=>{
                   return item.menuCode
                 })
-                localStorage.setItem('userinfo',JSON.stringify(this.authList))
-                this.$router.replace('/index/user/back')
+                this.addMenu(this.authList)
+                if (!this.isLoadRoutes) {  
+                  this.$router.addRoutes(this.menuitems)
+                  this.loadRoutes()  
+                }
+                window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
+                window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
+                window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
+                this.$router.push('/system/office')   
+                //this.$router.addRoutes(this.menuitems)  
               } else {
                 var message = JSON.parse(res.text).message
-                this.$message.error(message);
+                 this.showErrorMsg = true
+                this.showMessage = message
               }
             }
           })
@@ -298,6 +335,8 @@ export default {
       this.findForm.tel = ''
       this.findForm.vercode = ''
       this.findForm.verificationCode = ''
+      this.$refs.findPsd.resetFields()
+
     },
     findPsd() {
       var that = this
@@ -377,10 +416,22 @@ export default {
         }
       })
     }
+  },
+  mounted(){
+    // console.log(this.$store)
+    // console.log(this.menuitems)
+    // console.log(this.isLoadRoutes)
   }
 }
 </script>
 <style>
+div.showErrorMsg{color: red;
+    /* display: inline-block; */
+    float: left;
+    line-height: 34px;
+    margin-top: 10px;
+    margin-left: 60px;
+    font-size: 14px;}
 button.login {
     width: 275px;
     height: 36px;

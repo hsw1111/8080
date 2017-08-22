@@ -13,7 +13,7 @@ import {getCookie,setCookie,delCookie} from '../utils/index'
 import * as types from './store/mutation_types.js'
 Vue.directive('title', {
     inserted: function(el, binding) {
-        document.title = el.innerText
+        document.title = el.dataset.title
         el.remove()
     }
 })

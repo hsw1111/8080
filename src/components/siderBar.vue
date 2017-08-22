@@ -85,7 +85,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
 div.theme {
   padding: 30px 0 0 20px;
 }
@@ -143,6 +143,7 @@ div.siderBar {
   color: #999999;
 }
 .el-menu-item-group__title{display: none}
+.el-menu-item-group__title{padding-top:0;}
 /*
 div.el-submenu__title li i.el-icon-menu {
   color: #999999 !important;
