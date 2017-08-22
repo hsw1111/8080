@@ -42,11 +42,33 @@
             </a>
             <i class="el-icon-close" title="删除" @click="openDelete(scope)"></i>
             <!--dialog 弹窗开始-->
-            <el-dialog title="账号信息" :visible.sync="dialogVisible" :modal="true" :modal-append-to-body="false">
+            <el-dialog id="editAccount" title="账号信息" :visible.sync="dialogVisible" :modal="true" :modal-append-to-body="false">
               <el-form class="editAccount" v-loading="loading2" :model="editAccount" :rules="editAccountRule" ref="editRuleForm">
                 <el-form-item label="用户名" prop="userName" :label-width="formLabelWidth">
                   <el-input v-model="editAccount.userName" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="密码" prop="passWord">
+								<el-input type="password" v-model="editAccount.passWord" placeholder='6-20位字符，可包括字母数字，区分大小写'></el-input>
+                <!-- <span class="tips">6-20位字符，可包括字母数字，区分大小写</span> -->
+							</el-form-item>
+							<el-form-item label="所属角色" prop="roleName">
+								<el-select v-model="editAccount.roleName" placeholder="选择角色类型"
+                  :remote-method="remoteMethod"
+                   remote
+                   :loading="isloading"
+                  :disabled = "isDisabled"
+                >
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+									<!--<el-option label="管理员" value="管理员"></el-option>-->
+									<!-- <el-option label="加盟商" value="加盟商"></el-option> -->
+									<!--<el-option label="合伙人" value="合伙人"></el-option>-->
+								</el-select>
+							</el-form-item>
                 <el-form-item label="手机号" :label-width="formLabelWidth">
                   <el-input v-model="editAccount.phoneNo"></el-input>
                 </el-form-item>
@@ -56,6 +78,9 @@
                 <el-form-item label="姓名" :label-width="formLabelWidth">
                   <el-input v-model="editAccount.name" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="备注">
+								  <el-input type="textarea" style="width:340px" v-model="editAccount.description" placeholder="不超过200个字符"></el-input>
+						  	</el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer editfooter">
                 <el-button class="accountMangerBtn" type="primary" @click="handleEditAccount">确定</el-button>
@@ -90,6 +115,9 @@ import request from 'superagent'
 export default {
   data() {
     return {
+      options4:[],
+      isloading:false,
+      isDisabled:false,
       editLoading: false,
       loading2:false,
       isQuery: false,
@@ -125,6 +153,38 @@ export default {
     }
   },
   methods: {
+    remoteMethod() {
+        var that = this
+        
+        setTimeout(() => {
+         
+          request.post(host + 'beepartner/franchisee/User/findRole')
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
+          .end((error,res)=>{
+            if(error){
+              console.log(error)
+               that.options4 = []
+            }else{
+              console.log(res)
+             
+              var roles = JSON.parse(res.text).data.map((item)=>{
+                  var obj = {}
+                  obj.value = item.roleName
+                  obj.label = item.roleName
+                  obj.id = item.id
+                  return obj
+              })
+              if(roles.length>0){
+                that.isDisabled = false
+              }
+              that.options4 = roles
+            }
+          })
+        }, 200)
+    },
     loadAccount(){
       var that = this
        getAllAccount({},function (error, res) {
@@ -209,6 +269,7 @@ export default {
       this.editAccount.index = scope.$index
     },
     handleEditAccount() {
+       this.remoteMethod()
       var newAccountInfo = {}
       var that = this
       newAccountInfo.role = this.editAccount.role
@@ -764,4 +825,5 @@ div.el-pagination {
   margin-top: 20px;
   margin-bottom: 10px
 }
+div#eidtAccount div.el-dialog.el-dialog--small{top:0}
 </style>

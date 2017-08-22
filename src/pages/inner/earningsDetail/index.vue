@@ -243,13 +243,14 @@
     padding-left: 0;
     margin-bottom: 10px;}
     div.el-notification{right:-330px;}
+
 </style>
 
 <script>
 import $ from 'jquery'
 import request from 'superagent'
 import moment from 'moment'
-// require('../../../assets/lib/js/exportExcel.js')
+
 import {host} from '../../../config/index'
 require('../../../assets/lib/js/Blob.js')
 import '../../../assets/css/pagination.css'
@@ -530,12 +531,12 @@ export default {
                   console.log('err:' + err)
                 } else {
                   // 数据处理
-                  var list = JSON.parse(res.text)
-                  var newList = this.tableDataDel(list)
+                  var list = JSON.parse(res.text).data
+                  //var newList = this.tableDataDel(list)
                   if (list.length === 0) {
                     this.$message.error('当前查询没有信息，无法导出哦~');
                   } else {
-                    const data = this.formatJson(filterVal, newList)
+                    const data = this.formatJson(filterVal, list)
                     export_json_to_excel(tHeader, data, '营收明细列表excel')
                     that.$message({
                       type: 'success',
@@ -548,10 +549,6 @@ export default {
           }, 1000)
         })
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
       })
     },
     formatJson (filterVal, jsonData) {

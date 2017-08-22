@@ -200,10 +200,10 @@ export default {
     searchByTimeline() {
       var that = this
       if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '' && this.checkList.length === 0) {
-        this.$message({
-          message: '请输入查询条件',
-          type: 'warning'
-        })
+        // this.$message({
+        //   message: '请输入查询条件',
+        //   type: 'warning'
+        // })
       } else {
         this.isQuery = true
         var startTime, endTime

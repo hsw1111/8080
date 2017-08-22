@@ -1,9 +1,9 @@
 <template>
   <div>
+    <div v-title data-title="蜜蜂出行城市合伙人管理平台-登录"></div>  
     <div class="topHeader"><h1>蜜蜂出行城市合伙人管理平台</h1></div>
     <div id="login">
       <div id="cover">
-        <div v-title>蜜蜂出行城市合伙人管理平台-登录</div>
             <div class="content">
               <header>
                 <p>蜜蜂出行城市合伙人管理平台</p>
