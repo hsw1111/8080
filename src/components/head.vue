@@ -54,6 +54,7 @@ export default {
                     window.sessionStorage.removeItem('authList')
                     window.sessionStorage.removeItem('userName')
                     window.sessionStorage.removeItem('franchiseeUser')
+                    window.sessionStorage.removeItem('franchiseeUserIconUrl')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
