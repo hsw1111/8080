@@ -81,6 +81,7 @@ div.queryLists {
   width: 100%;
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
+  min-height: 681px;
 }
 
 div.queryLists h3 button {

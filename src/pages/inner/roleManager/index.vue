@@ -843,6 +843,7 @@ div.account {
   margin-top: 20px;
   border: 1px solid #e7ecf1;
   border-bottom: none;
+  min-height: 981px;
   /* padding-bottom: 100%; */
 }
 

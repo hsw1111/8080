@@ -92,7 +92,7 @@
       </el-row>
     </div>
   
-    <div style="background:#fff;">
+    <div style="background:#fff;min-height:681px;">
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
           <el-col :span="8">

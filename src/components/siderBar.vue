@@ -85,7 +85,7 @@
         }
     }
 </script>
-<style scoped>
+<style >
 div.theme {
   padding: 30px 0 0 20px;
 }
@@ -109,8 +109,12 @@ div.theme {
 }
 
 div.siderBar {
-  height: 945px;
-  background: #fff;
+      background: #fff;
+    position: absolute;
+    left: 20px;
+    right: 0;
+    top: 30px;
+    bottom: 0;
 }
 
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,
@@ -148,5 +152,6 @@ div.siderBar {
 div.el-submenu__title li i.el-icon-menu {
   color: #999999 !important;
 }*/
+div.el-submenu{color:red}
 </style>
 

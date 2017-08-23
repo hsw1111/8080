@@ -198,6 +198,7 @@
 
 	#earD_body {
     padding: 10px 20px 20px 20px;
+    min-height: 681px;
     background: #fff;
     /*margin-top: 20px;*/
     padding-left: 28px;

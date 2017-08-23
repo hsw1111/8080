@@ -187,6 +187,7 @@
     padding-right: 28px;
     border: 1px solid #e7ecf1;
     border-bottom: none;
+    min-height: 681px;
 	}
 
   #settleRed_table .el-table--enable-row-transition .el-table__body tr td:nth-of-type(1) {
