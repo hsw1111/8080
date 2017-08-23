@@ -138,6 +138,7 @@ div.admin {
 div.admin span.username {
     font-size: 14px;
     margin-right: 15px;
+    margin-left:5px;
 }
 
 div.admin i.iconfont {
