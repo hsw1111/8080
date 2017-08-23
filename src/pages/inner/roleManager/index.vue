@@ -60,7 +60,7 @@
                 :key="name"
                 type="gray"
               >
-                {{name}}
+                {{name + ''}}
               </el-tag>
               <!-- <li :key="name" v-for="name of scope.row.names">{{name}}</li> -->
             </ul>
@@ -835,19 +835,6 @@ body {
   top: 0;  
 }
 
-/*#account_router {
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: block;
-  height: 80%;
-  margin-left: 10%;
-  margin-top: 5%;
-  width: 80%;
-  z-index: 100;
-  background: #f60;
-  overflow: hidden;
-}*/
 
 div.account {
   /* width: 100%; */
@@ -1002,5 +989,7 @@ div.account>h1 .addRoleBtn:nth-of-type(2):hover {border: 1px solid rgb(248, 126,
 div.rolename{font-weight:normal;}
 div.el-tree{width:340px;}
 div.el-textarea{width:340px;}
+span.el-tag{padding:0;background-color:transparent;border:none;}
+
 </style>
 

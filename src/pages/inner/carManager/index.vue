@@ -319,16 +319,19 @@ export default {
     },
     tableDataDel(arr) {
       var arrDeled = []
-      for (var i = 0; i < arr.length; i++) {
-        var obj = {}
-        obj.bikeCode = arr[i].code
-        obj.boxCode = arr[i].boxCode
-        obj.onlineTime = arr[i].onlineTimeStr
-        obj.stateName = arr[i].stateName
-        obj.location = arr[i].location
+      if(arr!=null){
+          for (var i = 0; i < arr.length; i++) {
+          var obj = {}
+          obj.bikeCode = arr[i].code
+          obj.boxCode = arr[i].boxCode
+          obj.onlineTime = arr[i].onlineTimeStr
+          obj.stateName = arr[i].stateName
+          obj.location = arr[i].location
 
-        arrDeled.push(obj)
+          arrDeled.push(obj)
+        }
       }
+      
 
       // console.log('arrDeled:', arrDeled)
       return arrDeled
@@ -413,13 +416,14 @@ export default {
             this.emptyText = '暂无数据'
             console.log('error:', error)
           } else {
+             this.loading2 = false
             var data = JSON.parse((res.text)).data
             var newData = this.tableDataDel(data)
             this.pagetotal = JSON.parse((res.text)).totalPage
             this.tableData = newData
             this.totalItems = Number(JSON.parse((JSON.parse(res.text)).totalItems))
             // loading 关闭
-            this.loading2 = false
+           
             if (this.pagetotal > 1) {
               this.pageShow = true
             } else {
