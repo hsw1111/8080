@@ -13,7 +13,7 @@
     </div>
   
     <!-- account -->
-    <div class="account">
+    <div class="account" id="addAccount">
       <h1>
         <button type="button" @click="openAddRole">添加角色</button>
          <el-dialog
