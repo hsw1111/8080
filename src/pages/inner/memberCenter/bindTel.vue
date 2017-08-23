@@ -267,17 +267,18 @@ export default {
                   })
                 } else {
                   var status = JSON.parse(res.text).resultCode
+                  var message = JSON.parse(res.text).message
                   if (status === 1) {
                     that.loading = false
                     that.$router.push('/index/memberCenter')
                     that.$message({
-                      message: '恭喜你，绑定手机成功',
+                      message: message,
                       type: 'success'
                     })
                   } else {
                     that.loading = false
                     that.$message({
-                      message: 'sorry，绑定手机失败',
+                      message: message,
                       type: 'error'
                     })
                   }
