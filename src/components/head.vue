@@ -48,7 +48,6 @@ export default {
             }else{
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
-                console.log(code)
                 if(code === 1){
                    window.sessionStorage.removeItem('permission')
                     window.sessionStorage.removeItem('authList')
@@ -68,7 +67,6 @@ export default {
     }
   },
   mounted:function(){
-      console.log(this.franchiseeUserIconUrl)
       if(this.franchiseeUserIconUrl!=null){
           this.isIconUrl = false
           this.isImgShow = true

@@ -299,7 +299,6 @@ export default {
             this.loading2 = false
           } else {
             this.loading2  = false
-              console.log(JSON.parse(res.text))
               var totalPage = JSON.parse(res.text).totalPage
                this.totalItems = Number(JSON.parse(res.text).totalItems)
               if (totalPage>1) {
