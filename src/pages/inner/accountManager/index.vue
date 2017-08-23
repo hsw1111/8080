@@ -392,17 +392,18 @@ export default {
             })
           } else {
             var code = JSON.parse(res.text).resultCode
+            var message = JSON.parse(res.text).message
             if (code === 1) {
               that.$message({
                 type: 'success',
-                message: '恭喜你，修改成功'
+                message: message
               })
               that.loading = false
               that.loadAccount()
             } else {
               that.$message({
                 type: 'error',
-                message: '对不起，修改失败'
+                message: message
               })
               that.loading = false
             }
