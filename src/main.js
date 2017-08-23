@@ -22,10 +22,12 @@ Vue.use(Element)
 let authList = window.sessionStorage.getItem('authList') 
 let permission = window.sessionStorage.getItem('permission')
 let franchiseeUser = window.sessionStorage.getItem('franchiseeUser')
+let franchiseeUserIconUrl = window.sessionStorage.getItem('franchiseeUserIconUrl')
 if (authList) {
   store.commit(types.ADD_MENU,JSON.parse(authList) )
   store.commit('updatLoginName',JSON.parse(franchiseeUser).userName)
   store.commit('updatCityName',JSON.parse(franchiseeUser).cityName)
+  store.commit('updatefranchiseeUserIconUrl',franchiseeUserIconUrl)
   router.addRoutes(store.state.menus.items)  
 }  
 

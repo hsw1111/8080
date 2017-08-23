@@ -238,7 +238,8 @@ export default {
             }else{
               console.log(res)
               that.isloading = false
-              var roles = JSON.parse(res.text).data.map((item)=>{
+              var rs = JSON.parse(res.text).data==null?[]:JSON.parse(res.text).data
+              var roles = rs.map((item)=>{
                   var obj = {}
                   obj.value = item.roleName
                   obj.label = item.roleName

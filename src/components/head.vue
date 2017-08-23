@@ -7,7 +7,8 @@
                 </h2>
                 <h3>城市合伙人管理平台<span>{{cityName}}</span></h3>
                 <div class="admin">
-                    <i class="icon iconfont icon-touxiang"></i>
+                    <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
+                     <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
                     <span class="username">{{userName}}</span>
                     <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
@@ -24,11 +25,13 @@ import {mapActions, mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            hidden:false
+            hidden:false,
+            isIconUrl:false,
+            isImgShow:false
         }
     },
     computed:{
-        ...mapGetters(['userName','cityName'])
+        ...mapGetters(['userName','cityName','franchiseeUserIconUrl'])
     },
   methods: {
     ...mapActions(['setUserName']),
@@ -50,6 +53,7 @@ export default {
                    window.sessionStorage.removeItem('permission')
                     window.sessionStorage.removeItem('authList')
                     window.sessionStorage.removeItem('userName')
+                    window.sessionStorage.removeItem('franchiseeUser')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -63,11 +67,27 @@ export default {
     }
   },
   mounted:function(){
-      
+      console.log(this.franchiseeUserIconUrl)
+      if(this.franchiseeUserIconUrl!=null){
+          this.isIconUrl = false
+          this.isImgShow = true
+      }else{
+          this.isIconUrl = true
+          this.isImgShow = false
+      }
   }
 }
 </script>
 <style scoped>
+img.userIcon{width: 30px;
+    height: 30px;
+    outline: none;
+    border: none;
+    float: left;
+    margin-top: 20px;
+    line-height: 0;
+    border-radius: 30px;
+    overflow: hidden;}
 header {
     height: 65px;
     line-height: 65px;

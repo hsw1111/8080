@@ -79,7 +79,7 @@
                 :modal-append-to-body="false"
                 :modal="true"
               >
-                <el-form v-model="editForm" :rules="editRules" refs="editRuleForm">
+                <el-form :model="editForm" :rules="editRules" ref="editRuleForm">
                   <el-form-item label="角色名称" prop="roleName" class="rolename" :label-width="formLabelWidth">
                     <el-input v-model="editForm.roleName" placeholder="请输入角色名称"></el-input>
                   </el-form-item>
@@ -531,7 +531,7 @@ export default {
       })
       console.log(this.menuList)
       this.menuStr = this.menuList.join('-')
-      this.$refs[editRuleForm].validate((valid) => {
+      this.$refs.editRuleForm.validate((valid) => {
           if (valid) {
             request
               .post(host + 'beepartner/admin/Role/updateRole')

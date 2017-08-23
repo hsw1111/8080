@@ -191,7 +191,7 @@ export default {
         this.showPsdError = false
       }
     },
-    ...mapActions(['addMenu','loadRoutes','setUserName','setCityName']), 
+    ...mapActions(['addMenu','loadRoutes','setUserName','setCityName','setfranchiseeUserIconUrl']), 
     getVerCode(val) {
       var that = this
       var $btn = $('button.getVerCode')
@@ -302,6 +302,10 @@ export default {
                 var franchiseeUser = JSON.parse(res.text).franchiseeUser
                 var userName = franchiseeUser.userName
                 var cityName = franchiseeUser.cityName
+                var franchiseeUserIconUrl = franchiseeUser.franchiseeUserIconUrl
+                if(franchiseeUserIconUrl!=null){
+                  this.setfranchiseeUserIconUrl(franchiseeUserIconUrl)
+                }
                 this.setUserName(userName)
                 this.setCityName(cityName)
                 var data = JSON.parse(res.text).data
@@ -313,9 +317,11 @@ export default {
                   this.$router.addRoutes(this.menuitems)
                   this.loadRoutes()  
                 }
+                console.log(this.$store)
                 window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
                 window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
                 window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
+                window.sessionStorage.setItem('franchiseeUserIconUrl',franchiseeUser.franchiseeUserIconUrl)
                 this.$router.push('/system/office')   
                 //this.$router.addRoutes(this.menuitems)  
               } else {

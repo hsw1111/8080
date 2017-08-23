@@ -396,7 +396,7 @@ export default {
               that.lists = []
               var arr = JSON.parse(res.text).data
               that.$store.dispatch('consumeData_action', arr)
-              that.lists = that.$store.state.consumeData
+              that.lists = that.$store.state.users.consumeData
           }
         })
       },

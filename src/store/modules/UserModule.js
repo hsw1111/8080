@@ -16,6 +16,7 @@ const state = {
     consumeDataType: '',
     userName:'',
     cityName:'',
+    franchiseeUserIconUrl:''
 }
 
 const mutations = {
@@ -24,6 +25,9 @@ const mutations = {
     },
     updatCityName(state,cityName){
         state.cityName = cityName
+    },
+    updatefranchiseeUserIconUrl(state,franchiseeUserIconUrl){
+        state.franchiseeUserIconUrl = franchiseeUserIconUrl
     },
     addPlatAcount(state, {obj}) {
         state.platTableData.push(obj)
@@ -76,6 +80,9 @@ const actions = {
   setCityName(context,cityName){
     context.commit('updatCityName',cityName)
   },
+  setfranchiseeUserIconUrl(context,franchiseeUserIconUrl){
+    context.commit('updatefranchiseeUserIconUrl',franchiseeUserIconUrl)
+  },
    //  报表管理 消费数据模块 
   consumeData_action:({ commit }, newArr) => commit('consumeData_evaluation', newArr),
       // 营收记录 收益明细 结算记录模块 start
@@ -91,7 +98,8 @@ const actions = {
 const userName = state => state.userName
 const getters = {
     userName : userName,
-    cityName: state => state.cityName
+    cityName: state => state.cityName,
+    franchiseeUserIconUrl: state => state.franchiseeUserIconUrl
 }
 export default {
   state,

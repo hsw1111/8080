@@ -84,7 +84,7 @@
               </el-form>
               <div slot="footer" class="dialog-footer editfooter">
                 <el-button class="accountMangerBtn" type="primary" @click="handleEditAccount">确定</el-button>
-                <el-button class="accountMangerBtn" @click="dialogVisible = false">取消</el-button>
+                <el-button class="accountMangerBtn" @click="cancleEdit">取消</el-button>
               </div>
             </el-dialog>
             <!--dialog 弹窗结束-->
@@ -117,7 +117,7 @@ export default {
     return {
       options4:[],
       isloading:false,
-      isDisabled:false,
+      isDisabled:true,
       editLoading: false,
       loading2:false,
       isQuery: false,
@@ -148,11 +148,16 @@ export default {
         index: ''
       },
       editAccountRule: {
-        userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }]
+        userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
+        passWord:[{ required: true, trigger: 'blur', message: '请输入用密码' }],
       }
     }
   },
   methods: {
+    cancleEdit(){
+      this.dialogVisible = false
+      this.$refs.editRuleForm.resetFields();
+    },
     remoteMethod() {
         var that = this
         
@@ -169,16 +174,18 @@ export default {
                that.options4 = []
             }else{
               console.log(res)
-             
-              var roles = JSON.parse(res.text).data.map((item)=>{
+              var rs = JSON.parse(res.text).data==null?[]:JSON.parse(res.text).data
+              var roles = rs.map((item)=>{
                   var obj = {}
                   obj.value = item.roleName
-                  obj.label = item.roleName
-                  obj.id = item.id
+                      obj.label = item.roleName
+                      obj.id = item.id
                   return obj
               })
               if(roles.length>0){
                 that.isDisabled = false
+              }else{
+                that.isDisabled = true
               }
               that.options4 = roles
             }
@@ -267,11 +274,12 @@ export default {
       this.editAccount.name = scope.row.name
       this.editAccount.status = scope.row.status
       this.editAccount.index = scope.$index
+       this.remoteMethod()
     },
     handleEditAccount() {
-       this.remoteMethod()
+       var that = this
       var newAccountInfo = {}
-      var that = this
+     
       newAccountInfo.role = this.editAccount.role
       newAccountInfo.id = this.editAccount.id
       newAccountInfo.userName = this.editAccount.userName
@@ -460,6 +468,7 @@ export default {
     }
   },
   mounted() {
+   
     this.currentPage = 1
     this.loadingText = '拼命加载中'
      this.loading = true

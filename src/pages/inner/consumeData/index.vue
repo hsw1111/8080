@@ -286,6 +286,8 @@ export default {
 }
 </script>
 <style>
+button.el-button.el-button--default:hover{color:#000}
+button.el-button.active.el-button--default:hover{color:#fff}
 div.consumeData {
   margin-right: 20px;
 }
