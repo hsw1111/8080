@@ -155,12 +155,19 @@ export default {
                 //this.form.data2 = ''
               }
         }else{
-           if (_endTime < _startTime) {
+          if (_endTime <= 1) {
             this.$message({
               type: 'error',
-              message: '开始日期不能大于结束日期'
+              message: '结束日期不能为空'
             })
           }else{
+            if(_endTime<_startTime){
+              this.$message({
+                type: 'error',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+            }
             if( this.datetype === 'daily'){
                   var timeStart = moment(this.form.data1).format('YYYY-MM-DD')
                     var timeEnd = moment(this.form.data2).format('YYYY-MM-DD')
@@ -226,10 +233,6 @@ export default {
             message: '开始日期不能大于结束日期'
           })
         } else if ((startTime > endTime) && endTime.toString().length === 1) {
-          this.$message({
-            type: 'error',
-            message: '请输入结束日期'
-          })
         } else {
           return
         }
