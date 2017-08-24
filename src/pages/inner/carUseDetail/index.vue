@@ -457,7 +457,7 @@ export default {
     currentPage3:{
       handler: function(val,oldVal){
       this.loading2 = true
-       request.post(host + 'beepartner/admin/franchisee/Bike/getBikeDetail')
+       request.post(host + '/beepartner/admin/Bike/getBikeDetail')
         .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'

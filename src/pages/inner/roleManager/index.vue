@@ -73,7 +73,7 @@
           </template>
         </el-table-column>
       </el-table>
-        <el-dialog v-loading="loading2"
+        <el-dialog id="modifyRoles" v-loading="loading2"
                 title="修改角色"
                 :visible.sync="dialogEditVisible"
                 :modal-append-to-body="false"
@@ -949,7 +949,7 @@ i.el-icon-edit, i.el-icon-close{cursor:pointer}
  .eidtRoleBtn {
     width: 120px;
     height: 50px;}
- .eidtRoleBtn:nth-of-type(1):hover{background: rgba(248, 126, 43, 0.9);}
+ .eidtRoleBtn:nth-of-type(1):hover{background: rgba(248, 126, 43, 0.9);color:#fff;}
 .eidtRoleBtn:nth-of-type(1) {
     background: #f87e2b;
     border: none;
@@ -960,7 +960,7 @@ div.account>h1 .addRoleBtn {
     width: 120px;
     height: 50px;
     font-size:14px;}
- div.account>h1 .addRoleBtn:nth-of-type(1):hover{background: rgba(248, 126, 43, 0.9);}
+ div.account>h1 .addRoleBtn:nth-of-type(1):hover{background: rgba(248, 126, 43, 0.9)}
 div.account>h1 .addRoleBtn:nth-of-type(1) {
     background: #f87e2b;
     border: none;
@@ -981,7 +981,7 @@ div.account>h1 .addRoleBtn:nth-of-type(2):hover {border: 1px solid rgb(248, 126,
     background: rgba(52,52,67, 0.8);}
     button#roleSearchBtn:hover{color:#fff}
     div.editfooter{text-align: left;
-    padding-left: 120px;
+    padding-left: 220px;
     margin-top: -43px;}
     div.addfooter{text-align: left;
     padding-left: 120px;

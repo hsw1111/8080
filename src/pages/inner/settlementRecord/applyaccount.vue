@@ -270,9 +270,9 @@ export default {
                                           type:'error',
                                           message: message
                                         })
-                                      }else if(code === 1){
+                                      }else if(code === -1){
                                         that.$message({
-                                          type:'success',
+                                          type:'error',
                                           message: message
                                         })
                                         that.isApply = true
