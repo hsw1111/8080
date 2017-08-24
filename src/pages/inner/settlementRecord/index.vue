@@ -257,7 +257,7 @@ export default {
             this.pageShow = false
             this.emptyText = ' 暂无数据'
           }
-          this.emptyText = '  '
+          //this.emptyText = '  '
          
 
           var arr2 = this.tableDataDel(newArr)

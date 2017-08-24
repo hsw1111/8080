@@ -22,7 +22,7 @@
             :disabled="true">
           </el-input>
         </li>
-        <li>可结算金额:     &nbsp;&nbsp;&nbsp;<span class="diffMoney" style="font-size: 16px;color: #000;"> {{diffMoney}}</span><b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
+        <li>可结算金额:     &nbsp;&nbsp;&nbsp;<span class="diffMoney"v-show="lastMoney" style="font-size: 16px;color: #000;"> {{diffMoney}}</span><b style="font-weight:normal;margin-left:15px;" v-show="initMoneyShow" class="initMoney">0</b>元
           <span>*每月结算一次，结算金额=上个月所有车辆的盈利*80%+以前遗留的未结算金额。</span>
         </li>
         <li>
@@ -89,6 +89,7 @@ import {host} from '../../../config/index'
 export default {
   data() {
     return {
+      lastMoney:true,
       diffMoney:'',
       appleySetMoney:'',
       isApply:false,
@@ -169,6 +170,7 @@ export default {
       
     },
     loadData(){
+      this.appleySetMoney = ''
        request
         .post(host + 'beepartner/franchisee/withDraw/applyWithDraw')
         .withCredentials()
@@ -219,6 +221,7 @@ export default {
               this.initMonth = true
               this.confirm = false
               this.moneyIn = false
+              this.lastMoney = false
             }
           }
         })
@@ -285,7 +288,8 @@ export default {
                                         that.$message({
                                           type:'error',
                                           message: message
-                                        })
+                                        })                          
+                                      }else{
                                         that.isApply = true
                                       }
                                     instance.confirmButtonLoading = false;
