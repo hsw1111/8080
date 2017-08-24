@@ -188,8 +188,18 @@ export default {
           } else {
             // loading 关闭
                 this.loading2 = false
+                var arr = JSON.parse(res.text).data
+              var pageNumber = JSON.parse(res.text).totalPage
+              this.totalItems = Number(JSON.parse(res.text).totalItems) 
+              if(pageNumber>1){
+                this.pageShow = true
+              }else{
+                this.pageShow = false
+              }
+              this.tableData = arr
             var allMonth = JSON.parse(res.text).withDraws
             this.monthLists = []
+            
             if(allMonth.length>0){
               for (var i = 0; i < allMonth.length; i++) {
                 var mon = {}
@@ -202,6 +212,7 @@ export default {
               this.diffMoney = JSON.parse(res.text).withDraws[0].money
               // 根据渲染的未结算月份显示当前月份的详细数据
               this.getDataByTime()
+              
             } else {
               this.initMoneyShow = true
               this.initSetMoney = true

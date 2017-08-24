@@ -242,6 +242,8 @@ export default {
           this.emptyText = '暂无数据'
           this.pageShow = false
         } else {
+         // loading 关闭
+          this.loading2 = false
           var newArr = JSON.parse(res.text).data
           this.cityPartner = JSON.parse(res.text).cityPartner
           // 页面总数
@@ -256,8 +258,7 @@ export default {
             this.emptyText = ' 暂无数据'
           }
           this.emptyText = '  '
-          // loading 关闭
-          this.loading2 = false
+         
 
           var arr2 = this.tableDataDel(newArr)
           this.$store.dispatch('settlementDate_action', { newArr })
