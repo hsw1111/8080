@@ -7,7 +7,7 @@
     <el-row class="watchButton">
       <el-col :span="2">
         <span class="orderMoney"></span>
-        <i>实际收益</i>
+        <i>利润</i>
       </el-col>
       <el-col :span="2">
         <span class="orderNum"></span>

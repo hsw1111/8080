@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-right:20px;">
+  <div >
      <div v-title data-title="角色管理"></div>
     <div id="am_search">
       <label>
@@ -79,6 +79,7 @@
                 :modal-append-to-body="false"
                 :modal="true"
               >
+               
                 <el-form :model="editForm" :rules="editRules" ref="editRuleForm">
                   <el-form-item label="角色名称" prop="roleName" class="rolename" :label-width="formLabelWidth">
                     <el-input v-model="editForm.roleName" placeholder="请输入角色名称"></el-input>
@@ -94,6 +95,7 @@
                       node-key="id"
                       :props="defaultProps2"
                       :default-checked-keys="fathCode"
+                      
                       >
                     </el-tree>
                   </el-form-item>
@@ -101,7 +103,7 @@
                 <div slot="footer" class="dialog-footer editfooter">
                   
                   <el-button class="eidtRoleBtn"  @click="handleEditRole">确定</el-button>
-                  <el-button class="eidtRoleBtn" @click="dialogEditVisible = false">取消</el-button>
+                  <el-button class="eidtRoleBtn" @click="handleCancelEdit">取消</el-button>
                 </div>
             </el-dialog>  
             <el-pagination
@@ -138,6 +140,7 @@ export default {
         }
       }
     return {
+      rowMenuList:[],
       timer:null,
       emptyText: ' ',
       flag: false,
@@ -406,6 +409,7 @@ export default {
          this.loading2 = false
          var result = JSON.parse(res.text).data
          var totalPage = JSON.parse(res.text).totalPage
+        
          var message = JSON.parse(res.text).message
           if(message == '用户登录超时'){
             this.emptyText = '暂无数据'
@@ -417,7 +421,6 @@ export default {
             })
            return Object.assign({},item,{franchiseeUserList:arr})
          })
-         console.log(newArr)
          if(totalPage>1){
            this.pageShow = true
          }else {
@@ -512,6 +515,12 @@ export default {
       this.flag = false
     },
     openEditRole (scope) {
+      this.rowMenuList = scope.row.menuList.map((item)=>{return item*1})
+      var that = this;
+       setTimeout(function(){
+             that.setCheckedKeys()
+          },200)
+      //this.$refs.tree.setCheckedKeys([]);
       this.dialogEditVisible = true
       this.editForm.roleName = scope.row.roleName
       this.editForm.des = scope.row.des
@@ -520,8 +529,6 @@ export default {
       this.editForm.roleType = scope.row.roleType
       this.fathCode = []
       this.childrenCode = []
-      // this.fathCode  = scope.row.fathCode
-      // this.childrenCode  = scope.row.childrenCode
     },
     handleEditRole () {
       var that = this
@@ -529,7 +536,6 @@ export default {
       this.menuList = this.getCheckedKeys().map((item)=>{
         return item
       })
-      console.log(this.menuList)
       this.menuStr = this.menuList.join('-')
       this.$refs.editRuleForm.validate((valid) => {
           if (valid) {
@@ -678,12 +684,22 @@ export default {
     },
     getCheckedKeys () {
         return this.$refs.tree.getCheckedKeys()
+    },
+    setCheckedKeys(){
+       this.$refs.tree.setCheckedKeys(this.rowMenuList)
+    },
+    handleCancelEdit(){
+      this.dialogEditVisible = false
+       this.$refs.tree.setCheckedKeys([])
+       this.rowMenuList = [];
     }
   },
   mounted () {
    this.loadRole()
     $(".sign").removeClass('is-active')
     $('.sign[name="1700"]').addClass('is-active')
+    
+    
   },
   watch:{
     'flag':{
@@ -843,8 +859,6 @@ div.account {
   margin-top: 20px;
   border: 1px solid #e7ecf1;
   border-bottom: none;
-  min-height: 981px;
-  /* padding-bottom: 100%; */
 }
 
 div.account>h1 {

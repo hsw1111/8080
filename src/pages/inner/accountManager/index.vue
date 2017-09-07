@@ -376,9 +376,10 @@ export default {
       })
     },
     changeState(scope) {
-      console.log(scope)
+      
       var that = this
       this.loading = true
+      console.log(scope.row)
       modifyAccountState(
         {
           id: scope.row.id,
@@ -399,7 +400,8 @@ export default {
                 message: message
               })
               that.loading = false
-              that.loadAccount()
+             
+              //that.loadAccount()
             } else {
               that.$message({
                 type: 'error',
@@ -459,10 +461,10 @@ export default {
             }
           })
       } else {
-        this.$message({
-          type: 'error',
-          message:'请输入查询条件'
-        })
+        // this.$message({
+        //   type: 'error',
+        //   message:'请输入查询条件'
+        // })
         that.loading = false
         this.tableData = this.initData
       }
@@ -617,7 +619,7 @@ div.account {
   margin-top: 20px;
   border: 1px solid #e7ecf1;
   border-bottom: none;
-  min-height: 981px;
+
   /* padding-bottom: 100%; */
 }
 

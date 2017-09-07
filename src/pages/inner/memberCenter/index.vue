@@ -1,5 +1,5 @@
 <template>
-	<div style="margin-right: 20px;">
+	<div>
 		<div v-title data-title="个人中心"></div>
 		<div id="homepage_content">
 			<div id="home_header">
@@ -114,7 +114,7 @@ body {
 	padding: 20px;
 	background: #fff;
 	margin-bottom: 20px;
-	border: 1px solid #e7ecf1;
+	/* border: 1px solid #e7ecf1; */
 }
 
 #home_header {
@@ -184,8 +184,8 @@ body {
 
 .homepage_select {
 	/*width: 100%;*/
-	min-height: 681px;
-	border: 1px solid #e7ecf1;
+
+	/* border: 1px solid #e7ecf1; */
 	padding: 2px 20px 0 20px;
 	background: #fff;
 	line-height: 60px;
@@ -349,11 +349,9 @@ export default {
 			return isJPG && isLt2M
 		},
 		handleAvatarSuccess(res, file) {
-			console.log(2,file)
 			//this.imageUrl = URL.createObjectURL(file.raw)
 		},
 		uploadWay(file) {
-			console.log(file)
 			var that = this
 			var reader = new FileReader();
 			reader.readAsDataURL(file.file);
@@ -396,7 +394,6 @@ export default {
 				inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
 				inputErrorMessage: '邮箱格式不正确'
 			}).then(({ value }) => {
-				console.log(value)
 				// if(value) {
 				// 	updateEmail(
 				// 		{	
@@ -469,7 +466,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(this.franchiseeUserIconUrl)
+
 		this.imageUrl = this.franchiseeUserIconUrl
 		this.getInfo()
 		$(".sign").removeClass('is-active')

@@ -317,15 +317,6 @@ export default {
     }
   },
   mounted () {
-    $('.M-box').pagination({
-      pageCount: 50,
-      jump: true,
-      coping: true,
-      homePage: '首页',
-      endPage: '尾页',
-      prevContent: '«',
-      nextContent: '»'
-    })
   },
   methods: {
     handleCheckAllChange (event) {

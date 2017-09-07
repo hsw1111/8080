@@ -612,7 +612,7 @@ div.showCarInfo {
   background: #fff;
   border: 1px solid #e7ecf1;
   border-bottom: none;
-  min-height: 681px;
+
 }
 
 div#carManager_page {

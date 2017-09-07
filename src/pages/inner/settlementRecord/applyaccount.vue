@@ -1,7 +1,7 @@
 <template>
   <div style="margin-right:20px;">
     <div v-title data-title="结算管理-申请结算"></div>
- 
+    <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益就是用户实际支付的金额，但不等于订单费用减去优惠券支付金额；优惠券支付的金额可能大于订单费用；例如某笔订单骑行费用是3元，然后用户可能是用5元的优惠券抵扣的。</div></div></div>
     <div id="apply_account_header">
       <h1>申请结算 <span @click="$router.push('/index/settlementRecord')">返回</span></h1>
   
@@ -71,8 +71,7 @@
     </div>
   
     <div id="apply_account_page">
-      <div class="M-box">
-      </div>
+      
     </div>
   
   </div>
@@ -89,6 +88,7 @@ import {host} from '../../../config/index'
 export default {
   data() {
     return {
+       notice:false,
       lastMoney:true,
       diffMoney:'',
       appleySetMoney:'',
@@ -118,12 +118,14 @@ export default {
     }
   },
   methods: {
+     mouseLeaveHandler(){
+      $('div.el-notification').animate({right:'-330px'},500,function(){
+         this.notice = false
+      })
+    },
     mouseEnterHandler(){
-      this.$notify.warning({
-        title: '温馨提示',
-        message: '实际收益就是用户实际支付的金额，但不等于订单费用减去优惠券支付金额；优惠券支付的金额可能大于订单费用；例如某笔订单骑行费用是3元，然后用户可能是用5元的优惠券抵扣的。',
-        offset: 100
-      });
+      this.notice = true
+      $('div.el-notification').animate({right:'1px'},500)
     },
     rendHeader(h,{column,$index}){
        return  h('div',{
@@ -144,7 +146,8 @@ export default {
              style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
            },
            on: {
-            mouseenter: this.mouseEnterHandler
+            mouseenter: this.mouseEnterHandler,
+            mouseleave:this.mouseLeaveHandler
           }
          })
        ])
@@ -442,6 +445,7 @@ export default {
 </script>
 
 <style scoped>
+div.el-notification{right:-330px;}
 html,
 body,
 h1,

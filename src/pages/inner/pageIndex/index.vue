@@ -10,10 +10,10 @@
           </div>
           <div v-loading="loading2">
             <div class="income_count monthcount">
-              ￥{{monthIncoming}}
+              {{monthIncoming===null?'暂无数据':'￥' + monthIncoming}}
             </div>
             <div class="income_diff">
-              <span>较上月：{{monthIncrease}}</span>
+              <span>较上月：{{monthIncrease===null?'暂无数据':monthIncrease}}</span>
             </div>
           </div>
         </el-col>
@@ -23,11 +23,13 @@
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
           </div>
           <div v-loading="loading3">
-             <div class="income_count daycount">
-              ￥{{todayIncoming}}
-            </div>
+             <div>
+               <div class="income_count daycount">
+                {{todayIncoming===null?'暂无数据':'￥' + todayIncoming}}
+                </div>
+             </div>
             <div class="income_diff">
-              <span>较昨日：{{todayIncrease}}</span>
+              <span>较昨日：{{todayIncrease===null?'暂无数据':'￥' + todayIncrease}}</span>
             </div>
           </div>
          
@@ -44,11 +46,11 @@
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
              <el-col :span="24" v-loading="loading3">
-              <el-col :span="5">车辆总数{{allCarsNum}}辆</el-col>
-              <el-col :span="5" class="using">待出租{{waitLend}}辆</el-col>
-              <el-col :span="5">已出租{{rented}}辆</el-col>
-              <el-col :span="5">已预定{{ordered}}辆</el-col>
-              <el-col :span="4">维护中{{repaired}}辆 <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="5">{{allCarsNum===null?'车辆总数暂无':'车辆总数' + allCarsNum +'辆'}}</el-col>
+              <el-col :span="5" class="using">{{waitLend===null?'待出租暂无':'待出租' + waitLend +'辆'}}</el-col>
+              <el-col :span="5"> {{rented===null?'已出租暂无':'已出租' + rented +'辆'}}</el-col>
+              <el-col :span="5">{{ordered===null?'已预定暂无':'已预定' + ordered +'辆'}}</el-col>
+              <el-col :span="4">{{repaired===null?'维护中暂无':'维护中' + repaired +'辆'}} <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -86,24 +88,28 @@
                   </el-row>
                 </li>
               </ul>
+              <div v-show="status.length===0" class="nodata">
+                暂无数据
+              </div>
             </div>
           </div>
         </el-col>
       </el-row>
     </div>
   
-    <div style="background:#fff;min-height:681px;">
+    <div style="background:#fff;">
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
           <el-col :span="8">
-            当前已为您赚到<span class="earn">￥{{franchiseeAllIncome}}</span>
+            当前已为您赚到<span class="earn">{{franchiseeAllIncome===null?'暂无数据':'￥' + franchiseeAllIncome}}</span>
           </el-col>
           <el-col :span="8">
-            已结算<span class="settle">￥{{alreadyWidthDrawMoney}}</span>
+            已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
           </el-col>
           <el-col :span="8">
-            待结算<span class="wait">￥{{canWidthDrawMoney}}</span>
-            <el-button  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
+            待结算<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
+            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
+            <el-button style="float:right;width:80px;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">结算</el-button>
           </el-col>
         </el-row>
       </div>
@@ -283,6 +289,8 @@ span.earn, span.settle {color:rgba(134,134,134,1);font-weight: bold;margin-left:
 span.wait{color:rgba(255,102,0,1);font-weight: bold;margin-left:8px;}
 div.using{color:rgba(255,102,0,1);}
 div.settlementInfo div.el-col-8:nth-child(3){text-align: left;}
+div.nodata{line-height:200px;text-align:center;}
+.el-button.is-disabled:hover{color:#bfcbd9;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'
@@ -297,6 +305,7 @@ export default {
       loading3:true,
       loading4:true,
       loading5:false,
+      todayShow:false,
       monthIncoming:'',
       monthIncrease:'',
       todayIncoming:'',
@@ -333,9 +342,22 @@ export default {
             this.loading3  = false
           } else {
             this.loading3  = false
-            var result = JSON.parse(res.text).data
-            this.todayIncoming = result.currentRevenue
-            this.todayIncrease = result.todayIncrease
+            var code = JSON.parse(res.text).resultCode
+            if(code!=-1){
+               var result = JSON.parse(res.text).data
+              this.todayIncoming = result.currentRevenue
+              if(this.todayIncoming!=null){
+                this.todayShow = true
+              }else{
+                this.todayShow = false
+              }
+             this.todayIncrease = result.todayIncrease
+            }else{
+              this.todayIncoming = null;
+              this.todayIncrease = null;
+             
+            }
+           
           }
         })
         /*本月营收*/
@@ -350,10 +372,16 @@ export default {
             console.log(err)
             this.loading2  = false
           } else {
+             var code = JSON.parse(res.text).resultCode
             this.loading2  = false
-            var result = JSON.parse(res.text).data
-            this.monthIncoming = result.monthRevenue
-            this.monthIncrease = result.monthIncrease
+            if(code!=-1){
+              var result = JSON.parse(res.text).data
+              this.monthIncoming = result.monthRevenue
+              this.monthIncrease = result.monthIncrease
+            }else{
+              this.monthIncoming = null
+              this.monthIncrease = null
+            }
           }
         })
         // /*车辆运营信息*/
@@ -367,16 +395,32 @@ export default {
           if (err) {
             console.log(err)
           } else {
+            
             this.cityPartner = JSON.parse(res.text).cityPartner
-            this.allCarsNum = this.cityPartner.bikeNum
-            this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates
-            this.waitLend = this.allKindsCars[0].cnt
-            this.rented = this.allKindsCars[1].cnt
-            this.ordered = this.allKindsCars[2].cnt
-            this.repaired = this.allKindsCars[3].cnt
-            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-            this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
-            this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+            var code = JSON.parse(res.text).resultCode
+            console.log(code)
+            if(code!=-1){
+                console.log('inner')
+                this.allCarsNum = this.cityPartner.bikeNum
+                this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates||[]
+                this.waitLend = this.allKindsCars[0].cnt
+                this.rented = this.allKindsCars[2].cnt
+                this.ordered = this.allKindsCars[3].cnt
+                this.repaired = this.allKindsCars[1].cnt
+                this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+                this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
+                this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+            }else{
+               this.waitLend = null
+                this.rented = null
+                this.ordered = null
+                this.repaired = null
+                this.allCarsNum = null
+                 this.alreadyWidthDrawMoney = null
+                this.canWidthDrawMoney = null
+                this.franchiseeAllIncome = null
+            }
+            
           }
         })
         /*当前动态*/
@@ -392,7 +436,7 @@ export default {
               this.loading  = false
             } else {
                this.loading  = false
-              var result = JSON.parse(res.text).data
+              var result = JSON.parse(res.text).data||[]
               this.status = result
             }
           })
@@ -424,7 +468,7 @@ export default {
     $('.sign[name="1100"]').addClass('is-active')
    this.checkoutSeesion()
     this.loadIndexData()
-    
+     
   }
 }
 </script>

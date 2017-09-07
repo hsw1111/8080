@@ -52,8 +52,7 @@
       >
     </el-pagination>
 		<div id="earD_page">
-			<div class="M-box">
-			</div>
+		
 		</div>
   </div>
 </template>
@@ -81,7 +80,7 @@ div.queryLists {
   width: 100%;
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
-  min-height: 681px;
+  
 }
 
 div.queryLists h3 button {
@@ -96,7 +95,7 @@ div.queryLists h3 button {
   background: #fff;
   /*border: 1px solid #e7ecf1;*/
   border-top: none;
-  min-height: 233px;
+  
   margin-left: -9px;
 }
 
@@ -309,7 +308,7 @@ export default {
                 this.emptyText = '暂无数据'
               }
               that.lists = []
-              var arr = JSON.parse(res.text).data
+              var arr = JSON.parse(res.text).data||[]
               that.$store.dispatch('consumeData_action', arr)
               that.lists = that.$store.state.users.consumeData
           }
@@ -349,7 +348,7 @@ export default {
               this.emptyText = '暂无数据'
             }
             that.lists = []
-            var arr = JSON.parse(res.text).data
+            var arr = JSON.parse(res.text).data||[]
             that.$store.dispatch('consumeData_action', arr)
             that.lists = that.$store.state.users.consumeData
         }
@@ -393,7 +392,7 @@ export default {
                 this.emptyText = '暂无数据'
               }
               that.lists = []
-              var arr = JSON.parse(res.text).data
+              var arr = JSON.parse(res.text).data||[]
               that.$store.dispatch('consumeData_action', arr)
               that.lists = that.$store.state.users.consumeData
           }

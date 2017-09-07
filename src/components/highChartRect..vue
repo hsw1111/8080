@@ -27,6 +27,7 @@
       }
     },
     mounted: function () {
+      document.title="统计图表"
       var type = this.$store.state.users.consumeDataType
       request
       .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
@@ -46,8 +47,10 @@
           console.log('error:', error)
           this.noData = true
         } else {
-          if (JSON.parse(res.text).data.length === 0) {
-            console.log( $('#container'))
+          var len = JSON.parse(res.text).data.length
+         
+          if (len === 0) {
+            //console.log( $('#container'))
             $('#container').html('')
             this.noData = true
           } else {
@@ -302,6 +305,7 @@
               } else {
                 this.noData = false
                 var arr = JSON.parse(res.text).data
+                console.log(arr)
                 this.$store.dispatch('consumeData_action', arr)
                 this.getChartDate()
                 this.createChartsShap()
