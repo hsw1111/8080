@@ -68,6 +68,12 @@ export default [{
         component: carManager
       },
       {
+        path: '/index/earningsDetail',
+        name: '订单明细',
+        auth: 1401,
+        component: earningsDetail
+      },
+      {
         path: '/index/consumeData',
         auth: 1301,
         component: consumeData,
@@ -83,12 +89,7 @@ export default [{
           }
         ]
       },
-      {
-        path: '/index/earningsDetail',
-        name: '收入明细',
-        auth: 1401,
-        component: earningsDetail
-      },
+     
       {
         path: '/index/settlementRecord',
         name: '结算记录',
@@ -106,17 +107,6 @@ export default [{
         path: '/index/applysubmitted/:id',
         name: '申请结算(结算状态)',
         component: applysubmitted
-      },
-      {
-        path: '/index/accountManager',
-        name: '账号管理',
-        auth: 1500,
-        component: accountManager,
-        children: [{
-          path: '/index/accountManager/addaccount',
-          name: '添加账号',
-          component: addaccount
-        }]
       },
       {
         path: '/index/memberCenter',
@@ -150,6 +140,18 @@ export default [{
           }
         ]
       },
+      {
+        path: '/index/accountManager',
+        name: '账号管理',
+        auth: 1500,
+        component: accountManager,
+        children: [{
+          path: '/index/accountManager/addaccount',
+          name: '添加账号',
+          component: addaccount
+        }]
+      },
+   
       {
         path: '/index/roleManager',
         name: '角色管理',

@@ -264,7 +264,7 @@ export default {
               })
           }
         } else {
-          if (_endTime <= 1) {
+          if (_endTime < 0) {
             this.$message({
               type: 'error',
               message: '结束日期不能为空'
@@ -353,6 +353,7 @@ export default {
         }
 
         var radio = this.checkList.toString()
+        return
         request
           .post(host + 'beepartner/franchisee/bike/findBike')
           .withCredentials()

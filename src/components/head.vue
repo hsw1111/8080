@@ -67,7 +67,9 @@ export default {
     }
   },
   mounted:function(){
-      if(this.franchiseeUserIconUrl!=null){
+     
+    
+      if(this.franchiseeUserIconUrl!='null'){
           this.isIconUrl = false
           this.isImgShow = true
       }else{

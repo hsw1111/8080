@@ -38,6 +38,7 @@ if (authList) {
 }
 
 router.beforeEach((route, redirect, next) => {
+
   if (route.path === '/login') {
     window.sessionStorage.removeItem('permission')
     window.sessionStorage.removeItem('authList')

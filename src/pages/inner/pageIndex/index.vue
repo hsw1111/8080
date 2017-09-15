@@ -398,9 +398,7 @@ export default {
             
             this.cityPartner = JSON.parse(res.text).cityPartner
             var code = JSON.parse(res.text).resultCode
-            console.log(code)
             if(code!=-1){
-                console.log('inner')
                 this.allCarsNum = this.cityPartner.bikeNum
                 this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates||[]
                 this.waitLend = this.allKindsCars[0].cnt

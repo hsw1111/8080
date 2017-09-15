@@ -9,7 +9,7 @@
           <p>可结算金额：</p>
           <span>{{canWidthDrawMoney}}</span>
           <span>元</span>
-          <button class="canWidthDrawMoney" v-show="!canWidthDrawMoney===0" @click="$router.push({path:'/index/applyaccount'})">申请结算</button>
+          <button class="canWidthDrawMoney" v-show="canWidthDrawMoney!==0" @click="$router.push({path:'/index/applyaccount'})">申请结算</button>
           <el-button v-show="canWidthDrawMoney===0" type="primary" :disabled="true">申请结算</el-button>
         </h2>
         <h3>

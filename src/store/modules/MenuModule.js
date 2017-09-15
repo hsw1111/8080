@@ -12,6 +12,7 @@ const mutations = {
      state.items = []
    }else{
       generateMenuItems(state,authList)
+
    }
   },  
   [types.LOAD_ROUTES] (state) {  

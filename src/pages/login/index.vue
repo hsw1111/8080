@@ -317,12 +317,19 @@ export default {
                   this.$router.addRoutes(this.menuitems)
                   this.loadRoutes()  
                 }
-                console.log(this.$store)
+                if(data.length>0){
+                   var path = this.menuitems[0].children[0].path;
+                     this.$router.push(path)   
+                }else{
+                     this.$router.push('/nofound')
+                }
+              
                 window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
                 window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
                 window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
                 window.sessionStorage.setItem('franchiseeUserIconUrl',franchiseeUser.franchiseeUserIconUrl)
-                this.$router.push('/system/office')   
+                    
+              
                 //this.$router.addRoutes(this.menuitems)  
               } else {
                 var message = JSON.parse(res.text).message

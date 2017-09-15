@@ -97,6 +97,14 @@ export default {
 
       })
     },
+    randomColor(){
+      var rgb = '255,255,255'
+      var r = Math.random()*255+1
+      var g = Math.random()*255+1
+      var b = Math.random()*255+1
+      var color = 'rgba('+r+','+g+','+b+',0.7)'
+      return color
+    },
     loadData() {
       request.post(host + 'beepartner/franchisee/statistics/franchiseeTrend')
         .withCredentials()
@@ -114,40 +122,50 @@ export default {
             if (code != -1) {
               var arr = JSON.parse(res.text).data
               this.active = false
-              var data = arr.splice(arr.length - 7, arr.length - 1)
-              var res = data.map((item) => {
-                return { totalBill: item.totalBill }
-              })
-              this.data = [
-                {
-                  color: 'red',
-                  y: res[0].totalBill
-                },
-                {
-                  color: 'green',
-                  y: res[1].totalBill
-                },
-                {
-                  color: 'blue',
-                  y: res[2].totalBill
-                },
-                {
-                  color: 'orange',
-                  y: res[3].totalBill
-                },
-                {
-                  color: 'brown',
-                  y: res[4].totalBill
-                },
-                {
-                  color: 'gray',
-                  y: res[5].totalBill
-                },
-                {
-                  color: 'pink',
-                  y: res[6].totalBill
-                }
-              ]
+             if(arr.length>14){
+                 var data = arr.splice(arr.length - 7, arr.length - 1)
+                var res = data.map((item) => {
+                  return { totalBill: item.totalBill }
+                })
+                this.data = [
+                  {
+                    color: 'red',
+                    y: res[0].totalBill
+                  },
+                  {
+                    color: 'green',
+                    y: res[1].totalBill
+                  },
+                  {
+                    color: 'blue',
+                    y: res[2].totalBill
+                  },
+                  {
+                    color: 'orange',
+                    y: res[3].totalBill
+                  },
+                  {
+                    color: 'brown',
+                    y: res[4].totalBill
+                  },
+                  {
+                    color: 'gray',
+                    y: res[5].totalBill
+                  },
+                  {
+                    color: 'pink',
+                    y: res[6].totalBill
+                  }
+                ]
+             }else{
+               var res = arr.map((item)=>{
+                 return {
+                   color:this.randomColor(),
+                   y: item.totalBill
+                 }
+               })
+               this.data = res
+             }
               this.generateCharts(this.categories, this.data)
             }else{
               this.data = []
