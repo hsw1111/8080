@@ -107,9 +107,9 @@
             已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
           </el-col>
           <el-col :span="8">
-            待结算<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
-            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">结算</el-button>
-            <el-button style="float:right;width:80px;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">结算</el-button>
+            可结算<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
+            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">确认结算</el-button>
+            <el-button style="float:right;width:80px;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">确认结算</el-button>
           </el-col>
         </el-row>
       </div>

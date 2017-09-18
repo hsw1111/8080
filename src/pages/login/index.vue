@@ -315,7 +315,8 @@ export default {
                 this.addMenu(this.authList)
                 if (!this.isLoadRoutes) {  
                   this.$router.addRoutes(this.menuitems)
-                  this.loadRoutes()  
+                  this.loadRoutes()
+                   // this.$router.push('/system/office')   
                 }
                 if(data.length>0){
                    var path = this.menuitems[0].children[0].path;
@@ -339,6 +340,8 @@ export default {
             }
           })
       }
+      
+
     },
     handleEnter() {
       this.handleSubmit()
