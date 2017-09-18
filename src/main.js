@@ -38,34 +38,36 @@ if (authList) {
 }
 
 router.beforeEach((route, redirect, next) => {
-  next()
-  // if (route.path === '/login') {
-  //   window.sessionStorage.removeItem('permission')
-  //   window.sessionStorage.removeItem('authList')
-  //   window.sessionStorage.removeItem('franchiseeUserIconUrl')
-  //   window.sessionStorage.removeItem('franchiseeUser')
-  //   store.commit(types.ADD_MENU, [])
-  // }
-  // var authList = window.sessionStorage.getItem('authList')
-  // if (!authList && route.path !== '/login') {
-  //   next({
-  //     path: '/login'
-  //   })
-  // } else {
-  //   console.log(route.name)
-  //   if (route.name) {
-  //     next()
-  //     if ($('div.editcontainer').length > 0) {
-  //       $("div.entryInner").animate({
-  //         scrollTop: 0
-  //       }, 500)
-  //     }
-  //   } else {
-  //     next({
-  //       path: '/nofound'
-  //     })
-  //   }
-  // }
+  
+  //next()
+
+  if (route.path === '/login') {
+    window.sessionStorage.removeItem('permission')
+    window.sessionStorage.removeItem('authList')
+    window.sessionStorage.removeItem('franchiseeUserIconUrl')
+    window.sessionStorage.removeItem('franchiseeUser')
+    store.commit(types.ADD_MENU, [])
+    console.log(store)
+  }
+  var authList = window.sessionStorage.getItem('authList')
+  if (!authList && route.path !== '/login') {
+    next({
+      path: '/login'
+    })
+  } else {
+    if (route.name) {
+      next()
+      if ($('div.editcontainer').length > 0) {
+        $("div.entryInner").animate({
+          scrollTop: 0
+        }, 500)
+      }
+    } else {
+      next({
+        path: '/nofound'
+      })
+    }
+  }
 })
 
 

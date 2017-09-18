@@ -271,6 +271,7 @@ export default {
       this.editAccount.userName = scope.row.userName
       this.editAccount.email = scope.row.email
       this.editAccount.phoneNo = scope.row.phoneNo
+      this.editAccount.description = scope.row.description
       this.editAccount.name = scope.row.name
       this.editAccount.status = scope.row.status
       this.editAccount.index = scope.$index

@@ -26,6 +26,7 @@ import earningsDetail from '../pages/inner/earningsDetail/index.vue'
 import settlementRecord from '../pages/inner/settlementRecord/index2.vue'
 import applyaccount from '../pages/inner/settlementRecord/applyaccount.vue'
 import applysubmitted from '../pages/inner/settlementRecord/applysubmitted.vue'
+import settlementRecordDetail from '../pages/inner/settlementRecord/settlementRecordDetail.vue'
 
 // [ ====== accountManager ====== ]
 import accountManager from '../pages/inner/accountManager/index.vue'
@@ -170,5 +171,11 @@ export default [{
     path: '/index/carManager/carUseDetail',
     name: '车辆明细',
     component: carUseDetail
-  }
+  },
+  {
+    path: '/index/settlementRecord/detail',
+    name: '结算记录明细',
+    auth: 1402,
+    component: settlementRecordDetail
+  },
 ]

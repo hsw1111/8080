@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-title data-title="蜜蜂出行城市合伙人管理平台-登录"></div>  
-    <div class="topHeader"><h1>蜜蜂出行城市合伙人管理平台</h1></div>
+    <div v-title data-title="蜜蜂出行加盟商管理平台-登录"></div>  
+    <div class="topHeader"><h1>蜜蜂出行加盟商管理平台</h1></div>
     <div id="login">
       <div id="cover">
             <div class="content">
               <header>
-                <p>蜜蜂出行城市合伙人管理平台</p>
+                <p>蜜蜂出行加盟商管理平台</p>
               </header>
               <div class="loginForm">
                 <div class="logo"><img src="../../assets/img/footer.png"></div> 
@@ -279,7 +279,8 @@ export default {
         this.showPsdError = true
       }
       if(this.formLabelAlign.userName!==''&&this.formLabelAlign.passWord!==''){
-        request
+        for(var i = 0;i<=1;i++){
+             request
           .post(host + 'beepartner/system/login/franchiseeLogin')
            .withCredentials()
           .set({
@@ -320,6 +321,8 @@ export default {
                 }
                 if(data.length>0){
                    var path = this.menuitems[0].children[0].path;
+                   console.log(path)
+
                      this.$router.push(path)   
                 }else{
                      this.$router.push('/nofound')
@@ -339,9 +342,9 @@ export default {
               }
             }
           })
+        }
+       
       }
-      
-
     },
     handleEnter() {
       this.handleSubmit()

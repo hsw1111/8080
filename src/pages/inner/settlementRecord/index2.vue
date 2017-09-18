@@ -51,7 +51,7 @@
            label="操作"
         >
           <template scope="scope">
-           <router-link target="_blank" :class="{active:scope.row.status==0?true:false,normal:scope.row.status!==0?true:false}" to>确认结算</router-link>
+           <router-link target="_blank" :class="{active:scope.row.status==0?true:false,normal:scope.row.status!==0?true:false}" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.date}}">确认结算</router-link>
           </template>
         </el-table-column>
          <el-table-column
@@ -134,6 +134,7 @@
       span.profit,span.canSettle,span.desc{color:#8c8c8c}
       span.wait{color:rgb(255, 204, 0);}
       i{font-style:normal}
+      .el-pagination{padding:0;margin-top:20px;border-left:none;}
     }
    
 </style>
