@@ -72,7 +72,7 @@
               >
 
               </el-table-column>
-              <el-table-column label="骑行里程（公里）" min-width="15%" prop="rideMileage">
+              <el-table-column label="骑行里程（米）" min-width="15%" prop="rideMileage">
 
               </el-table-column>
               <el-table-column label="订单费用" prop="actualAmount" min-width="10%">
@@ -457,7 +457,7 @@ export default {
     currentPage3:{
       handler: function(val,oldVal){
       this.loading2 = true
-       request.post(host + '/beepartner/admin/Bike/getBikeDetail')
+       request.post(host + 'beepartner/admin/Bike/getBikeDetail')
         .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'

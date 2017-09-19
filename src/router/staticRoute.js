@@ -23,7 +23,7 @@ import checkpartner from '../pages/inner/partnerManager/checkpartner.vue'
 import earningsDetail from '../pages/inner/earningsDetail/index.vue'
 
 // [ ====== settlementRecord ====== ]
-import settlementRecord from '../pages/inner/settlementRecord/index2.vue'
+import settlementRecord from '../pages/inner/settlementRecord/index.vue'
 import applyaccount from '../pages/inner/settlementRecord/applyaccount.vue'
 import applysubmitted from '../pages/inner/settlementRecord/applysubmitted.vue'
 import settlementRecordDetail from '../pages/inner/settlementRecord/settlementRecordDetail.vue'

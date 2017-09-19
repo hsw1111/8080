@@ -88,7 +88,7 @@
                   </el-row>
                 </li>
               </ul>
-              <div v-show="status.length===0" class="nodata">
+              <div v-show="nowStatus" class="nodata">
                 暂无数据
               </div>
             </div>
@@ -300,6 +300,7 @@ import {host} from '../../../config/index'
 export default {
   data: function () {
     return {
+      nowStatus:false,
       loading:true,
       loading2:true,
       loading3:true,
@@ -435,6 +436,11 @@ export default {
             } else {
                this.loading  = false
               var result = JSON.parse(res.text).data||[]
+              if(result.length==0){
+                this.nowStatus = true
+              }else{
+                this.nowStatus = false
+              }
               this.status = result
             }
           })

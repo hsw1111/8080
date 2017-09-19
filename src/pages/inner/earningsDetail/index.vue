@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column
         prop="rideMileage"
-        label="骑行里程（公里）"
+        label="骑行里程（米）"
         min-width="15%"
         >
       </el-table-column>
@@ -480,7 +480,7 @@ export default {
           var that = this
           setTimeout(() => {
             const { export_json_to_excel } = require('../../../assets/lib/js/Export2Excel.js')
-            const tHeader = ['车辆编号', '下单时间', '骑行时间（分钟）', '骑行里程(公里)', '订单费用', '优惠券支付','实际收益（元）']
+            const tHeader = ['车辆编号', '下单时间', '骑行时间（分钟）', '骑行里程(米)', '订单费用', '优惠券支付','实际收益（元）']
             const filterVal = ['bikeCode', 'placeOrderTime', 'rideTime', 'rideMileage', 'orderMoney', 'couponAmount', 'balanceAmount']
             var type = that.$route.query.type
             var newType
