@@ -81,7 +81,7 @@
               <el-table-column label="优惠券支付" prop="couponAmount" min-width="12%">
 
               </el-table-column>
-              <el-table-column label="实际收益" prop="userPayAmount"
+              <el-table-column label="实际收益" prop="balanceAmount"
                  :render-header="rendHeader"
                  min-width="15%"
               >
