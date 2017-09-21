@@ -2,10 +2,11 @@
   <div class="container">
     <div class="wrap">
        <div class="inline subCount">
-        累计已结算：<span>10</span>次
+        累计已结算：<span>{{	alreadyWidthDrawTimes }}</span>次
       </div>
+				
       <div class=" inline subCount">
-        共获得收益金额：<span>10000</span>元
+        共获得收益金额：<span>{{alreadyWithDrawMoney }}</span>元
       </div>
     </div>
     <div class="table">
@@ -16,23 +17,23 @@
            label="结算单周期"
         >
           <template scope="scope">
-            <span class="date">{{scope.row.date}}</span>
+            <span class="date">{{scope.row.withDrawMonth}}</span>
           </template>
         </el-table-column>
         <el-table-column
-           prop="profit"
+           prop="applyMoney"
            label="周期总收益(￥)"
         >
            <template scope="scope">
-             <span class="profit">{{scope.row.profit}}</span>
+             <span class="profit">{{scope.row.totalProfit}}</span>
           </template>
         </el-table-column>
          <el-table-column
-           prop="canSettle"
+           prop="applyMoney"
            label="可结算收益(￥)"
         >
            <template scope="scope">
-             <span class="profit">{{scope.row.canSettle}}</span>
+             <span class="profit">{{scope.row.applyMoney}}</span>
           </template>
         </el-table-column>
          <el-table-column
@@ -40,9 +41,9 @@
            label="状态"
         >
           <template scope="scope">
-            <span :class="{wait:scope.row.status==0?true:false}">
-              <i v-if="scope.row.status==0">待确认</i>
-              <i v-else-if="scope.row.status==1">待结算</i>
+            <span :class="{wait:scope.row.status==1?true:false}">
+              <i v-if="scope.row.status==1">待确认</i>
+              <i v-else-if="scope.row.status==2">待结算</i>
               <i v-else>已结算</i>
             </span>
           </template>
@@ -51,15 +52,15 @@
            label="操作"
         >
           <template scope="scope">
-           <router-link target="_blank" :class="{active:scope.row.status==0?true:false,normal:scope.row.status!==0?true:false}" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.date}}">确认结算</router-link>
+           <router-link target="_blank" :class="{active:scope.row.status==1?true:false,normal:scope.row.status!==0?true:false}" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.date}}">确认结算</router-link>
           </template>
         </el-table-column>
          <el-table-column
-           prop="desc"
+           prop="description"
            label="财务备注"
         >
            <template scope="scope">
-             <span class="profit">{{scope.row.desc}}</span>
+             <span class="profit">{{scope.row.description}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -75,6 +76,10 @@
   </div>
 </template>
 <script>
+import $ from 'jquery'
+import request from 'superagent'
+import moment from 'moment'
+import { host } from '../../../config/index'
   export default {
     data(){
       return {
@@ -109,6 +114,50 @@
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
       }
+    },
+    mounted(){
+       request
+      .post(host + 'beepartner/franchisee/withDraw/findWithDraw')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
+      })
+      .end((err, res) => {
+        if (err) {
+          console.log('err:' + err)
+          this.loading2 = false
+          this.emptyText = '暂无数据'
+          this.pageShow = false
+        } else {
+          // loading 关闭
+          this.loading2 = false
+          var code = JSON.parse(res.text).resultCode
+          if (code != -1) {
+            var newArr = JSON.parse(res.text).data
+            this.tableData = newArr
+        
+            // 页面总数
+            var pageNumber = JSON.parse(res.text).totalPage
+            // 总记录数
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
+            this.totalPage = pageNumber
+            if (pageNumber > 1) {
+              this.pageShow = true
+            } else {
+              this.pageShow = false
+              this.emptyText = ' 暂无数据'
+            }
+         
+          }else{
+            this.pageShow = false
+            this.emptyText = ' 暂无数据'
+            var newArr = []
+          
+            this.tableData = []
+          }
+
+        }
+      })
     }
   }
 </script>
