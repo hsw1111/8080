@@ -66,7 +66,7 @@
             <span class="data_display ">24小时趋势
             </span>
             <span  style="font-weight:normal;font-size:12px;color:#bbb;">时间段内车辆接单数,每10分钟自动刷新</span>
-            <span class="arrow">>></span>
+            <span style="display:none;" class="arrow">>></span>
           </div>
           <div class="Histogram">
             <myCanvas></myCanvas>
@@ -109,7 +109,7 @@
           <el-col :span="8">
             可结算<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
             <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">确认结算</el-button>
-            <el-button style="float:right;width:80px;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">确认结算</el-button>
+            <el-button style="float:right;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">确认结算</el-button>
           </el-col>
         </el-row>
       </div>
@@ -472,7 +472,7 @@ export default {
     $('.sign[name="1100"]').addClass('is-active')
    this.checkoutSeesion()
     this.loadIndexData()
-     
+     document.title="蜜蜂出行加盟商管理平台"
   }
 }
 </script>

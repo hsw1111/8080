@@ -16,7 +16,8 @@ const state = {
     consumeDataType: '',
     userName:'',
     cityName:'',
-    franchiseeUserIconUrl:''
+    franchiseeUserIconUrl:'',
+    settelListId:'',
 }
 
 const mutations = {
@@ -71,9 +72,15 @@ const mutations = {
     },
     recodeConsumeDataType(state,str){
         state.consumeDataType =  str
+    },
+    recodeSettelListId(state,id){
+        state.settelListId = id
     }
 }
 const actions = {
+  setSettleListId(context,id){
+    context.commit('recodeSettelListId',id)
+  },  
   setUserName(context,userName){
     context.commit('updatLoginName',userName)
   },
@@ -99,7 +106,8 @@ const userName = state => state.userName
 const getters = {
     userName : userName,
     cityName: state => state.cityName,
-    franchiseeUserIconUrl: state => state.franchiseeUserIconUrl
+    franchiseeUserIconUrl: state => state.franchiseeUserIconUrl,
+    settelListId: state => state.settelListId
 }
 export default {
   state,

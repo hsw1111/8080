@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-title data-title="蜜蜂出行加盟商管理平台-登录"></div>  
+    <div v-title data-title="蜜蜂出行加盟商管理平台"></div>  
     <div class="topHeader"><h1>蜜蜂出行加盟商管理平台</h1></div>
     <div id="login">
       <div id="cover">

@@ -2,22 +2,27 @@
   <div class="container">
     <div class="wrap">
        <div class="inline subCount">
-        累计已结算：<span>{{	alreadyWidthDrawTimes }}</span>次
+        累计已结算：<span>{{alreadyWidthDrawTimes}}</span>次
       </div>
 				
       <div class=" inline subCount">
-        共获得收益金额：<span>{{alreadyWithDrawMoney }}</span>元
+        共获得收益金额：<span>{{alreadyWidthDrawMoney}}</span>元
       </div>
     </div>
     <div class="table">
       <el-table
         :data="tableData"
+         v-loading="loading"
+         element-loading-text="拼命加载中"
       >
         <el-table-column
+            width="250"
            label="结算单周期"
         >
           <template scope="scope">
-            <span class="date">{{scope.row.withDrawMonth}}</span>
+            <span class="date">
+               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth}}"> {{scope.row.withDrawMonth}}</router-link>
+             </span>
           </template>
         </el-table-column>
         <el-table-column
@@ -41,18 +46,22 @@
            label="状态"
         >
           <template scope="scope">
-            <span :class="{wait:scope.row.status==1?true:false}">
-              <i v-if="scope.row.status==1">待确认</i>
-              <i v-else-if="scope.row.status==2">待结算</i>
-              <i v-else>已结算</i>
+            <span :class="{wait:scope.row.statusName=='待确认'?true:false}">
+             {{scope.row.statusName}}
             </span>
+            
           </template>
         </el-table-column>
          <el-table-column
            label="操作"
         >
           <template scope="scope">
-           <router-link target="_blank" :class="{active:scope.row.status==1?true:false,normal:scope.row.status!==0?true:false}" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.date}}">确认结算</router-link>
+            <div v-show="scope.row.statusName==='待确认'">
+                <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth}}">确认结算</router-link>
+            </div>
+           <div v-show="scope.row.statusName!=='待确认'">
+                <a :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}">确认结算</a>
+            </div>
           </template>
         </el-table-column>
          <el-table-column
@@ -83,30 +92,13 @@ import { host } from '../../../config/index'
   export default {
     data(){
       return {
-        pageShow:true,
+        loading:true,
+        alreadyWidthDrawMoney:'',
+        alreadyWidthDrawTimes:'',
+        pageShow:false,
         currentPage3:1,
         totalItems:30,
-        tableData: [{
-          date: '2016-05-02',
-          profit: '1122',
-          canSettle: '1122',
-          status:0,//待确认
-          desc: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-03',
-          profit: '1122',
-          canSettle: '1122',
-          status:1,//待结算
-          desc: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          profit: '1122',
-          canSettle: '1122',
-          status:2,//已结算
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
+        tableData: [
         ]
       }
     },
@@ -116,6 +108,9 @@ import { host } from '../../../config/index'
       }
     },
     mounted(){
+      document.title="结算管理"
+        $(".sign").removeClass('is-active')
+    $('.sign[name="1402"]').addClass('is-active')
        request
       .post(host + 'beepartner/franchisee/withDraw/findWithDraw')
       .withCredentials()
@@ -125,17 +120,24 @@ import { host } from '../../../config/index'
       .end((err, res) => {
         if (err) {
           console.log('err:' + err)
-          this.loading2 = false
+          this.loading = false
           this.emptyText = '暂无数据'
           this.pageShow = false
         } else {
           // loading 关闭
           this.loading2 = false
           var code = JSON.parse(res.text).resultCode
-          if (code != -1) {
+          if(code === -1){
+             this.alreadyWidthDrawMoney = 0;
+             this.alreadyWidthDrawTimes = 0;
+             this.loading = false
+          }
+          if (code === 1) {
+            this.loading = false;
             var newArr = JSON.parse(res.text).data
+            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+            this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes
             this.tableData = newArr
-        
             // 页面总数
             var pageNumber = JSON.parse(res.text).totalPage
             // 总记录数
@@ -152,8 +154,8 @@ import { host } from '../../../config/index'
             this.pageShow = false
             this.emptyText = ' 暂无数据'
             var newArr = []
-          
             this.tableData = []
+            
           }
 
         }

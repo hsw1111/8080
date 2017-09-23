@@ -13,10 +13,10 @@
         结算周期：<span>{{month}}</span>
       </div>
       <div class="line">
-        本期总收益：<span>20000</span>元
+        本期总收益：<span>{{totalProfit}}</span>元
       </div>
       <div class="line">
-        本期结算金额：<span>20000</span>元
+        本期结算金额：<span>{{actProfit}}</span>元
       </div>
       <div class="line ">
         <button v-show="isSettled" class="open" @click="openDialog">确定结算</button>
@@ -31,7 +31,7 @@
               结算周期：{{month}}
             </div>
             <div class="tips">
-              本期结算金额：<span>8000</span>元
+              本期结算金额：<span>{{actProfit}}</span>元
             </div>
           </div>
           <span slot="footer" class="dialog-footer">
@@ -42,9 +42,9 @@
         </el-dialog>
        
       </div>
-      <div class="line line_status ">
-        <div v-if="status" class="statu rect1"><i>已结算</i></div>
-        <div v-else class="statu rect2"><i>待结算</i></div>
+      <div class="line line_status " v-show="!isSettled">
+        <div v-show="state===3" class="statu rect1"><i>已结算</i></div>
+        <div v-show="state===2" class="statu rect2"><i>待结算</i></div>
       </div>
     </div>
     </div>
@@ -106,39 +106,39 @@
            <td class="in">
               <!-- <div class="grid_title">经营收入</div> -->
               <div class="grid">
-                <span>2017/10/03</span>
-                <span>100,007.10</span>
-                <span>60</span>
+                <span>{{list.statisticId}}</span>
+                <span>{{list.actualMoney}}</span>
+                <span>{{list.decultAmount}}</span>
               </div>
             </td>
             <td class="out">
               <!-- <div class="grid_title">经营支出</div> -->
               <div class="grid">
-                 <div class="item money">20,000.00</div>
+                 <div class="item money">{{list.rebackAmount}}</div>
                  <div class="item third">
                    <!-- <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div> -->
                    <div class="list">
-                     <div class="cell">50</div>
-                     <div class="cell">188</div>
-                     <div class="cell">0.006</div>
-                     <div class="cell">56.40</div>
+                     <div class="cell">{{list.depositTimes}}</div>
+                     <div class="cell">{{list.deposit}}</div>
+                     <div class="cell">{{list.thirdPartyFeeRate}}</div>
+                     <div class="cell">{{list.depositTimes*list.deposit*list.thirdPartyFeeRate}}</div>
                    </div>
                  </div>
                  <div class="item sevice">
                       <!-- <div class="list subtitle">用户消费支付第三方支付平台服务</div> -->
                       <div class="list">
-                        <div class="cell">33,677.10</div>
-                        <div class="cell">0.006</div>
-                        <div class="cell">202.06</div>
+                        <div class="cell">{{list.actualMoney}}</div>
+                        <div class="cell">{{list.thirdPartyFeeRate}}</div>
+                        <div class="cell">{{list.actualMoney*list.thirdPartyFeeRate}}</div>
                       </div>
                  </div>
                  <div class="item auth">
 
                    <!-- <div class="list subtitle">授权费</div> -->
                     <div class="list">
-                      <div class="cell">100,067.10</div>
-                      <div class="cell">0.05</div>
-                      <div class="cell">5,003.36</div>
+                      <div class="cell">{{list.actualMoney + list.decultAmount}}</div>
+                      <div class="cell">{{list.licenseFeeRate}}</div>
+                      <div class="cell">{{(list.actualMoney + list.decultAmount) * list.licenseFeeRate}}</div>
                     </div>
                  </div>
               </div>
@@ -146,7 +146,7 @@
             <td class="count">
               <!-- <div class="grid_title">最终收益</div> -->
               <div class="grid">
-                74,805.28
+                {{list.actProfit}}
               </div>
             </td>
           </tr>
@@ -154,7 +154,7 @@
         <tfoot>
           <tr class="count">
             <th class="totalText" colspan = "2">总计：</th>
-            <th class="totalNum">748,310.53</th>
+            <th class="totalNum">{{totalProfit}}</th>
           </tr>
         </tfoot>
       </table>
@@ -173,23 +173,69 @@
 </template>
 <script>
 import $ from 'jquery'
+import request from 'superagent'
+import moment from 'moment'
+import { host } from '../../../config/index'
+import {mapGetters} from 'vuex'
   export default {
+    computed:{
+      ...mapGetters(['settelListId'])
+    },
     data(){
       return {
+
+        state:'',
+        actProfit:'',
+        totalProfit:'',
         status:false,
-        isSettled:true,
+        isSettled:false,
         dialogVisible:false,
         isHide:false,
         month:'',
         items:[
-          {id:1},
-          {id:2},
-          {id:3}
         ]
       }
     },
-    mounted(){
-     this.month = this.$route.query.month
+     mounted(){
+       console.log(this.$store)
+       console.log(this.settelListId)
+        this.month = this.$route.query.month
+       request
+      .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
+      })
+      .send({
+        applyTimeStr:this.month
+      })
+      .end((err, res) => {
+        if (err) {
+          console.log('err:' + err)
+         
+        } else {
+          // loading 关闭
+          var code = JSON.parse(res.text).resultCode
+          var message = JSON.parse(res.text).message
+          this.state = JSON.parse(res.text).withDrawRecord.status
+          this.actProfit = JSON.parse(res.text).withDrawRecord.actProfit
+          if(this.state===1||this.actProfit===0){
+            this.isSettled = true
+          }else if(this.state===2){
+            this.isSettled = false
+          }
+          if(code  === -1){
+             this.$router.push('/login')
+          }
+          if (code === 1) {
+            var newArr = JSON.parse(res.text).data
+            this.items = newArr
+            this.totalProfit =  JSON.parse(res.text).withDrawRecord.totalProfit
+            this.actProfit = JSON.parse(res.text).withDrawRecord.actProfit
+          }
+
+        }
+      })
     },
     methods:{
       openDialog(){
@@ -209,9 +255,28 @@ import $ from 'jquery'
           }
         },1000)
         // 发起结算请求
-        if(3>2){
-            this.isSettled = false
-        }
+        request
+        .post(host + 'beepartner/franchisee/withDraw/applyWithDrawMoney')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send({
+          applyTimeStr:this.month
+        })
+        .end((err,res)=>{
+          if(err){
+            console.log(err)
+          }else{
+            console.log(res)
+            var code = JSON.parse(res.text).resultCode
+            if(code===1){
+              this.isSettled = false
+              this.status = true
+            }
+          }
+        })
+       
       }
     }
   }
