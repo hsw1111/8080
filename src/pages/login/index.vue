@@ -327,7 +327,7 @@ export default {
                 }
                 if(data.length>0){
                    var path = this.menuitems[0].children[0].path;
-                   console.log(path)
+                  
 
                      this.$router.push(path)   
                 }else{

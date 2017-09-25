@@ -46,8 +46,8 @@ router.beforeEach((route, redirect, next) => {
     window.sessionStorage.removeItem('authList')
     window.sessionStorage.removeItem('franchiseeUserIconUrl')
     window.sessionStorage.removeItem('franchiseeUser')
+    window.sessionStorage.removeItem('name')
     store.commit(types.ADD_MENU, [])
-    console.log(store)
   }
   var authList = window.sessionStorage.getItem('authList')
   if (!authList && route.path !== '/login') {
