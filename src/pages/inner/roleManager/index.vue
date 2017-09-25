@@ -21,7 +21,7 @@
             <el-form-item label="角色名称" prop="roleName" class="rolename" :label-width="formLabelWidth">
               <el-input v-model="form.roleName" placeholder="请输入角色名称"></el-input>
             </el-form-item>
-            <el-form-item label="备注" class="rolename" :label-width="formLabelWidth">
+            <el-form-item label="备注" class="rolename" prop="description" :label-width="formLabelWidth">
               <el-input type="textarea" v-model="form.description"></el-input>
             </el-form-item>
             <el-form-item label="权限列表" class="rolename" :label-width="formLabelWidth">
@@ -63,7 +63,7 @@
           <el-form-item label="角色名称" prop="roleName" class="rolename" :label-width="formLabelWidth">
             <el-input v-model="editForm.roleName" placeholder="请输入角色名称"></el-input>
           </el-form-item>
-          <el-form-item label="备注" :label-width="formLabelWidth">
+          <el-form-item label="备注" prop="description" :label-width="formLabelWidth">
             <el-input type="textarea" v-model="editForm.description"></el-input>
           </el-form-item>
           <el-form-item label="权限列表" :label-width="formLabelWidth">
@@ -486,6 +486,7 @@ export default {
       this.flag = false
     },
     openEditRole(scope) {
+      
       this.rowMenuList = scope.row.menuList.map((item) => { return item * 1 })
       var that = this;
       setTimeout(function() {
@@ -494,7 +495,7 @@ export default {
       //this.$refs.tree.setCheckedKeys([]);
       this.dialogEditVisible = true
       this.editForm.roleName = scope.row.roleName
-      this.editForm.des = scope.row.des
+      this.editForm.description = scope.row.description
       this.editForm.id = scope.row.id
       this.editForm.index = scope.$index
       this.editForm.roleType = scope.row.roleType

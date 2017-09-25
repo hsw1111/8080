@@ -35,7 +35,7 @@
 						<button :class="{disabled:btnDisabled}" :disabled="btnDisabled" @click='$router.push({path:"/index/memberCenter/bindTel"})'>绑定手机号</button>
 					</span>
 
-					<span>
+					<span v-show="editPhone">
 						<button @click='$router.push({path:"/index/memberCenter/updateTel"})'>修改手机号</button>
 					</span>
 				</li>
@@ -59,7 +59,7 @@
 						<i class="iconfont right">&#xe616;</i>
 					</span>
 					<span>登录密码</span>
-					<span>建议使用6-20个字符，包含字母、数字、下划线</span>
+					<span class="suggest">建议使用6-20个字符，包含字母、数字、下划线</span>
 					<button @click='$router.push({path:"/index/memberCenter/amendPassword"})'>修改密码</button>
 				</li>
 			</ul>
@@ -108,6 +108,11 @@ body {
 	z-index: 100;
 	left: 0;
 	top: 0;
+}
+
+.suggest {
+	font-size: 14px;
+	color: #ccc;
 }
 
 #homepage_content {
@@ -329,7 +334,8 @@ export default {
 			phone: null,
 			email: null,
 			telBinded: false,
-			emailBinded: false
+			emailBinded: false,
+			editPhone: true
 		}
 	},
 	computed:{
@@ -455,9 +461,13 @@ export default {
 							if (this.phoneNoBand === 0) {
 								this.btnDisabled = false
 								this.telBinded = false
+								// 没有绑定手机号时，修改手机号功能影藏。
+								this.editPhone = false
 							} else {
 								this.btnDisabled = true
 								this.telBinded = true
+
+								this.editPhone = true
 							}
 
 						}

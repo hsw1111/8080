@@ -258,12 +258,6 @@ export default {
       var that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$confirm('确认添加吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '信息有误',
-            type: 'warning'
-          }
-        ).then(() => {
           this.options4.map((item)=>{
             if(item.value === this.ruleForm.roleName){
               this.ruleForm.roleId = item.id
@@ -311,12 +305,6 @@ export default {
                   }
                 })
               },400)
-        }).catch(() => {
-            // this.$message({
-            //   type: 'info',
-            //   message: '已取消添加'
-            // })
-          })
         } else {
           console.log('error submit!!')
           return false
