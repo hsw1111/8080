@@ -302,7 +302,8 @@ export default {
               userName: newAccountInfo.userName,
               name: newAccountInfo.name,
               email: newAccountInfo.email,
-              phoneNo: newAccountInfo.phoneNo
+              phoneNo: newAccountInfo.phoneNo,
+              passWord:newAccountInfo.passWord
             }, function (error, res) {
               if (error) {
                 that.$message({
