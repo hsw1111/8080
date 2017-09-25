@@ -197,8 +197,6 @@ import {mapGetters} from 'vuex'
       }
     },
      mounted(){
-       console.log(this.$store)
-       console.log(this.settelListId)
         this.month = this.$route.query.month
        request
       .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
@@ -219,13 +217,15 @@ import {mapGetters} from 'vuex'
           var message = JSON.parse(res.text).message
           this.state = JSON.parse(res.text).withDrawRecord.status
           this.actProfit = JSON.parse(res.text).withDrawRecord.actProfit
-          if(this.state===1||this.actProfit===0){
+          if(this.state===1){
             this.isSettled = true
-          }else if(this.state===2){
+          }else if(this.state===2||this.actProfit===0){
             this.isSettled = false
+          }else{
+             this.isSettled = false
           }
           if(code  === -1){
-             this.$router.push('/login')
+             //this.$router.push('/login')
           }
           if (code === 1) {
             var newArr = JSON.parse(res.text).data
@@ -242,6 +242,7 @@ import {mapGetters} from 'vuex'
         this.dialogVisible = true;
       },
       confirmSubmit(){
+        var that = this;
         this.dialogVisible = false;
         this.isHide = true
         var text = $('span.time').find('b').text();
@@ -255,14 +256,15 @@ import {mapGetters} from 'vuex'
           }
         },1000)
         // 发起结算请求
-        request
+        setTimeout(function(){
+             request
         .post(host + 'beepartner/franchisee/withDraw/applyWithDrawMoney')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          applyTimeStr:this.month
+          applyTimeStr:that.month
         })
         .end((err,res)=>{
           if(err){
@@ -270,12 +272,25 @@ import {mapGetters} from 'vuex'
           }else{
             console.log(res)
             var code = JSON.parse(res.text).resultCode
+            var message = JSON.parse(res.text).message
             if(code===1){
-              this.isSettled = false
-              this.status = true
+              that.$message({
+                message:message,
+                type:'success'
+              })
+              that.isSettled = false
+              that.status = true
+            }
+            if(code == 0 ){
+               that.$message({
+                message:message,
+                type:'error'
+              })
             }
           }
         })
+        },3000)
+       
        
       }
     }
