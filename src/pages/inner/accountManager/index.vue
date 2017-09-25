@@ -293,6 +293,7 @@ export default {
       newAccountInfo.status = this.editAccount.status
       newAccountInfo.passWord = this.editAccount.passWord
       var index = this.editAccount.index
+      console.log(' ')
       this.$refs.editRuleForm.validate((valid) => {
         this.dialogVisible = false
         if (valid) {
