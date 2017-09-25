@@ -266,6 +266,7 @@ export default {
       this.router_show = true
     },
     openEdit(scope) {
+      console.log(scope.row)
       this.dialogVisible = true
       this.editAccount.id = scope.row.id
       this.editAccount.userName = scope.row.userName
@@ -274,6 +275,8 @@ export default {
       this.editAccount.description = scope.row.description
       this.editAccount.name = scope.row.name
       this.editAccount.status = scope.row.status
+      this.editAccount.passWord = '********'
+      this.editAccount.roleName = scope.row.roleName
       this.editAccount.index = scope.$index
        this.remoteMethod()
     },
@@ -288,6 +291,7 @@ export default {
       newAccountInfo.phoneNo = this.editAccount.phoneNo
       newAccountInfo.name = this.editAccount.name
       newAccountInfo.status = this.editAccount.status
+      newAccountInfo.passWord = this.editAccount.passWord
       var index = this.editAccount.index
       this.$refs.editRuleForm.validate((valid) => {
         this.dialogVisible = false
