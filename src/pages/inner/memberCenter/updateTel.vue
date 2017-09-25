@@ -240,12 +240,6 @@ export default {
       var that = this
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.$confirm('确认修改吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '信息有误',
-            type: 'warning'
-          })
-        .then(() => {
           that.loading = true
           request.post(host + 'beepartner/franchisee/Own/updateFranchiseeUser')
               .withCredentials()
@@ -285,12 +279,6 @@ export default {
                   }
                 }
               })
-        }).catch(() => {
-          // this.$message({
-          //   type: 'info',
-          //   message: '已取消绑定操作'
-          // })
-        })
         } else {
           console.log('error submit!!')
           return false

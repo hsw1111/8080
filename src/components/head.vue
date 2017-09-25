@@ -8,7 +8,7 @@
                 <h3>加盟商管理平台<span>{{cityName}}</span></h3>
                 <div class="admin">
                     <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
-                     <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
+                    <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
                     <span class="username">{{userName}}</span>
                     <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
