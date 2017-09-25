@@ -302,12 +302,18 @@ export default {
                 this.showMessage = message
                 var franchiseeUser = JSON.parse(res.text).franchiseeUser
                 var userName = franchiseeUser.userName
+                var name = franchiseeUser.name
                 var cityName = franchiseeUser.cityName
                 var franchiseeUserIconUrl = franchiseeUser.franchiseeUserIconUrl
                 if(franchiseeUserIconUrl!=null){
                   this.setfranchiseeUserIconUrl(franchiseeUserIconUrl)
                 }
-                this.setUserName(userName)
+                if(name.length>0){
+                  this.setUserName(name)
+                }else{
+                  this.setUserName(userName)
+                }
+              
                 this.setCityName(cityName)
                 var data = JSON.parse(res.text).data
                 this.authList = data.map((item)=>{
