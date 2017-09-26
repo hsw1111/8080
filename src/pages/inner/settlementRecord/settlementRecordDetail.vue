@@ -108,37 +108,37 @@
               <div class="grid">
                 <span>{{list.statisticId}}</span>
                 <span>{{list.actualMoney}}</span>
-                <span>{{list.decultAmount}}</span>
+                <span>{{list.decultMoneyStr}}</span>
               </div>
             </td>
             <td class="out">
               <!-- <div class="grid_title">经营支出</div> -->
               <div class="grid">
-                 <div class="item money">{{list.rebackAmount}}</div>
+                 <div class="item money">{{list.rebackMoneyStr}}</div>
                  <div class="item third">
                    <!-- <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div> -->
                    <div class="list">
                      <div class="cell">{{list.depositTimes}}</div>
                      <div class="cell">{{list.deposit}}</div>
                      <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                     <div class="cell">{{list.depositTimes*list.deposit*list.thirdPartyFeeRate}}</div>
+                     <div class="cell">{{list.payAmtStr}}</div>
                    </div>
                  </div>
                  <div class="item sevice">
                       <!-- <div class="list subtitle">用户消费支付第三方支付平台服务</div> -->
                       <div class="list">
-                        <div class="cell">{{list.actualMoney}}</div>
+                        <div class="cell">{{list.actualMoneyStr}}</div>
                         <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                        <div class="cell">{{(list.actualMoney*list.thirdPartyFeeRate).toFixed(2)}}</div>
+                        <div class="cell">{{list.thirdFeePayAmt}}</div>
                       </div>
                  </div>
                  <div class="item auth">
 
                    <!-- <div class="list subtitle">授权费</div> -->
                     <div class="list">
-                      <div class="cell">{{list.actualMoney + list.decultAmount}}</div>
+                      <div class="cell">{{list.benifitAmt}}</div>
                       <div class="cell">{{list.licenseFeeRate}}</div>
-                      <div class="cell">{{((list.actualMoney + list.decultAmount) * list.licenseFeeRate).toFixed(2)}}</div>
+                      <div class="cell">{{list.linceFeePayAmt}}</div>
                     </div>
                  </div>
               </div>
@@ -154,7 +154,7 @@
         <tfoot>
           <tr class="count">
             <th class="totalText" colspan = "2">总计：</th>
-            <th class="totalNum">{{totalProfit}}</th>
+            <th class="totalNum">{{list.actProfitStr}}</th>
           </tr>
         </tfoot>
       </table>

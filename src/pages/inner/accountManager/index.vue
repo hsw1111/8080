@@ -52,7 +52,7 @@
                 <!-- <span class="tips">6-20位字符，可包括字母数字，区分大小写</span> -->
 							</el-form-item>
 							<el-form-item label="所属角色" prop="roleName">
-								<el-select v-model="editAccount.roleName" placeholder="选择角色类型"
+								<el-select v-model="editAccount.roleName" @change="changeRole" placeholder="选择角色类型"
                   :remote-method="remoteMethod"
                    remote
                    :loading="isloading"
@@ -115,6 +115,8 @@ import request from 'superagent'
 export default {
   data() {
     return {
+      recodeRoleId:'',
+      recodeRoleName:'',
       options4:[],
       isloading:false,
       isDisabled:true,
@@ -154,6 +156,14 @@ export default {
     }
   },
   methods: {
+    changeRole(val){
+      this.options4.map((item)=>{
+        if(item.value===val){
+          this.recodeRoleName = val
+          this.recodeRoleId = item.id;
+        }
+      })
+    },
     cancleEdit(){
       this.dialogVisible = false
       this.$refs.editRuleForm.resetFields();
@@ -184,6 +194,15 @@ export default {
               })
               if(roles.length>0){
                 that.isDisabled = false
+                console.log(that.editAccount.roleName)
+                setTimeout(()=>{
+                   that.options4.map((item)=>{
+                    if(item.value==that.editAccount.roleName){
+                      that.recodeRoleId = item.id
+                      that.recodeRoleName = item.value
+                    }
+                  })
+                },200)
               }else{
                 that.isDisabled = true
               }
@@ -293,6 +312,8 @@ export default {
       newAccountInfo.status = this.editAccount.status
       newAccountInfo.passWord = this.editAccount.passWord
       newAccountInfo.description = this.editAccount.description
+      newAccountInfo.roleId = this.recodeRoleId;
+      newAccountInfo.roleName = this.recodeRoleName;
       var index = this.editAccount.index
       this.$refs.editRuleForm.validate((valid) => {
         this.dialogVisible = false
@@ -305,7 +326,8 @@ export default {
               email: newAccountInfo.email,
               phoneNo: newAccountInfo.phoneNo,
               passWord: newAccountInfo.passWord,
-              description: newAccountInfo.description
+              description: newAccountInfo.description,
+              roleId:newAccountInfo.roleId
             }, function (error, res) {
               if (error) {
                 that.$message({
