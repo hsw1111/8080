@@ -197,6 +197,7 @@ import {mapGetters} from 'vuex'
       }
     },
      mounted(){
+       document.title="结算单"
         this.month = this.$route.query.month
        request
       .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
@@ -395,7 +396,7 @@ import {mapGetters} from 'vuex'
             th.in{width:279px;background:#dde7f0;}
             th{border:$tableBorderColor;
               font-size:12px;
-              div.grid_title{border-bottom:$tableBorderColor;}
+              div.grid_title{border-bottom:$tableBorderColor;height:30px;line-height: 30px;}
               div.grid{
                 span{
                   width:calc(100% / 3);
@@ -528,7 +529,11 @@ import {mapGetters} from 'vuex'
       margin-top:20px;
        padding:0 10px;
       ul{
-        li{margin-bottom:10px;list-style: none;color:#555;font-size:12px;}
+        margin-top:30px;
+        li{margin-bottom: 3px;
+    list-style: none;
+    color: #d2cece;
+    font-size: 12px;}
       }
     }
   }
