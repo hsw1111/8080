@@ -107,7 +107,7 @@
               <!-- <div class="grid_title">经营收入</div> -->
               <div class="grid">
                 <span>{{list.statisticId}}</span>
-                <span>{{list.actualMoney}}</span>
+                <span>{{list.actualMoneyStr}}</span>
                 <span>{{list.decultMoneyStr}}</span>
               </div>
             </td>
@@ -154,7 +154,7 @@
         <tfoot>
           <tr class="count">
             <th class="totalText" colspan = "2">总计：</th>
-            <th class="totalNum">{{list.actProfitStr}}</th>
+            <th class="totalNum">{{actProfitStr}}</th>
           </tr>
         </tfoot>
       </table>
@@ -186,6 +186,7 @@ import {mapGetters} from 'vuex'
         list: [],
         state:'',
         actProfit:'',
+        actProfitStr: '',
         totalProfit:'',
         status:false,
         isSettled:false,
@@ -231,8 +232,10 @@ import {mapGetters} from 'vuex'
           if (code === 1) {
             var newArr = JSON.parse(res.text).data
             this.items = newArr
+            console.log(newArr)
             this.totalProfit =  JSON.parse(res.text).withDrawRecord.totalProfit
             this.actProfit = JSON.parse(res.text).withDrawRecord.actProfit
+            this.actProfitStr = JSON.parse(res.text).withDrawRecord.totalProfit
           }
 
         }
