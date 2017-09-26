@@ -129,7 +129,7 @@
                       <div class="list">
                         <div class="cell">{{list.actualMoneyStr}}</div>
                         <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                        <div class="cell">{{list.PayAmtStr}}</div>
+                        <div class="cell">{{list.payAmtStr}}</div>
                       </div>
                  </div>
                  <div class="item auth">
@@ -183,7 +183,7 @@ import {mapGetters} from 'vuex'
     },
     data(){
       return {
-
+        list: [],
         state:'',
         actProfit:'',
         totalProfit:'',
@@ -470,7 +470,7 @@ import {mapGetters} from 'vuex'
                   width:calc(100% / 3);
                   text-align: center;
                   float:left;
-                  padding:0 10px;
+                  // padding:0 10px;
                   box-sizing: border-box;
                   border-right:$tableBorderColor;
                   &:nth-last-child(1){
