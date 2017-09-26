@@ -69,16 +69,16 @@
 									<!--<el-option label="合伙人" value="合伙人"></el-option>-->
 								</el-select>
 							</el-form-item>
-                <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-form-item label="手机号" prop='phoneNo' :label-width="formLabelWidth">
                   <el-input v-model="editAccount.phoneNo"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱" :label-width="formLabelWidth">
+                <el-form-item label="邮箱"  prop='email' :label-width="formLabelWidth">
                   <el-input v-model="editAccount.email" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" :label-width="formLabelWidth">
+                <el-form-item label="姓名"  prop='name'  :label-width="formLabelWidth">
                   <el-input v-model="editAccount.name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
+                <el-form-item label="备注" prop='description'>
 								  <el-input type="textarea" style="width:340px" v-model="editAccount.description" placeholder="不超过200个字符"></el-input>
 						  	</el-form-item>
               </el-form>
@@ -292,6 +292,7 @@ export default {
       newAccountInfo.name = this.editAccount.name
       newAccountInfo.status = this.editAccount.status
       newAccountInfo.passWord = this.editAccount.passWord
+      newAccountInfo.description = this.editAccount.description
       var index = this.editAccount.index
       this.$refs.editRuleForm.validate((valid) => {
         this.dialogVisible = false
@@ -303,7 +304,8 @@ export default {
               name: newAccountInfo.name,
               email: newAccountInfo.email,
               phoneNo: newAccountInfo.phoneNo,
-              passWord:newAccountInfo.passWord
+              passWord: newAccountInfo.passWord,
+              description: newAccountInfo.description
             }, function (error, res) {
               if (error) {
                 that.$message({
