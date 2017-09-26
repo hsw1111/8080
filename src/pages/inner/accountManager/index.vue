@@ -183,7 +183,6 @@ export default {
               console.log(error)
                that.options4 = []
             }else{
-              console.log(res)
               var rs = JSON.parse(res.text).data==null?[]:JSON.parse(res.text).data
               var roles = rs.map((item)=>{
                   var obj = {}
@@ -194,7 +193,6 @@ export default {
               })
               if(roles.length>0){
                 that.isDisabled = false
-                console.log(that.editAccount.roleName)
                 setTimeout(()=>{
                    that.options4.map((item)=>{
                     if(item.value==that.editAccount.roleName){
@@ -285,7 +283,6 @@ export default {
       this.router_show = true
     },
     openEdit(scope) {
-      console.log(scope.row)
       this.dialogVisible = true
       this.editAccount.id = scope.row.id
       this.editAccount.userName = scope.row.userName
@@ -409,7 +406,6 @@ export default {
       
       var that = this
       this.loading = true
-      console.log(scope.row)
       modifyAccountState(
         {
           id: scope.row.id,
