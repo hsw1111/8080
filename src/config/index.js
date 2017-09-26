@@ -10,4 +10,4 @@ export const host = 'http://47.93.48.250:8090/'
 // export const host = 'http://192.168.3.139/'
 // export const host = 'http://192.168.3.233:8080/'
 // 蒋春阳
-// export const host = 'http://192.168.0.120:8081/'
+ // export const host = 'http://192.168.0.120:8081/'

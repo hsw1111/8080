@@ -154,7 +154,7 @@
         <tfoot>
           <tr class="count">
             <th class="totalText" colspan = "2">总计：</th>
-            <th class="totalNum">{{totalProfit}}</th>
+            <th class="totalNum">{{list.actProfitStr}}</th>
           </tr>
         </tfoot>
       </table>
