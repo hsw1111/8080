@@ -39,18 +39,18 @@
     <div class="showCarInfo">
   
       <el-table :data="tableData" style="width: 100% font-size:13px; color: #6c6c6c;" v-loading="loading2" element-loading-text="拼命加载中" :empty-text='emptyText'>
-        <el-table-column min-width="80" label="车辆号" prop='bikeCode'>
+        <el-table-column min-width="30" label="车辆号" prop='bikeCode'>
           <template scope="scope">
             <!-- <a>{{scope.row.bikeCode}}</a> -->
             <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/index/carManager/carUseDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
             <!-- <a @click="$router.push({path:'/carUseDetail', query: {code:scope.row.bikeCode}})">{{scope.row.bikeCode}}</a>  -->
           </template>
         </el-table-column>
-        <el-table-column prop="boxCode" label="终端编号" min-width="90">
+        <el-table-column prop="boxCode" label="终端编号" min-width="50">
         </el-table-column>
-        <el-table-column prop="onlineTime" label="上线日期" min-width="120">
+        <el-table-column prop="onlineTime" label="上线日期" min-width="50">
         </el-table-column>
-        <el-table-column prop="stateName" label="车辆状态" min-width="80">
+        <el-table-column prop="stateName" label="车辆状态" min-width="50">
         </el-table-column>
         <el-table-column prop="location" label="车辆位置">
         </el-table-column>
