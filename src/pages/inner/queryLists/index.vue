@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column
           prop="totalDiscount"
-          label="优惠卷支付总额">
+          label="优惠卷支付">
         </el-table-column>
         <el-table-column
           min-width="80"

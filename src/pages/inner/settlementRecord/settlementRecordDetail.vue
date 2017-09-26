@@ -129,7 +129,7 @@
                       <div class="list">
                         <div class="cell">{{list.actualMoney}}</div>
                         <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                        <div class="cell">{{list.actualMoney*list.thirdPartyFeeRate}}</div>
+                        <div class="cell">{{(list.actualMoney*list.thirdPartyFeeRate).toFixed(2)}}</div>
                       </div>
                  </div>
                  <div class="item auth">
@@ -138,7 +138,7 @@
                     <div class="list">
                       <div class="cell">{{list.actualMoney + list.decultAmount}}</div>
                       <div class="cell">{{list.licenseFeeRate}}</div>
-                      <div class="cell">{{(list.actualMoney + list.decultAmount) * list.licenseFeeRate}}</div>
+                      <div class="cell">{{((list.actualMoney + list.decultAmount) * list.licenseFeeRate).toFixed(2)}}</div>
                     </div>
                  </div>
               </div>
@@ -464,8 +464,8 @@ import {mapGetters} from 'vuex'
               div.grid_title{border-bottom:$tableBorderColor;}
               div.grid{
                 span{
-                   height: 40px;
-                  line-height: 40px;
+                   height: 30px;
+                  line-height: 30px;
                   width:calc(100% / 3);
                   text-align: center;
                   float:left;
@@ -479,11 +479,11 @@ import {mapGetters} from 'vuex'
                 div.item{
                   border-right:$tableBorderColor;
                   float:left;
-                  height:40px;
+                  height:30px;
                   border-bottom:none;
                   box-sizing:border-box;
                   div.list{display: block;
-                    div.cell{text-align:center;float:left;padding:0 10px;width:25%;box-sizing:border-box;border-right:$tableBorderColor;height:40px;line-height:40px;}
+                    div.cell{text-align:center;float:left;padding:0 10px;width:25%;box-sizing:border-box;border-right:$tableBorderColor;height:30px;line-height:30px;}
                     div.cell{
                       &:nth-last-child(1){border-right:none;text-align: center;}
                     }
@@ -505,14 +505,14 @@ import {mapGetters} from 'vuex'
                 }
                 div.money{
                    width:9%;
-                   line-height:40px;
+                   line-height:30px;
                     text-align: center;
                 }
                 div.third{width:34%;}
               }
             }
             td.count{
-              div.grid{height:40px;line-height:40px;text-align:center;}
+              div.grid{height:30px;line-height:30px;text-align:center;}
             }
           }
         }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-title data-title="蜜蜂出行加盟商管理平台"></div>  
-    <div class="topHeader"><h1>蜜蜂出行加盟商管理平台</h1></div>
+    <div class="topHeader"><h1>蜜蜂出行加盟商管理平台<span >加盟商端</span></h1></div>
     <div id="login">
       <div id="cover">
             <div class="content">
@@ -493,8 +493,15 @@ div.topHeader h1 {
     color: rgba(102, 102, 102, 1);
     font-weight: normal;
     padding-left: 20px;
+    position:relative;
 }
-
+div.topHeader h1 span {
+    line-height: initial;
+    position: absolute;
+    left:383px;
+    bottom:25px;
+    font-size:14px;
+}
 div.footer {
     position: absolute;
     bottom: 0;
