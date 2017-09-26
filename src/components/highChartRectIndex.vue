@@ -10,6 +10,7 @@ var Highcharts = require('highcharts')
 require('highcharts/modules/exporting')(Highcharts)
 import request from 'superagent'
 import { host } from '../config/index'
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -125,15 +126,19 @@ export default {
               var arr = JSON.parse(res.text).data
               this.active = false
               var data = arr.reverse().splice(0,7).reverse()
+              var _time = [];
                 var res = data.map((item) => {
+                  _time.push(moment(item.time).format('HH:ss'))
                   return {color:that.randomColor(), y: item.totalBill }
                 })
                 this.data = res
+                console.log(_time)
             }else{
               this.data = []
               this.active = true
             }
-            this.generateCharts(this.categories,this.data)
+            console.log(this.categories)
+            this.generateCharts(_time,this.data)
           }
         })
     }
