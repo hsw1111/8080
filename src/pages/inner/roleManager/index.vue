@@ -933,7 +933,7 @@ div.account>h1 button:hover {
 .el-switch__label * {
   font-size: 12px;
 }
-
+ul.roleList{margin-left:-7px;}
 ul.roleList li {
   list-style-type: none;
   float: left;
