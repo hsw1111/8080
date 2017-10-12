@@ -81,7 +81,7 @@
     top: 0%;
     left: 0%;
     height: 100%;
-    width: 19%;
+    width: 280px;
   }
   div.Grid .GridEntry.rightEntry{
   background: #f3f3f5;
