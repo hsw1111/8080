@@ -57,7 +57,7 @@
               <div class="grid_title">经营收入</div>
               <div class="grid">
                 <span title="日期">日期</span>
-                <span title="用户消费金额">用户消费金额</span>
+                <span title="用户消费金额" >用户消费金额</span>
                 <span title="扣款金额">扣款金额</span>
               </div>
             </th>
@@ -107,38 +107,38 @@
               <!-- <div class="grid_title">经营收入</div> -->
               <div class="grid">
                 <span>{{list.statisticId}}</span>
-                <span>{{list.actualMoneyStr}}</span>
-                <span>{{list.decultMoneyStr}}</span>
+                <span>{{new Number(list.actualMoneyStr).thousandFormat()}}</span>
+                <span>{{new Number(list.decultMoneyStr).thousandFormat()}}</span>
               </div>
             </td>
             <td class="out">
               <!-- <div class="grid_title">经营支出</div> -->
               <div class="grid">
-                 <div class="item money">{{list.rebackMoneyStr}}</div>
+                 <div class="item money">{{new Number(list.rebackMoneyStr).thousandFormat()}}</div>
                  <div class="item third">
                    <!-- <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div> -->
                    <div class="list">
-                     <div class="cell">{{list.depositTimes}}</div>
-                     <div class="cell">{{list.deposit}}</div>
-                     <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                     <div class="cell">{{list.thirdFeePayAmt}}</div>
+                     <div class="cell">{{new Number(list.depositTimes).thousandFormat()}}</div>
+                     <div class="cell">{{new Number(list.deposit).thousandFormat()}}</div>
+                     <div class="cell">{{new Number(list.thirdPartyFeeRate).thousandFormat()}}</div>
+                     <div class="cell">{{new Number(list.thirdFeePayAmt).thousandFormat()}}</div>
                    </div>
                  </div>
                  <div class="item sevice">
                       <!-- <div class="list subtitle">用户消费支付第三方支付平台服务</div> -->
                       <div class="list">
-                        <div class="cell">{{list.actualMoneyStr}}</div>
-                        <div class="cell">{{list.thirdPartyFeeRate}}</div>
-                        <div class="cell">{{list.payAmtStr}}</div>
+                        <div class="cell">{{new Number(list.actualMoneyStr).thousandFormat()}}</div>
+                        <div class="cell">{{new Number(list.thirdPartyFeeRate).thousandFormat()}}</div>
+                        <div class="cell">{{new Number(list.payAmtStr).thousandFormat()}}</div>
                       </div>
                  </div>
                  <div class="item auth">
 
                    <!-- <div class="list subtitle">授权费</div> -->
                     <div class="list">
-                      <div class="cell">{{list.benifitAmt}}</div>
-                      <div class="cell">{{list.licenseFeeRate}}</div>
-                      <div class="cell">{{list.linceFeePayAmt}}</div>
+                      <div class="cell">{{new Number(list.benifitAmt).thousandFormat()}}</div>
+                      <div class="cell">{{new Number(list.licenseFeeRate).thousandFormat()}}</div>
+                      <div class="cell">{{new Number(list.linceFeePayAmt).thousandFormat()}}</div>
                     </div>
                  </div>
               </div>
@@ -146,7 +146,7 @@
             <td class="count">
               <!-- <div class="grid_title">最终收益</div> -->
               <div class="grid">
-                {{list.actProfitStr}}
+                {{new Number(list.actProfitStr).thousandFormat()}}
               </div>
             </td>
           </tr>
@@ -154,7 +154,7 @@
         <tfoot>
           <tr class="count">
             <th class="totalText" colspan = "2">总计：</th>
-            <th class="totalNum">{{actProfitStr}}</th>
+            <th class="totalNum">{{new Number(actProfitStr).thousandFormat()}}</th>
           </tr>
         </tfoot>
       </table>
@@ -177,6 +177,7 @@ import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
 import {mapGetters} from 'vuex'
+import {thousandFormat} from '../../../util/util.js'
   export default {
     computed:{
       ...mapGetters(['settelListId'])
@@ -407,11 +408,11 @@ import {mapGetters} from 'vuex'
                   line-height: 40px;
                   text-align: center;
                   float:left;
-                  padding:0 10px;
+                 
                   box-sizing: border-box;
                   border-right:$tableBorderColor;
                   overflow: hidden;
-                  text-overflow: ellipsis;
+                 
                   white-space: nowrap;
                   &:nth-last-child(1){
                     border-right:none;

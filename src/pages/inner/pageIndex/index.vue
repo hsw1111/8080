@@ -100,16 +100,20 @@
     <div style="background:#fff;">
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
-          <el-col :span="8">
+          <el-col :span="6">
             当前已为您赚到<span class="earn">{{franchiseeAllIncome===null?'暂无数据':'￥' + franchiseeAllIncome}}</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
           </el-col>
+          <el-col class="lend" :span="6">
+            待结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
+            <i class="wait">待蜜蜂财务打款</i>
+          </el-col>
           <el-col :span="8">
-            可结算<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
-            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">确认结算</el-button>
-            <el-button style="float:right;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">确认结算</el-button>
+            待确认<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
+            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">去确认</el-button>
+            <el-button style="float:right;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">去确认</el-button>
           </el-col>
         </el-row>
       </div>
@@ -291,6 +295,13 @@ div.using{color:rgba(255,102,0,1);}
 div.settlementInfo div.el-col-8:nth-child(3){text-align: left;}
 div.nodata{line-height:200px;text-align:center;}
 .el-button.is-disabled:hover{color:#bfcbd9;}
+div.lend{position:relative}
+i.wait{position: absolute;
+    left: 0;
+    top: 20px;
+    font-size: 12px;
+    font-style: normal;
+    color: #ccc;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'

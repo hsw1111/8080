@@ -175,3 +175,11 @@ export function siblings (elem) {
     }
     return res;
    }
+   /*JS基于正则实现数字千分位用逗号分隔*/
+   export function thousandFormat(num){
+    var res = num.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');//使用正则替换，每隔三个数加一个',' 
+    return res
+   }
+   Number.prototype.thousandFormat = function(){
+      return this.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+   }
