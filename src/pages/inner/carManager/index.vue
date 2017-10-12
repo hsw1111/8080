@@ -28,7 +28,7 @@
                 <el-date-picker v-model='form.data1' type="date" placeholder="选择日期"></el-date-picker>
                 <span class="division">至</span>
                 <el-date-picker v-model='form.data2' type="date" placeholder="选择日期"></el-date-picker>
-                <el-button class="my_btn" @click="searchByTimeline">查询</el-button>
+                <button class="my_btn" @click="searchByTimeline" style="font-size: 14px;">查询</button>
                 <!--<button @click='searchByTimeline'>查询</button>-->
               </el-form-item>
             </el-col>
