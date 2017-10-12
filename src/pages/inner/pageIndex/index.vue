@@ -101,7 +101,7 @@
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
           <el-col :span="6" style="text-align:center">
-            当前已为您赚到<span class="earn">{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}</span>
+            <span class="earn" style="position:relative;">当前已为您赚到{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}<i class="wait">已结算 + 待结算 + 待确认 + 当前周期收益</i></span>
           </el-col>
           <el-col :span="6" style="text-align:center">
             已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>
