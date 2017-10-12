@@ -58,22 +58,20 @@
 <style scoped>
   @media screen and (min-width:1367px) {
     #addaccount_form {
-      /*  适配好的样式 */
       min-height: 30%;
-      /*overflow-y: scroll; 
-      overflow-x: hidden;*/
       width: 830px;
       box-shadow: 0 5px 15px rgba(0,0,0,.5);
       position: fixed;
       display: block;
-      top:62%;
-      left:45%;
-      margin-left:-28%;
-      margin-top:-27%;  
+      top: 62%;
+      left: 45%;
+      margin-left: -25%;
+      margin-top: -27%;
       padding: 70px 80px 0 50px;
       margin-right: 20px;
       border: 1px solid #ccc;
       background: #fff;
+      z-index: 1;
       border-radius: 2px;
     }
   }

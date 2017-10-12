@@ -13,7 +13,7 @@
         <el-date-picker :format="form.formatType" v-model='form.data1' :type="form.type" placeholder="选择日期"></el-date-picker>
         <span class="division">至</span>
         <el-date-picker :format="form.formatType" v-model='form.data2' :type="form.type" placeholder="选择日期"></el-date-picker>
-        <el-button class="my_btn" @click="getDateByTimeLine" >查询</el-button>
+        <button class="my_btn" @click="getDateByTimeLine" >查询</button>
       </el-row>
     </div>
     <el-row class="countDetail">
