@@ -86,12 +86,12 @@
     max-width:280px;
   }
   div.Grid .GridEntry.rightEntry{
-   background: #f3f3f5;
+  background: #f3f3f5;
     top: 0%;
-    left: 19%;
+    left: 280px;
     height: 100%;
-    width: 80%;
-    max-width: calc( 100% - 280px);
+    /* width: 80%; */
+    width: calc( 100% - 280px);
    
   }
   .Grid .GridEntry .entryInner{

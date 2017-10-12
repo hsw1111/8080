@@ -543,10 +543,12 @@ export default {
                   console.log('err:' + err)
                 } else {
                   // 数据处理
-                  var list = JSON.parse(res.text).data
+                  var list = JSON.parse(res.text).data||[]
                   //var newList = this.tableDataDel(list)
                   if (list.length === 0) {
-                    this.$message.error('当前查询没有信息，无法导出哦~');
+                   
+                    that.$loading({customClass: 'loading_class'}).close()
+                     this.$message.error('当前查询没有信息，无法导出哦~');
                   } else {
                     const data = this.formatJson(filterVal, list)
                     export_json_to_excel(tHeader, data, '营收明细列表excel')
