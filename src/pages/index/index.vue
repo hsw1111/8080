@@ -77,13 +77,13 @@
   }
   div.rightSider{height:100%;}
   div.Grid .GridEntry.leftEntry{
-    background:#f3f3f5;
+    background: #f3f3f5;
     top: 0%;
     left: 0%;
     height: 100%;
-    width: 19%;
-    min-width: 196px;
-    max-width:280px;
+    /* width: 19%; */
+    width: 280px;
+    padding-right: 22px;
   }
   div.Grid .GridEntry.rightEntry{
    background: #f3f3f5;
