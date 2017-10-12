@@ -23,14 +23,23 @@
           prop="totalBill"
           label="订单数"
           min-width="120">
+              <template scope="scope">
+                {{new Number(scope.row.totalBill).thousand()}}
+              </template>
         </el-table-column>
         <el-table-column
           prop="totalMoney"
           label="订单总额">
+             <template scope="scope">
+                {{new Number(scope.row.totalMoney).thousandFormat()}}
+              </template>
         </el-table-column>
         <el-table-column
           prop="totalDiscount"
           label="优惠卷支付">
+             <template scope="scope">
+                {{new Number(scope.row.totalDiscount).thousandFormat()}}
+              </template>
         </el-table-column>
         <el-table-column
           min-width="80"
@@ -38,6 +47,9 @@
           prop='actualMoney'
            :render-header="rendHeader"
           >
+             <template scope="scope">
+                {{new Number(scope.row.actualMoney).thousandFormat()}}
+              </template>
         </el-table-column>
       </el-table>
     </div>

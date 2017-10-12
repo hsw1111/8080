@@ -6,7 +6,7 @@
       </div>
 				
       <div class=" inline subCount">
-        共获得收益金额：<span>{{alreadyWidthDrawMoney}}</span>元
+        共获得收益金额：<span>{{new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>元
       </div>
     </div>
     <div class="table">
@@ -30,7 +30,7 @@
            label="周期总收益(￥)"
         >
            <template scope="scope">
-             <span class="profit">{{scope.row.totalProfit}}</span>
+             <span class="profit">{{new Number(scope.row.totalProfit).thousandFormat()}}</span>
           </template>
         </el-table-column>
          <el-table-column
@@ -38,7 +38,7 @@
            label="可结算收益(￥)"
         >
            <template scope="scope">
-             <span class="profit">{{scope.row.applyMoney}}</span>
+             <span class="profit">{{new Number(scope.row.applyMoney).thousandFormat()}}</span>
           </template>
         </el-table-column>
          <el-table-column

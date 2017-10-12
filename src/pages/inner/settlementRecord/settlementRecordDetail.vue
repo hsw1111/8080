@@ -13,10 +13,10 @@
         结算周期：<span>{{month}}</span>
       </div>
       <div class="line">
-        本期总收益：<span>{{totalProfit}}</span>元
+        本期总收益：<span>{{new Number(totalProfit).thousandFormat()}}</span>元
       </div>
       <div class="line">
-        本期结算金额：<span>{{actProfit}}</span>元
+        本期结算金额：<span>{{new Number(actProfit).thousandFormat()}}</span>元
       </div>
       <div class="line ">
         <button v-show="isSettled" class="open" @click="openDialog">确定结算</button>

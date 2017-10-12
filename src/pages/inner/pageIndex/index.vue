@@ -10,10 +10,10 @@
           </div>
           <div v-loading="loading2">
             <div class="income_count monthcount">
-              {{monthIncoming===null?'暂无数据':'￥' + monthIncoming}}
+              {{monthIncoming===null?'暂无数据':'￥' + new Number(monthIncoming).thousandFormat()}}
             </div>
             <div class="income_diff">
-              <span>较上月：{{monthIncrease===null?'暂无数据':monthIncrease}}</span>
+              <span>较上月：{{monthIncrease===null?'暂无数据':new Number(monthIncrease).thousandFormat()}}</span>
             </div>
           </div>
         </el-col>
@@ -25,11 +25,11 @@
           <div v-loading="loading3">
              <div>
                <div class="income_count daycount">
-                {{todayIncoming===null?'暂无数据':'￥' + todayIncoming}}
+                {{todayIncoming===null?'暂无数据':'￥' + new Number(todayIncoming).thousandFormat()}}
                 </div>
              </div>
             <div class="income_diff">
-              <span>较昨日：{{todayIncrease===null?'暂无数据':'￥' + todayIncrease}}</span>
+              <span>较昨日：{{todayIncrease===null?'暂无数据':'￥' + new Number(todayIncrease).thousandFormat()}}</span>
             </div>
           </div>
          
@@ -46,11 +46,11 @@
               <span  style="font-size:12px;color:rgba(148,148,148,1);">每十分钟自动刷新</span>
             </el-col> -->
              <el-col :span="24" v-loading="loading3">
-              <el-col :span="5">{{allCarsNum===null?'车辆总数暂无':'车辆总数' + allCarsNum +'辆'}}</el-col>
-              <el-col :span="5" class="using">{{waitLend===null?'待出租暂无':'待出租' + waitLend +'辆'}}</el-col>
-              <el-col :span="5"> {{rented===null?'已出租暂无':'已出租' + rented +'辆'}}</el-col>
-              <el-col :span="5">{{ordered===null?'已预定暂无':'已预定' + ordered +'辆'}}</el-col>
-              <el-col :span="4">{{repaired===null?'维护中暂无':'维护中' + repaired +'辆'}} <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="5">{{allCarsNum===null?'车辆总数暂无':'车辆总数' + new Number(allCarsNum).thousand() +'辆'}}</el-col>
+              <el-col :span="5" class="using">{{waitLend===null?'待出租暂无':'待出租' + new Number(waitLend).thousand()  +'辆'}}</el-col>
+              <el-col :span="5"> {{rented===null?'已出租暂无':'已出租' + new Number(rented).thousand() +'辆'}}</el-col>
+              <el-col :span="5">{{ordered===null?'已预定暂无':'已预定' + new Number(ordered).thousand() +'辆'}}</el-col>
+              <el-col :span="4">{{repaired===null?'维护中暂无':'维护中' + new Number(repaired).thousand()  +'辆'}} <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -100,18 +100,18 @@
     <div style="background:#fff;">
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
-          <el-col :span="6">
-            当前已为您赚到<span class="earn">{{franchiseeAllIncome===null?'暂无数据':'￥' + franchiseeAllIncome}}</span>
+          <el-col :span="6" style="text-align:center">
+            当前已为您赚到<span class="earn">{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}</span>
           </el-col>
-          <el-col :span="4">
-            已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
+          <el-col :span="6" style="text-align:center">
+            已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>
           </el-col>
-          <el-col class="lend" :span="6">
-            待结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + alreadyWidthDrawMoney}}</span>
-            <i class="wait">待蜜蜂财务打款</i>
+          <el-col class="lend" :span="6" style="text-align:center">
+            <span class="settle" style="position:relative;"><b  style="color:#000;font-weight:normal;margin-right: 8px">待结算</b>{{pendingWidthDrawMoney===null?'暂无数据':'￥' + new Number(pendingWidthDrawMoney).thousandFormat()}}<i class="wait">待蜜蜂财务打款</i></span>
+            
           </el-col>
-          <el-col :span="8">
-            待确认<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + canWidthDrawMoney }}</span>
+          <el-col :span="6" style="text-align:center">
+            待确认<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + new Number(canWidthDrawMoney).thousandFormat() }}</span>
             <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">去确认</el-button>
             <el-button style="float:right;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">去确认</el-button>
           </el-col>
@@ -260,7 +260,7 @@ div.settlementInfo {
 
 div.settlementInfo button.withdrawal {
   float: right;
-  margin-right: 20px;
+
   width: 88px;
   height: 40px;
   border: 1px solid #f9f9f9;
@@ -298,10 +298,11 @@ div.nodata{line-height:200px;text-align:center;}
 div.lend{position:relative}
 i.wait{position: absolute;
     left: 0;
-    top: 20px;
+    top: 8px;
     font-size: 12px;
     font-style: normal;
-    color: #ccc;}
+    color: #ccc;
+    font-weight: normal;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'
@@ -333,6 +334,7 @@ export default {
       alreadyWidthDrawMoney:'',
       canWidthDrawMoney:'',
       franchiseeAllIncome:'',
+      pendingWidthDrawMoney:'',
       status: []
     }
   },
@@ -421,6 +423,7 @@ export default {
                 this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
                 this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
                 this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
+                this.pendingWidthDrawMoney = JSON.parse(res.text).cityPartner.pendingWidthDrawMoney
             }else{
                this.waitLend = null
                 this.rented = null
@@ -430,6 +433,7 @@ export default {
                  this.alreadyWidthDrawMoney = null
                 this.canWidthDrawMoney = null
                 this.franchiseeAllIncome = null
+                 this.pendingWidthDrawMoney = null
             }
             
           }

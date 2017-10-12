@@ -47,32 +47,43 @@
       </el-table-column>
       <el-table-column
         prop="placeOrderTime"
-        min-width="15%"
+        min-width="16%"
         label="下单时间">
       </el-table-column>
       <el-table-column
-        prop="rideTime"
         label="骑行时间（分钟）"
         min-width="15%"
        >
+       <template scope="scope">
+         {{new Number(scope.row.rideTime).thousand()}}
+       </template>
       </el-table-column>
       <el-table-column
         prop="rideMileage"
         label="骑行里程（米）"
         min-width="15%"
         >
+            <template scope="scope">
+              {{new Number(scope.row.rideMileage).thousandFormat()}}
+            </template>
       </el-table-column>
       <el-table-column
         prop="orderMoney"
         label="订单费用"
         min-width="10%"
         >
+           <template scope="scope">
+              {{new Number(scope.row.orderMoney).thousandFormat()}}
+            </template>
       </el-table-column>
       <el-table-column
         prop="couponAmount"
         label="优惠券支付"
         min-width="10%"
        >
+         <template scope="scope">
+              {{new Number(scope.row.couponAmount).thousandFormat()}}
+            </template>
       </el-table-column>
       <el-table-column
         :render-header="rendHeader"
@@ -80,6 +91,9 @@
         label="实际收益（元）?"
         min-width="15%"
        >
+         <template scope="scope">
+              {{new Number(scope.row.balanceAmount).thousandFormat()}}
+            </template>
       </el-table-column>
     </el-table>
       <el-pagination
