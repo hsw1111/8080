@@ -155,7 +155,7 @@ export default {
           }
         }, {
           title: {
-            text: '利润'
+            text: '实际收益'
           },
           opposite: true
         }],
@@ -184,7 +184,8 @@ export default {
           column: {
             grouping: false,
             shadow: false,
-            borderWidth: 0
+            borderWidth: 0,
+            maxPointWidth:30
           }
         },
         series: [{
@@ -194,7 +195,7 @@ export default {
           pointPadding: 0.3,
           pointPlacement: -0.2
         }, {
-          name: '利润',
+          name: '实际收益',
           color: '#00cdcd',
           data: this.consumeMoney,
          

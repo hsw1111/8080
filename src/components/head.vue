@@ -71,9 +71,6 @@ export default {
         var info = sessionStorage.getItem('franchiseeUser')
         var name = JSON.parse(info).name
         var userName = JSON.parse(info).userName
-        console.log('name',name)
-        console.log('userName',userName)
-        console.log(name != 'null')
         if(name === 'null' || name === ''){
             this.userName = userName
         }else{
