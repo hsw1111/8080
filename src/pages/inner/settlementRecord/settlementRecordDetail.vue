@@ -120,7 +120,7 @@
                    <div class="list">
                      <div class="cell">{{new Number(list.depositTimes).thousand()}}</div>
                      <div class="cell">{{new Number(list.deposit).thousandFormat()}}</div>
-                     <div class="cell">{{new Number(list.thirdPartyFeeRate).thousandFormat()}}</div>
+                     <div class="cell">{{list.thirdPartyFeeRate}}</div>
                      <div class="cell">{{new Number(list.thirdFeePayAmt).thousandFormat()}}</div>
                    </div>
                  </div>
@@ -128,7 +128,7 @@
                       <!-- <div class="list subtitle">用户消费支付第三方支付平台服务</div> -->
                       <div class="list">
                         <div class="cell">{{new Number(list.actualMoneyStr).thousandFormat()}}</div>
-                        <div class="cell">{{new Number(list.thirdPartyFeeRate).thousandFormat()}}</div>
+                        <div class="cell">{{list.thirdPartyFeeRate}}</div>
                         <div class="cell">{{new Number(list.payAmtStr).thousandFormat()}}</div>
                       </div>
                  </div>
@@ -137,7 +137,7 @@
                    <!-- <div class="list subtitle">授权费</div> -->
                     <div class="list">
                       <div class="cell">{{new Number(list.benifitAmt).thousandFormat()}}</div>
-                      <div class="cell">{{new Number(list.licenseFeeRate).thousandFormat()}}</div>
+                      <div class="cell">{{list.licenseFeeRate}}</div>
                       <div class="cell">{{new Number(list.linceFeePayAmt).thousandFormat()}}</div>
                     </div>
                  </div>
