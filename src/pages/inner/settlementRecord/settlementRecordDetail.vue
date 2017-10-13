@@ -118,7 +118,7 @@
                  <div class="item third">
                    <!-- <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div> -->
                    <div class="list">
-                     <div class="cell">{{new Number(list.depositTimes).thousandFormat()}}</div>
+                     <div class="cell">{{new Number(list.depositTimes).thousand()}}</div>
                      <div class="cell">{{new Number(list.deposit).thousandFormat()}}</div>
                      <div class="cell">{{new Number(list.thirdPartyFeeRate).thousandFormat()}}</div>
                      <div class="cell">{{new Number(list.thirdFeePayAmt).thousandFormat()}}</div>

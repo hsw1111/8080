@@ -206,20 +206,43 @@ export default {
       });
     },
     getChartDate() {
-      var res = this.$store.state.users.consumeData.map((item) => {
-        return item.statisticId
-      })
+      var len = this.$store.state.users.consumeData.length
+      var data = this.$store.state.users.consumeData;
+      if(len>12){
+          var es = data.slice(0,12).reverse()
+          var res = es.map((item) => {
+            return item.statisticId
+          })
 
-      var order = this.$store.state.users.consumeData.map((item) => {
-        return item.totalBill
-      })
+          var order = es.map((item) => {
+            return item.totalBill
+          })
 
-      var allMoney = this.$store.state.users.consumeData.map((item) => {
-        return item.totalMoney
-      })
-      this.x_data = res
-      this.orderNumber = order
-      this.consumeMoney = allMoney
+          var allMoney = es.map((item) => {
+            return item.totalMoney
+          })
+           this.x_data = res
+          this.orderNumber = order
+          this.consumeMoney = allMoney
+      }else{
+           var es = data
+          var res = es.map((item) => {
+            return item.statisticId
+          })
+
+          var order = es.map((item) => {
+            return item.totalBill
+          })
+
+          var allMoney = es.map((item) => {
+            return item.totalMoney
+          })
+           this.x_data = res
+          this.orderNumber = order
+          this.consumeMoney = allMoney
+      }
+      
+     
     },
     getChartByRoute(arr) {
       var res = arr.map((item) => {
@@ -309,7 +332,6 @@ export default {
               } else {
                 this.noData = false
                 var arr = JSON.parse(res.text).data
-                console.log(arr)
                 this.$store.dispatch('consumeData_action', arr)
                 this.getChartDate()
                 this.createChartsShap()
