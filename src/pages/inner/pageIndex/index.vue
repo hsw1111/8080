@@ -304,7 +304,7 @@ i.wait{position: absolute;
     color: #ccc;
     font-weight: normal;
     /* width: 100%; */
-    width: auto;
+    width: 800px;
     padding-left: 0;
     margin-left: 0;
     text-align: left;}
