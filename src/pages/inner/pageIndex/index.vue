@@ -302,7 +302,12 @@ i.wait{position: absolute;
     font-size: 12px;
     font-style: normal;
     color: #ccc;
-    font-weight: normal;}
+    font-weight: normal;
+    /* width: 100%; */
+    width: auto;
+    padding-left: 0;
+    margin-left: 0;
+    text-align: left;}
 </style>
 <script>
 import myCanvas from '../../../components/highChartRectIndex.vue'
