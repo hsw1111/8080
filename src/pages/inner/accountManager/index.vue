@@ -281,6 +281,13 @@ export default {
       this.router_show = true
     },
     openEdit(scope) {
+      if(scope.row.status===false){
+         this.$message({
+            type:'error',
+            message:'账号已冻结，请解冻后再编辑'
+          })
+          return;
+      }
       this.dialogVisible = true
       this.editAccount.id = scope.row.id
       this.editAccount.userName = scope.row.userName

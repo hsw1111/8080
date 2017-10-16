@@ -552,6 +552,14 @@ export default {
     },
     handleDeleteRole(scope) {
       var that = this
+      
+       if(scope.row.franchiseeUserList.length>0){
+        this.$message({
+          type:'error',
+          message:'该角色下有用户，禁止删除！'
+        })
+        return;
+      }
       this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

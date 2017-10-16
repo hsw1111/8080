@@ -11,7 +11,7 @@
           <el-button @click='getAllDate' v-bind:class="{active: AllTime}">所有日期</el-button>
           <el-button @click='handleChangeType' v-bind:class="{active: spceTime}">指定时间段</el-button>
         </div>
-        <el-date-picker v-model="timeLine" style="vertical-align: middle; margin-top: 0px;" v-show="show" type="datetimerange" :picker-options="pickerOptions2" placeholder="选择时间范围" align="right">
+        <el-date-picker v-model="timeLine" style="vertical-align: middle; margin-top: 0px;" v-show="show" type="daterange"  placeholder="选择时间范围" align="right">
         </el-date-picker>
         <el-button v-show="show2" class="earning_btn" @click="searchByTimeLine">查询</el-button>        
       </div>
@@ -285,37 +285,37 @@ export default {
       spceTime:false,
       timer: null,
       totalPage: '',
-      pickerOptions2: {
-        shortcuts: [
-          {
-            text: '最近一周',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }
-        ]
-      },
+      // pickerOptions2: {
+      //   shortcuts: [
+      //     {
+      //       text: '最近一周',
+      //       onClick (picker) {
+      //         const end = new Date()
+      //         const start = new Date()
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      //         picker.$emit('pick', [start, end])
+      //       }
+      //     },
+      //     {
+      //       text: '最近一个月',
+      //       onClick (picker) {
+      //         const end = new Date()
+      //         const start = new Date()
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+      //         picker.$emit('pick', [start, end])
+      //       }
+      //     },
+      //     {
+      //       text: '最近三个月',
+      //       onClick (picker) {
+      //         const end = new Date()
+      //         const start = new Date()
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+      //         picker.$emit('pick', [start, end])
+      //       }
+      //     }
+      //   ]
+      // },
       timeLine: '',
       show: false,
       show2: false,
