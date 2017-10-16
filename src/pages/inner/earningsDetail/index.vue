@@ -522,8 +522,8 @@ export default {
                   })
                 } else {
                   newType = 4
-                  startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:MM:SS')
-                  endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:MM:SS')
+                  startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:mm:ss')
+                  endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:mm:ss')
                 }
               }
             }
@@ -629,8 +629,8 @@ export default {
         })
       } else {
         if(this.timeLine[0]&&this.timeLine[1]){
-          this.startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:MM:SS')
-          this.endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:MM:SS')
+          this.startTime = moment(this.timeLine[0]).format('YYYY-MM-DD HH:mm:ss')
+          this.endTime = moment(this.timeLine[1]).format('YYYY-MM-DD HH:mm:ss')
         }else{
           this.startTime = ''
           this.endTime = ''

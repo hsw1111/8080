@@ -47,7 +47,7 @@
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                   <el-button class="findPsdBtn confirm" type="primary" @click="findPsd">确定</el-button>
+                   <el-button class="findPsdBtn confirm" type="primary" @click="findPsd" style="border-color: #fff !important;">确定</el-button>
                   <el-button class="findPsdBtn cancle" @click="dialogFormVisible = false">取消</el-button>
                 </div>
               </el-dialog>
@@ -360,7 +360,7 @@ export default {
       this.findForm.tel = ''
       this.findForm.vercode = ''
       this.findForm.verificationCode = ''
-      this.$refs.findPsd.resetFields()
+      // this.$refs.findPsd.resetFields()
 
     },
     findPsd() {
