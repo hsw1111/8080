@@ -150,7 +150,29 @@ export default {
         setTimeout(() => {
           var res = checkMobile(value)
           if (res === true) {
-            return callback()
+            request.post(host + 'beepartner/franchisee/Own/checkPhoneNumber')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
+            .send({
+              phoneNo: this.ruleForm.tel
+            })
+            .end((error,res) =>{
+              if(error){
+                console.log(error)
+              }else{
+                var result = JSON.parse(res.text);
+                var code = result.resultCode
+                var message = result.message
+                if(code === 1){
+                   return callback()
+                }else{
+                  return callback(new Error(message))
+                }
+                
+              }
+            })
           } else {
             callback(new Error('手机格式格式不正确！！！'))
           }
