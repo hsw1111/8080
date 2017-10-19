@@ -28,7 +28,7 @@
               </el-form-item>
 							<el-form-item>
 								<el-button class='addaccount_button' type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-								<el-button class='addaccount_button' @click="$router.push({path:'/index/roleManager'})">取消</el-button>
+								<el-button class='addaccount_button' @click="cancleForm">取消</el-button>
 							</el-form-item>
 					</el-form>
 			</div>
@@ -198,6 +198,11 @@ export default {
     }
   },
   methods: {
+    cancleForm(){
+      debugger
+       this.$refs.ruleForm.resetFields()
+      $router.push({path:'/index/roleManager'})
+    },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

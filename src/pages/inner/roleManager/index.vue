@@ -31,7 +31,7 @@
           </el-form>
           <div slot="footer" class="dialog-footer addfooter">
             <el-button class="addRoleBtn" type="primary" @click="handleAddRole">立即创建</el-button>
-            <el-button class="addRoleBtn" @click="dialogFormVisible = false">取消</el-button>
+            <el-button class="addRoleBtn" @click="cancleForm">取消</el-button>
           </div>
         </el-dialog>
       </h1>
@@ -341,6 +341,11 @@ export default {
     }
   },
   methods: {
+    cancleForm(){
+      this.dialogFormVisible = false
+      this.$refs.ruleForm.resetFields()
+       this.$refs.tree.setCheckedKeys([]);
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -643,8 +648,13 @@ export default {
                     })
                     that.flag = true
                     that.dialogFormVisible = false
+                    that.$refs.ruleForm.resetFields()
+                    that.$refs.tree.setCheckedKeys([]);
+                    
                     //that.tableData.unshift({description: that.form.description,franchiseeUserList:[],roleName:that.form.roleName})
                   } else {
+                    that.$refs.ruleForm.resetFields()
+                    that.$refs.tree.setCheckedKeys([]);
                     that.dialogFormVisible = false
                     that.$message({
                       type: 'error',

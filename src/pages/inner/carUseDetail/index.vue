@@ -209,6 +209,7 @@ export default {
     }
   },
   mounted: function () {
+    console.log(this.$store)
     //this.bikeInfo.code = '000000009' 
     this.loading2 = true
     this.bikeInfo.code = this.$route.query.code

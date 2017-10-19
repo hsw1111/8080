@@ -202,7 +202,8 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          phoneNo: this.ruleForm.tel
+          phoneNo: this.ruleForm.tel,
+           phoneNoBand:1
         })
         .end((error, res) => {
           if (error) {

@@ -1,6 +1,6 @@
 <template>
   <div style="margin-right:20px;">
-     <div v-title data-title="账号管理"></div>
+    <div v-title data-title="账号管理"></div>
     <div id="am_search">
       <label>
         <span>关键字</span>
@@ -12,7 +12,7 @@
       </label>
       <el-button id="accountSearchBtn" @click="queryAccountInfo" class="timeSelect_button">查询</el-button>
     </div>
-  
+
     <!-- account -->
     <div class="account">
       <h1>
@@ -20,7 +20,7 @@
         <!--新增数据开始-->
         <!--新增数据结束-->
       </h1>
-  
+
       <!-- 表单 -->
       <el-table :data="tableData" :empty-text='emptyText' style="width: 100%; font-size:13px;" v-loading="loading" :element-loading-text="loadingText">
         <el-table-column prop="userName" label="用户名" min-width="140"></el-table-column>
@@ -48,39 +48,30 @@
                   <el-input v-model="editAccount.userName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="passWord">
-								<el-input type="password" v-model="editAccount.passWord" placeholder='6-20位字符，可包括字母数字，区分大小写'></el-input>
-                <!-- <span class="tips">6-20位字符，可包括字母数字，区分大小写</span> -->
-							</el-form-item>
-							<el-form-item label="所属角色" prop="roleName">
-								<el-select v-model="editAccount.roleName" @change="changeRole" placeholder="选择角色类型"
-                  :remote-method="remoteMethod"
-                   remote
-                   :loading="isloading"
-                  :disabled = "isDisabled"
-                >
-                  <el-option
-                    v-for="item in options4"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-									<!--<el-option label="管理员" value="管理员"></el-option>-->
-									<!-- <el-option label="加盟商" value="加盟商"></el-option> -->
-									<!--<el-option label="合伙人" value="合伙人"></el-option>-->
-								</el-select>
-							</el-form-item>
+                  <el-input type="password" v-model="editAccount.passWord" placeholder='6-20位字符，可包括字母数字，区分大小写'></el-input>
+                  <!-- <span class="tips">6-20位字符，可包括字母数字，区分大小写</span> -->
+                </el-form-item>
+                <el-form-item label="所属角色" prop="roleName">
+                  <el-select v-model="editAccount.roleName" @change="changeRole" placeholder="选择角色类型" :remote-method="remoteMethod" remote :loading="isloading" :disabled="isDisabled">
+                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                    <!--<el-option label="管理员" value="管理员"></el-option>-->
+                    <!-- <el-option label="加盟商" value="加盟商"></el-option> -->
+                    <!--<el-option label="合伙人" value="合伙人"></el-option>-->
+                  </el-select>
+                </el-form-item>
                 <el-form-item label="手机号" prop='phoneNo' :label-width="formLabelWidth">
                   <el-input v-model="editAccount.phoneNo"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱"  prop='email' :label-width="formLabelWidth">
+                <el-form-item label="邮箱" prop='email' :label-width="formLabelWidth">
                   <el-input v-model="editAccount.email" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名"  prop='name'  :label-width="formLabelWidth">
+                <el-form-item label="姓名" prop='name' :label-width="formLabelWidth">
                   <el-input v-model="editAccount.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="备注" prop='description'>
-								  <el-input type="textarea" style="width:340px" v-model="editAccount.description" placeholder="不超过200个字符"></el-input>
-						  	</el-form-item>
+                  <el-input type="textarea" style="width:340px" v-model="editAccount.description" placeholder="不超过200个字符"></el-input>
+                </el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer editfooter">
                 <el-button class="accountMangerBtn" type="primary" @click="handleEditAccount">确定</el-button>
@@ -94,7 +85,7 @@
       <el-pagination v-show="pageShow" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="prev, pager, next, jumper" :total="totalItems">
       </el-pagination>
     </div>
-  
+
     <!--<div v-show='router_show' >-->
     <router-view id="account_router"></router-view>
     <!--</div>-->
@@ -113,19 +104,19 @@ import request from 'superagent'
 export default {
   data() {
     return {
-      recodeRoleId:'',
-      recodeRoleName:'',
-      options4:[],
-      isloading:false,
-      isDisabled:true,
+      recodeRoleId: '',
+      recodeRoleName: '',
+      options4: [],
+      isloading: false,
+      isDisabled: true,
       editLoading: false,
-      loading2:false,
+      loading2: false,
       isQuery: false,
       accountOrUsername: '',
       telOrMail: '',
       input: '',
       pageShow: false,
-      emptyText:' ',
+      emptyText: ' ',
       loadingText: ' ',
       currentPage: 1,
       totalItems: 1,
@@ -149,67 +140,67 @@ export default {
       },
       editAccountRule: {
         userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
-        passWord:[{ required: true, trigger: 'blur', message: '请输入用密码' }],
+        passWord: [{ required: true, trigger: 'blur', message: '请输入用密码' }],
       }
     }
   },
   methods: {
-    changeRole(val){
-      this.options4.map((item)=>{
-        if(item.value===val){
+    changeRole(val) {
+      this.options4.map((item) => {
+        if (item.value === val) {
           this.recodeRoleName = val
           this.recodeRoleId = item.id;
         }
       })
     },
-    cancleEdit(){
+    cancleEdit() {
       this.dialogVisible = false
       this.$refs.editRuleForm.resetFields();
     },
     remoteMethod() {
-        var that = this
-        
-        setTimeout(() => {
-         
-          request.post(host + 'beepartner/franchisee/User/findRole')
+      var that = this
+
+      setTimeout(() => {
+
+        request.post(host + 'beepartner/franchisee/User/findRole')
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
           })
-          .end((error,res)=>{
-            if(error){
+          .end((error, res) => {
+            if (error) {
               console.log(error)
-               that.options4 = []
-            }else{
-              var rs = JSON.parse(res.text).data==null?[]:JSON.parse(res.text).data
-              var roles = rs.map((item)=>{
-                  var obj = {}
-                  obj.value = item.roleName
-                      obj.label = item.roleName
-                      obj.id = item.id
-                  return obj
+              that.options4 = []
+            } else {
+              var rs = JSON.parse(res.text).data == null ? [] : JSON.parse(res.text).data
+              var roles = rs.map((item) => {
+                var obj = {}
+                obj.value = item.roleName
+                obj.label = item.roleName
+                obj.id = item.id
+                return obj
               })
-              if(roles.length>0){
+              if (roles.length > 0) {
                 that.isDisabled = false
-                setTimeout(()=>{
-                   that.options4.map((item)=>{
-                    if(item.value==that.editAccount.roleName){
+                setTimeout(() => {
+                  that.options4.map((item) => {
+                    if (item.value == that.editAccount.roleName) {
                       that.recodeRoleId = item.id
                       that.recodeRoleName = item.value
                     }
                   })
-                },200)
-              }else{
+                }, 200)
+              } else {
                 that.isDisabled = true
               }
               that.options4 = roles
             }
           })
-        }, 200)
+      }, 200)
     },
-    loadAccount(){
+    loadAccount() {
       var that = this
-       getAllAccount({},function (error, res) {
+      getAllAccount({}, function(error, res) {
         if (error) {
           console.log(error)
           that.loading = false
@@ -218,7 +209,7 @@ export default {
         } else {
           that.loading = false
           that.totalPage = JSON.parse(res.text).totalPage
-          var arr = JSON.parse(res.text).data||[]
+          var arr = JSON.parse(res.text).data || []
           if (that.totalPage > 1) {
             that.emptyText = ' '
             that.pageShow = true
@@ -240,14 +231,14 @@ export default {
       this.isQuery = false
       this.currentPage = 1
       if (this.accountOrUsername.trim().length === 0 && this.telOrMail.trim().length === 0 && this.isQuery === false) {
-        getAllAccount({},function (error, res) {
+        getAllAccount({}, function(error, res) {
           if (error) {
             console.log(error)
-            setTimeout(function () {
+            setTimeout(function() {
               that.loading = false
               that.loadingText = '服务器链接超时'
             }, 5000)
-            setTimeout(function () {
+            setTimeout(function() {
               that.emptyText = '暂无数据'
             }, 6000)
           } else {
@@ -281,12 +272,12 @@ export default {
       this.router_show = true
     },
     openEdit(scope) {
-      if(scope.row.status===false){
-         this.$message({
-            type:'error',
-            message:'账号已冻结，请解冻后再编辑'
-          })
-          return;
+      if (scope.row.status === false) {
+        this.$message({
+          type: 'error',
+          message: '账号已冻结，请解冻后再编辑'
+        })
+        return;
       }
       this.dialogVisible = true
       this.editAccount.id = scope.row.id
@@ -299,12 +290,11 @@ export default {
       this.editAccount.passWord = '********'
       this.editAccount.roleName = scope.row.roleName
       this.editAccount.index = scope.$index
-       this.remoteMethod()
+      this.remoteMethod()
     },
     handleEditAccount() {
-       var that = this
+      var that = this
       var newAccountInfo = {}
-     
       newAccountInfo.role = this.editAccount.role
       newAccountInfo.id = this.editAccount.id
       newAccountInfo.userName = this.editAccount.userName
@@ -318,41 +308,69 @@ export default {
       newAccountInfo.roleName = this.recodeRoleName;
       var index = this.editAccount.index
       this.$refs.editRuleForm.validate((valid) => {
-        this.dialogVisible = false
+       
         if (valid) {
-          updateAccount(
-            {
-              id: newAccountInfo.id,
+          request.post(host + 'beepartner/franchisee/User/checkIsExistsUserName')
+            .withCredentials()
+            .set({
+              'content-type': 'application/x-www-form-urlencoded'
+            })
+            .send({
               userName: newAccountInfo.userName,
-              name: newAccountInfo.name,
-              email: newAccountInfo.email,
-              phoneNo: newAccountInfo.phoneNo,
-              passWord: newAccountInfo.passWord,
-              description: newAccountInfo.description,
-              roleId:newAccountInfo.roleId
-            }, function (error, res) {
+            })
+            .end((error, res) => {
               if (error) {
-                that.$message({
-                  type: 'error',
-                  message: 'sorry，修改信息失败！'
-                })
+                console.log(error)
               } else {
                 var code = JSON.parse(res.text).resultCode
-                if (code === 1) {
-                  that.$message({
-                    type: 'success',
-                    message: '恭喜您，修改成功！'
-                  })
-                  that.tableData.splice(index, 1, newAccountInfo)
-                } else {
+                var message = JSON.parse(res.text).message
+                if (code === 0) {
                   that.$message({
                     type: 'error',
-                    message: 'sorry，修改信息失败！'
+                    message: message
                   })
+                  that.loading = false
+                  return;
+                } else {
+                  updateAccount(
+                    {
+                      id: newAccountInfo.id,
+                      userName: newAccountInfo.userName,
+                      name: newAccountInfo.name,
+                      email: newAccountInfo.email,
+                      phoneNo: newAccountInfo.phoneNo,
+                      passWord: newAccountInfo.passWord,
+                      description: newAccountInfo.description,
+                      roleId: newAccountInfo.roleId
+                    }, function(error, res) {
+                      if (error) {
+                        that.$message({
+                          type: 'error',
+                          message: 'sorry，修改信息失败！'
+                        })
+                      } else {
+                        
+                        var code = JSON.parse(res.text).resultCode
+                        if (code === 1) {
+                          that.$message({
+                            type: 'success',
+                            message: '恭喜您，修改成功！'
+                          })
+                           that.dialogVisible = false
+                          that.tableData.splice(index, 1, newAccountInfo)
+                        } else {
+                          that.$message({
+                            type: 'error',
+                            message: 'sorry，修改信息失败！'
+                          })
+                        }
+                      }
+                    }
+                  )
                 }
               }
-            }
-          )
+            })
+
         } else {
           console.log('error submit')
           return false
@@ -370,8 +388,8 @@ export default {
         that.loading = true
         delAccount(
           {
-           id: scope.row.id
-          }, function (error, res) {
+            id: scope.row.id
+          }, function(error, res) {
             if (error) {
               console.log(error)
               that.$message({
@@ -381,7 +399,7 @@ export default {
             } else {
               var code = JSON.parse(res.text).resultCode
               if (code === 1) {
-                 that.loading = false
+                that.loading = false
                 that.$message({
                   type: 'success',
                   message: '恭喜您，删除成功!'
@@ -391,7 +409,7 @@ export default {
                   that.pageShow = false
                   that.emptyText = '暂无数据'
                 }
-              } else{
+              } else {
                 that.loading = false
                 that.$message({
                   type: 'error',
@@ -408,14 +426,14 @@ export default {
       })
     },
     changeState(scope) {
-      
+
       var that = this
       this.loading = true
       modifyAccountState(
         {
           id: scope.row.id,
-          status: scope.row.status === true?1:0
-        }, function (error, res) {
+          status: scope.row.status === true ? 1 : 0
+        }, function(error, res) {
           if (error) {
             console.log(error)
             that.$message({
@@ -431,7 +449,7 @@ export default {
                 message: message
               })
               that.loading = false
-             
+
               //that.loadAccount()
             } else {
               that.$message({
@@ -467,12 +485,12 @@ export default {
       var that = this
       if (this.accountOrUsername.trim().length > 0 || this.telOrMail.trim().length > 0) {
         request.post(host + 'beepartner/franchisee/User/findFranchiseeUser')
-        .withCredentials()
-        .set({
-          'content-type': 'application/x-www-form-urlencoded'
-        })
+          .withCredentials()
+          .set({
+            'content-type': 'application/x-www-form-urlencoded'
+          })
           .send(obj)
-          .end(function (error, res) {
+          .end(function(error, res) {
             if (error) {
               console.log(error)
               that.loading = false
@@ -502,30 +520,30 @@ export default {
     }
   },
   mounted() {
-   
+
     this.currentPage = 1
     this.loadingText = '拼命加载中'
-     this.loading = true
+    this.loading = true
     this.loadAccount()
     $(".sign").removeClass('is-active')
     $('.sign[name="1500"]').addClass('is-active')
   },
   watch: {
-    '$route':'loadAccount',
+    '$route': 'loadAccount',
     currentPage: {
-      handler: function (val, oldVal) {
+      handler: function(val, oldVal) {
         var that = this
         this.loading = true
         if (this.isQuery === false) {
-          getAllAccount({currentPage:val},function (error, res) {
+          getAllAccount({ currentPage: val }, function(error, res) {
             if (error) {
               console.log(error)
-               that.loading = false
+              that.loading = false
             } else {
-               that.loading = false
+              that.loading = false
               var arr = JSON.parse(res.text).data
               var totalPage = JSON.parse(res.text).totalPage
-              if (totalPage>1) {
+              if (totalPage > 1) {
                 that.pageShow = true
                 that.emptyText = ' '
               } else {
@@ -544,19 +562,19 @@ export default {
               'content-type': 'application/x-www-form-urlencoded'
             })
             .send({
-                currentPage:val,
-                queryName: this.accountOrUsername,
-                queryNumber: this.telOrMail
-              })
-            .end(function (error, res) {
+              currentPage: val,
+              queryName: this.accountOrUsername,
+              queryNumber: this.telOrMail
+            })
+            .end(function(error, res) {
               if (error) {
                 console.log(error)
-                 that.loading = false
+                that.loading = false
               } else {
-                 that.loading = false
+                that.loading = false
                 var newArr = JSON.parse(res.text).data
                 var totalPage = JSON.parse(res.text).totalPage
-                if (totalPage>1) {
+                if (totalPage > 1) {
                   that.emptyText = ''
                   that.pageShow = true
                 } else {
@@ -609,6 +627,7 @@ body {
 }
 
 
+
 /*#account_router_cover {
   width: 100%;
   height: 100%;
@@ -627,6 +646,7 @@ body {
   left: 0;
   top: 0;
 }
+
 
 
 /*#account_router {
@@ -869,5 +889,8 @@ div.el-pagination {
   margin-top: 20px;
   margin-bottom: 10px
 }
-div#eidtAccount div.el-dialog.el-dialog--small{top:0}
+
+div#eidtAccount div.el-dialog.el-dialog--small {
+  top: 0
+}
 </style>
