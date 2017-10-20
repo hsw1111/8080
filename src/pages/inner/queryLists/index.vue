@@ -326,6 +326,7 @@ export default {
     }
   },
   mounted () {
+   
     var type = this.$store.state.users.consumeDataType
     this.currentPage3 = 1
     var that = this
@@ -336,8 +337,8 @@ export default {
         'content-type': 'application/x-www-form-urlencoded'
       })
       .send({
-        'startTimeStr': '',
-        'endTimeStr':'',
+        'startTimeStr': this.$store.state.users.timeline.startTime,
+        'endTimeStr':this.$store.state.users.timeline.endTime,
         'type': type,
           showType:'table',
           currentPage:1

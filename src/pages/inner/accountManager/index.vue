@@ -317,6 +317,7 @@ export default {
             })
             .send({
               userName: newAccountInfo.userName,
+              id: newAccountInfo.id
             })
             .end((error, res) => {
               if (error) {

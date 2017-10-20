@@ -5,7 +5,7 @@
       <img src="../assets/img/2.png" />
       <p>暂无数据</p>
     </div>
-    <div id="container" style="position: relative;"></div>
+    <div id="container" style="position: relative;" v-show="!noData"></div>
   </div>
 </template>
 <script>
@@ -27,6 +27,7 @@ export default {
     }
   },
   mounted: function() {
+    var that = this
     document.title = "统计图表"
     var type = this.$store.state.users.consumeDataType
     request
@@ -45,19 +46,19 @@ export default {
       .end((error, res) => {
         if (error) {
           console.log('error:', error)
-          this.noData = true
+          that.noData = true
         } else {
-          var len = JSON.parse(res.text).data||[].length
+          var len = (JSON.parse(res.text).data||[]).length
 
           if (len === 0) {
             $('#container').html('')
-            this.noData = true
+            that.noData = true
           } else {
-            this.noData = false
+            that.noData = false
             var arr = JSON.parse(res.text).data
-            this.$store.dispatch('consumeData_action', arr)
-            this.getChartDate()
-            this.createChartsShap()
+            that.$store.dispatch('consumeData_action', arr)
+            that.getChartDate()
+            that.createChartsShap()
           }
         }
       })
