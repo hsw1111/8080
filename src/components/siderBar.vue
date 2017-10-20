@@ -69,7 +69,7 @@
         },
         methods: {
           generateMenu () {
-            this.authList = JSON.parse(window.localStorage.getItem('authList'))
+            this.authList = JSON.parse(window.sessionStorage.getItem('authList'))
               var all  = $('.sign')
               if(this.authList.length===0){
                 $('.siderBar').hide()

@@ -49,12 +49,12 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code === 1){
-                   window.localStorage.removeItem('permission')
-                    window.localStorage.removeItem('authList')
-                    window.localStorage.removeItem('userName')
-                     window.localStorage.removeItem('name')
-                    window.localStorage.removeItem('franchiseeUser')
-                    window.localStorage.removeItem('franchiseeUserIconUrl')
+                   window.sessionStorage.removeItem('permission')
+                    window.sessionStorage.removeItem('authList')
+                    window.sessionStorage.removeItem('userName')
+                     window.sessionStorage.removeItem('name')
+                    window.sessionStorage.removeItem('franchiseeUser')
+                    window.sessionStorage.removeItem('franchiseeUserIconUrl')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted:function(){
-        var info = localStorage.getItem('franchiseeUser')
+        var info = sessionStorage.getItem('franchiseeUser')
         var name = JSON.parse(info).name
         var userName = JSON.parse(info).userName
         if(name === 'null' || name === ''){
