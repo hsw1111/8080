@@ -334,10 +334,10 @@ export default {
                      this.$router.push('/nofound')
                 }
               
-                window.localStorage.setItem('authList',JSON.stringify(this.authList))   
-                window.localStorage.setItem('permission',JSON.stringify(this.menuitems))
-                window.localStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
-                window.localStorage.setItem('franchiseeUserIconUrl',franchiseeUser.franchiseeUserIconUrl)
+                window.sessionStorage.setItem('authList',JSON.stringify(this.authList))   
+                window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
+                window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
+                window.sessionStorage.setItem('franchiseeUserIconUrl',franchiseeUser.franchiseeUserIconUrl)
                     
               
                 //this.$router.addRoutes(this.menuitems)  
