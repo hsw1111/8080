@@ -8,16 +8,16 @@ export default [
         name: '登录',
         component: login
     },
-    {
-        path: '/',
-        component: index,
-        children: [{
-                path: '/nofound',
-                component: NotFoundPage,
-                name:'notfound'
-            }
-        ]
-    },
+    // {
+    //     path: '/',
+    //     component: index,
+    //     children: [{
+    //             path: '/nofound',
+    //             component: NotFoundPage,
+    //             name:'notfound'
+    //         }
+    //     ]
+    // },
     ...generateRoutesFromMenu(MenuModule.state.items)  
    
 ]
