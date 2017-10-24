@@ -20,6 +20,7 @@ export default {
       active:true
     }
   },
+  props:['cityCode'],
   methods: {
     generateAxis() {
       var nowTime = new Date().getHours().toString()
@@ -108,13 +109,16 @@ export default {
       return color
     },
     loadData() {
+      console.log(this.cityCode)
       var that = this
       request.post(host + 'beepartner/franchisee/statistics/franchiseeTrend')
         .withCredentials()
         .set({
           'content-type': 'application/x-www-form-urlencoded'
         })
-        .send()
+        .send({
+          cityCode:this.cityCode.join()
+        })
         .end((err, res) => {
           if (err) {
             console.log('err2:' + err)
@@ -146,9 +150,17 @@ export default {
   mounted: function() {
     var that = this
     this.generateAxis()
-    this.loadData()
+    //this.loadData()
     setInterval(this.loadData, 10 * 60 * 1000)
     // 创建图表
+  },
+  watch:{
+    'cityCode':{
+      handler:function(){
+        this.loadData()
+      },
+      deeper:true
+    }
   }
 }
 </script>

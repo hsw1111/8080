@@ -5,6 +5,12 @@
       <div class="queryCarInfo">
         <el-form :model="form">
           <el-row>
+             <el-form-item >
+                <span class="labelAlign">加盟区域</span>
+               <city-list v-bind:joinCity="_cityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+              </el-form-item>
+          </el-row>
+          <el-row>
             <el-col>
               <el-form-item class="filtercar">
                 <span class="labelAlign">关键字</span>
@@ -64,6 +70,7 @@
   </div>
 </template>
 <script>
+import cityList from '../../../components/cityList.vue'
 import request from 'superagent'
 import moment from 'moment'
 import $ from 'jquery'
@@ -72,6 +79,8 @@ import { host } from '../../../config/index.js'
 export default {
   data: function () {
     return {
+      cityCodeList:[],
+      _cityList:[],
       emptyText: ' ',
       form: {
         radio: '',
@@ -91,12 +100,28 @@ export default {
       loading2: false
     }
   },
+   created(){
+    // 初始化调用查询可加盟城市的接口,动态渲染数据
+    this._cityList = [
+      { cityName: "合肥", code: "1024", id: 1 },
+      { cityName: "北京", code: "1034", id: 2 },
+      { cityName: "南京", code: "1025", id: 3 }
+    ]
+  
+  },
+  components:{
+    cityList
+  },
   mounted: function () {
     this.mountedWay()
     $(".sign").removeClass('is-active')
     $('.sign[name="1200"]').addClass('is-active')
   },
   methods: {
+     showMsgFormChild(data){
+      // 子组件像父组件传值,目的是获取被选中的cityCode
+      this.cityCodeList = data
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },

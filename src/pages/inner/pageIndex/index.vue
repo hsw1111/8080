@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-title data-title="首页"></div>
+    <div class="module">
+      <city-list v-bind:joinCity="_cityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+    </div>
     <div class="incomming module">
       <el-row>
         <el-col :span='12' class="mounthIncoming">
@@ -69,7 +72,7 @@
             <span style="display:none;" class="arrow">>></span>
           </div>
           <div class="Histogram">
-            <myCanvas></myCanvas>
+            <myCanvas :cityCode="cityCodeList"></myCanvas>
           </div>
         </el-col>
         <el-col :span='12' class="status">
@@ -187,6 +190,7 @@ span.income_detail {
 div.status {
   background: #fff;
   padding: 0;
+  height:285px;
 }
 
 div.status_title,
@@ -310,6 +314,8 @@ i.wait{position: absolute;
     text-align: left;}
 </style>
 <script>
+
+import cityList from '../../../components/cityList.vue'
 import myCanvas from '../../../components/highChartRectIndex.vue'
 // import Gamp from '../../../components/map.vue'
 import request from 'superagent'
@@ -318,6 +324,7 @@ import $ from 'jquery'
 export default {
   data: function () {
     return {
+      cityCodeList:[],
       nowStatus:false,
       loading:true,
       loading2:true,
@@ -345,9 +352,14 @@ export default {
   },
   components: {
     myCanvas,
+    cityList
     // Gamp
   },
   methods:{
+     showMsgFormChild(data){
+      // 子组件像父组件传值,目的是获取被选中的cityCode
+      this.cityCodeList = data
+    },
     loadIndexData(){
       /*今日营收*/
        request
@@ -355,6 +367,9 @@ export default {
           .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
+          })
+          .send({
+            cityId:this.cityCodeList.join()
           })
         .end((err, res) => {
           if (err) {
@@ -387,6 +402,9 @@ export default {
           .set({
             'content-type': 'application/x-www-form-urlencoded'
           })
+           .send({
+            cityId:this.cityCodeList.join()
+          })
         .end((err, res) => {
           if (err) {
             console.log(err)
@@ -411,6 +429,10 @@ export default {
         .set({
             'content-type': 'application/x-www-form-urlencoded'
           })
+           .send({
+            cityId:this.cityCodeList.join()
+          })
+          
         .end((err, res) => {
           if (err) {
             console.log(err)
@@ -450,6 +472,9 @@ export default {
             .set({
               'content-type': 'application/x-www-form-urlencoded'
             })
+             .send({
+            cityId:this.cityCodeList.join()
+          })
           .end((err, res) => {
             if (err) {
               console.log(err)
@@ -488,12 +513,26 @@ export default {
       })
     } 
   },
+   created(){
+    // 初始化调用查询可加盟城市的接口,动态渲染数据
+    this._cityList = [
+      { cityName: "合肥", code: "1024", id: 1 },
+      { cityName: "北京", code: "1034", id: 2 },
+      { cityName: "南京", code: "1025", id: 3 }
+    ]
+  
+  },
   mounted:function(){
     $(".sign").removeClass('is-active')
     $('.sign[name="1100"]').addClass('is-active')
    this.checkoutSeesion()
-    this.loadIndexData()
+   // this.loadIndexData()
      document.title="蜜蜂出行加盟商管理平台"
+  },
+  watch:{
+    'cityCodeList':function(){
+      this.loadIndexData()
+    }
   }
 }
 </script>
