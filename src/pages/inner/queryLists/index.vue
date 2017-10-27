@@ -379,7 +379,6 @@ export default {
   },
   mounted () {
    setTimeout(()=>{
-     console.log(this.cityId)
       this.loadData()
    },200)
   
