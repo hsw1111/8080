@@ -27,7 +27,7 @@
         >
           <template scope="scope">
             <span class="date">
-               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth}}"> {{scope.row.withDrawMonth}}</router-link>
+               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join()}}"> {{scope.row.withDrawMonth}}</router-link>
              </span>
           </template>
         </el-table-column>
@@ -107,8 +107,7 @@ import cityList from '../../../components/cityList.vue'
         pageShow:false,
         currentPage3:1,
         totalItems:30,
-        tableData: [
-        ]
+        tableData: []
       }
     },
     methods:{
@@ -205,7 +204,6 @@ import cityList from '../../../components/cityList.vue'
   
   },
     mounted(){
-
    
       document.title="结算管理"
         $(".sign").removeClass('is-active')

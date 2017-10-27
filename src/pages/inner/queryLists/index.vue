@@ -24,33 +24,32 @@
           label="订单数"
           min-width="120">
               <template scope="scope">
-                {{new Number(scope.row.totalBill).thousand()}}
+                {{new Number(scope.row.totalBill).thousandFormat()}}
               </template>
         </el-table-column>
         <el-table-column
           prop="totalMoney"
-          label="订单总额">
+          label="订单总额(元)">
              <template scope="scope">
                 {{new Number(scope.row.totalMoney).thousandFormat()}}
               </template>
         </el-table-column>
         <el-table-column
           prop="totalDiscount"
-          label="优惠券支付总额（元）">
+          label="优惠券支付总额(元)">
              <template scope="scope">
                 {{new Number(scope.row.totalDiscount).thousandFormat()}}
               </template>
         </el-table-column>
          <el-table-column
-          prop="totalDiscount"
-          label="赠送金额支付（元）">
+          label="赠送金额支付(元)">
              <template scope="scope">
-                {{new Number(scope.row.totalDiscount).thousandFormat()}}
+                {{new Number(scope.row.grantAmount).thousandFormat()}}
               </template>
         </el-table-column>
         <el-table-column
           min-width="80"
-          label="实际收益（元） ?"
+          label="实际收益(元)"
           prop='actualMoney'
            :render-header="rendHeader"
           >
@@ -350,9 +349,9 @@ export default {
           'startTimeStr': this.$store.state.users.timeline.startTime.length>0?this.$store.state.users.timeline.startTime:'',
           'endTimeStr': this.$store.state.users.timeline.endTime.length>0?this.$store.state.users.timeline.endTime:'',
           'type': type,
-            showType:'table',
-            currentPage:1,
-            cityId:this.cityId,
+          'showType':'table',
+          'currentPage':1,
+          'cityId':this.cityId
         })
         .end((error, res) => {
           if (error) {
