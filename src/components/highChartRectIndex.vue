@@ -109,7 +109,7 @@ export default {
       return color
     },
     loadData() {
-      console.log(this.cityCode)
+     
       var that = this
       request.post(host + 'beepartner/franchisee/statistics/franchiseeTrend')
         .withCredentials()
@@ -128,7 +128,12 @@ export default {
             var code = JSON.parse(res.text).resultCode
             if (code != -1) {
               var arr = JSON.parse(res.text).data
-              this.active = false
+              if(arr.length>0){
+                  this.active = false
+              }else{
+                this.active = true
+              }
+              
               var data = arr.reverse().splice(0,7).reverse()
               var _time = [];
                 var res = data.map((item) => {

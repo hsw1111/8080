@@ -36,7 +36,14 @@
         </el-table-column>
         <el-table-column
           prop="totalDiscount"
-          label="优惠卷支付">
+          label="优惠券支付总额（元）">
+             <template scope="scope">
+                {{new Number(scope.row.totalDiscount).thousandFormat()}}
+              </template>
+        </el-table-column>
+         <el-table-column
+          prop="totalDiscount"
+          label="赠送金额支付（元）">
              <template scope="scope">
                 {{new Number(scope.row.totalDiscount).thousandFormat()}}
               </template>
@@ -85,13 +92,13 @@ div.el-notification{right:-330px;}
 
 div.queryLists h3 {
   text-align: right;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 div.queryLists {
   width: 100%;
   box-sizing: border-box;
-  padding: 20px 30px 20px 30px;
+  padding: 20px 20px 20px 20px;
   
 }
 
@@ -137,6 +144,7 @@ import $ from 'jquery'
 import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index.js'
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -151,7 +159,50 @@ export default {
       pageShow: false
     }
   },
+  computed:{
+    ...mapGetters(['cityId'])
+  },
   methods: {
+    loadData(){
+      var type = this.$store.state.users.consumeDataType
+    this.currentPage3 = 1
+    var that = this
+    request
+      .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
+      .withCredentials()
+      .set({
+        'content-type': 'application/x-www-form-urlencoded'
+      })
+      .send({
+        cityId:this.cityId,
+        'startTimeStr': this.$store.state.users.timeline.startTime,
+        'endTimeStr':this.$store.state.users.timeline.endTime,
+        'type': type,
+          showType:'table',
+          currentPage:1
+      })
+      .end((error, res) => {
+        if (error) {
+          console.log('error:', error)
+          this.loading2 = false
+        } else {
+          this.loading2  = false
+            var totalPage = JSON.parse(res.text).totalPage
+            this.totalItems = Number(JSON.parse(res.text).totalItems)
+            if (totalPage>1) {
+              that.pageShow = true
+              this.emptyText = ' '
+            } else {
+              that.pageShow = false
+              this.emptyText = '暂无数据'
+            }
+            that.lists = []
+            var arr = JSON.parse(res.text).data||[]
+            that.$store.dispatch('consumeData_action', arr)
+            that.lists = that.$store.state.users.consumeData
+        }
+      })
+    },
      mouseLeaveHandler(){
       $('div.el-notification').animate({right:'-330px'},500,function(){
          this.notice = false
@@ -242,48 +293,48 @@ export default {
         return
       }
     },
-    getDateMount () {
-      this.loading2 = true
-       //alert(this.$store.state.consumeDataType)
-      var timeType = this.$store.state.users.consumeDataType
-      request
-        .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
-         .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-        .send({
-         'startTimeStr': this.$store.state.users.timeline.startTime,
-          'endTimeStr': this.$store.state.users.timeline.endTime,
-          'type': type,
-          showType:'table',
-          currentPage:1
-        })
-        .end((error, res) => {
-          // console.log('this is entry')
-          if (error) {
-            console.log('error:', error)
-            this.loading2 = false
-            this.emptyText = ' 暂无数据'
-          } else {
-            var arr = JSON.parse(res.text).data
-            this.loading2 = false
-            // loading关闭
-            this.loading2 = false
-            return
-            var pageNumber = JSON.parse(res.text).totalPage
-            this.totalItems = Number(JSON.parse(res.text).totalItems)
-            if(pageNumber>1){
-              this.pageShow = true
-            }else {
-              this.pageShow = false
-              this.emptyText = ' 暂无数据'
-            }
-            this.$store.dispatch('consumeData_action', arr)
-            this.lists = this.$store.state.users.consumeData
-          }
-        })
-    },
+    // getDateMount () {
+    //   this.loading2 = true
+    //    //alert(this.$store.state.consumeDataType)
+    //   var timeType = this.$store.state.users.consumeDataType
+    //   request
+    //     .post(host +'beepartner/franchisee/statistics/franchiseeStatistics')
+    //      .withCredentials()
+    //       .set({
+    //         'content-type': 'application/x-www-form-urlencoded'
+    //       })
+    //     .send({
+    //      'startTimeStr': this.$store.state.users.timeline.startTime,
+    //       'endTimeStr': this.$store.state.users.timeline.endTime,
+    //       'type': type,
+    //       showType:'table',
+    //       currentPage:1
+    //     })
+    //     .end((error, res) => {
+    //       // console.log('this is entry')
+    //       if (error) {
+    //         console.log('error:', error)
+    //         this.loading2 = false
+    //         this.emptyText = ' 暂无数据'
+    //       } else {
+    //         var arr = JSON.parse(res.text).data
+    //         this.loading2 = false
+    //         // loading关闭
+    //         this.loading2 = false
+    //         return
+    //         var pageNumber = JSON.parse(res.text).totalPage
+    //         this.totalItems = Number(JSON.parse(res.text).totalItems)
+    //         if(pageNumber>1){
+    //           this.pageShow = true
+    //         }else {
+    //           this.pageShow = false
+    //           this.emptyText = ' 暂无数据'
+    //         }
+    //         this.$store.dispatch('consumeData_action', arr)
+    //         this.lists = this.$store.state.users.consumeData
+    //       }
+    //     })
+    // },
     time () {
       var type = this.$route.query.type
       this.loading2 = true
@@ -300,7 +351,8 @@ export default {
           'endTimeStr': this.$store.state.users.timeline.endTime.length>0?this.$store.state.users.timeline.endTime:'',
           'type': type,
             showType:'table',
-            currentPage:1
+            currentPage:1,
+            cityId:this.cityId,
         })
         .end((error, res) => {
           if (error) {
@@ -326,47 +378,20 @@ export default {
     }
   },
   mounted () {
-   
-    var type = this.$store.state.users.consumeDataType
-    this.currentPage3 = 1
-    var that = this
-    request
-      .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
-      .withCredentials()
-      .set({
-        'content-type': 'application/x-www-form-urlencoded'
-      })
-      .send({
-        'startTimeStr': this.$store.state.users.timeline.startTime,
-        'endTimeStr':this.$store.state.users.timeline.endTime,
-        'type': type,
-          showType:'table',
-          currentPage:1
-      })
-      .end((error, res) => {
-        if (error) {
-          console.log('error:', error)
-          this.loading2 = false
-        } else {
-          this.loading2  = false
-            var totalPage = JSON.parse(res.text).totalPage
-            this.totalItems = Number(JSON.parse(res.text).totalItems)
-            if (totalPage>1) {
-              that.pageShow = true
-              this.emptyText = ' '
-            } else {
-              that.pageShow = false
-              this.emptyText = '暂无数据'
-            }
-            that.lists = []
-            var arr = JSON.parse(res.text).data||[]
-            that.$store.dispatch('consumeData_action', arr)
-            that.lists = that.$store.state.users.consumeData
-        }
-      })
+   setTimeout(()=>{
+     console.log(this.cityId)
+      this.loadData()
+   },200)
+  
   },
   watch: {
-    // '$route': 'dataUpdate',
+    'cityId':{
+      handler:function(n,o){
+       this.loadData()
+      },
+      deep:true,
+    },
+    '$route': 'dataUpdate',
     '$store.state.users.consumeDataType':'time',
     '$store.state.users.timeline':'time',
     currentPage3: {
@@ -381,6 +406,7 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
+          cityId:this.cityId,
           'startTimeStr': this.$store.state.users.timeline.startTime.length>0?this.$store.state.users.timeline.startTime:'',
           'endTimeStr': this.$store.state.users.timeline.endTime.length>0?this.$store.state.users.timeline.endTime:'',
           'type': type,

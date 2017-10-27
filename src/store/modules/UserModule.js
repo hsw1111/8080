@@ -18,9 +18,13 @@ const state = {
     cityName:'',
     franchiseeUserIconUrl:'',
     settelListId:'',
+    recodeCityId:'',
 }
 
 const mutations = {
+    recodeCityId(state,cityId){
+        state.recodeCityId = cityId
+    },
     updatLoginName(state,name){
         state.userName = name
     },
@@ -78,6 +82,9 @@ const mutations = {
     }
 }
 const actions = {
+  setCityId(context,id){
+      context.commit('recodeCityId',id)
+  },
   setSettleListId(context,id){
     context.commit('recodeSettelListId',id)
   },  
@@ -107,7 +114,8 @@ const getters = {
     userName : userName,
     cityName: state => state.cityName,
     franchiseeUserIconUrl: state => state.franchiseeUserIconUrl,
-    settelListId: state => state.settelListId
+    settelListId: state => state.settelListId,
+    cityId: state => state.recodeCityId
 }
 export default {
   state,

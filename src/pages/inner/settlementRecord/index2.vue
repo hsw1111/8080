@@ -1,13 +1,19 @@
 <template>
   <div class="container">
     <div class="wrap">
-       <div class="inline subCount">
-        累计已结算：<span>{{alreadyWidthDrawTimes}}</span>次
-      </div>
+       <div v-show="remoteCityList.length>1" style="margin-bottom:20px;">
+           <span class="joinPlace">加盟区域</span>
+           <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+       </div>
+        <div>
+           <div class="inline subCount">
+            累计已结算：<span>{{alreadyWidthDrawTimes}}</span>次
+          </div>
 				
-      <div class=" inline subCount">
-        共获得收益金额：<span>{{new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>元
-      </div>
+          <div class=" inline subCount">
+            共获得收益金额：<span>{{new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>元
+          </div>
+        </div>
     </div>
     <div class="table">
       <el-table
@@ -89,10 +95,13 @@ import $ from 'jquery'
 import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
+import cityList from '../../../components/cityList.vue'
   export default {
     data(){
       return {
-        loading:true,
+          cityCodeList:[],
+       remoteCityList:[],
+        loading:false,
         alreadyWidthDrawMoney:'',
         alreadyWidthDrawTimes:'',
         pageShow:false,
@@ -103,71 +112,135 @@ import { host } from '../../../config/index'
       }
     },
     methods:{
+       showMsgFormChild(data){
+      // 子组件像父组件传值,目的是获取被选中的cityCode
+      this.cityCodeList = data
+    },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      }
-    },
-    mounted(){
-      document.title="结算管理"
-        $(".sign").removeClass('is-active')
-    $('.sign[name="1402"]').addClass('is-active')
-       request
-      .post(host + 'beepartner/franchisee/withDraw/findWithDraw')
-      .withCredentials()
-      .set({
-        'content-type': 'application/x-www-form-urlencoded'
-      })
-      .end((err, res) => {
-        if (err) {
-          console.log('err:' + err)
-          this.loading = false
-          this.emptyText = '暂无数据'
-          this.pageShow = false
-        } else {
-          // loading 关闭
-          this.loading2 = false
-          var code = JSON.parse(res.text).resultCode
-          if(code === -1){
-             this.alreadyWidthDrawMoney = 0;
-             this.alreadyWidthDrawTimes = 0;
-             this.loading = false
-          }
-          if (code === 1) {
-            this.loading = false;
-            var newArr = JSON.parse(res.text).data
-            this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-            this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes
-            this.tableData = newArr
-            // 页面总数
-            var pageNumber = JSON.parse(res.text).totalPage
-            // 总记录数
-            this.totalItems = Number(JSON.parse(res.text).totalItems)
-            this.totalPage = pageNumber
-            if (pageNumber > 1) {
-              this.pageShow = true
-            } else {
+      },
+      loadData(){
+         this.loading = true
+         request
+        .post(host + 'beepartner/franchisee/withDraw/findWithDraw')
+        .withCredentials()
+        .set({
+          'content-type': 'application/x-www-form-urlencoded'
+        })
+        .send({
+          cityId:this.cityCodeList.join()
+        })
+        .end((err, res) => {
+           this.loading = false
+          if (err) {
+            console.log('err:' + err)
+            this.loading = false
+            this.emptyText = '暂无数据'
+            this.pageShow = false
+          } else {
+            // loading 关闭
+            this.loading = false
+            var code = JSON.parse(res.text).resultCode
+            if(code === -1){
+              this.alreadyWidthDrawMoney = 0;
+              this.alreadyWidthDrawTimes = 0;
+              this.loading = false
+            }
+            if (code === 1) {
+              this.loading = false;
+              var newArr = JSON.parse(res.text).data
+              this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
+              this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes
+              this.tableData = newArr
+              // 页面总数
+              var pageNumber = JSON.parse(res.text).totalPage
+              // 总记录数
+              this.totalItems = Number(JSON.parse(res.text).totalItems)
+              this.totalPage = pageNumber
+              if (pageNumber > 1) {
+                this.pageShow = true
+              } else {
+                this.pageShow = false
+                this.emptyText = ' 暂无数据'
+              }
+          
+            }else{
               this.pageShow = false
               this.emptyText = ' 暂无数据'
+              var newArr = []
+              this.tableData = []
+              
             }
-         
-          }else{
-            this.pageShow = false
-            this.emptyText = ' 暂无数据'
-            var newArr = []
-            this.tableData = []
-            
-          }
 
-        }
+          }
+        })
+      }
+    },
+    components:{
+    cityList
+  },
+   created() {
+    // 初始化调用查询可加盟城市的接口,动态渲染数据
+    var that = this;
+    request
+      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .withCredentials()
+      .set({
+        "content-type": "application/x-www-form-urlencoded"
       })
+      .end((error, res) => {
+        if (error) {
+          console.log(error);
+        } else {
+          var result = JSON.parse(res.text);
+          var arr = result.data.map(list => {
+            return { cityName: list.cityName, code: list.cityId, id: list.id };
+          });
+        
+          this.remoteCityList = arr
+         
+        
+        }
+      });
+  
+  },
+    mounted(){
+
+   
+      document.title="结算管理"
+        $(".sign").removeClass('is-active')
+      $('.sign[name="1402"]').addClass('is-active')
+      // this.loadData()
+    },
+    watch:{
+      'cityCodeList':{
+        handler:function(){
+          this.loadData()
+        },
+        deep:true
+      }
     }
   }
 </script>
 <style lang="scss" scoped>
+div.cityList{
+  display: inline-block;
+    margin-top: 4px;
+    margin-left: 10px;
+}
+span.joinPlace{ height: 44px;
+    line-height: 44px;
+    float: left;
+    width: 56px;
+    text-align: right;
+    margin-right: 1px;
+    font-size: 14px;
+    color: #555;
+    }
   div.wrap{
-    background:rgba(255, 255, 204, 0.8);
+    background:rgb(255, 255, 255);
     margin-bottom:20px;
-    padding:16px;
+    padding:20px;
     div.inline{
       height:30px;
       display: inline-block;
@@ -176,7 +249,7 @@ import { host } from '../../../config/index'
     }
   }
    div.table{
-      padding:16px;
+      padding:20px;
       background:#fff;
       font-family:'微软雅黑';
       a.active{color:rgb(2, 2, 255);text-decoration:underline;}

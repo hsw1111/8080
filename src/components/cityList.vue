@@ -19,10 +19,7 @@ export default {
     };
   },
   props:["joinCity"],
-  created:function(){
-      this.cityList = this.joinCity
-  },
-  mounted:function(){
+  updated:function(){
        var $li = document.querySelector('li.citySelect')
        var code = $li.getAttribute('cityId');
        this.cityCodeList.push(code)
@@ -40,12 +37,20 @@ export default {
               this.cityCodeList.push(e.target.getAttribute('cityId'))
               this.$emit('listenToChildEvetn',[...this.cityCodeList])
       }
+  },
+  watch:{
+      joinCity:{
+          handler:function(n){
+              this.cityList = n
+          },
+          deep:true
+      }
   }
 };
 </script>
 <style scoped >
-    div.cityList ul {height:40px;}
-    div.cityList ul li{cursor:pointer; float:left;list-style: none;width:80px;height:30px;line-height:30px;text-align:center;border:1px solid #ccc;border-radius:4px;margin-right:5px;}
+    div.cityList ul {height:32px;}
+    div.cityList ul li{cursor:pointer; float:left;list-style: none;width:80px;height:30px;line-height:30px;text-align:center;border:1px solid #ccc;border-radius:4px;margin-right:5px;font-size:14px;}
     div.cityList ul li.active{color:orange;border:1px solid orange}
     div.cityList ul li:nth-child(1){color:orange;border:1px solid orange}
 </style>

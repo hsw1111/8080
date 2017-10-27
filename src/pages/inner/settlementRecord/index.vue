@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div>
+      <span class="joinPlace">加盟区域</span>
+      <city-list v-bind:joinCity="_cityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+    </div>
     <div v-title data-title="结算管理"></div>
     <div id="settleRed_content">
       <div id="settleRed_header">
@@ -46,6 +50,20 @@
 </template>
 
 <style scoped>
+div.cityList{
+  display: inline-block;
+    margin-top: 4px;
+    margin-left: 10px;
+}
+span.joinPlace{ height: 44px;
+    line-height: 44px;
+    float: left;
+    width: 56px;
+    text-align: right;
+    margin-right: 1px;
+    font-size: 14px;
+    color: #555;
+    }
 .el-pagination {
   margin-left: 0;
   padding-left: 0;
@@ -200,11 +218,12 @@ import $ from 'jquery'
 import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
-require('../../../assets/lib/js/jquery.pagination.js')
-import '../../../assets/css/pagination.css'
+import cityList from '../../../components/cityList.vue'
 export default {
   data() {
     return {
+       cityCodeList:[],
+      _cityList:[],
       cityPartner: {},
       tableData: [],
       totalPage: '',
@@ -218,6 +237,17 @@ export default {
       alreadyWidthDrawMoney:''
 
     }
+  },
+  components:{
+    cityList
+  },
+   created(){
+    // 初始化调用查询可加盟城市的接口,动态渲染数据
+    this._cityList = [
+      { cityName: "合肥", code: "1024", id: 1 },
+      { cityName: "北京", code: "1034", id: 2 },
+      { cityName: "南京", code: "1025", id: 3 }
+    ]
   },
   mounted() {
     this.loading2 = true
@@ -273,6 +303,10 @@ export default {
       })
   },
   methods: {
+    showMsgFormChild(data){
+      // 子组件像父组件传值,目的是获取被选中的cityCode
+      this.cityCodeList = data
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },

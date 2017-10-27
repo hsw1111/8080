@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-title data-title="首页"></div>
-    <div class="module">
-      <city-list v-bind:joinCity="_cityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+    <div class="module"   style="background: #fff;padding: 20px;" v-show="remoteCityList.length>1">
+      <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
     </div>
     <div class="incomming module">
       <el-row>
@@ -126,15 +126,17 @@
   </div>
 </template>
 <style scoped>
-div.mapHeader{background:#fff;}
+div.mapHeader {
+  background: #fff;
+}
 div.module {
-  margin-bottom:20px
+  margin-bottom: 20px;
 }
 
 div.el-col-12 {
   padding: 10px;
-  width:49%;
-  box-sizing: border-box
+  width: 49%;
+  box-sizing: border-box;
 }
 
 div.el-col-12:nth-child(1) {
@@ -154,16 +156,18 @@ div.el-col-12 .income_title .income_time {
 div.el-col-12 .income_title .income_detail {
   font-size: 14px;
   float: right;
-  color:gray
+  color: gray;
 }
 
 div.el-col-12 .income_count {
   margin-bottom: 5px;
   font-size: 30px;
-  color:rgba(255,153,0,1);
-  padding-left: 50px
+  color: rgba(255, 153, 0, 1);
+  padding-left: 50px;
 }
-div.el-col-12 .income_count.monthcount{color:rgba(102,102,102,1)}
+div.el-col-12 .income_count.monthcount {
+  color: rgba(102, 102, 102, 1);
+}
 
 div.el-col-12 .income_diff {
   text-align: right;
@@ -190,7 +194,7 @@ span.income_detail {
 div.status {
   background: #fff;
   padding: 0;
-  height:285px;
+  height: 285px;
 }
 
 div.status_title,
@@ -198,7 +202,7 @@ div.datas_title {
   background: #fff;
   line-height: 40px;
   font-weight: bold;
-  color: #000
+  color: #000;
 }
 
 div.status_title span,
@@ -208,8 +212,8 @@ div.datas_title span {
 
 div.datas_title span.data_display small {
   margin-left: 5px;
-  color: rgba(148,148,148,1);
-  font-weight:normal;
+  color: rgba(148, 148, 148, 1);
+  font-weight: normal;
 }
 
 div.status_title span.arrow,
@@ -217,10 +221,12 @@ div.datas_title span.arrow {
   margin: 0 10px 0 0;
   float: right;
   cursor: pointer;
-  color:gray;
-  font-weight:normal;
+  color: gray;
+  font-weight: normal;
 }
-div.status div.list{height:237px;}
+div.status div.list {
+  height: 237px;
+}
 div.status div.list ul li {
   list-style-type: none;
   background: #ffffff;
@@ -232,7 +238,7 @@ div.status div.list ul li {
 }
 
 div.status div.list ul li:nth-last-child(1) {
-  border-bottom: none
+  border-bottom: none;
 }
 
 div.status div.list ul li div.el-col-12 {
@@ -245,7 +251,7 @@ div.status div.list ul li div.el-col-6:nth-child(1) {
 }
 
 div.datas {
-  padding: 0
+  padding: 0;
 }
 
 div.Histogram {
@@ -259,7 +265,7 @@ div.settlementInfo {
   line-height: 40px;
   height: 40px;
   color: #000;
-  padding:10px;
+  padding: 10px;
 }
 
 div.settlementInfo button.withdrawal {
@@ -268,12 +274,14 @@ div.settlementInfo button.withdrawal {
   width: 88px;
   height: 40px;
   border: 1px solid #f9f9f9;
-  background: rgba(255,153,0,0.8);
+  background: rgba(255, 153, 0, 0.8);
   color: #fff;
   border-radius: 6px;
   display: block;
 }
-div.settlementInfo button.withdrawal:hover{background:rgba(255,153,0,1);}
+div.settlementInfo button.withdrawal:hover {
+  background: rgba(255, 153, 0, 1);
+}
 
 div.mapWrap {
   width: 100%;
@@ -290,249 +298,288 @@ div.mapTitle {
   margin-bottom: 5px;
 }
 div.mapTitle span {
-  font-size:16px;
-  font-weight:bold;
+  font-size: 16px;
+  font-weight: bold;
 }
-span.earn, span.settle {color:rgba(134,134,134,1);font-weight: bold;margin-left:8px;}
-span.wait{color:rgba(255,102,0,1);font-weight: bold;margin-left:8px;}
-div.using{color:rgba(255,102,0,1);}
-div.settlementInfo div.el-col-8:nth-child(3){text-align: left;}
-div.nodata{line-height:200px;text-align:center;}
-.el-button.is-disabled:hover{color:#bfcbd9;}
-div.lend{position:relative}
-i.wait{position: absolute;
-    left: 0;
-    top: 8px;
-    font-size: 12px;
-    font-style: normal;
-    color: #ccc;
-    font-weight: normal;
-    /* width: 100%; */
-    width: 800px;
-    padding-left: 0;
-    margin-left: 0;
-    text-align: left;}
+span.earn,
+span.settle {
+  color: rgba(134, 134, 134, 1);
+  font-weight: bold;
+  margin-left: 8px;
+}
+span.wait {
+  color: rgba(255, 102, 0, 1);
+  font-weight: bold;
+  margin-left: 8px;
+}
+div.using {
+  color: rgba(255, 102, 0, 1);
+}
+div.settlementInfo div.el-col-8:nth-child(3) {
+  text-align: left;
+}
+div.nodata {
+  line-height: 200px;
+  text-align: center;
+}
+.el-button.is-disabled:hover {
+  color: #bfcbd9;
+}
+div.lend {
+  position: relative;
+}
+i.wait {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  font-size: 12px;
+  font-style: normal;
+  color: #ccc;
+  font-weight: normal;
+  /* width: 100%; */
+  width: 800px;
+  padding-left: 0;
+  margin-left: 0;
+  text-align: left;
+}
 </style>
 <script>
-
-import cityList from '../../../components/cityList.vue'
-import myCanvas from '../../../components/highChartRectIndex.vue'
+import cityList from "../../../components/cityList.vue";
+import myCanvas from "../../../components/highChartRectIndex.vue";
 // import Gamp from '../../../components/map.vue'
-import request from 'superagent'
-import {host} from '../../../config/index'
-import $ from 'jquery'
+import request from "superagent";
+import { host } from "../../../config/index";
+import $ from "jquery";
 export default {
-  data: function () {
+  data: function() {
     return {
-      cityCodeList:[],
-      nowStatus:false,
-      loading:true,
-      loading2:true,
-      loading3:true,
-      loading4:true,
-      loading5:false,
-      todayShow:false,
-      monthIncoming:'',
-      monthIncrease:'',
-      todayIncoming:'',
-      todayIncrease:'',
-      cityPartner:{},
-      allKindsCars:[],
-      waitLend:'',
-      rented:'',
-      ordered:'',
-      repaired:'',
-      allCarsNum:'',
-      alreadyWidthDrawMoney:'',
-      canWidthDrawMoney:'',
-      franchiseeAllIncome:'',
-      pendingWidthDrawMoney:'',
+      remoteCityList: [],
+      cityCodeList: [],
+      nowStatus: false,
+      loading: true,
+      loading2: true,
+      loading3: true,
+      loading4: true,
+      loading5: false,
+      todayShow: false,
+      monthIncoming: "",
+      monthIncrease: "",
+      todayIncoming: "",
+      todayIncrease: "",
+      cityPartner: {},
+      allKindsCars: [],
+      waitLend: "",
+      rented: "",
+      ordered: "",
+      repaired: "",
+      allCarsNum: "",
+      alreadyWidthDrawMoney: "",
+      canWidthDrawMoney: "",
+      franchiseeAllIncome: "",
+      pendingWidthDrawMoney: "",
       status: []
-    }
+    };
+  },
+  created() {
+    // 初始化调用查询可加盟城市的接口,动态渲染数据
+    var that = this;
+    request
+      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .withCredentials()
+      .set({
+        "content-type": "application/x-www-form-urlencoded"
+      })
+      .end((error, res) => {
+        if (error) {
+          console.log(error);
+        } else {
+          var result = JSON.parse(res.text);
+          var arr = result.data.map(list => {
+            return { cityName: list.cityName, code: list.cityId, id: list.id };
+          });
+          this.remoteCityList = arr
+        }
+      });
+  
   },
   components: {
     myCanvas,
     cityList
     // Gamp
   },
-  methods:{
-     showMsgFormChild(data){
+  methods: {
+    showMsgFormChild(data) {
       // 子组件像父组件传值,目的是获取被选中的cityCode
-      this.cityCodeList = data
+      this.cityCodeList = data;
     },
-    loadIndexData(){
+    loadIndexData() {
       /*今日营收*/
-       request
-        .post(host + 'beepartner/franchisee/statistics/franchiseeRevenue')
-          .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-          .send({
-            cityId:this.cityCodeList.join()
-          })
+      request
+        .post(host + "beepartner/franchisee/statistics/franchiseeRevenue")
+        .withCredentials()
+        .set({
+          "content-type": "application/x-www-form-urlencoded"
+        })
+        .send({
+          cityId: this.cityCodeList.join()
+        })
         .end((err, res) => {
           if (err) {
-            console.log(err)
-            this.loading3  = false
+            console.log(err);
+            this.loading3 = false;
           } else {
-            this.loading3  = false
-            var code = JSON.parse(res.text).resultCode
-            if(code!=-1){
-               var result = JSON.parse(res.text).data
-              this.todayIncoming = result.currentRevenue
-              if(this.todayIncoming!=null){
-                this.todayShow = true
-              }else{
-                this.todayShow = false
+            this.loading3 = false;
+            var code = JSON.parse(res.text).resultCode;
+            if (code != -1) {
+              var result = JSON.parse(res.text).data;
+              this.todayIncoming = result.currentRevenue;
+              if (this.todayIncoming != null) {
+                this.todayShow = true;
+              } else {
+                this.todayShow = false;
               }
-             this.todayIncrease = result.todayIncrease
-            }else{
+              this.todayIncrease = result.todayIncrease;
+            } else {
               this.todayIncoming = null;
               this.todayIncrease = null;
-             
-            }
-           
-          }
-        })
-        /*本月营收*/
-        request
-        .post(host + 'beepartner/franchisee/statistics/franchiseeMonthRevenue')
-          .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-           .send({
-            cityId:this.cityCodeList.join()
-          })
-        .end((err, res) => {
-          if (err) {
-            console.log(err)
-            this.loading2  = false
-          } else {
-             var code = JSON.parse(res.text).resultCode
-            this.loading2  = false
-            if(code!=-1){
-              var result = JSON.parse(res.text).data
-              this.monthIncoming = result.monthRevenue
-              this.monthIncrease = result.monthIncrease
-            }else{
-              this.monthIncoming = null
-              this.monthIncrease = null
             }
           }
-        })
-        // /*车辆运营信息*/
-        request
-        .post(host + 'beepartner/franchisee/withDraw/homePageWithDrawMoney')
-        .withCredentials()
-        .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-           .send({
-            cityId:this.cityCodeList.join()
-          })
-          
-        .end((err, res) => {
-          if (err) {
-            console.log(err)
-          } else {
-            
-            this.cityPartner = JSON.parse(res.text).cityPartner
-            var code = JSON.parse(res.text).resultCode
-            if(code!=-1){
-                this.allCarsNum = this.cityPartner.bikeNum
-                this.allKindsCars = JSON.parse(res.text).cityPartner.bikeStates||[]
-                this.waitLend = this.allKindsCars[0].cnt
-                this.rented = this.allKindsCars[2].cnt
-                this.ordered = this.allKindsCars[3].cnt
-                this.repaired = this.allKindsCars[1].cnt
-                this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-                this.canWidthDrawMoney = JSON.parse(res.text).cityPartner.canWidthDrawMoney
-                this.franchiseeAllIncome = JSON.parse(res.text).cityPartner.franchiseeAllIncome
-                this.pendingWidthDrawMoney = JSON.parse(res.text).cityPartner.pendingWidthDrawMoney
-            }else{
-               this.waitLend = null
-                this.rented = null
-                this.ordered = null
-                this.repaired = null
-                this.allCarsNum = null
-                 this.alreadyWidthDrawMoney = null
-                this.canWidthDrawMoney = null
-                this.franchiseeAllIncome = null
-                 this.pendingWidthDrawMoney = null
-            }
-            
-          }
-        })
-        /*当前动态*/
-        request
-          .post(host + 'beepartner/franchisee/statistics/franchiseeCurrent')
-            .withCredentials()
-            .set({
-              'content-type': 'application/x-www-form-urlencoded'
-            })
-             .send({
-            cityId:this.cityCodeList.join()
-          })
-          .end((err, res) => {
-            if (err) {
-              console.log(err)
-              this.loading  = false
-            } else {
-               this.loading  = false
-              var result = JSON.parse(res.text).data||[]
-              if(result.length==0){
-                this.nowStatus = true
-              }else{
-                this.nowStatus = false
-              }
-              this.status = result
-            }
-          })
-    },
-    checkoutSeesion(){
+        });
+      /*本月营收*/
       request
-        .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
+        .post(host + "beepartner/franchisee/statistics/franchiseeMonthRevenue")
         .withCredentials()
         .set({
-        'content-type': 'application/x-www-form-urlencoded'
+          "content-type": "application/x-www-form-urlencoded"
+        })
+        .send({
+          cityId: this.cityCodeList.join()
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+            this.loading2 = false;
+          } else {
+            var code = JSON.parse(res.text).resultCode;
+            this.loading2 = false;
+            if (code != -1) {
+              var result = JSON.parse(res.text).data;
+              this.monthIncoming = result.monthRevenue;
+              this.monthIncrease = result.monthIncrease;
+            } else {
+              this.monthIncoming = null;
+              this.monthIncrease = null;
+            }
+          }
+        });
+      // /*车辆运营信息*/
+      request
+        .post(host + "beepartner/franchisee/withDraw/homePageWithDrawMoney")
+        .withCredentials()
+        .set({
+          "content-type": "application/x-www-form-urlencoded"
+        })
+        .send({
+          cityId: this.cityCodeList.join()
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            this.cityPartner = JSON.parse(res.text).cityPartner;
+            var code = JSON.parse(res.text).resultCode;
+            if (code != -1) {
+              this.allCarsNum = this.cityPartner.bikeNum;
+              this.allKindsCars =
+                JSON.parse(res.text).cityPartner.bikeStates || [];
+              this.waitLend = this.allKindsCars[0].cnt;
+              this.rented = this.allKindsCars[2].cnt;
+              this.ordered = this.allKindsCars[3].cnt;
+              this.repaired = this.allKindsCars[1].cnt;
+              this.alreadyWidthDrawMoney = JSON.parse(
+                res.text
+              ).cityPartner.alreadyWidthDrawMoney;
+              this.canWidthDrawMoney = JSON.parse(
+                res.text
+              ).cityPartner.canWidthDrawMoney;
+              this.franchiseeAllIncome = JSON.parse(
+                res.text
+              ).cityPartner.franchiseeAllIncome;
+              this.pendingWidthDrawMoney = JSON.parse(
+                res.text
+              ).cityPartner.pendingWidthDrawMoney;
+            } else {
+              this.waitLend = null;
+              this.rented = null;
+              this.ordered = null;
+              this.repaired = null;
+              this.allCarsNum = null;
+              this.alreadyWidthDrawMoney = null;
+              this.canWidthDrawMoney = null;
+              this.franchiseeAllIncome = null;
+              this.pendingWidthDrawMoney = null;
+            }
+          }
+        });
+      /*当前动态*/
+      request
+        .post(host + "beepartner/franchisee/statistics/franchiseeCurrent")
+        .withCredentials()
+        .set({
+          "content-type": "application/x-www-form-urlencoded"
+        })
+        .send({
+          cityId: this.cityCodeList.join()
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+            this.loading = false;
+          } else {
+            this.loading = false;
+            var result = JSON.parse(res.text).data || [];
+            if (result.length == 0) {
+              this.nowStatus = true;
+            } else {
+              this.nowStatus = false;
+            }
+            this.status = result;
+          }
+        });
+    },
+    checkoutSeesion() {
+      request
+        .post(host + "beepartner/franchisee/Own/findFranchiseeUserOwn")
+        .withCredentials()
+        .set({
+          "content-type": "application/x-www-form-urlencoded"
         })
         .send()
         .end((err, res) => {
           if (err) {
-              console.log('err2:' + err)
+            console.log("err2:" + err);
           } else {
-              var message = JSON.parse(res.text).message
-              if(message === '用户登录超时'){
-                  this.$router.push('/login')
-              }else{
-                return
-              }
+            var message = JSON.parse(res.text).message;
+            if (message === "用户登录超时") {
+              this.$router.push("/login");
+            } else {
+              return;
+            }
           }
-      })
-    } 
+        });
+    }
   },
-   created(){
-    // 初始化调用查询可加盟城市的接口,动态渲染数据
-    this._cityList = [
-      { cityName: "合肥", code: "1024", id: 1 },
-      { cityName: "北京", code: "1034", id: 2 },
-      { cityName: "南京", code: "1025", id: 3 }
-    ]
-  
+  mounted: function() {
+    $(".sign").removeClass("is-active");
+    $('.sign[name="1100"]').addClass("is-active");
+    this.checkoutSeesion();
+    // this.loadIndexData()
+    document.title = "蜜蜂出行加盟商管理平台";
   },
-  mounted:function(){
-    $(".sign").removeClass('is-active')
-    $('.sign[name="1100"]').addClass('is-active')
-   this.checkoutSeesion()
-   // this.loadIndexData()
-     document.title="蜜蜂出行加盟商管理平台"
-  },
-  watch:{
-    'cityCodeList':function(){
-      this.loadIndexData()
+  watch: {
+    cityCodeList: function() {
+      this.loadIndexData();
     }
   }
-}
+};
 </script>

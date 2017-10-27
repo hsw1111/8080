@@ -4,10 +4,11 @@
     <div class="carManager_content">
       <div class="queryCarInfo">
         <el-form :model="form">
-          <el-row>
+          <el-row  v-show="remoteCityList.length>1">
              <el-form-item >
                 <span class="labelAlign">加盟区域</span>
-               <city-list v-bind:joinCity="_cityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+               <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+               
               </el-form-item>
           </el-row>
           <el-row>
@@ -27,7 +28,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row style="margin-top: 8px;margin-bottom: 3px;">
             <el-col>
               <el-form-item>
                 <span class="labelAlign">上线日期</span>
@@ -56,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="onlineTime" label="上线日期" min-width="50">
         </el-table-column>
-        <el-table-column prop="stateName" label="车辆状态" min-width="50">
+        <el-table-column prop="stateName" label="运营状态" min-width="50">
         </el-table-column>
         <el-table-column prop="location" label="车辆位置">
         </el-table-column>
@@ -80,7 +81,7 @@ export default {
   data: function () {
     return {
       cityCodeList:[],
-      _cityList:[],
+      remoteCityList:[],
       emptyText: ' ',
       form: {
         radio: '',
@@ -100,20 +101,36 @@ export default {
       loading2: false
     }
   },
-   created(){
+  created() {
     // 初始化调用查询可加盟城市的接口,动态渲染数据
-    this._cityList = [
-      { cityName: "合肥", code: "1024", id: 1 },
-      { cityName: "北京", code: "1034", id: 2 },
-      { cityName: "南京", code: "1025", id: 3 }
-    ]
+    var that = this;
+    request
+      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .withCredentials()
+      .set({
+        "content-type": "application/x-www-form-urlencoded"
+      })
+      .end((error, res) => {
+        if (error) {
+          console.log(error);
+        } else {
+          var result = JSON.parse(res.text);
+          var arr = result.data.map(list => {
+            return { cityName: list.cityName, code: list.cityId, id: list.id };
+          });
+         
+          this.remoteCityList = arr
+         
+        
+        }
+      });
   
   },
   components:{
     cityList
   },
   mounted: function () {
-    this.mountedWay()
+    // this.mountedWay()
     $(".sign").removeClass('is-active')
     $('.sign[name="1200"]').addClass('is-active')
   },
@@ -150,10 +167,12 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
           .send({
+            cityId:this.cityCodeList.join(),
             'startOnlineTime': startTime,
             'endOnlineTime': endTime,
             'bikeState': radio,
-            'keyName': this.terminalNumber
+            'keyName': this.terminalNumber,
+            currentPage:this.currentPage3
           })
           .end((error, res) => {
             if (error) {
@@ -192,7 +211,8 @@ export default {
             'startOnlineTime': startTime,
             'endOnlineTime': endTime,
             'bikeState': radio,
-            'keyName': this.terminalNumber
+            'keyName': this.terminalNumber,
+            currentPage:this.currentPage3
           })
           .end((error, res) => {
             if (error) {
@@ -258,10 +278,12 @@ export default {
                 'content-type': 'application/x-www-form-urlencoded'
               })
               .send({
+                cityId:this.cityCodeList.join(),
                 'startOnlineTime': startTime,
                 'endOnlineTime': endTime,
                 'bikeState': radio,
-                'keyName': this.terminalNumber
+                'keyName': this.terminalNumber,
+                currentPage:this.currentPage3
               })
               .end((error, res) => {
                 if (error) {
@@ -307,10 +329,12 @@ export default {
                 'content-type': 'application/x-www-form-urlencoded'
               })
               .send({
+                cityId:this.cityCodeList.join(),
                 'startOnlineTime': startTime,
                 'endOnlineTime': endTime,
                 'bikeState': radio,
-                'keyName': this.terminalNumber
+                'keyName': this.terminalNumber,
+                currentPage:this.currentPage3
               })
               .end((error, res) => {
                 if (error) {
@@ -384,10 +408,12 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
           .send({
+            cityId:this.cityCodeList.join(),
             'startOnlineTime': startTime,
             'endOnlineTime': endTime,
             'bikeState': radio,
-            'keyName': this.terminalNumber
+            'keyName': this.terminalNumber,
+            currentPage:this.currentPage3
           })
           .end((error, res) => {
             if (error) {
@@ -429,10 +455,12 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
+          cityId:this.cityCodeList.join(),
           'startOnlineTime': startTime,
           'endOnlineTime': endTime,
           'bikeState': this.checkList.toString(),
-          'keyName': this.terminalNumber
+          'keyName': this.terminalNumber,
+          currentPage:this.currentPage3
         })
         .end((error, res) => {
           if (error) {
@@ -459,6 +487,14 @@ export default {
     }
   },
   watch: {
+    'cityCodeList':{
+      handler:function(n,o){
+        this.mountedWay()
+        this.currentPage3 = 1
+       
+      },
+      deep:true
+    },
     'checkList': 'handleList',
     currentPage3: {
       handler: function (val, oldVal) {
@@ -482,6 +518,7 @@ export default {
               'content-type': 'application/x-www-form-urlencoded'
             })
             .send({
+              cityId:this.cityCodeList.join(),
               'startOnlineTime': startTime,
               'endOnlineTime': endTime,
               'bikeState': radio,
@@ -509,6 +546,7 @@ export default {
               'content-type': 'application/x-www-form-urlencoded'
             })
             .send({
+              cityId:this.cityCodeList.join(),
               'startOnlineTime': startTime,
               'endOnlineTime': endTime,
               'bikeState': radio,
@@ -586,7 +624,7 @@ export default {
 <style>
 .carManager_content {
   background: #fff;
-  padding: 20px 30px 5px 30px;
+  padding: 20px 30px 5px 20px;
   margin-bottom: 20px;
   border: 1px solid #e7ecf1;
 }
@@ -598,7 +636,7 @@ export default {
 }*/
 
 div.carManager div.queryCarInfo div.el-form-item {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 div.carManager div.queryCarInfo div.el-form-item span.labelAlign {
@@ -606,6 +644,7 @@ div.carManager div.queryCarInfo div.el-form-item span.labelAlign {
   width: 68px;
   display: block;
   text-align: right;
+  margin-left:-10px;
   margin-right: 10px;
   font-size: 14px;
   color: #555;
@@ -632,7 +671,7 @@ div.el-input {
 }
 
 div.showCarInfo {
-  padding: 20px 30px 10px 30px;
+  padding: 20px 30px 10px 20px;
   background: #fff;
   border: 1px solid #e7ecf1;
   border-bottom: none;

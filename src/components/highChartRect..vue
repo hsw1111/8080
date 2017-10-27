@@ -16,8 +16,12 @@ import request from 'superagent'
 import moment from 'moment'
 import { host } from '../config/index'
 import $ from 'jquery'
+import {mapGetters} from 'vuex'
 // import Vue from 'vue'
 export default {
+  computed:{
+    ...mapGetters(['cityId'])
+  },
   data() {
     return {
       x_data: [],
@@ -27,7 +31,11 @@ export default {
     }
   },
   mounted: function() {
-    var that = this
+   this.loadData()
+  },
+  methods: {
+    loadData(){
+      var that = this
     document.title = "统计图表"
     var type = this.$store.state.users.consumeDataType
     request
@@ -41,7 +49,8 @@ export default {
         'endTimeStr': this.$store.state.users.timeline.endTime,
         'type': type,
         showType: 'chart',
-        currentPage: 1
+        currentPage: 1,
+        cityId:this.cityId
       })
       .end((error, res) => {
         if (error) {
@@ -62,8 +71,7 @@ export default {
           }
         }
       })
-  },
-  methods: {
+    },
     createChartsShap() {
       // 创建图表
       // Highcharts.chart('container', {
@@ -279,7 +287,8 @@ export default {
             'endTimeStr': this.$store.state.users.timeline.endTime,
             'type': type,
             showType: 'chart',
-            currentPage: 1
+            currentPage: 1,
+            cityId:this.cityId
           })
           .end((error, res) => {
             // console.log('this is entry')
@@ -319,7 +328,8 @@ export default {
             'endTimeStr': this.$store.state.users.timeline.endTime,
             'type': this.$route.query.type,
             showType: 'chart',
-            currentPage: 1
+            currentPage: 1,
+            cityId:this.cityId
           })
           .end((error, res) => {
             // console.log('this is entry')
@@ -353,6 +363,12 @@ export default {
   // },
   watch: {
     '$route': 'dataUpdate',
+     'cityId':{
+       handler:function(){
+          this.loadData()
+       },
+       deep:true
+     },
     '$store.state.users.timeline': 'time'
   }
 }
