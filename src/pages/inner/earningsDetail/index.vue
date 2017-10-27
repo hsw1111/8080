@@ -57,7 +57,7 @@
         label="下单时间">
       </el-table-column>
       <el-table-column
-        label="骑行时间（分钟）"
+        label="骑行时间(分钟)"
        
        >
        <template scope="scope">
@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column
         prop="rideMileage"
-        label="骑行里程（米）"
+        label="骑行里程(公里)"
        
         >
             <template scope="scope">
@@ -75,7 +75,7 @@
       </el-table-column>
       <el-table-column
         prop="orderMoney"
-        label="订单费用（元）"
+        label="订单费用(元)"
        
         >
            <template scope="scope">
@@ -84,7 +84,7 @@
       </el-table-column>
       <el-table-column
         prop="couponAmount"
-        label="优惠券支付（元）"
+        label="优惠券支付(元)"
         
        >
          <template scope="scope">
@@ -92,18 +92,17 @@
             </template>
       </el-table-column>
        <el-table-column
-        prop="couponAmount"
-        label="赠送金额支付（元）"
+        label="赠送金额支付(元)"
        
        >
          <template scope="scope">
-              {{new Number(scope.row.couponAmount).thousandFormat()}}
+              {{new Number(scope.row.grantAmount).thousandFormat()}}
             </template>
       </el-table-column>
       <el-table-column
         :render-header="rendHeader"
         prop="balanceAmount"
-        label="实际收益（元）?"
+        label="实际收益(元)"
        
        >
          <template scope="scope">

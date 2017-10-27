@@ -337,7 +337,8 @@ export default {
         roleName: [
           { message: '角色名称不能为空', trigger: 'blur', required: true }
         ]
-      }
+      },
+      isSearch: false
     }
   },
   methods: {
@@ -411,6 +412,7 @@ export default {
       this.isQuery = false
       this.currentPage3 = 1
       if (this.roleName.trim().length === 0) {
+        this.isSearch = false
         var that = this
         request
           .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
@@ -447,6 +449,7 @@ export default {
       }
     },
     queryRole() {
+      this.isSearch = true
       var that = this
       if (this.roleName.trim().length !== 0) {
         this.isQuery = true
@@ -715,7 +718,7 @@ export default {
             })
             .send({
               currentPage: val,
-              roleName: this.roleName.trim()
+              roleName: this.isSearch === false?'':this.roleName.trim()
             })
             .end((err, res) => {
               if (err) {
@@ -752,7 +755,7 @@ export default {
             })
             .send({
               currentPage: val,
-              roleName: this.roleName.trim()
+              roleName: this.isSearch === false?'':this.roleName.trim()
             })
             .end((err, res) => {
               if (err) {

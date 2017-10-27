@@ -141,7 +141,8 @@ export default {
       editAccountRule: {
         userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
         passWord: [{ required: true, trigger: 'blur', message: '请输入用密码' }],
-      }
+      },
+      isSearch: false
     }
   },
   methods: {
@@ -231,6 +232,7 @@ export default {
       this.isQuery = false
       this.currentPage = 1
       if (this.accountOrUsername.trim().length === 0 && this.telOrMail.trim().length === 0 && this.isQuery === false) {
+      this.isSearch = false
         getAllAccount({}, function(error, res) {
           if (error) {
             console.log(error)
@@ -478,6 +480,7 @@ export default {
       return res
     },
     queryAccountInfo() {
+      this.isSearch = true
       this.isQuery = true
       var obj = {
         queryName: this.accountOrUsername,
@@ -564,8 +567,8 @@ export default {
             })
             .send({
               currentPage: val,
-              queryName: this.accountOrUsername,
-              queryNumber: this.telOrMail
+              queryName: this.isSearch === false?'':this.accountOrUsername,
+              queryNumber: this.isSearch === false?'':this.telOrMail
             })
             .end(function(error, res) {
               if (error) {

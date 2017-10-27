@@ -194,6 +194,8 @@ import {thousandFormat} from '../../../util/util.js'
         dialogVisible:false,
         isHide:false,
         month:'',
+        wType: '',
+        cityId: '',
         items:[
         ]
       }
@@ -201,6 +203,8 @@ import {thousandFormat} from '../../../util/util.js'
      mounted(){
        document.title="结算单"
         this.month = this.$route.query.month
+        this.wType = this.$route.query.wType
+        this.cityId = this.$route.query.cityId
        request
       .post(host + 'beepartner/franchisee/withDraw/getWithDrawRecordDetail')
       .withCredentials()
@@ -208,7 +212,9 @@ import {thousandFormat} from '../../../util/util.js'
         'content-type': 'application/x-www-form-urlencoded'
       })
       .send({
-        applyTimeStr:this.month
+        applyTimeStr:this.month,
+        wType:this.wType,
+        cityId:this.cityId
       })
       .end((err, res) => {
         if (err) {
@@ -269,7 +275,9 @@ import {thousandFormat} from '../../../util/util.js'
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          applyTimeStr:that.month
+          applyTimeStr:that.month,
+          wType:that.wType,
+          cityId:that.cityId
         })
         .end((err,res)=>{
           if(err){

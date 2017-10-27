@@ -98,7 +98,8 @@ export default {
       pagetotal: '',
       terminalNumber: '',
       noDate: false,
-      loading2: false
+      loading2: false,
+      isSearch: false
     }
   },
   created() {
@@ -241,6 +242,8 @@ export default {
 
     },
     searchByTimeline() {
+      this.currentPage = 1
+      this.isSearch = true
       var that = this
       if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '' && this.checkList.length === 0) {
         // this.$message({
@@ -386,6 +389,7 @@ export default {
     inputChange() {
       if (this.form.data1 === '' && this.form.data2 === '' && this.terminalNumber === '' && this.checkList.length === 0) {
         this.isQuery = false
+        this.isSearch = false
         this.mountedWay()
       } else {  
         this.isQuery = true
@@ -522,7 +526,7 @@ export default {
               'startOnlineTime': startTime,
               'endOnlineTime': endTime,
               'bikeState': radio,
-              'keyName': this.terminalNumber,
+              'keyName': this.isSearch === false?'':this.terminalNumber,
               'currentPage': this.currentPage3
             })
             .end((error, res) => {
@@ -550,7 +554,7 @@ export default {
               'startOnlineTime': startTime,
               'endOnlineTime': endTime,
               'bikeState': radio,
-              'keyName': this.terminalNumber,
+              'keyName': this.isSearch === false?'':this.terminalNumber,
               'currentPage': this.currentPage3
             })
             .end((error, res) => {
