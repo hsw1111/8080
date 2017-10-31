@@ -5,7 +5,7 @@
                 <h2>
                     <img src="../assets/header/logo.jpg" alt="logo">
                 </h2>
-                <h3>加盟商管理平台<span>{{cityName}}</span></h3>
+                <h3>加盟商管理平台<span>加盟端</span></h3>
                 <div class="admin">
                     <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
                     <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
