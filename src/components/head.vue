@@ -95,14 +95,11 @@ export default {
           this.isIconUrl = true
           this.isImgShow = false
       }
-        console.log('this.cityName', this.cityName)
-        console.log('this.cityName === null', this.cityName === null)
-        console.log('this.cityName === null', this.cityName === 'null')
+
       if (this.cityName === null || this.cityName === '') {
           var that = this
           var timer = setInterval( function () {
             that.cityName = window.sessionStorage.getItem('cityName')
-            console.log(that.cityName)
             var cityLength = that.cityName.split(",")
 
             if (cityLength.length > 3) {
