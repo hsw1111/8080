@@ -380,9 +380,9 @@ export default {
   mounted() {
     $(".sign").removeClass("is-active");
     $('.sign[name="1401"]').addClass("is-active");
-    // this.loading2 = true
+    this.loading2 = true
     this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
-    this.loadData(this.currentPage3)
+    //this.loadData(this.currentPage3)
   },
   methods: {
     showMsgFormChild(data) {
@@ -429,6 +429,7 @@ export default {
       );
     },
     loadData(currentPage) {
+       this.loading2 = true
       var type = this.$route.query.type;
       if (type === "getRevenueCurDay") {
         this.isDay = true;
