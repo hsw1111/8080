@@ -381,7 +381,8 @@ export default {
     $(".sign").removeClass("is-active");
     $('.sign[name="1401"]').addClass("is-active");
     // this.loading2 = true
-    // this.loadData(this.currentPage3)
+    this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
+    this.loadData(this.currentPage3)
   },
   methods: {
     showMsgFormChild(data) {

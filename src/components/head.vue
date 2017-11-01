@@ -5,7 +5,12 @@
                 <h2>
                     <img src="../assets/header/logo.jpg" alt="logo">
                 </h2>
-                <h3>加盟商管理平台<span>加盟端</span></h3>
+                <h3>加盟商管理平台
+                    <el-tooltip class="item" v-if='modelShow' :content="cityName"  placement="bottom-end" :effect="light">
+                        <span>{{cityName}}</span>
+                    </el-tooltip>
+                    <span v-else>{{cityName}}</span>
+                </h3>
                 <div class="admin">
                     <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
                     <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
@@ -27,11 +32,14 @@ export default {
         return {
             hidden:false,
             isIconUrl:false,
-            isImgShow:false
+            isImgShow:false,
+            cityName: '',
+            light: 'light',
+            modelShow: false
         }
     },
     computed:{
-        ...mapGetters(['userName','cityName','franchiseeUserIconUrl'])
+        ...mapGetters(['userName','franchiseeUserIconUrl'])
     },
   methods: {
     ...mapActions(['setUserName']),
@@ -55,6 +63,7 @@ export default {
                      window.sessionStorage.removeItem('name')
                     window.sessionStorage.removeItem('franchiseeUser')
                     window.sessionStorage.removeItem('franchiseeUserIconUrl')
+                    window.sessionStorage.removeItem('cityName')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -85,6 +94,25 @@ export default {
       }else{
           this.isIconUrl = true
           this.isImgShow = false
+      }
+        console.log('this.cityName', this.cityName)
+        console.log('this.cityName === null', this.cityName === null)
+        console.log('this.cityName === null', this.cityName === 'null')
+      if (this.cityName === null) {
+          var that = this
+          setInterval( function () {
+            that.cityName = window.sessionStorage.getItem('cityName')
+            console.log(that.cityName)
+            var cityLength = that.cityName.split(",")
+
+            if (cityLength.length > 3) {
+                that.modelShow = true
+            } else {
+                that.modelShow = false
+            }
+          }, 100)
+      } else {
+          return
       }
   }
 }
@@ -130,13 +158,17 @@ header h3 {
 }
 
 header h3>span {
-    position: absolute;
+    position: relative;
     display: block;
-    width: 40px;
-    height: 20px;
-    right: -50px;
-    top: 4px;
-    font-size: 12px;
+    top: -43px;
+    width: 130px;
+    height: 30px;
+    line-height: 30px;
+    white-space: nowrap;
+    right: -140px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.admin {

@@ -24,6 +24,19 @@ export default {
        var code = $li.getAttribute('cityId');
        this.cityCodeList.push(code)
        this.$emit('listenToChildEvetn',[...this.cityCodeList])
+
+    //  处理head部分的展示
+    // console.log('updataed', this.cityList)
+    var cityStr = []
+    this.cityList.map( item => {
+        cityStr.push(item.cityName)
+    return cityStr
+    })
+
+    window.sessionStorage.setItem('cityName', cityStr)
+  },
+  mounted () {
+
   },
   methods:{
       sendCityToParent(e){
