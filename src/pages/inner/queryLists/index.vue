@@ -16,7 +16,6 @@
         <el-table-column
           prop="statisticId"
           label="订单日期"
-          sortable
           min-width="120">
         </el-table-column>
         <el-table-column

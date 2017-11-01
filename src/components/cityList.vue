@@ -26,7 +26,7 @@ export default {
        this.$emit('listenToChildEvetn',[...this.cityCodeList])
 
     //  处理head部分的展示
-    // console.log('updataed', this.cityList)
+    console.log('updataed', this.cityList)
     var cityStr = []
     this.cityList.map( item => {
         cityStr.push(item.cityName)
@@ -63,7 +63,7 @@ export default {
 </script>
 <style scoped >
     div.cityList{display: inline-block;width: calc(100% - 68px);}
-    div.cityList ul {height:32px;}
+    div.cityList ul {height:20px;}
     div.cityList ul li{margin-bottom:6px;cursor:pointer; float:left;list-style: none;width:80px;height:30px;line-height:30px;text-align:center;border:1px solid #ccc;border-radius:4px;margin-right:5px;font-size:14px;}
     div.cityList ul li.active{color:orange;border:1px solid orange}
     div.cityList ul li:nth-child(1){color:orange;border:1px solid orange}

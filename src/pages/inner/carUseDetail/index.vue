@@ -65,14 +65,14 @@
               :empty-text='emptyText'
               element-loading-text="拼命加载中"
             >
-              <el-table-column prop="placeOrderTimeStr" label="下单时间" min-width="15%">
+              <el-table-column prop="placeOrderTimeStr" label="订单结束时间" min-width="15%">
               </el-table-column>
               <el-table-column label="骑行时间(分钟)" prop="rideTime"
               min-width="15%"
               >
 
               </el-table-column>
-              <el-table-column label="骑行里程(公里)" min-width="15%" prop="rideMileage">
+              <el-table-column label="骑行里程(米)" min-width="15%" prop="rideMileage">
 
               </el-table-column>
               <el-table-column label="订单费用(元)" prop="actualAmount" min-width="10%">
@@ -268,7 +268,7 @@ export default {
            style:'background:#eee;margin-left:-20px;'
          }
        },[
-         h('span','实际收益'),
+         h('span','实际收益(元)'),
          h('i',{
            class:{
              'icon iconfont icon-wenhao':true

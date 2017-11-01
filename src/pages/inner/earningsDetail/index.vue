@@ -54,7 +54,7 @@
       <el-table-column
         prop="placeOrderTime"
       
-        label="下单时间">
+        label="订单结束时间">
       </el-table-column>
       <el-table-column
         label="骑行时间(分钟)"
@@ -553,7 +553,7 @@ export default {
               } = require("../../../assets/lib/js/Export2Excel.js");
               const tHeader = [
                 "车辆编号",
-                "下单时间",
+                "订单结束时间",
                 "骑行时间（分钟）",
                 "骑行里程(米)",
                 "订单费用",
