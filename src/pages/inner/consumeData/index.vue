@@ -236,6 +236,25 @@ export default {
     cityList
   },
   watch: {
+    '$route':{
+      handler:function(n,o){
+        var type = this.$route.query.type
+        var text = $('button.active span').text()
+        var diff = ''
+        if(text==='周'){
+          diff = 'weekly'
+        }else if(text ==='日'){
+          diff = 'daily'
+        }else{
+          diff = 'monthly'
+        }
+        if(type!=diff){
+          $('.timeSelectBtn').find('button').removeClass('active')
+          $('.timeSelectBtn').find('button').eq(0).addClass('active')
+        }
+      },
+      deep:true
+    },
     cityCodeList: {
       handler: function(n, o) {
         //console.log('搞事情')

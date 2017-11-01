@@ -263,7 +263,8 @@ export default {
           'endTimeStr': this.$store.state.users.timeline.endTime,
           'type': type,
           showType:'table',
-          currentPage:1
+          currentPage:1,
+          cityId:this.cityId
         })
         .end((error, res) => {
           // console.log('this is entry')

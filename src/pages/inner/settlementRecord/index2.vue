@@ -63,7 +63,7 @@
         >
           <template scope="scope">
             <div v-show="scope.row.statusName==='待确认'">
-                <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth}}">确认结算</router-link>
+                <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join()}}">确认结算</router-link>
             </div>
            <div v-show="scope.row.statusName!=='待确认'">
                 <a :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}">确认结算</a>
