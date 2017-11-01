@@ -228,7 +228,7 @@ export default {
           })
 
           var allMoney = es.map((item) => {
-            return item.totalMoney
+            return item.actualMoney
           })
            this.x_data = res
           this.orderNumber = order
@@ -244,7 +244,7 @@ export default {
           })
 
           var allMoney = es.map((item) => {
-            return item.totalMoney
+            return item.actualMoney
           })
            this.x_data = res
           this.orderNumber = order

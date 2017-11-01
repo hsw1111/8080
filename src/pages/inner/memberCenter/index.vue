@@ -8,7 +8,7 @@
 					<el-upload class="my_upload" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 						<img v-if="imageUrl" :src="imageUrl" class="avatar">
 						<!-- <img src="../../../assets/homepage/2.jpg"> -->
-                    	<i v-else style="font-size: 180px;" class="icon iconfont icon-touxiang"></i>
+                    	<i v-else style="font-size: 180px; color: #fff;" class="icon iconfont icon-touxiang"></i>
 						<!-- <h3>点击上传营业执照</h3> -->
 					</el-upload>
 
