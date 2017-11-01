@@ -18,7 +18,7 @@
                 <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号">
               </el-form-item>
               <el-form-item class="filtercar">
-                <span class="labelAlign">状态</span>
+                <span class="labelAlign">运营状态</span>
                 <el-checkbox-group v-model="checkList" style="width: 400px;">
                   <el-checkbox label="4">待出租</el-checkbox>
                   <el-checkbox label="5">已预订</el-checkbox>
