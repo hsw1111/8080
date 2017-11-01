@@ -87,7 +87,7 @@ export default {
            
              this.setUserName(name)
         }     
-      
+      console.log(this.franchiseeUserIconUrl)
       if(this.franchiseeUserIconUrl!='null'){
           this.isIconUrl = false
           this.isImgShow = true
@@ -114,6 +114,20 @@ export default {
       } else {
           return
       }
+  },
+  watch:{
+    franchiseeUserIconUrl:{
+        handler:function(n,o){
+                if(n!='null'){
+                    this.isIconUrl = false
+                    this.isImgShow = true
+                }else{
+                    this.isIconUrl = true
+                    this.isImgShow = false
+                }
+        },
+        deep:true
+    }  
   }
 }
 </script>

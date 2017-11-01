@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column
         prop="rideMileage"
-        label="骑行里程(公里)"
+        label="骑行里程(米)"
        
         >
             <template scope="scope">
