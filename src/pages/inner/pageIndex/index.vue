@@ -86,8 +86,8 @@
                 <li v-bind:key="statu.carNum" v-for="statu of status">
                   <el-row>
                     <el-col :span="6">+{{statu.balanceAmount}}</el-col>
-                    <el-col :span="6">车辆：{{statu.bikeCode}}</el-col>
-                    <el-col :span="12">{{statu.endTimeStr}}</el-col>
+                    <el-col :span="8">车辆：{{statu.bikeCode}}</el-col>
+                    <el-col :span="10">{{statu.endTimeStr}}</el-col>
                   </el-row>
                 </li>
               </ul>
