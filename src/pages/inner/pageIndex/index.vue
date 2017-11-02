@@ -115,7 +115,7 @@
           </el-col>
           <el-col :span="6" style="text-align:center">
             待确认<span class="wait">{{canWidthDrawMoney===null?'暂无数据':'￥' + new Number(canWidthDrawMoney).thousandFormat() }}</span>
-            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord')">去确认</el-button>
+            <el-button v-show="!(canWidthDrawMoney===null||canWidthDrawMoney===0)"  name="1402" class="sign withdrawal" @click="$router.push('/index/settlementRecord?cityId=' + cityCodeList.join())">去确认</el-button>
             <el-button style="float:right;height:38px;margin-top:2px;" disabled v-show="canWidthDrawMoney===null||canWidthDrawMoney===0">去确认</el-button>
           </el-col>
         </el-row>

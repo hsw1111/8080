@@ -197,14 +197,26 @@ import cityList from '../../../components/cityList.vue'
           });
         
           this.remoteCityList = arr
-         
-        
         }
       });
-  
+      
   },
     mounted(){
-   
+       var cityId = this.$route.query.cityId
+      setTimeout(()=>{
+         this.remoteCityList.map((item)=>{
+         if(item.code == cityId){
+           var cityName = item.cityName
+           $('.cityList ul li').each(function(index,item){
+             var text = $(item).text()
+             if(cityName==text){
+              $(item).click()
+             }
+           })
+         }
+       })
+      },200)
+      
       document.title="结算管理"
         $(".sign").removeClass('is-active')
       $('.sign[name="1402"]').addClass('is-active')

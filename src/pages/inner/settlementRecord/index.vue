@@ -242,12 +242,8 @@ export default {
     cityList
   },
    created(){
-    // 初始化调用查询可加盟城市的接口,动态渲染数据
-    this._cityList = [
-      { cityName: "合肥", code: "1024", id: 1 },
-      { cityName: "北京", code: "1034", id: 2 },
-      { cityName: "南京", code: "1025", id: 3 }
-    ]
+   var cityId = this.$route.query.cityId
+   console.log("cityId:" + cityId)
   },
   mounted() {
     this.loading2 = true
