@@ -31,7 +31,7 @@ export default {
     data () {
         return {
             hidden:false,
-            isIconUrl:false,
+            isIconUrl:true,
             isImgShow:false,
             cityName: '',
             light: 'light',
@@ -42,7 +42,7 @@ export default {
         ...mapGetters(['userName','franchiseeUserIconUrl'])
     },
   methods: {
-    ...mapActions(['setUserName']),
+    ...mapActions(['setUserName','setfranchiseeUserIconUrl']),
     handleLoginOut () {
         var that = this
       request.post(host + 'beepartner/system/login/removeFranchiseeSession')
@@ -57,13 +57,8 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code === 1){
-                   window.sessionStorage.removeItem('permission')
-                    window.sessionStorage.removeItem('authList')
-                    window.sessionStorage.removeItem('userName')
-                     window.sessionStorage.removeItem('name')
-                    window.sessionStorage.removeItem('franchiseeUser')
-                    window.sessionStorage.removeItem('franchiseeUserIconUrl')
-                    window.sessionStorage.removeItem('cityName')
+                  window.sessionStorage.clear()
+                  this.setfranchiseeUserIconUrl('')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -77,6 +72,14 @@ export default {
     }
   },
   mounted:function(){
+      var url = sessionStorage.getItem('franchiseeUserIconUrl')
+      if(url!='null'){
+           this.isIconUrl = false
+           this.isImgShow = true
+      }else{
+          this.isIconUrl = true
+           this.isImgShow = false
+      }
         var info = sessionStorage.getItem('franchiseeUser')
         var name = JSON.parse(info).name
         var userName = JSON.parse(info).userName
@@ -88,20 +91,13 @@ export default {
              this.setUserName(name)
         }     
 
-      if(this.franchiseeUserIconUrl!='null'){
-          this.isIconUrl = false
-          this.isImgShow = true
-      }else{
-          this.isIconUrl = true
-          this.isImgShow = false
-      }
+      
 
       if (this.cityName === null || this.cityName === '') {
           var that = this
           var timer = setInterval( function () {
             that.cityName = window.sessionStorage.getItem('cityName')
             var cityLength = that.cityName.split(",")
-
             if (cityLength.length > 3) {
                 that.modelShow = true
             } else {
@@ -117,6 +113,7 @@ export default {
   watch:{
     franchiseeUserIconUrl:{
         handler:function(n,o){
+                console.log(n)
                 if(n!='null'){
                     this.isIconUrl = false
                     this.isImgShow = true
@@ -174,7 +171,7 @@ header h3>span {
     position: relative;
     display: block;
     top: -43px;
-    width: 130px;
+    width: 118px;
     height: 30px;
     line-height: 30px;
     white-space: nowrap;

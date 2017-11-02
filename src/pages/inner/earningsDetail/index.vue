@@ -556,9 +556,10 @@ export default {
                 "车辆编号",
                 "订单结束时间",
                 "骑行时间（分钟）",
-                "骑行里程(米)",
-                "订单费用",
-                "优惠券支付",
+                "骑行里程（米）",
+                "订单费用（元）",
+                "优惠券支付（元）",
+                 "赠送金额支付（元）",
                 "实际收益（元）"
               ];
               const filterVal = [
@@ -568,6 +569,7 @@ export default {
                 "rideMileage",
                 "orderMoney",
                 "couponAmount",
+                "grantAmount",
                 "balanceAmount"
               ];
               var type = that.$route.query.type;
