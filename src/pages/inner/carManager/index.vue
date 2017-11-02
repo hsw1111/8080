@@ -13,11 +13,11 @@
           </el-row>
           <el-row>
             <el-col>
-              <el-form-item class="filtercar">
+              <el-form-item class="filtercar el-col-12">
                 <span class="labelAlign">关键字</span>
                 <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号">
               </el-form-item>
-              <el-form-item class="filtercar">
+              <el-form-item class="filtercar el-col-12">
                 <span class="labelAlign">运营状态</span>
                 <el-checkbox-group v-model="checkList" style="width: 400px;">
                   <el-checkbox label="4">待出租</el-checkbox>
@@ -709,8 +709,8 @@ div#carManager_page {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  width:calc(100% - 83px);
   background-color: #fff;
-  width: 427px;
   background-image: none;
   border-radius: 4px;
   border: 1px solid #ddd;
