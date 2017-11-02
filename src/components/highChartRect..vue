@@ -155,7 +155,7 @@ export default {
           text: ' '
         },
         xAxis: {
-          categories: this.x_data
+          categories: this.x_data,
         },
         yAxis: [{
           min: 0,

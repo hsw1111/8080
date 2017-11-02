@@ -64,6 +64,7 @@ export default {
           crosshair: true
         },
         yAxis: {
+           allowDecimals: false,
           title: {
             text: ''
           },
