@@ -654,7 +654,7 @@ export default {
 }*/
 
 div.carManager div.queryCarInfo div.el-form-item {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 div.carManager div.queryCarInfo div.el-form-item span.labelAlign {

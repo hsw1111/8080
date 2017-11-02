@@ -156,7 +156,7 @@ export default {
     var that = this
     this.generateAxis()
     //this.loadData()
-    setInterval(this.loadData, 10 * 60 * 1000)
+   // setInterval(this.loadData, 10 * 60 * 1000)
     // 创建图表
   },
   watch:{
