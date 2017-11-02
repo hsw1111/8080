@@ -223,6 +223,7 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
           .send({
+            cityId:this.cityCodeList.join(),
             'startOnlineTime': startTime,
             'endOnlineTime': endTime,
             'bikeState': radio,
