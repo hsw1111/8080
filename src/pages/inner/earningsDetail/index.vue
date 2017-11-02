@@ -319,6 +319,7 @@ require("../../../assets/lib/js/Blob.js");
 export default {
   data() {
     return {
+      cityName:'',
       cityCodeList: [],
       remoteCityList: [],
       notice: false,
@@ -378,10 +379,24 @@ export default {
     cityList
   },
   mounted() {
+     var cityId = this.$route.query.cityId
+      setTimeout(()=>{
+         this.remoteCityList.map((item)=>{
+         if(item.code == cityId){
+           var cityName = item.cityName
+           $('.cityList ul li').each(function(index,item){
+             var text = $(item).text()
+             if(cityName==text){
+              $(item).click()
+             }
+           })
+         }
+       })
+      },200)
     $(".sign").removeClass("is-active");
     $('.sign[name="1401"]').addClass("is-active");
     this.loading2 = true
-    this.$router.push('/index/earningsDetail?type=getRevenueCurDay')
+    this.$router.push('/index/earningsDetail?type=getRevenueCurDay&cityId=' + this.$route.query.cityId)
     //this.loadData(this.currentPage3)
   },
   methods: {
@@ -633,7 +648,7 @@ export default {
                       this.$message.error("当前查询没有信息，无法导出哦~");
                     } else {
                       const data = this.formatJson(filterVal, list);
-                      export_json_to_excel(tHeader, data, "营收明细列表excel");
+                      export_json_to_excel(tHeader, data, that.cityName + "营收明细列表excel");
                       that.$message({
                         type: "success",
                         message: "导出成功"
@@ -753,8 +768,12 @@ export default {
       handler: function(n, o) {
         this.loading2 = true;
         this.currentPage3 = 1;
-
         this.loadData(this.currentPage3);
+        this.remoteCityList.map((item)=>{
+          if(item.code===n.join()){
+            this.cityName = item.cityName
+          }
+        })
       },
       deep: true
     },

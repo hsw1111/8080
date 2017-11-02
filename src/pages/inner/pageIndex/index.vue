@@ -9,7 +9,7 @@
         <el-col :span='12' class="mounthIncoming">
           <div class="income_title">
             <span class="income_time mounthtime ">本月营收</span>
-            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth'})">>></span>
+            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurMonth&cityId=' + cityCodeList.join()})">>></span>
           </div>
           <div v-loading="loading2">
             <div class="income_count monthcount">
@@ -23,7 +23,7 @@
         <el-col :span='12' class="dayIncoming">
           <div class="income_title">
             <span class="income_time daytime ">今日营收</span>
-            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay&cityId=' + cityCodeList.join()})">>></span>
           </div>
           <div v-loading="loading3">
              <div>
@@ -53,7 +53,7 @@
               <el-col :span="5" class="using">{{waitLend===null?'待出租暂无':'待出租' + new Number(waitLend).thousand()  +'辆'}}</el-col>
               <el-col :span="5"> {{rented===null?'已出租暂无':'已出租' + new Number(rented).thousand() +'辆'}}</el-col>
               <el-col :span="5">{{ordered===null?'已预定暂无':'已预定' + new Number(ordered).thousand() +'辆'}}</el-col>
-              <el-col :span="4">{{repaired===null?'维护中暂无':'维护中' + new Number(repaired).thousand()  +'辆'}} <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager'})">&gt;&gt;</span></el-col>
+              <el-col :span="4">{{repaired===null?'维护中暂无':'维护中' + new Number(repaired).thousand()  +'辆'}} <span  style="color:gray;font-weight:normal; float:right;cursor:pointer" class="arrow" @click="$router.push({path:'/index/carManager',query:{cityId:cityCodeList.join()}})">&gt;&gt;</span></el-col>
             </el-col> 
           </el-row>
         </div>
@@ -78,7 +78,7 @@
         <el-col :span='12' class="status">
           <div class="status_title">
             <span>当前动态</span>
-            <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay'})">>></span>
+            <span class="arrow" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay&cityId=' + cityCodeList.join()})">>></span>
           </div>
           <div class="list" v-loading="loading">
             <div>

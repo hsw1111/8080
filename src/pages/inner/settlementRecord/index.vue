@@ -243,7 +243,6 @@ export default {
   },
    created(){
    var cityId = this.$route.query.cityId
-   console.log("cityId:" + cityId)
   },
   mounted() {
     this.loading2 = true

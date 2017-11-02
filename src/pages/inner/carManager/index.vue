@@ -131,6 +131,20 @@ export default {
     cityList
   },
   mounted: function () {
+     var cityId = this.$route.query.cityId
+      setTimeout(()=>{
+         this.remoteCityList.map((item)=>{
+         if(item.code == cityId){
+           var cityName = item.cityName
+           $('.cityList ul li').each(function(index,item){
+             var text = $(item).text()
+             if(cityName==text){
+              $(item).click()
+             }
+           })
+         }
+       })
+      },200)
     // this.mountedWay()
     $(".sign").removeClass('is-active')
     $('.sign[name="1200"]').addClass('is-active')
