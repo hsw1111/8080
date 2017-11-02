@@ -1,7 +1,7 @@
 <template>
   <div class="queryCharts">
     <el-row class="watchLists">
-      <span class="tips">*统计图只显示数据周期内的12个最近日期的柱状图，统计的数据为订单实际收益</span>
+      <span class="tips">*统计图只显示数据周期内的{{dateTypeText}}的柱状图，统计的数据为订单实际收益</span>
       <button class="btn_list" @click="handleClick">查看列表</button>
     </el-row>
     <el-row class="watchButton">
@@ -123,6 +123,7 @@ import highChartRect from '../../../components/highChartRect..vue'
 export default {
   data: function () {
     return {
+      dateTypeText:'',
     }
   },
   methods: {
@@ -135,7 +136,34 @@ export default {
     highChartRect
   },
   mounted:function(){
+     var type = this.$route.query.type
+          if(type=='daily'){
+            this.dateTypeText = '12个最近日期'
+          }
+          if(type=='weekly'){
+             this.dateTypeText = '12个最近周'
+          }
+          if(type=='monthly'){
+             this.dateTypeText = '12个最近月份'
+          }
     document.title="订单数据"
+  },
+  watch:{
+    '$route':{
+      handler:function(){
+          var type = this.$route.query.type
+          if(type=='daily'){
+            this.dateTypeText = '12个最近日期'
+          }
+          if(type=='weekly'){
+             this.dateTypeText = '12个最近周'
+          }
+          if(type=='monthly'){
+             this.dateTypeText = '12个最近月份'
+          }
+      },
+      deep:true
+    }
   }
 }
 </script>

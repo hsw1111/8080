@@ -234,7 +234,7 @@ export default {
           this.orderNumber = order
           this.consumeMoney = allMoney
       }else{
-           var es = data
+           var es = data.reverse()
           var res = es.map((item) => {
             return item.statisticId
           })

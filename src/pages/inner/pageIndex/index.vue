@@ -270,7 +270,8 @@ div.settlementInfo {
 
 div.settlementInfo button.withdrawal {
   float: right;
-
+  position: relative;
+  z-index: 99;
   width: 88px;
   height: 40px;
   border: 1px solid #f9f9f9;

@@ -23,7 +23,7 @@
           label="订单数"
           min-width="120">
               <template scope="scope">
-                {{new Number(scope.row.totalBill).thousandFormat()}}
+                {{new Number(scope.row.totalBill).thousand()}}
               </template>
         </el-table-column>
         <el-table-column
