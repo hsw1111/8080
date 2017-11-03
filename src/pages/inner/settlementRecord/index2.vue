@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="wrap">
-       <div v-show="remoteCityList.length>1" style="margin-bottom:20px;">
+       <div v-show="remoteCityList.length>1" style="margin-bottom: 9px;">
            <span class="joinPlace">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
        </div>
@@ -250,11 +250,14 @@ span.joinPlace{ height: 44px;
   div.wrap{
     background:rgb(255, 255, 255);
     margin-bottom:20px;
-    padding:20px;
+    padding:17px 20px 17px 20px;
+    border: 1px solid #e7ecf1;
     div.inline{
       height:30px;
       display: inline-block;
       margin-right:40px;
+      font-size: 14px;
+      color: #555;
       line-height: 30px;
     }
   }
@@ -262,6 +265,7 @@ span.joinPlace{ height: 44px;
       padding:20px;
       background:#fff;
       font-family:'微软雅黑';
+      border: 1px solid #e7ecf1;
       a.active{color:rgb(2, 2, 255);text-decoration:underline;}
       a.normal{color:rgb(228, 228, 228);text-decoration:none;cursor:default}
       span.date{color:#0202ff;}

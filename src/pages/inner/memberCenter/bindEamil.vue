@@ -222,6 +222,7 @@ export default {
                     })
                   } else {
                     var status = JSON.parse(res.text).code
+                    var message = JSON.parse(res.text).message
                     if (status === 0) {
                       that.loading = false
                       that.$router.push('/index/memberCenter')
@@ -232,7 +233,7 @@ export default {
                     } else {
                       that.loading = false
                       that.$message({
-                        message: 'sorry，绑定失败',
+                        message: message,
                         type: 'error'
                       })
                     }

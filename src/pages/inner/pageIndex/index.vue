@@ -32,7 +32,7 @@
                 </div>
              </div>
             <div class="income_diff">
-              <span>较昨日：{{todayIncrease===null?'暂无数据':new Number(todayIncrease).thousandFormat()}}</span>
+              <span>较昨日：+ {{todayIncrease===null?'暂无数据':new Number(todayIncrease).thousandFormat()}}</span>
             </div>
           </div>
          

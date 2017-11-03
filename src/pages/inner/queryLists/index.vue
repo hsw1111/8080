@@ -94,9 +94,10 @@ div.queryLists h3 {
 }
 
 div.queryLists {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 20px 20px 20px 20px;
+  padding: 17px 20px 20px 20px;
+  background: #fff;
+  border: 1px solid #e7ecf1;
+  border-bottom: none;
   
 }
 

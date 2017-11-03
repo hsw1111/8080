@@ -25,6 +25,7 @@ div.queryCharts {
   box-sizing: border-box;
   height: 800px;
   padding: 20px;
+  border: 1px solid #e7ecf1;
 }
 
 div.queryCharts table {

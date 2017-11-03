@@ -5,7 +5,7 @@
       <div class="queryCarInfo">
         <el-form :model="form">
           <el-row  v-show="remoteCityList.length>1">
-             <el-form-item >
+             <el-form-item style=" margin-bottom: 0px;">
                 <span class="labelAlign">加盟区域</span>
                <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
                
@@ -62,6 +62,8 @@
         <el-table-column prop="location" label="车辆位置">
         </el-table-column>
       </el-table>
+    </div>
+    <div style="margin-top: -20px;border: 1px solid #e7ecf1;background: #fff;border-top: none;border-bottom: none; padding-bottom: 10px;">
       <el-pagination v-show="pageShow" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size="10" layout="prev, pager, next, jumper" :total="totalItems">
       </el-pagination>
     </div>
@@ -257,7 +259,7 @@ export default {
 
     },
     searchByTimeline() {
-      this.currentPage = 1
+      this.currentPage3 = 1
       this.isSearch = true
       var that = this
       if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '' && this.checkList.length === 0) {
@@ -643,7 +645,7 @@ export default {
 <style>
 .carManager_content {
   background: #fff;
-  padding: 20px 30px 5px 20px;
+  padding: 20px 20px 10px 20px;
   margin-bottom: 20px;
   border: 1px solid #e7ecf1;
 }
@@ -690,7 +692,7 @@ div.el-input {
 }
 
 div.showCarInfo {
-  padding: 20px 30px 10px 20px;
+  padding: 20px 20px 10px 20px;
   background: #fff;
   border: 1px solid #e7ecf1;
   border-bottom: none;
@@ -710,7 +712,8 @@ div#carManager_page {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width:calc(100% - 83px);
+  max-width:calc(100% - 83px);
+  width: 428px;
   background-color: #fff;
   background-image: none;
   border-radius: 4px;

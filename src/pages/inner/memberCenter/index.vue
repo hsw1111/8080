@@ -120,7 +120,7 @@ body {
 	padding: 20px;
 	background: #fff;
 	margin-bottom: 20px;
-	/* border: 1px solid #e7ecf1; */
+	border: 1px solid #e7ecf1;
 }
 
 #home_header {
@@ -191,7 +191,7 @@ body {
 .homepage_select {
 	/*width: 100%;*/
 
-	/* border: 1px solid #e7ecf1; */
+	border: 1px solid #e7ecf1;
 	padding: 2px 20px 0 20px;
 	background: #fff;
 	line-height: 60px;

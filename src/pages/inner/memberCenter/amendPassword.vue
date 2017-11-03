@@ -207,6 +207,7 @@ export default {
                   that.$router.push('./')
                 } else {
                   var status = Number(JSON.parse(res.text).resultCode)
+                  var message = JSON.parse(res.text).message
                   var cbText = JSON.parse(res.text).data
                   if (status === 1) {
                     that.loading = false
@@ -217,7 +218,7 @@ export default {
                     that.$router.push('./')
                   } else {
                     that.loading = false
-                    this.$message.error('sorry,修改密码失败' )
+                    this.$message.error(message)
                   }
                 }
               })

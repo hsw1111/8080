@@ -2,12 +2,12 @@
   <div class="consumeData">
      
     <div class="countInfo">
-       <div v-show="remoteCityList.length>1">
+       <div style="margin-bottom: -8px;" v-show="remoteCityList.length>1">
           <span class="joinPlace">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
         </div>
       <el-row class="countTitle">
-        <span class="countDimension labelAlign" style="margin-right: 0px;">统计维度</span>
+        <span class="countDimension labelAlign" style="margin-right: 3px;">统计维度</span>
         <div class="timeSelectBtn">
           <el-button v-bind:class="{active: isDay}" @click="handleChangeType" type="primary">日</el-button>
           <el-button v-bind:class="{active: isWeek}" @click="handleChangeType">周</el-button>
@@ -380,9 +380,10 @@ div.consumeData {
 }
 
 div.countInfo {
-  padding: 5px 20px 20px 20px;
+  padding: 17px 20px 20px 20px;
   background: #fff;
   margin-bottom: 20px;
+  border: 1px solid #e7ecf1;
 }
 
 /*div.countTitle {
@@ -440,7 +441,7 @@ div.timeSelectBtn button {
   display: inline-block;
   border: 1px solid #ddd;
   outline: none;
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   /*background: rgba(66, 66, 66, 0.8);*/
   background: #fff;
@@ -472,10 +473,9 @@ div.timeSelectBtn button.active {
   height: 36px;
   line-height: 11px;
   color: #fff;
-  /*margin-top: 10px;*/
   outline: none;
   border: none;
-  /* border-radius: 4px; */
+  font-size: 14px;
   background: rgba(52, 52, 67, 0.8);
 }
 
