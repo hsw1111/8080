@@ -262,11 +262,21 @@ export default {
       this.currentPage3 = 1
       this.isSearch = true
       var that = this
-      if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '' && this.checkList.length === 0) {
-        // this.$message({
-        //   message: '请输入查询条件',
-        //   type: 'warning'
-        // })
+      if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '') {
+        this.$message({
+          message: '请输入查询条件',
+          type: 'warning'
+        })
+      } else if (this.form.data1 === '') {
+        this.$message({
+          message: '请输入开始时间',
+          type: 'warning'
+        })
+      } else if (this.form.data2 === '') {
+        this.$message({
+          message: '请输入结束时间',
+          type: 'warning'
+        })     
       } else {
         this.isQuery = true
         var startTime, endTime
@@ -286,7 +296,7 @@ export default {
         if (_endTime > _startTime) {
           if (_endTime > 1 && _startTime <= 1) {
             this.$message({
-              type: 'error',
+              type: 'warning',
               message: '开始日期不能为空'
             })
           } else {
@@ -331,13 +341,13 @@ export default {
         } else {
           if (_endTime < 0) {
             this.$message({
-              type: 'error',
+              type: 'warning',
               message: '结束日期不能为空'
             })
           } else {
             if(_endTime<_startTime){
               this.$message({
-                type: 'error',
+                type: 'warning',
                 message: '开始日期不能大于结束日期'
               })
               return
@@ -600,7 +610,7 @@ export default {
         console.log(endTime.toString().length)
         if ((startTime > endTime) && endTime.toString().length > 1) {
           this.$message({
-            type: 'error',
+            type: 'warning',
             message: '开始日期不能大于结束日期'
           })
         } else if ((startTime > endTime) && endTime.toString().length === 1) {
@@ -625,12 +635,12 @@ export default {
         console.log(startTime.toString().length)
         if ((endTime < startTime) && startTime.toString().length > 1) {
           this.$message({
-            type: 'error',
+            type: 'warning',
             message: '开始日期不能大于结束日期'
           })
         } else if ((endTime > startTime) && startTime.toString().length === 1) {
           this.$message({
-            type: 'error',
+            type: 'warning',
             message: '开始日期不能为空'
           })
         } else {
