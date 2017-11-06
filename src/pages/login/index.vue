@@ -2,7 +2,7 @@
   <div>
     <div v-title data-title="蜜蜂出行加盟商管理平台"></div>  
     <div class="topHeader"><h1>蜜蜂出行加盟商管理平台<span>加盟商端</span></h1></div>
-    <div id="login">
+    <div id="login" :style="{backgroundImage: 'url(' +bg + ')'}">
       <div id="cover">
             <div class="content">
               <header>
@@ -124,6 +124,7 @@ export default {
       }
     };
     return {
+       bg:require('../../assets/img/1.jpg'),
       showErrorMsg:false,
       showMessage:'',
       showUserNameError:false,
@@ -338,7 +339,7 @@ export default {
                 window.sessionStorage.setItem('permission',JSON.stringify(this.menuitems))
                 window.sessionStorage.setItem('franchiseeUser',JSON.stringify(franchiseeUser))
                 window.sessionStorage.setItem('franchiseeUserIconUrl',franchiseeUser.franchiseeUserIconUrl)
-                    
+                window.sessionStorage.setItem('cityName',franchiseeUser.cityName)  
               
                 //this.$router.addRoutes(this.menuitems)  
               } else {
@@ -517,7 +518,6 @@ div.footer h4 {
 
 div#login {
     width: 100%;
-    background: url('../../assets/img/1.jpg') no-repeat;
     background-position: left;
     border-radius: 4px;
     overflow: hidden;

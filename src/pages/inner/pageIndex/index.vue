@@ -16,7 +16,7 @@
               {{monthIncoming===null?'暂无数据':'￥' + new Number(monthIncoming).thousandFormat()}}
             </div>
             <div class="income_diff">
-              <span>较上月：{{monthIncrease===null?'暂无数据':new Number(monthIncrease).thousandFormat()}}</span>
+              <span>较上月：{{monthIncrease===null?'暂无数据':monthIncrease}}</span>
             </div>
           </div>
         </el-col>
@@ -32,7 +32,7 @@
                 </div>
              </div>
             <div class="income_diff">
-              <span>较昨日：{{todayIncrease===null?'暂无数据':new Number(todayIncrease).thousandFormat()}}</span>
+              <span>较昨日：{{todayIncrease===null?'暂无数据':todayIncrease}}</span>
             </div>
           </div>
          
@@ -85,7 +85,7 @@
               <ul>
                 <li v-bind:key="statu.carNum" v-for="statu of status">
                   <el-row>
-                    <el-col :span="6">+{{statu.balanceAmount}}</el-col>
+                    <el-col :span="6">+{{statu.balanceAmountStr}}</el-col>
                     <el-col :span="8">车辆：{{statu.bikeCode}}</el-col>
                     <el-col :span="10">{{statu.endTimeStr}}</el-col>
                   </el-row>
@@ -394,8 +394,11 @@ export default {
         if (error) {
           console.log(error);
         } else {
-          var result = JSON.parse(res.text);
-          var arr = result.data.map(list => {
+          var result = JSON.parse(res.text).data;
+          if(result==null){
+            result = []
+          }
+          var arr = result.map(list => {
             return { cityName: list.cityName, code: list.cityId, id: list.id };
           });
           this.remoteCityList = arr
