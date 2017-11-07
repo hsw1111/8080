@@ -6,7 +6,7 @@
                     <img src="../assets/header/logo.jpg" alt="logo">
                 </h2>
                 <h3>加盟商管理平台
-                    <el-tooltip class="item" v-if='modelShow' :content="cityName"  placement="bottom-end" :effect="light">
+                    <el-tooltip class="item" v-if='modelShow' :content="initCityName"  placement="bottom-end" :effect="light">
                         <span>{{cityName}}</span>
                     </el-tooltip>
                     <span v-else>{{cityName}}</span>
@@ -34,6 +34,7 @@ export default {
             isIconUrl:true,
             isImgShow:false,
             cityName: '',
+            initCityName:'',
             light: 'light',
             modelShow: false
         }
@@ -93,22 +94,21 @@ export default {
 
       
 
-      if (this.cityName === null || this.cityName === '') {
-          var that = this
-          var timer = setInterval( function () {
-            that.cityName = window.sessionStorage.getItem('cityName')
-            var cityLength = that.cityName.split(",")
-            if (cityLength.length > 3) {
-                that.modelShow = true
-            } else {
-                that.modelShow = false
-            }
-            
-            clearInterval(timer)
-          }, 100)
-      } else {
-          return
-      }
+         var that = this
+        setTimeout(function() {
+             that.cityName = window.sessionStorage.getItem('cityName')
+         this.initCityName = window.sessionStorage.getItem('cityName')
+         var arr = that.cityName.split(',')
+          if(arr.length>3){
+              that.cityName = arr.slice(0,3).join() + '...'
+              
+          }
+        if (arr.length > 3) {
+            that.modelShow = true
+        } else {
+            that.modelShow = false
+        }
+        }, 200);
   },
   watch:{
     franchiseeUserIconUrl:{
