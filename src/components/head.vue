@@ -171,7 +171,7 @@ header h3>span {
     position: relative;
     display: block;
     top: -43px;
-    width: 118px;
+    width: 127px;
     height: 30px;
     line-height: 30px;
     white-space: nowrap;
