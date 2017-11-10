@@ -266,17 +266,7 @@ export default {
         this.$message({
           message: '请输入查询条件',
           type: 'warning'
-        })
-      } else if (this.form.data1 === '') {
-        this.$message({
-          message: '请输入开始时间',
-          type: 'warning'
-        })
-      } else if (this.form.data2 === '') {
-        this.$message({
-          message: '请输入结束时间',
-          type: 'warning'
-        })     
+        })   
       } else {
         this.isQuery = true
         var startTime, endTime
@@ -601,7 +591,7 @@ export default {
     },
     "form.data1": {
       handler: function (val, oldVal) {
-        if (val.toString().length === 0 && this.form.data2.toString().length === 0 && this.terminalNumber.length === 0 && this.checkList.length === 0) {
+        if (val.toString().length === 0 && this.form.data2.toString().length === 0 && this.terminalNumber.length === 0 ) {
           this.mountedWay()
         }
         var startTime = new Date(val).getTime()
@@ -626,7 +616,7 @@ export default {
     },
     "form.data2": {
       handler: function (val, oldVal) {
-        if (val.toString().length === 0 && this.form.data1.toString().length === 0 && this.terminalNumber.length === 0 && this.checkList.length === 0) {
+        if (val.toString().length === 0 && this.form.data1.toString().length === 0 && this.terminalNumber.length === 0) {
           this.mountedWay()
         }
         var endTime = new Date(val).getTime()
@@ -648,6 +638,14 @@ export default {
         }
       },
       deep: true
+    },
+    'terminalNumber':{
+      handler:function(n,o){
+        if(n.length==0){
+           this.mountedWay()
+        }
+      },
+      deep:true
     }
   }
 }

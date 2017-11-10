@@ -12,13 +12,13 @@
       <div class="line">
         结算周期：<span>{{month}}</span>
       </div>
-      <div class="line">
+      <!-- <div class="line">
         本期总收益：<span>{{new Number(totalProfit).thousandFormat()}}</span>元
-      </div>
+      </div> -->
       <div class="line">
         本期结算金额：<span>{{new Number(actProfit).thousandFormat()}}</span>元
       </div>
-      <div class="line ">
+      <div class="line confirm ">
         <button v-show="isSettled" class="open" @click="openDialog">确定结算</button>
         <el-dialog 
           id="settleMentPage"
@@ -310,7 +310,7 @@ import {thousandFormat} from '../../../util/util.js'
   }
 </script>
 <style lang="scss" scoped>
-  
+  div.settleMentPage div.title div.line.confirm{float:right;}
   div.hide{
     height: 30px;
     width: 200px;

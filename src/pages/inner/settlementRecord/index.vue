@@ -352,7 +352,8 @@ export default {
             'content-type': 'application/x-www-form-urlencoded'
           })
           .send({
-            currentPage: val
+            currentPage: val,
+            cityId:this.cityCodeList.join()
           })
           .end((err, res) => {
             if (err) {

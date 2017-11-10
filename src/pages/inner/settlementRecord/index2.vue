@@ -118,7 +118,7 @@ import cityList from '../../../components/cityList.vue'
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
       },
-      loadData(){
+      loadData(currentPage){
          this.loading = true
          request
         .post(host + 'beepartner/franchisee/withDraw/findWithDraw')
@@ -127,7 +127,8 @@ import cityList from '../../../components/cityList.vue'
           'content-type': 'application/x-www-form-urlencoded'
         })
         .send({
-          cityId:this.cityCodeList.join()
+          cityId:this.cityCodeList.join(),
+          currentPage:currentPage
         })
         .end((err, res) => {
            this.loading = false
@@ -225,7 +226,13 @@ import cityList from '../../../components/cityList.vue'
     watch:{
       'cityCodeList':{
         handler:function(){
-          this.loadData()
+          this.loadData(1)
+        },
+        deep:true
+      },
+      'currentPage3':{
+        handler:function(n,o){
+          this.loadData(n)
         },
         deep:true
       }

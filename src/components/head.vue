@@ -97,11 +97,10 @@ export default {
          var that = this
         setTimeout(function() {
              that.cityName = window.sessionStorage.getItem('cityName')
-         this.initCityName = window.sessionStorage.getItem('cityName')
+             that.initCityName = window.sessionStorage.getItem('cityName')
          var arr = that.cityName.split(',')
           if(arr.length>3){
               that.cityName = arr.slice(0,3).join() + '...'
-              
           }
         if (arr.length > 3) {
             that.modelShow = true
