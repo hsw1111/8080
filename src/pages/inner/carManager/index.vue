@@ -35,7 +35,7 @@
                 <el-date-picker v-model='form.data1' type="date" placeholder="选择日期"></el-date-picker>
                 <span class="division">至</span>
                 <el-date-picker v-model='form.data2' type="date" placeholder="选择日期"></el-date-picker>
-                <button class="my_btn" @click="searchByTimeline" style="font-size: 14px;">查询</button>
+                <button class="my_btn" @click="searchByTimeline" style="font-size: 14px;line-height:36px">查询</button>
                 <!--<button @click='searchByTimeline'>查询</button>-->
               </el-form-item>
             </el-col>
@@ -652,10 +652,11 @@ export default {
 </script>
 <style>
 .carManager_content {
-  background: #fff;
+  background: #faebd7;
   padding: 20px 20px 10px 20px;
   margin-bottom: 20px;
   border: 1px solid #e7ecf1;
+  color: #555;
 }
 
 
@@ -676,7 +677,7 @@ div.carManager div.queryCarInfo div.el-form-item span.labelAlign {
   margin-left:-10px;
   margin-right: 10px;
   font-size: 14px;
-  color: #555;
+  /* color: #555; */
 }
 
 span.division {
@@ -700,11 +701,10 @@ div.el-input {
 }
 
 div.showCarInfo {
-  padding: 20px 20px 10px 20px;
+  padding: 20px;
   background: #fff;
   border: 1px solid #e7ecf1;
   border-bottom: none;
-
 }
 
 div#carManager_page {

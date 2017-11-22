@@ -13,7 +13,7 @@
           <el-button @click='getDailyDate' v-bind:class="{active: isDay}">今日</el-button>
           <el-button @click='getWeekDate' v-bind:class="{active: isWeek}">本周</el-button>
           <el-button @click='getMonthDate' v-bind:class="{active: isMonth}">本月</el-button>
-          <el-button @click='getAllDate' v-bind:class="{active: AllTime}">所有日期</el-button>
+          <!-- <el-button @click='getAllDate' v-bind:class="{active: AllTime}">所有日期</el-button> -->
           <el-button @click='handleChangeType' v-bind:class="{active: spceTime}">指定时间段</el-button>
         </div>
         <el-date-picker v-model="timeLine" style="vertical-align: middle; margin-top: 0px;" v-show="show" type="daterange"  placeholder="选择时间范围" align="right">
@@ -178,7 +178,7 @@ span.joinPlace {
 #earD_header {
   /*width: 100%;*/
   padding: 17px 20px 20px 0px;
-  background: #fff;
+  background: #faebd7;
   border: 1px solid #e7ecf1;
 }
 
@@ -284,12 +284,13 @@ span.joinPlace {
   width: 80px;
   height: 36px;
   line-height: 11px;
-  margin-right: 30px;
+  /* margin-right: 30px; */
   color: #fff;
   font-size: 14px;
   outline: none;
   border: none;
   background: rgba(52, 52, 67, 0.8);
+  float:right;
 }
 
 #earD_header .earning_btn:hover {

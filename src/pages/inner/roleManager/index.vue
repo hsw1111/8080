@@ -856,6 +856,7 @@ div.account {
   margin-top: 20px;
   border: 1px solid #e7ecf1;
   border-bottom: none;
+  padding-bottom:20px;
 }
 
 div.account>h1 {
@@ -886,7 +887,7 @@ div.account>h1 button:hover {
 #am_search {
   width: 100%;
   height: 70px;
-  background: #fff;
+  background: #faebd7;
   border: 1px solid #e7ecf1;
 }
 

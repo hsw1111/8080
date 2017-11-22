@@ -674,7 +674,7 @@ div.account {
   margin-top: 20px;
   border: 1px solid #e7ecf1;
   border-bottom: none;
-
+  padding-bottom:20px;
   /* padding-bottom: 100%; */
 }
 
@@ -706,7 +706,7 @@ div.account>h1 button:hover {
 #am_search {
   width: 100%;
   height: 70px;
-  background: #fff;
+  background: #faebd7;
   border: 1px solid #e7ecf1;
 }
 
@@ -737,10 +737,11 @@ div.account>h1 button:hover {
   display: block;
   margin-right: 10px;
   float: left;
+  color:#555;
 }
 
 #am_search label:nth-child(2) {
-  margin-left: 0;
+  margin-left: 10px;
 }
 
 #am_search button {
@@ -822,7 +823,7 @@ div.account>h1 button:hover {
 button#accountSearchBtn {
   width: 80px;
   height: 36px;
-  line-height: 11px;
+  line-height: 13px;
   margin-right: 30px;
   color: #fff;
   font-size: 14px;

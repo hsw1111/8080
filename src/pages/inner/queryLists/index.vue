@@ -12,7 +12,8 @@
         v-loading="loading2"
         element-loading-text="拼命加载中"
         :empty-text="emptyText"
-        style="width: 100%">
+        style="width: 100%"
+        >
         <el-table-column
           prop="statisticId"
           label="订单日期"
