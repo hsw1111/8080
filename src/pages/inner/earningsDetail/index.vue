@@ -5,7 +5,7 @@
 		<div id="earD_header">
       <div class="earD_con">
         <div style="padding-left: 20px;margin-bottom: 10px;" v-show="remoteCityList.length>1">
-          <span class="joinPlace">加盟区域</span>
+          <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
         </div>
         <div>
@@ -394,7 +394,7 @@ export default {
     $(".sign").removeClass("is-active");
     $('.sign[name="1401"]').addClass("is-active");
     this.loading2 = true
-    this.$router.push('/index/earningsDetail?type=getRevenueCurDay&cityId=' + this.$route.query.cityId)
+    // this.$router.push('/index/earningsDetail?type=getRevenueCurDay&cityId=' + this.$route.query.cityId)
     //this.loadData(this.currentPage3)
   },
   methods: {

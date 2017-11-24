@@ -2,7 +2,7 @@
   <div class="container">
     <div class="wrap">
        <div v-show="remoteCityList.length>1" style="margin-bottom: 9px;">
-           <span class="joinPlace">加盟区域</span>
+           <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
        </div>
         <div>
@@ -27,7 +27,7 @@
         >
           <template scope="scope">
             <span class="date">
-               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join()}}"> {{scope.row.withDrawMonth}}</router-link>
+               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:scope.row.cityName}}"> {{scope.row.withDrawMonth}}</router-link>
              </span>
           </template>
         </el-table-column>
@@ -114,6 +114,7 @@ import cityList from '../../../components/cityList.vue'
        showMsgFormChild(data){
       // 子组件像父组件传值,目的是获取被选中的cityCode
       this.cityCodeList = data
+      console.log(data)
     },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
@@ -152,6 +153,7 @@ import cityList from '../../../components/cityList.vue'
               this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
               this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes
               this.tableData = newArr
+              console.log(this.tableData)
               // 页面总数
               var pageNumber = JSON.parse(res.text).totalPage
               // 总记录数

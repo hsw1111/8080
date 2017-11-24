@@ -159,23 +159,23 @@ export default {
       }
     }
     var validatePhoneNo = function(rule, value, callback) {
-      if (value === '') {
-        callback(new Error('请输入手机号'))
-      } else if (!checkMobile(value)) {
-        callback(new Error('手机号格式不正确'))
-      } else {
-        callback()
-      }
+      setTimeout(() => {
+        if (!/^1[345678]\d{9}$/.test(this.ruleForm.phoneNo)) {
+          callback(new Error("请输入正确的手机号码"));
+        } else {
+          callback()
+        }
+      }, 1000);
     }
-    var validateEmail = function(rule, value, callback) {
-      if (value === '') {
-        callback(new Error('请输入邮箱'))
-      } else if (!isEmail(value)) {
-        callback(new Error('邮箱格式不正确'))
-      } else {
-        callback()
-      }
-    }
+    // var validateEmail = function(rule, value, callback) {
+    //   if (value === '') {
+    //     callback(new Error('请输入邮箱'))
+    //   } else if (!isEmail(value)) {
+    //     callback(new Error('邮箱格式不正确'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     var validateRole = function(rule, value, callback) {
       if (value === '') {
         callback(new Error('请选择角色类别'))
@@ -208,7 +208,7 @@ export default {
         roleName: [{ validator: validateRole, trigger: 'change', required: false }],
         name: [
           { message: '请输入姓名', trigger: 'blur' },
-        ]
+        ],
         // phoneNo: [{ validator: validatePhoneNo, trigger: 'blur' }],
         // email: [{ validator: validateEmail, trigger: 'blur' }]
       }

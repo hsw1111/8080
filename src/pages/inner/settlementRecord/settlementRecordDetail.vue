@@ -6,7 +6,7 @@
         </div>
     <div class="space">
       <h4>结算单
-        <i class="iconfont icon-guanbi3"></i>
+        <!-- <i class="iconfont icon-guanbi3"></i> -->
       </h4>
       <div class="title">
       <div class="line">
@@ -52,10 +52,10 @@
     
     <div class="table">
       <h3>
-        蜜蜂出行（无为县）周期费用结算单
+        蜜蜂出行({{$route.query.cityName}})周期费用结算单
       </h3>
       <div class="unit"><span>单位：元</span></div>
-      <table v-show="type==1">
+     <table v-show="type==1">
         <thead>
           <tr>
             <th class="dateTime">
@@ -125,7 +125,7 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-            <td class="activeCost">
+            <td class="activeCost" style="text-align:center">
               {{new Number(list.grantAmountStr).thousandFormat()}}
             </td>
            <td class="in">
@@ -178,12 +178,12 @@
         </tbody>
         <tfoot>
           <tr class="count">
-            
+   
              <td data-v-3b262524="" class="dateTime">总计</td>
               <td data-v-3b262524="" class="userTotalPayment">
                   {{sumData.sumbalance}}
               </td>
-              <td data-v-3b262524="" class="activeCost">
+              <td data-v-3b262524="" class="activeCost" style="text-align:center">
                   {{sumData.sumgrant}}
               </td>
               <td data-v-3b262524="" class="in">
@@ -223,7 +223,7 @@
                       {{actProfitStr}}
                   </div>
               </td>
-            
+          
           </tr>
         </tfoot>
       </table>
@@ -297,7 +297,7 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-            <td class="activeCost">
+            <td class="activeCost" style="text-align:center">
               {{new Number(list.grantAmountStr).thousandFormat()}}
             </td>
            <td class="in">
@@ -350,12 +350,12 @@
         </tbody>
         <tfoot>
           <tr class="count">
-            
+
              <td data-v-3b262524="" class="dateTime">总计</td>
               <td data-v-3b262524="" class="userTotalPayment">
                   {{sumData.sumbalance}}
               </td>
-              <td data-v-3b262524="" class="activeCost">
+              <td data-v-3b262524="" class="activeCost" style="text-align:center">
                   {{sumData.sumgrant}}
               </td>
               <td data-v-3b262524="" class="in">
@@ -464,7 +464,7 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-            <td class="activeCost">
+            <td class="activeCost" style="text-align:center">
               {{new Number(list.grantAmountStr).thousandFormat()}}
             </td>
            <td class="in">
@@ -512,12 +512,12 @@
         </tbody>
         <tfoot>
           <tr class="count">
-            
+
             <td data-v-3b262524="" class="dateTime">总计</td>
             <td data-v-3b262524="" class="userTotalPayment">
-                {{sumData.sumbalance}}
+               {{sumData.sumbalance}}
             </td>
-            <td data-v-3b262524="" class="activeCost">
+            <td data-v-3b262524="" class="activeCost" style="text-align:center">
                 {{sumData.sumgrant}}
             </td>
             <td data-v-3b262524="" class="in">
@@ -553,7 +553,7 @@
                     {{actProfitStr}}
                 </div>
             </td>
-            
+
           </tr>
         </tfoot>
       </table>
@@ -584,7 +584,7 @@ import {thousandFormat} from '../../../util/util.js'
     data(){
       return {
         sumData:"",
-        type:'1',
+        type:'2',
         list: [],
         state:'',
         actProfit:'',
@@ -716,6 +716,7 @@ import {thousandFormat} from '../../../util/util.js'
 </script>
 <style lang="scss" scoped>
   div.settleMentPage div.title div.line.confirm{float:right;}
+ 
   div.hide{
     height: 30px;
     width: 200px;

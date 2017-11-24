@@ -83,7 +83,7 @@
               </el-table-column>
               <el-table-column label="赠送金额支付(元)"  min-width="12%">
                   <template scope="scope">
-                   {{new Number(scope.row.grantAmount).thousandFormat()}}
+                   {{scope.row.grantAmount}}
                   </template>
               </el-table-column>
               <el-table-column label="实际收益(元)" prop="balanceAmount"

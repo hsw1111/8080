@@ -63,7 +63,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div style="margin-top: -20px;border: 1px solid #e7ecf1;background: #fff;border-top: none;border-bottom: none; padding-bottom: 10px;">
+    <div style="margin-top: -20px;border: 1px solid #e7ecf1;background: #fff;border-top: none;border-bottom: none; padding-bottom: 10px;padding-left: 20px;">
       <el-pagination v-show="pageShow" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size="10" layout="prev, pager, next, jumper" :total="totalItems">
       </el-pagination>
     </div>
@@ -163,6 +163,7 @@ export default {
       console.log(`当前页: ${val}`);
     },
     handleList() {
+      // this.searchByTimeline()
       var radio = this.checkList.toString()
       var startTime, endTime
       if (this.form.data1 === '' || this.form.data2 === '') {
@@ -172,6 +173,33 @@ export default {
         startTime = moment(this.form.data1).format('YYYY-MM-DD')
         endTime = moment(this.form.data2).format('YYYY-MM-DD')
       }
+       var _startTime = new Date(this.form.data1).getTime()
+        var _endTime = new Date(this.form.data2).getTime()
+        _endTime = isNaN(_endTime) ? 0 : _endTime
+        _startTime = isNaN(_startTime) ? 0 : _startTime
+
+         if (_endTime > 1 && _startTime <= 1) {
+            this.$message({
+              type: 'warning',
+              message: '开始日期不能为空'
+            })
+            return
+          } 
+        if (_endTime < 0) {
+            this.$message({
+              type: 'warning',
+              message: '结束日期不能为空'
+            })
+          } else {
+            if(_endTime<_startTime){
+              this.$message({
+                type: 'warning',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+            }
+          }
+          console.log(_startTime,_endTime)
       // 根据用户选择不同状态进行数据的筛选
       this.isQuery = true
       if (this.checkList.length > 0) {
@@ -469,6 +497,32 @@ export default {
         startTime = moment(this.form.data1).format('YYYY-MM-DD')
         endTime = moment(this.form.data2).format('YYYY-MM-DD')
       }
+       var _startTime = new Date(this.form.data1).getTime()
+        var _endTime = new Date(this.form.data2).getTime()
+        _endTime = isNaN(_endTime) ? 0 : _endTime
+        _startTime = isNaN(_startTime) ? 0 : _startTime
+         if (_endTime > 1 && _startTime <= 1) {
+            this.$message({
+              type: 'warning',
+              message: '开始日期不能为空'
+            })
+            return
+          } 
+        if (_endTime < 0) {
+            this.$message({
+              type: 'warning',
+              message: '结束日期不能为空'
+            })
+          } else {
+            if(_endTime<_startTime){
+              this.$message({
+                type: 'warning',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+            }
+          }
+
       request
         .post(host + 'beepartner/franchisee/bike/findBike')
         .withCredentials()

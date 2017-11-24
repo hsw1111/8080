@@ -1,8 +1,9 @@
 <template>
   <div>
     <div v-title data-title="首页"></div>
-    <div class="module"   style="background: #fff;padding: 20px;" v-show="remoteCityList.length>1">
+    <div class="module"   style="background: #fff;padding: 20px 20px 20px 10px;" v-show="remoteCityList.length>1">
       <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
+      <span style="font-size:12px;color:#ccc;float:right">*今日营收、本月营收和当前动态里的金额为订单的实际收益</span>
     </div>
     <div class="incomming module">
       <el-row>
