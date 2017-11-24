@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span='12' class="dayIncoming">
           <div class="income_title">
-            <span class="income_time daytime ">今日营收</span>
+            <span class="income_time daytime ">今日营收</span><small style="font-size:12px;color:#ccc;margin-left:5px">数据为订单的实际收益合计(排除地勤人员订单)</small>
             <span class="income_detail" @click="$router.push({path: '/index/earningsDetail?type=getRevenueCurDay&cityId=' + cityCodeList.join()})">>></span>
           </div>
           <div v-loading="loading3">

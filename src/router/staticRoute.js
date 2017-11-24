@@ -1,58 +1,127 @@
-import login from '../pages/login/index.vue'
-import index from '../pages/index/index.vue'
-import pageIndex from '../pages/inner/pageIndex/index.vue'
+// import login from '../pages/login/index.vue'
+const login = resolve => require.ensure([], () => resolve(require('../pages/login/index.vue')), 'login')
+
+// import index from '../pages/index/index.vue'
+const index = resolve => require.ensure([], () => resolve(require('../pages/index/index.vue')), 'index')
+
+// import pageIndex from '../pages/inner/pageIndex/index.vue'
+const pageIndex = resolve => require.ensure([], () => resolve(require('../pages/inner/pageIndex/index.vue')), 'pageIndex')
+
 
 // [ ====== partnerManager ====== ]
-import carManager from '../pages/inner/carManager/index.vue'
-import carUseDetail from '../pages/inner/carUseDetail/index.vue'
+// import carManager from '../pages/inner/carManager/index.vue'
+const carManager = resolve => require.ensure([], () => resolve(require('../pages/inner/carManager/index.vue')), 'carManager')
+
+// import carUseDetail from '../pages/inner/carUseDetail/index.vue'
+const carUseDetail = resolve => require.ensure([], () => resolve(require('../pages/inner/carUseDetail/index.vue')), 'carUseDetail')
+
 
 // [ ====== consumeData ====== ]
-import consumeData from '../pages/inner/consumeData/index.vue'
-import queryCharts from '../pages/inner/queryCharts/index.vue'
-import queryLists from '../pages/inner/queryLists/index.vue'
+// import consumeData from '../pages/inner/consumeData/index.vue'
+const consumeData = resolve => require.ensure([], () => resolve(require('../pages/inner/consumeData/index.vue')), 'consumeData')
 
-import allDaysData from '../pages/inner/alldaysData/index.vue'
-import hotMap from '../pages/inner/hotMap/index.vue'
-import abnormalData from '../pages/inner/abnormalData/index.vue'
+// import queryCharts from '../pages/inner/queryCharts/index.vue'
+const queryCharts = resolve => require.ensure([], () => resolve(require('../pages/inner/queryCharts/index.vue')), 'queryCharts')
+
+// import queryLists from '../pages/inner/queryLists/index.vue'
+const queryLists = resolve => require.ensure([], () => resolve(require('../pages/inner/queryLists/index.vue')), 'queryLists')
+
+
+// import allDaysData from '../pages/inner/alldaysData/index.vue'
+const allDaysData = resolve => require.ensure([], () => resolve(require('../pages/inner/alldaysData/index.vue')), 'allDaysData')
+
+// import hotMap from '../pages/inner/hotMap/index.vue'
+const hotMap = resolve => require.ensure([], () => resolve(require('../pages/inner/hotMap/index.vue')), 'hotMap')
+
+// import abnormalData from '../pages/inner/abnormalData/index.vue'
+const abnormalData = resolve => require.ensure([], () => resolve(require('../pages/inner/abnormalData/index.vue')), 'abnormalData')
+
 
 // [ ====== partnerManager ====== ]
-import partnerManager from '../pages/inner/partnerManager/index.vue'
-import addpartner from '../pages/inner/partnerManager/addpartner.vue'
-import checkpartner from '../pages/inner/partnerManager/checkpartner.vue'
+// import partnerManager from '../pages/inner/partnerManager/index.vue'
+const partnerManager = resolve => require.ensure([], () => resolve(require('../pages/inner/partnerManager/index.vue')), 'partnerManager')
 
-import earningsDetail from '../pages/inner/earningsDetail/index.vue'
+// import addpartner from '../pages/inner/partnerManager/addpartner.vue'
+const addpartner = resolve => require.ensure([], () => resolve(require('../pages/inner/partnerManager/addpartner.vue')), 'addpartner')
+
+// import checkpartner from '../pages/inner/partnerManager/checkpartner.vue'
+const checkpartner = resolve => require.ensure([], () => resolve(require('../pages/inner/partnerManager/checkpartner.vue')), 'checkpartner')
+
+
+// import earningsDetail from '../pages/inner/earningsDetail/index.vue'
+const earningsDetail = resolve => require.ensure([], () => resolve(require('../pages/inner/earningsDetail/index.vue')), 'earningsDetail')
+
 
 // [ ====== settlementRecord ====== ]
-import settlementRecord from '../pages/inner/settlementRecord/index2.vue'
-import applyaccount from '../pages/inner/settlementRecord/applyaccount.vue'
-import applysubmitted from '../pages/inner/settlementRecord/applysubmitted.vue'
-import settlementRecordDetail from '../pages/inner/settlementRecord/settlementRecordDetail.vue'
+// import settlementRecord from '../pages/inner/settlementRecord/index2.vue'
+const settlementRecord = resolve => require.ensure([], () => resolve(require('../pages/inner/settlementRecord/index2.vue')), 'settlementRecord')
+
+// import applyaccount from '../pages/inner/settlementRecord/applyaccount.vue'
+const applyaccount = resolve => require.ensure([], () => resolve(require('../pages/inner/settlementRecord/applyaccount.vue')), 'applyaccount')
+
+// import applysubmitted from '../pages/inner/settlementRecord/applysubmitted.vue'
+const applysubmitted = resolve => require.ensure([], () => resolve(require('../pages/inner/settlementRecord/applysubmitted.vue')), 'applysubmitted')
+
+// import settlementRecordDetail from '../pages/inner/settlementRecord/settlementRecordDetail.vue'
+const settlementRecordDetail = resolve => require.ensure([], () => resolve(require('../pages/inner/settlementRecord/settlementRecordDetail.vue')), 'settlementRecordDetail')
+
 
 // [ ====== accountManager ====== ]
-import accountManager from '../pages/inner/accountManager/index.vue'
-import addaccount from '../pages/inner/accountManager/addaccount.vue'
+// import accountManager from '../pages/inner/accountManager/index.vue'
+const accountManager = resolve => require.ensure([], () => resolve(require('../pages/inner/accountManager/index.vue')), 'accountManager')
+
+// import addaccount from '../pages/inner/accountManager/addaccount.vue'
+const addaccount = resolve => require.ensure([], () => resolve(require('../pages/inner/accountManager/addaccount.vue')), 'addaccount')
+
 
 // [ ====== memberCenter ====== ]
-import memberCenter from '../pages/inner/memberCenter/index.vue'
-import bindEamil from '../pages/inner/memberCenter/bindEamil.vue'
-import updateEmail from '../pages/inner/memberCenter/updateEmail.vue'
-import bindTel from '../pages/inner/memberCenter/bindTel.vue'
-import updateTel from '../pages/inner/memberCenter/updateTel.vue'
-import amendPassword from '../pages/inner/memberCenter/amendPassword.vue'
+// import memberCenter from '../pages/inner/memberCenter/index.vue'
+const memberCenter = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/index.vue')), 'memberCenter')
+
+// import bindEamil from '../pages/inner/memberCenter/bindEamil.vue'
+const bindEamil = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/bindEamil.vue')), 'bindEamil')
+
+// import updateEmail from '../pages/inner/memberCenter/updateEmail.vue'
+const updateEmail = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/updateEmail.vue')), 'updateEmail')
+
+// import bindTel from '../pages/inner/memberCenter/bindTel.vue'
+const bindTel = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/bindTel.vue')), 'bindTel')
+
+// import updateTel from '../pages/inner/memberCenter/updateTel.vue'
+const updateTel = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/updateTel.vue')), 'updateTel')
+
+// import amendPassword from '../pages/inner/memberCenter/amendPassword.vue'
+const amendPassword = resolve => require.ensure([], () => resolve(require('../pages/inner/memberCenter/amendPassword.vue')), 'amendPassword')
+
 
 // [ ====== roleManager ====== ]
-import roleManager from '../pages/inner/roleManager/index.vue'
-import addrole from '../pages/inner/roleManager/addrole.vue'
+// import roleManager from '../pages/inner/roleManager/index.vue'
+const roleManager = resolve => require.ensure([], () => resolve(require('../pages/inner/roleManager/index.vue')), 'roleManager')
 
-import messageCenter from '../pages/inner/messageCenter/index.vue'
+// import addrole from '../pages/inner/roleManager/addrole.vue'
+const addrole = resolve => require.ensure([], () => resolve(require('../pages/inner/roleManager/addrole.vue')), 'addrole')
+
+
+// import messageCenter from '../pages/inner/messageCenter/index.vue'
+const messageCenter = resolve => require.ensure([], () => resolve(require('../pages/inner/messageCenter/index.vue')), 'messageCenter')
 
 // [ ====== logManager ====== ]
-import logManager from '../pages/inner/logManager/index.vue'
-import loginlog from '../pages/inner/logManager/loginlog.vue'
-import operationLog from '../pages/inner/logManager/operationLog.vue'
+// import logManager from '../pages/inner/logManager/index.vue'
+const logManager = resolve => require.ensure([], () => resolve(require('../pages/inner/logManager/index.vue')), 'logManager')
 
-import NotFoundPage from '../pages/404/index.vue'
-import stautsError from '../pages/500/index.vue'
+// import loginlog from '../pages/inner/logManager/loginlog.vue'
+const loginlog = resolve => require.ensure([], () => resolve(require('../pages/inner/logManager/loginlog.vue')), 'loginlog')
+
+// import operationLog from '../pages/inner/logManager/operationLog.vue'
+const operationLog = resolve => require.ensure([], () => resolve(require('../pages/inner/logManager/operationLog.vue')), 'operationLog')
+
+
+// import NotFoundPage from '../pages/404/index.vue'
+const NotFoundPage = resolve => require.ensure([], () => resolve(require('../pages/404/index.vue')), 'NotFoundPage')
+
+// import stautsError from '../pages/500/index.vue'
+const stautsError = resolve => require.ensure([], () => resolve(require('../pages/500/index.vue')), 'stautsError')
+
 export default [{
     path: '/',
     component: index,

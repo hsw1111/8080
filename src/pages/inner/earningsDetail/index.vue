@@ -290,7 +290,6 @@ span.joinPlace {
   outline: none;
   border: none;
   background: rgba(52, 52, 67, 0.8);
-  float:right;
 }
 
 #earD_header .earning_btn:hover {

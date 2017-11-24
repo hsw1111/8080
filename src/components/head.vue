@@ -151,6 +151,7 @@ header h2 {
     display:block;
     float: left;
     padding-left: 20px;
+    margin-top:0
 }
 
 header h2 img {
@@ -167,15 +168,13 @@ header h3 {
 }
 
 header h3>span {
-    position: relative;
+    position: absolute;
     display: block;
-    top: -43px;
-    width: 127px;
-    height: 30px;
-    line-height: 30px;
-    white-space: nowrap;
-    right: -140px;
-    font-size: 10px;
+    width: 40px;
+    height: 20px;
+    right: -50px;
+    top: 10px;
+    font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -184,6 +183,7 @@ div.admin {
     float: right;
     float: right;
     margin-right: 28px;
+    /* margin-top:17px */
 }
 
 div.admin span.username {
@@ -197,6 +197,7 @@ div.admin i.iconfont {
     vertical-align: middle;
     margin-right: 0;
     cursor: pointer;
+    
 }
 
 div.admin i.iconfont.icon-xinfeng,
