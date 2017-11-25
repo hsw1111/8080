@@ -27,7 +27,7 @@
 			<div id="earD_all">
 				<h1>
           <el-tooltip class="item" effect="dark" content="所有车辆骑行收益" placement="bottom-end"> 
-					  <p>实际收益合计：<span>{{sumMoney?sumMoney:0}}元</span></p>
+					  <p>实际收益合计：<span>{{sumMoney?sumMoney.thousandFormat():0}}元</span></p>
           </el-tooltip>
 					<p @click='export_excel'>导出明细到Excel</p>
 				</h1>
@@ -55,6 +55,7 @@
         prop="placeOrderTime"
       
         label="订单结束时间">
+
       </el-table-column>
       <el-table-column
         label="骑行时间(分钟)"
@@ -70,7 +71,7 @@
        
         >
             <template scope="scope">
-              {{new Number(scope.row.rideMileage).thousandFormat()}}
+              {{new Number(scope.row.rideMileage).thousand()}}
             </template>
       </el-table-column>
       <el-table-column

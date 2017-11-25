@@ -60,7 +60,7 @@ export default {
 </script>
 <style scoped >
     div.cityList{display: inline-block;width: calc(100% - 68px);position: relative;
-    top: 2px;}
+    top: 0px;}
     div.cityList ul {height:20px;}
     div.cityList ul li{margin:6px 0;cursor:pointer; float:left;list-style: none;width:80px;height:30px;line-height:30px;text-align:center;border:1px solid #ccc;border-radius:4px;margin-right:5px;font-size:14px;}
     div.cityList ul li.active{color:orange;border:1px solid orange;}

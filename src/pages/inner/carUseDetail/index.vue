@@ -70,26 +70,37 @@
               <el-table-column label="骑行时间(分钟)" prop="rideTime"
               min-width="15%"
               >
-
+                <template scope="scope">
+                    {{(scope.row.rideTime).thousand()}}
+                </template>
               </el-table-column>
               <el-table-column label="骑行里程(米)" min-width="15%" prop="rideMileage">
-
+                <template scope="scope">
+                    {{(scope.row.rideMileage).thousand()}}
+                </template>
               </el-table-column>
               <el-table-column label="订单费用(元)" prop="actualAmount" min-width="10%">
-
+                <template scope="scope">
+                    {{(scope.row.actualAmount).thousandFormat()}}
+                </template>
               </el-table-column>
               <el-table-column label="优惠券支付(元)" prop="couponAmount" min-width="12%">
-
+                <template scope="scope">
+                    {{(scope.row.couponAmount).thousandFormat()}}
+                </template>
               </el-table-column>
               <el-table-column label="赠送金额支付(元)"  min-width="12%">
                   <template scope="scope">
-                   {{scope.row.grantAmount}}
+                    {{(scope.row.grantAmount).thousandFormat()}}
                   </template>
               </el-table-column>
               <el-table-column label="实际收益(元)" prop="balanceAmount"
                  :render-header="rendHeader"
                  min-width="15%"
               >
+                <template scope="scope">
+                   {{(scope.row.grantAmount).thousandFormat()}}
+                </template>
 
               </el-table-column>
             </el-table>
@@ -184,6 +195,7 @@ import $ from 'jquery'
 import moment from 'moment'
 import request from 'superagent'
 import {host} from '../../../config/index'
+import {thousand,thousandFormat} from '../../../util/util.js'
 export default {
   data: function () {
     return {

@@ -6,7 +6,7 @@
         <el-form :model="form">
           <el-row  v-show="remoteCityList.length>1">
              <el-form-item style=" margin-bottom: 0px;">
-                <span class="labelAlign">加盟区域</span>
+                <span class="labelAlign" style="margin-top:3px">加盟区域</span>
                <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
                
               </el-form-item>
@@ -357,12 +357,6 @@ export default {
               })
           }
         } else {
-          if (_endTime < 0) {
-            this.$message({
-              type: 'warning',
-              message: '结束日期不能为空'
-            })
-          } else {
             if(_endTime<_startTime){
               this.$message({
                 type: 'warning',
@@ -406,7 +400,7 @@ export default {
                   }
                 }
               })
-          }
+          
 
         }
         return
@@ -489,39 +483,11 @@ export default {
     },
     mountedWay() {
       this.loading2 = true
-      var startTime, endTime
-      if (this.form.data1 === '' || this.form.data2 === '') {
-        startTime = ''
-        endTime = ''
-      } else {
-        startTime = moment(this.form.data1).format('YYYY-MM-DD')
-        endTime = moment(this.form.data2).format('YYYY-MM-DD')
-      }
-       var _startTime = new Date(this.form.data1).getTime()
-        var _endTime = new Date(this.form.data2).getTime()
-        _endTime = isNaN(_endTime) ? 0 : _endTime
-        _startTime = isNaN(_startTime) ? 0 : _startTime
-         if (_endTime > 1 && _startTime <= 1) {
-            this.$message({
-              type: 'warning',
-              message: '开始日期不能为空'
-            })
-            return
-          } 
-        if (_endTime < 0) {
-            this.$message({
-              type: 'warning',
-              message: '结束日期不能为空'
-            })
-          } else {
-            if(_endTime<_startTime){
-              this.$message({
-                type: 'warning',
-                message: '开始日期不能大于结束日期'
-              })
-              return
-            }
-          }
+      // 切换城市清空表单信息
+      this.form.data1 = ''
+      this.form.data2 = ''
+      this.terminalNumber = ''
+      this.checkList = []
 
       request
         .post(host + 'beepartner/franchisee/bike/findBike')
@@ -531,8 +497,8 @@ export default {
         })
         .send({
           cityId:this.cityCodeList.join(),
-          'startOnlineTime': startTime,
-          'endOnlineTime': endTime,
+          'startOnlineTime':'',
+          'endOnlineTime': '',
           'bikeState': this.checkList.toString(),
           'keyName': this.terminalNumber,
           currentPage:this.currentPage3
@@ -643,56 +609,56 @@ export default {
       },
       deep: true
     },
-    "form.data1": {
-      handler: function (val, oldVal) {
-        if (val.toString().length === 0 && this.form.data2.toString().length === 0 && this.terminalNumber.length === 0 ) {
-          this.mountedWay()
-        }
-        var startTime = new Date(val).getTime()
-        var endTime = new Date(this.form.data2).getTime()
-        endTime = isNaN(endTime) ? 0 : endTime
-        console.log(endTime.toString().length)
-        if ((startTime > endTime) && endTime.toString().length > 1) {
-          this.$message({
-            type: 'warning',
-            message: '开始日期不能大于结束日期'
-          })
-        } else if ((startTime > endTime) && endTime.toString().length === 1) {
-          // this.$message({
-          //   type: 'error',
-          //   message: '请输入结束日期'
-          // })
-        } else {
-          return
-        }
-      },
-      deep: true
-    },
-    "form.data2": {
-      handler: function (val, oldVal) {
-        if (val.toString().length === 0 && this.form.data1.toString().length === 0 && this.terminalNumber.length === 0) {
-          this.mountedWay()
-        }
-        var endTime = new Date(val).getTime()
-        var startTime = new Date(this.form.data1).getTime()
-        startTime = isNaN(startTime) ? 0 : startTime
-        console.log(startTime.toString().length)
-        if ((endTime < startTime) && startTime.toString().length > 1) {
-          this.$message({
-            type: 'warning',
-            message: '开始日期不能大于结束日期'
-          })
-        } else if ((endTime > startTime) && startTime.toString().length === 1) {
-          this.$message({
-            type: 'warning',
-            message: '开始日期不能为空'
-          })
-        } else {
-          return
-        }
-      },
-      deep: true
-    },
+    // "form.data1": {
+    //   handler: function (val, oldVal) {
+    //     if (val.toString().length === 0 && this.form.data2.toString().length === 0 && this.terminalNumber.length === 0 ) {
+    //       this.mountedWay()
+    //     }
+    //     var startTime = new Date(val).getTime()
+    //     var endTime = new Date(this.form.data2).getTime()
+    //     endTime = isNaN(endTime) ? 0 : endTime
+    //     console.log(endTime.toString().length)
+    //     if ((startTime > endTime) && endTime.toString().length > 1) {
+    //       this.$message({
+    //         type: 'warning',
+    //         message: '开始日期不能大于结束日期'
+    //       })
+    //     } else if ((startTime > endTime) && endTime.toString().length === 1) {
+    //       // this.$message({
+    //       //   type: 'error',
+    //       //   message: '请输入结束日期'
+    //       // })
+    //     } else {
+    //       return
+    //     }
+    //   },
+    //   deep: true
+    // },
+    // "form.data2": {
+    //   handler: function (val, oldVal) {
+    //     if (val.toString().length === 0 && this.form.data1.toString().length === 0 && this.terminalNumber.length === 0) {
+    //       this.mountedWay()
+    //     }
+    //     var endTime = new Date(val).getTime()
+    //     var startTime = new Date(this.form.data1).getTime()
+    //     startTime = isNaN(startTime) ? 0 : startTime
+    //     console.log(startTime.toString().length)
+    //     if ((endTime < startTime) && startTime.toString().length > 1) {
+    //       this.$message({
+    //         type: 'warning',
+    //         message: '开始日期不能大于结束日期'
+    //       })
+    //     } else if ((endTime > startTime) && startTime.toString().length === 1) {
+    //       this.$message({
+    //         type: 'warning',
+    //         message: '开始日期不能为空'
+    //       })
+    //     } else {
+    //       return
+    //     }
+    //   },
+    //   deep: true
+    // },
     'terminalNumber':{
       handler:function(n,o){
         if(n.length==0){
@@ -731,6 +697,7 @@ div.carManager div.queryCarInfo div.el-form-item span.labelAlign {
   margin-left:-10px;
   margin-right: 10px;
   font-size: 14px;
+  margin-top:2px;
   /* color: #555; */
 }
 

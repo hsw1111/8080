@@ -27,7 +27,7 @@
         >
           <template scope="scope">
             <span class="date">
-               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:scope.row.cityName}}"> {{scope.row.withDrawMonth}}</router-link>
+               <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:cityName}}"> {{scope.row.withDrawMonth}}</router-link>
              </span>
           </template>
         </el-table-column>
@@ -63,7 +63,7 @@
         >
           <template scope="scope">
             <div v-show="scope.row.statusName==='待确认'">
-                <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join()}}">确认结算</router-link>
+                <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:cityName}}">确认结算</router-link>
             </div>
            <div v-show="scope.row.statusName!=='待确认'">
                 <a :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}">确认结算</a>
@@ -107,7 +107,8 @@ import cityList from '../../../components/cityList.vue'
         pageShow:false,
         currentPage3:1,
         totalItems:30,
-        tableData: []
+        tableData: [],
+        cityName:""
       }
     },
     methods:{
@@ -150,10 +151,12 @@ import cityList from '../../../components/cityList.vue'
             if (code === 1) {
               this.loading = false;
               var newArr = JSON.parse(res.text).data
-              this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney
-              this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes
+              // 获取当前城市名称
+              this.cityName =  JSON.parse(res.text).data[0].cityName
+              this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner?JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney:0
+              this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner?JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes:0
               this.tableData = newArr
-              console.log(this.tableData)
+              console.log("表格数据",this.tableData)
               // 页面总数
               var pageNumber = JSON.parse(res.text).totalPage
               // 总记录数

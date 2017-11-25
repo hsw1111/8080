@@ -158,14 +158,39 @@ export default {
         callback()
       }
     }
-    var validatePhoneNo = function(rule, value, callback) {
-      setTimeout(() => {
-        if (!/^1[345678]\d{9}$/.test(this.ruleForm.phoneNo)) {
-          callback(new Error("请输入正确的手机号码"));
+        var validatePhoneNo = function (rule, value, callback) {
+        if (value === '') {
+            callback()
+            return
+            // callback(new Error('请输入手机号'))
+        } else if (!checkMobile(value)) {
+            callback(new Error('手机号格式不正确'))
         } else {
-          callback()
+            request
+            .post(host + 'beepartner/admin/User/AdminUserUserNameOrPhone')
+            .withCredentials()
+            .set({
+                'content-type': 'application/x-www-form-urlencoded'
+            })
+            .send({
+                'phoneNo': value
+            })
+            .end((err, res) => {
+                if (err) {
+                this.$message({
+                    type: 'warning',
+                    message: '网络请求错误'
+                })
+                } else {
+                    if (JSON.parse(res.text).resultCode === 1) {
+                        callback()
+                    } else {
+                        var message = JSON.parse(res.text).message
+                        callback(new Error(message))
+                    }
+                }
+            })
         }
-      }, 1000);
     }
     // var validateEmail = function(rule, value, callback) {
     //   if (value === '') {
@@ -209,7 +234,7 @@ export default {
         name: [
           { message: '请输入姓名', trigger: 'blur' },
         ],
-        // phoneNo: [{ validator: validatePhoneNo, trigger: 'blur' }],
+        phoneNo: [{ validator: validatePhoneNo, trigger: 'blur' }],
         // email: [{ validator: validateEmail, trigger: 'blur' }]
       }
     }
