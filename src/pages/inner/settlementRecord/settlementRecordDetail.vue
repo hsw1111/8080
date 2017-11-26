@@ -575,6 +575,11 @@ import {thousandFormat} from '../../../util/util.js'
           }
         }
       })
+
+      // 表头固定
+      $(window).on("scroll",function(){
+        
+      })
     },
     methods:{
       openDialog(){

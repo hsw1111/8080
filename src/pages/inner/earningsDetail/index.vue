@@ -13,7 +13,7 @@
           <el-button @click='getDailyDate' v-bind:class="{active: isDay}">今日</el-button>
           <el-button @click='getWeekDate' v-bind:class="{active: isWeek}">本周</el-button>
           <el-button @click='getMonthDate' v-bind:class="{active: isMonth}">本月</el-button>
-          <!-- <el-button @click='getAllDate' v-bind:class="{active: AllTime}">所有日期</el-button> -->
+          <el-button @click='getAllDate' v-bind:class="{active: AllTime}">近三个月</el-button>
           <el-button @click='handleChangeType' v-bind:class="{active: spceTime}">指定时间段</el-button>
         </div>
         <el-date-picker v-model="timeLine" style="vertical-align: middle; margin-top: 0px;" v-show="show" type="daterange"  placeholder="选择时间范围" align="right">
@@ -43,7 +43,7 @@
       style="width: 100%">
       <el-table-column
         label="车辆编号"
-       
+        min-width='60'
         >
          <template scope="scope">
             <!-- <a>{{scope.row.bikeCode}}</a> -->
@@ -53,7 +53,7 @@
       </el-table-column>
       <el-table-column
         prop="placeOrderTime"
-      
+        min-width = '100'
         label="订单结束时间">
 
       </el-table-column>
