@@ -30,7 +30,7 @@ export default {
     return cityStr
     })
 
-    window.sessionStorage.setItem('cityName', cityStr)
+    window.localStorage.setItem('cityName', cityStr)
   },
   mounted () {
 
