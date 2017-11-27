@@ -239,6 +239,11 @@ import cityList from '../../../components/cityList.vue'
           this.loadData(n)
         },
         deep:true
+      },
+      'recordStatus':{
+        handler:function(){
+          window.location.reload()
+        }
       }
     }
   }

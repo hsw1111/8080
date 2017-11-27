@@ -6,10 +6,10 @@
                     <img src="../assets/header/logo.jpg" alt="logo">
                 </h2>
                 <h3>加盟商管理平台
-                    <el-tooltip class="item" v-if='modelShow' :content="initCityName"  placement="bottom-end" :effect="light">
-                        <span>{{cityName}}</span>
-                    </el-tooltip>
-                    <span v-else>{{cityName}}</span>
+                    <!-- <el-tooltip class="item" v-if='modelShow' :content="initCityName"  placement="bottom-end" :effect="light">
+                        <span v-if='modelShow'>{{cityName}}</span>
+                    </el-tooltip> -->
+                    <span v-if='modelShow'>{{cityName}}</span>
                 </h3>
                 <div class="admin">
                     <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
@@ -58,7 +58,7 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code === 1){
-                  window.localStorage.clear()
+                  window.sessionStorage.clear()
                   this.setfranchiseeUserIconUrl('')
                    this.$router.push('/login') 
                 }else{
@@ -99,15 +99,17 @@ export default {
              that.cityName = window.localStorage.getItem('cityName')
              that.initCityName = window.localStorage.getItem('cityName')
          var arr = that.cityName.split(',')
-          if(arr.length>2){
+          if(arr.length>3){
               that.cityName = arr.slice(0,3).join() + '...'
+              that.modelShow = false
           }
-        if (arr.length > 2) {
-            that.modelShow = true
-        } else {
+        if (arr.length > 3) {
             that.modelShow = false
+        } else {
+            that.modelShow = true
         }
         }, 200);
+        console.log(this.cityName)
   },
   watch:{
     franchiseeUserIconUrl:{
@@ -173,8 +175,9 @@ header h3>span {
     width: 40px;
     height: 20px;
     right: -50px;
-    top: 5px;
+    top: 10px;
     font-size: 12px;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
 }
 

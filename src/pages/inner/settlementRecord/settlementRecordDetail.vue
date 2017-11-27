@@ -669,6 +669,7 @@ import {thousandFormat} from '../../../util/util.js'
                 })
                 that.isSettled = false
                 that.status = true
+                that.$store.state.recordStatus = "1"
               }
               if(code == 0 ){
                 that.$message({

@@ -3,6 +3,7 @@ import staticRoute from '../../router/staticRoute.js'
 const state = {  
   items:[],  
   isLoadRoutes: false,
+  recordStatus: '',
   staticRoute  
 }  
   
