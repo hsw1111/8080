@@ -47,6 +47,12 @@ export default {
           downloadPNG: '下载PNG文件',
           downloadSVG: '下载SVG文件'
         },
+        plotOptions:{
+          column: {
+            //pointWidth: 30,
+            maxPointWidth: 100 // 设置最大宽度
+          }
+        }, 
         credits: {
           enabled: false // 禁用版权信息
         },
