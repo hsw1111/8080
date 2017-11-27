@@ -72,6 +72,7 @@ export default {
     this.$store.commit("recodeConsumeDataType", timeType);
     this.getDateByTimeLine();
     this.setCityId(this.cityCodeList.join());
+    
   },
   computed: {
     ...mapGetters(["cityId"])
@@ -354,6 +355,7 @@ export default {
 };
 </script>
 <style scoped>
+
 div.cityList {
   display: inline-block;
   margin-top: 4px;

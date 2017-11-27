@@ -3,7 +3,7 @@
      <div class="hide" v-show="isHide">
           结算已确认，等待财务打款。
           <span class="time"><b>3</b>s</span>
-        </div>
+     </div>
     <div class="space">
       <h4>结算单
         <!-- <i class="iconfont icon-guanbi3"></i> -->
@@ -61,21 +61,92 @@
             <th class="dateTime">
               日期
             </th>
+             <th class="num">
+              有效订单数
+            </th>
             <th class="userTotalPayment">
-              用户总消费金额
+              有效订单总金额
             </th>
             <th class="activeCost">
               <div class="grid_title">活动成本</div>
               <div class="grid">
                 <!-- <span title="日期">日期</span> -->
-                返现消费
+                <span title="优惠券支付">优惠券支付</span>  
+                <span title="返赠金额支付">返赠金额支付</span>  
               </div>
             </th>
             <th class="in">
               <div class="grid_title">经营收入</div>
               <div class="grid">
                 <!-- <span title="日期">日期</span> -->
-                <span title="充值消费" >充值消费</span>
+                <span title="充值消费" >订单实际收入</span>
+                <span title="扣款金额">扣款金额</span>
+              </div>
+            </th>
+            <th class="out">
+              <div class="grid_title">经营支出</div>
+              <div class="grid">
+                 <!-- <div class="item money" title="用户余额退还">用户余额退还</div> -->
+                 <div class="item third">
+                   <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div>
+                   <div class="list">
+                     <div class="cell" title="缴纳押金/次">缴纳押金/次</div>
+                     <div class="cell" title="押金金额">押金金额</div>
+                     <div class="cell" title="服务费率">服务费率</div>
+                     <div class="cell" title="支付金额">支付金额</div>
+                   </div>
+                 </div>
+                 <div class="item sevice">
+                      <div class="list subtitle">用户消费支付第三方支付平台服务</div>
+                      <div class="list">
+                        <div class="cell" title="用户消费金额">用户消费金额</div>
+                        <div class="cell" title="服务费率">服务费率</div>
+                        <div class="cell" title="支付金额">支付金额</div>
+                      </div>
+                 </div>
+                 <div class="item auth">
+
+                   <div class="list subtitle">授权费</div>
+                    <div class="list">
+                      <div class="cell" title="经营收入">经营收入</div>
+                      <div class="cell" title="授权费率">授权费率</div>
+                      <div class="cell" title="支付金额">支付金额</div>
+                    </div>
+                 </div>
+              </div>
+            </th>
+            <th class="count">
+              <div class="grid_title">最终收益</div>
+              <div class="grid">
+                合计
+              </div>
+            </th>
+          </tr> 
+        </thead>
+        <thead>
+          <tr>
+            <th class="dateTime">
+              日期
+            </th>
+             <th class="num">
+              有效订单数
+            </th>
+            <th class="userTotalPayment">
+              有效订单总金额
+            </th>
+            <th class="activeCost">
+              <div class="grid_title">活动成本</div>
+              <div class="grid">
+                <!-- <span title="日期">日期</span> -->
+                <span title="优惠券支付">优惠券支付</span>  
+                <span title="返赠金额支付">返赠金额支付</span>  
+              </div>
+            </th>
+            <th class="in">
+              <div class="grid_title">经营收入</div>
+              <div class="grid">
+                <!-- <span title="日期">日期</span> -->
+                <span title="充值消费" >订单实际收入</span>
                 <span title="扣款金额">扣款金额</span>
               </div>
             </th>
@@ -125,8 +196,14 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
+            <td class="userTotalPayment">
+              {{new Number(list.balanceAmountStr).thousandFormat()}}
+            </td>
             <td class="activeCost" style="text-align:center">
-              {{new Number(list.grantAmountStr).thousandFormat()}}
+              <div class="grid">
+                  <span>{{new Number(list.grantAmountStr).thousandFormat()}}</span>
+                  <span>{{new Number(list.grantAmountStr).thousandFormat()}}</span>
+              </div>
             </td>
            <td class="in">
               <!-- <div class="grid_title">经营收入</div> -->
@@ -180,11 +257,17 @@
           <tr class="count">
    
              <td data-v-3b262524="" class="dateTime">总计</td>
+             <td class="userTotalPayment">
+              {{new Number(list.balanceAmountStr).thousandFormat()}}
+            </td>
               <td data-v-3b262524="" class="userTotalPayment">
                   {{new Number(sumData.sumbalance).thousandFormat()}}
               </td>
               <td data-v-3b262524="" class="activeCost" style="text-align:center">
-                  {{new Number(sumData.sumgrant).thousandFormat()}}
+                <div data-v-3b262524="" class="grid">
+                   <span data-v-3b262524="">{{new Number(sumData.sumgrant).thousandFormat()}}</span>
+                   <span data-v-3b262524="">{{new Number(sumData.sumgrant).thousandFormat()}}</span>
+                </div>
               </td>
               <td data-v-3b262524="" class="in">
                   <div data-v-3b262524="" class="grid">
@@ -233,23 +316,23 @@
             <th class="dateTime">
               日期
             </th>
+            <th class="num">
+              有效订单数
+            </th>
             <th class="userTotalPayment">
-              用户总消费金额
+              有效订单总金额
             </th>
             <th class="activeCost">
               <div class="grid_title">活动成本</div>
               <div class="grid">
                 <!-- <span title="日期">日期</span> -->
-                返现消费
+                
+                 <span title="优惠券支付" >优惠券支付</span>
+                 <span title="返赠金额支付" >返赠金额支付</span>
               </div>
             </th>
             <th class="in">
-              <div class="grid_title">经营收入</div>
-              <div class="grid">
-                <!-- <span title="日期">日期</span> -->
-                <span title="充值消费" >充值消费</span>
-                <span title="扣款金额">扣款金额</span>
-              </div>
+              订单实际收入
             </th>
             <!-- <th class="out">
               <div class="grid_title">经营支出</div>
@@ -304,16 +387,17 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-            <td class="activeCost" style="text-align:center">
-              {{new Number(list.grantAmountStr).thousandFormat()}}
+            <td class="userTotalPayment">
+              {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-           <td class="in">
-              <!-- <div class="grid_title">经营收入</div> -->
+            <td class="activeCost" style="text-align:center">
               <div class="grid">
-                <!-- <span>{{list.statisticId}}</span> -->
-                <span>{{new Number(list.actualMoneyStr).thousandFormat()}}</span>
-                <span>{{new Number(list.decultMoneyStr).thousandFormat()}}</span>
+                <span>{{new Number(list.grantAmountStr).thousandFormat()}}</span>
+                <span>{{new Number(list.grantAmountStr).thousandFormat()}}</span>
               </div>
+            </td>
+           <td class="userTotalPayment">
+              {{new Number(list.actualMoneyStr).thousandFormat()}}
             </td>
 
             <td class="managefee">
@@ -338,14 +422,18 @@
               <td data-v-3b262524="" class="userTotalPayment">
                   {{new Number(sumData.sumbalance).thousandFormat()}}
               </td>
-              <td data-v-3b262524="" class="activeCost" style="text-align:center">
-                  {{new Number(sumData.sumgrant).thousandFormat()}}
+              <td data-v-3b262524="" class="userTotalPayment">
+                  {{new Number(sumData.sumbalance).thousandFormat()}}
               </td>
-              <td data-v-3b262524="" class="in">
-                  <div data-v-3b262524="" class="grid">
-                      <span data-v-3b262524="">{{new Number(sumData.sumactual).thousandFormat()}}</span>
-                      <span data-v-3b262524="">{{new Number(sumData.sumdecult).thousandFormat()}}</span>
-                  </div>
+              <td data-v-3b262524="" class="activeCost" style="text-align:center">
+                <div data-v-3b262524="" class="grid">
+                      <span data-v-3b262524=""> {{new Number(sumData.sumgrant).thousandFormat()}}</span>
+                      <span data-v-3b262524=""> {{new Number(sumData.sumgrant).thousandFormat()}}</span>
+                </div>
+                 
+              </td>
+              <td data-v-3b262524="" class="userTotalPayment">
+                {{new Number(sumData.sumactual).thousandFormat()}}
               </td>
              
             <td class="managefee">
@@ -370,23 +458,22 @@
             <th class="dateTime">
               日期
             </th>
+             <th class="num">
+              有效订单数
+            </th>
             <th class="userTotalPayment">
-              用户总消费金额
+              有效订单总金额
             </th>
             <th class="activeCost">
               <div class="grid_title">活动成本</div>
               <div class="grid">
-                <!-- <span title="日期">日期</span> -->
-                返现消费
+                <span title="优惠券支付" >优惠券支付</span>
+                <span title="返赠金额支付">返赠金额支付</span>
+
               </div>
             </th>
             <th class="in">
-              <div class="grid_title">经营收入</div>
-              <div class="grid">
-
-                <span title="充值消费" >充值消费</span>
-                <span title="扣款金额">扣款金额</span>
-              </div>
+              订单实际收入
             </th>
             <!-- <th class="out">
               <div class="grid_title">经营支出</div>
@@ -428,16 +515,18 @@
             <td class="userTotalPayment">
               {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-            <td class="activeCost" style="text-align:center">
-              {{new Number(list.grantAmountStr).thousandFormat()}}
+            <td class="userTotalPayment">
+              {{new Number(list.balanceAmountStr).thousandFormat()}}
             </td>
-           <td class="in">
-              <!-- <div class="grid_title">经营收入</div> -->
+            <td class="activeCost" style="text-align:center">
+             
               <div class="grid">
-                <!-- <span>{{list.statisticId}}</span> -->
-                <span>{{new Number(list.actualMoneyStr).thousandFormat()}}</span>
-                <span>{{new Number(list.decultMoneyStr).thousandFormat()}}</span>
+                <span> {{new Number(list.grantAmountStr).thousandFormat()}}</span>
+                <span> {{new Number(list.grantAmountStr).thousandFormat()}}</span>
               </div>
+            </td>
+           <td class="userTotalPayment">
+             {{new Number(list.actualMoneyStr).thousandFormat()}}
             </td>
            
             <td class="matchRate">
@@ -458,14 +547,18 @@
             <td data-v-3b262524="" class="userTotalPayment">
                {{new Number(sumData.sumbalance).thousandFormat()}}
             </td>
-            <td data-v-3b262524="" class="activeCost" style="text-align:center">
-                {{new Number(sumData.sumgrant).thousandFormat()}}
+            <td data-v-3b262524="" class="userTotalPayment">
+               {{new Number(sumData.sumbalance).thousandFormat()}}
             </td>
-            <td data-v-3b262524="" class="in">
+            <td data-v-3b262524="" class="activeCost" style="text-align:center">
+                
                 <div data-v-3b262524="" class="grid">
-                    <span data-v-3b262524="">{{new Number(sumData.sumactual).thousandFormat()}}</span>
-                    <span data-v-3b262524="">{{new Number(sumData.sumdecult).thousandFormat()}}</span>
+                    <span data-v-3b262524="">{{new Number(sumData.sumgrant).thousandFormat()}}</span>
+                    <span data-v-3b262524="">{{new Number(sumData.sumgrant).thousandFormat()}}</span>
                 </div>
+            </td>
+            <td data-v-3b262524="" class="userTotalPayment">
+              {{new Number(sumData.sumactual).thousandFormat()}}
             </td>
            
             <td class="matchRate">
@@ -507,7 +600,7 @@ import {thousandFormat} from '../../../util/util.js'
     data(){
       return {
         sumData:"",
-        type:'1',
+        type:'3',
         list: [],
         state:'',
         actProfit:'',
@@ -572,14 +665,15 @@ import {thousandFormat} from '../../../util/util.js'
             this.type = JSON.parse(res.text).withDrawRecord.tbType
             // 表格最后一行总计
             this.sumData = JSON.parse(res.text).withDrawRecord
+
+           
           }
         }
+       
       })
 
-      // 表头固定
-      $(window).on("scroll",function(){
         
-      })
+       
     },
     methods:{
       openDialog(){
@@ -643,7 +737,9 @@ import {thousandFormat} from '../../../util/util.js'
   }
 </script>
 <style lang="scss" scoped>
+ th.num {background:yellowgreen}
   div.settleMentPage div.title div.line.confirm{float:right;}
+
   th.managefee {
      background:#ebf1dc
   }
@@ -889,7 +985,7 @@ import {thousandFormat} from '../../../util/util.js'
             }
             th.out{background:#ebf1dc;}
             th.dateTime{background:yellow}
-            th.userTotalPayment{background:#ffe9d5}
+            th.userTotalPayment{background:skyblue}
           }
         }
         tfoot,tbody{
@@ -979,4 +1075,5 @@ import {thousandFormat} from '../../../util/util.js'
   div#settleMentPage .dialog-footer button:nth-child(2){width:88px;background:#fff;outline:none;border:1px solid #666666;
     &:hover{color:#666;}
   }
+  
 </style>
