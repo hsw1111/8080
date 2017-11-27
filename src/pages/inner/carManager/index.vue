@@ -5,7 +5,7 @@
       <div class="queryCarInfo">
         <el-form :model="form">
           <el-row  v-show="remoteCityList.length>1">
-             <el-form-item style=" margin-bottom: 0px;">
+             <el-form-item style=" margin-bottom: -7px;">
                 <span class="labelAlign" style="margin-top:3px">加盟区域</span>
                <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
                
@@ -28,7 +28,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row style="margin-top: 8px;margin-bottom: 3px;">
+          <el-row style="margin-bottom: 3px;">
             <el-col>
               <el-form-item>
                 <span class="labelAlign">上线日期</span>
