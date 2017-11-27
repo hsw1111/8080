@@ -58,7 +58,7 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code === 1){
-                  window.sessionStorage.clear()
+                  window.localStorage.clear()
                   this.setfranchiseeUserIconUrl('')
                    this.$router.push('/login') 
                 }else{
@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted:function(){
-      var url = sessionStorage.getItem('franchiseeUserIconUrl')
+      var url = localStorage.getItem('franchiseeUserIconUrl')
       if(url!='null'){
            this.isIconUrl = false
            this.isImgShow = true
@@ -81,7 +81,7 @@ export default {
           this.isIconUrl = true
            this.isImgShow = false
       }
-        var info = sessionStorage.getItem('franchiseeUser')
+        var info = localStorage.getItem('franchiseeUser')
         var name = JSON.parse(info).name
         var userName = JSON.parse(info).userName
         if(name === 'null' || name === ''){
@@ -96,8 +96,8 @@ export default {
 
          var that = this
         setTimeout(function() {
-             that.cityName = window.sessionStorage.getItem('cityName')
-             that.initCityName = window.sessionStorage.getItem('cityName')
+             that.cityName = window.localStorage.getItem('cityName')
+             that.initCityName = window.localStorage.getItem('cityName')
          var arr = that.cityName.split(',')
           if(arr.length>3){
               that.cityName = arr.slice(0,3).join() + '...'

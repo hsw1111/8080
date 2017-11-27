@@ -25,10 +25,10 @@ Vue.directive('title', {
 })
 Vue.config.productionTip = false
 Vue.use(Element)
-let authList = window.sessionStorage.getItem('authList')
-let permission = window.sessionStorage.getItem('permission')
-let franchiseeUser = window.sessionStorage.getItem('franchiseeUser')
-let franchiseeUserIconUrl = window.sessionStorage.getItem('franchiseeUserIconUrl')
+let authList = window.localStorage.getItem('authList')
+let permission = window.localStorage.getItem('permission')
+let franchiseeUser = window.localStorage.getItem('franchiseeUser')
+let franchiseeUserIconUrl = window.localStorage.getItem('franchiseeUserIconUrl')
 if (authList) {
   store.commit(types.ADD_MENU, JSON.parse(authList))
   store.commit('updatLoginName', JSON.parse(franchiseeUser).userName)
@@ -42,14 +42,14 @@ router.beforeEach((route, redirect, next) => {
   //next()
 
   if (route.path === '/login') {
-    window.sessionStorage.removeItem('permission')
-    window.sessionStorage.removeItem('authList')
-    window.sessionStorage.removeItem('franchiseeUserIconUrl')
-    window.sessionStorage.removeItem('franchiseeUser')
-    window.sessionStorage.removeItem('name')
+    window.localStorage.removeItem('permission')
+    window.localStorage.removeItem('authList')
+    window.localStorage.removeItem('franchiseeUserIconUrl')
+    window.localStorage.removeItem('franchiseeUser')
+    window.localStorage.removeItem('name')
     store.commit(types.ADD_MENU, [])
   }
-  var authList = window.sessionStorage.getItem('authList')
+  var authList = window.localStorage.getItem('authList')
   if (!authList && route.path !== '/login') {
     next({
       path: '/login'
