@@ -99,10 +99,10 @@ export default {
              that.cityName = window.sessionStorage.getItem('cityName')
              that.initCityName = window.sessionStorage.getItem('cityName')
          var arr = that.cityName.split(',')
-          if(arr.length>1){
+          if(arr.length>2){
               that.cityName = arr.slice(0,3).join() + '...'
           }
-        if (arr.length > 1) {
+        if (arr.length > 2) {
             that.modelShow = true
         } else {
             that.modelShow = false
@@ -173,9 +173,8 @@ header h3>span {
     width: 40px;
     height: 20px;
     right: -50px;
-    top: 10px;
+    top: 5px;
     font-size: 12px;
-    overflow: hidden;
     text-overflow: ellipsis;
 }
 
