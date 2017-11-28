@@ -55,6 +55,7 @@
         蜜蜂出行({{$route.query.cityName}})周期费用结算单
       </h3>
       <div class="unit"><span>单位：元</span></div>
+        
       <table v-show="type==1">
        
         <thead>
@@ -91,7 +92,7 @@
                  <div class="item third">
                    <div class="list subtitle">用户缴纳押金支付第三方支付平台服务费</div>
                    <div class="list">
-                     <div class="cell" title="缴纳押金/次">缴纳押金/次</div>
+                     <div class="cell" title="缴纳押金/次">缴纳次数</div>
                      <div class="cell" title="押金金额">押金金额</div>
                      <div class="cell" title="服务费率">服务费率</div>
                      <div class="cell" title="支付金额">支付金额</div>
@@ -128,7 +129,7 @@
           <tr v-for="list of items" :key="list.id">
            <td class="dateTime">{{list.statisticId}}</td>
             <td class="userTotalPayment">
-              {{new Number(list.totalBill).thousandFormat()}}
+              {{new Number(list.totalBill).thousand()}}
             </td>
             <td class="userTotalPayment">
               {{new Number(list.totalMoney).thousandFormat()}}
@@ -319,7 +320,7 @@
           <tr v-for="list of items" :key="list.id">
            <td class="dateTime">{{list.statisticId}}</td>
             <td class="userTotalPayment">
-              {{new Number(list.totalBill).thousandFormat()}}
+              {{new Number(list.totalBill).thousand()}}
             </td>
             <td class="userTotalPayment">
               {{new Number(list.totalMoney).thousandFormat()}}
@@ -447,7 +448,7 @@
           <tr v-for="list of items" :key="list.id">
            <td class="dateTime">{{list.statisticId}}</td>
             <td class="userTotalPayment">
-              {{new Number(list.totalBill).thousandFormat()}}
+              {{new Number(list.totalBill).thousand()}}
             </td>
             <td class="userTotalPayment">
               {{new Number(list.totalMoney).thousandFormat()}}
@@ -487,7 +488,7 @@
             <td data-v-3b262524="" class="activeCost" style="text-align:center">
                 
                 <div data-v-3b262524="" class="grid">
-                    <span data-v-3b262524="">{{new Number(sumData.SumTotalDiscount).thousandFormat()}}</span>
+                    <span data-v-3b262524="">{{new Number(sumData.sumTotalDiscount).thousandFormat()}}</span>
                     <span data-v-3b262524="">{{new Number(sumData.sumgrant).thousandFormat()}}</span>
                 </div>
             </td>
@@ -660,6 +661,7 @@ import {thousandFormat} from '../../../util/util.js'
               console.log(err)
             }else{
               console.log(res)
+
               var code = JSON.parse(res.text).resultCode
               var message = JSON.parse(res.text).message
               if(code===1){
@@ -669,7 +671,6 @@ import {thousandFormat} from '../../../util/util.js'
                 })
                 that.isSettled = false
                 that.status = true
-                that.$store.state.recordStatus = "1"
               }
               if(code == 0 ){
                 that.$message({

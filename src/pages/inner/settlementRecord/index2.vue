@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="wrap">
-       <div v-show="remoteCityList.length>1" style="margin-bottom: 9px;">
+       <div v-show="remoteCityList.length>1">
            <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
        </div>
@@ -108,7 +108,7 @@ import cityList from '../../../components/cityList.vue'
         currentPage3:1,
         totalItems:30,
         tableData: [],
-        cityName:""
+        cityName:"",
       }
     },
     methods:{
@@ -152,7 +152,8 @@ import cityList from '../../../components/cityList.vue'
               this.loading = false;
               var newArr = JSON.parse(res.text).data
               // 获取当前城市名称
-              this.cityName =  JSON.parse(res.text).data[0].cityName
+              
+              this.cityName =  JSON.parse(res.text).data.length > 0? JSON.parse(res.text).data[0].cityName : ''
               this.alreadyWidthDrawMoney = JSON.parse(res.text).cityPartner?JSON.parse(res.text).cityPartner.alreadyWidthDrawMoney:0
               this.alreadyWidthDrawTimes = JSON.parse(res.text).cityPartner?JSON.parse(res.text).cityPartner.alreadyWidthDrawTimes:0
               this.tableData = newArr
@@ -184,6 +185,7 @@ import cityList from '../../../components/cityList.vue'
     cityList
   },
    created() {
+     
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
@@ -225,7 +227,6 @@ import cityList from '../../../components/cityList.vue'
       document.title="结算管理"
         $(".sign").removeClass('is-active')
       $('.sign[name="1402"]').addClass('is-active')
-      // this.loadData()
     },
     watch:{
       'cityCodeList':{
@@ -240,11 +241,6 @@ import cityList from '../../../components/cityList.vue'
         },
         deep:true
       },
-      'recordStatus':{
-        handler:function(){
-          window.location.reload()
-        }
-      }
     }
   }
 </script>
@@ -266,7 +262,7 @@ span.joinPlace{ height: 44px;
   div.wrap{
     background:#faebd7;
     margin-bottom:20px;
-    padding:17px 20px 17px 20px;
+    padding:20px;
     border: 1px solid #e7ecf1;
     div.inline{
       height:30px;

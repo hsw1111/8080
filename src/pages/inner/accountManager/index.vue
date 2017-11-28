@@ -4,11 +4,11 @@
     <div id="am_search">
       <label>
         <span>关键字</span>
-        <input type="text" placeholder="用户名/姓名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input">
+        <input type="text" placeholder="用户名\姓名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input">
       </label>
       <label>
         <span>联系方式</span>
-        <input type="text" placeholder="手机号/邮箱" v-on:blur="initQuery" v-model="telOrMail" class="account_my_input">
+        <input type="text" placeholder="手机号\邮箱" v-on:blur="initQuery" v-model="telOrMail" class="account_my_input">
       </label>
       <el-button id="accountSearchBtn" @click="queryAccountInfo" class="timeSelect_button">查询</el-button>
     </div>

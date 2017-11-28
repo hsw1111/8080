@@ -4,7 +4,7 @@
     <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div>
 		<div id="earD_header">
       <div class="earD_con">
-        <div style="padding-left: 20px;margin-bottom: 10px;" v-show="remoteCityList.length>1">
+        <div style="padding-left: 20px;margin-bottom: 2px;" v-show="remoteCityList.length>1">
           <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
         </div>
@@ -178,7 +178,7 @@ span.joinPlace {
 }
 #earD_header {
   /*width: 100%;*/
-  padding: 17px 20px 20px 0px;
+  padding: 16px 20px 25px 0px;
   background: #faebd7;
   border: 1px solid #e7ecf1;
 }
@@ -562,30 +562,30 @@ export default {
           require.ensure([], () => {
             this.$loading({ customClass: "loading_class" });
             var that = this;
-            setTimeout(() => {
-              const {
-                export_json_to_excel
-              } = require("../../../assets/lib/js/Export2Excel.js");
-              const tHeader = [
-                "车辆编号",
-                "订单结束时间",
-                "骑行时间（分钟）",
-                "骑行里程（米）",
-                "订单费用（元）",
-                "优惠券支付（元）",
-                 "赠送金额支付（元）",
-                "实际收益（元）"
-              ];
-              const filterVal = [
-                "bikeCode",
-                "placeOrderTime",
-                "rideTime",
-                "rideMileage",
-                "orderMoney",
-                "couponAmount",
-                "grantAmount",
-                "balanceAmount"
-              ];
+            // setTimeout(() => {
+              // const {
+              //   export_json_to_excel
+              // } = require("../../../assets/lib/js/Export2Excel.js");
+              // const tHeader = [
+              //   "车辆编号",
+              //   "订单结束时间",
+              //   "骑行时间（分钟）",
+              //   "骑行里程（米）",
+              //   "订单费用（元）",
+              //   "优惠券支付（元）",
+              //    "赠送金额支付（元）",
+              //   "实际收益（元）"
+              // ];
+              // const filterVal = [
+              //   "bikeCode",
+              //   "placeOrderTime",
+              //   "rideTime",
+              //   "rideMileage",
+              //   "orderMoney",
+              //   "couponAmount",
+              //   "grantAmount",
+              //   "balanceAmount"
+              // ];
               var type = that.$route.query.type;
               var newType;
               var startTime, endTime;
@@ -624,12 +624,12 @@ export default {
                 }
               }
               request
-                .post(host + "beepartner/franchisee/order /exportOrders")
+                .get(host + "beepartner/franchisee/order /exportOrders2")
                 .withCredentials()
                 .set({
                   "content-type": "application/x-www-form-urlencoded"
                 })
-                .send({
+                .query({
                   cityId: this.cityCodeList.join(),
                   type: newType,
                   startTime: startTime,
@@ -646,17 +646,18 @@ export default {
                       that.$loading({ customClass: "loading_class" }).close();
                       this.$message.error("当前查询没有信息，无法导出哦~");
                     } else {
-                      const data = this.formatJson(filterVal, list);
-                      export_json_to_excel(tHeader, data, that.cityName + "营收明细列表excel");
-                      that.$message({
-                        type: "success",
-                        message: "导出成功"
-                      });
+                      // const data = this.formatJson(filterVal, list);
+                      // export_json_to_excel(tHeader, data, that.cityName + "营收明细列表excel");
+                      // that.$message({
+                      //   type: "success",
+                      //   message: "导出成功"
+                      // });
                       that.$loading({ customClass: "loading_class" }).close();
+                       window.location.href = (res.body.data)
                     }
                   }
                 });
-            }, 1000);
+            // }, 1000);
           });
         })
         .catch(() => {});

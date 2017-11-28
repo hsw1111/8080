@@ -99,11 +99,11 @@ export default {
              that.cityName = window.localStorage.getItem('cityName')
              that.initCityName = window.localStorage.getItem('cityName')
          var arr = that.cityName.split(',')
-          if(arr.length>3){
+          if(arr.length>1){
               that.cityName = arr.slice(0,3).join() + '...'
               that.modelShow = false
           }
-        if (arr.length > 3) {
+        if (arr.length > 1) {
             that.modelShow = false
         } else {
             that.modelShow = true

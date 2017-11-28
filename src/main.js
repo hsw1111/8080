@@ -64,7 +64,7 @@ router.beforeEach((route, redirect, next) => {
       }
     } else {
       next({
-        path: '/nofound'
+        path: '/system/office'
       })
     }
   }
