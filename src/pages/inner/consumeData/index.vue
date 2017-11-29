@@ -2,7 +2,7 @@
   <div class="consumeData">
      
     <div class="countInfo">
-       <div style="margin-bottom:5px;" v-show="remoteCityList.length>1">
+       <div style="margin-bottom:5px;margin-top:-10px" v-show="remoteCityList.length>1">
           <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
         </div>
@@ -382,7 +382,7 @@ div.consumeData {
 }
 
 div.countInfo {
-  padding: 17px 20px 25px 20px;
+  padding: 25px 20px 25px 20px;
   background: #faebd7;
   margin-bottom: 20px;
   border: 1px solid #e7ecf1;

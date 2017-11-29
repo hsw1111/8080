@@ -6,12 +6,13 @@
     </el-row>
     <el-row class="watchButton">
       <el-col :span="2">
-        <span class="orderMoney"></span>
-        <i>实际收益</i>
-      </el-col>
-      <el-col :span="2">
         <span class="orderNum"></span>
         <i>单数</i>
+      </el-col>
+      <el-col :span="2">
+        <span class="orderMoney"></span>
+        <i>实际收益</i>
+        
       </el-col>
     </el-row>
     <div class="chartsRect">
@@ -63,7 +64,7 @@ div.queryCharts div.watchLists button {
   margin-right: 0px;
   width: 137px;
 }
-div.queryCharts div.watchLists span.tips{float:left;font-size:14px;color:rgba(134,134,134,1);}
+div.queryCharts div.watchLists span.tips{float:left;font-size:12px;color:#ccc;}
 div.queryCharts div.watchButton {
   margin-bottom: 20px;
   margin-top: 20px;

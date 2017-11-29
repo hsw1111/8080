@@ -175,7 +175,7 @@ header h3>span {
     width: 40px;
     height: 20px;
     right: -50px;
-    top: 10px;
+    top: 5px;
     font-size: 12px;
     /* overflow: hidden; */
     text-overflow: ellipsis;
