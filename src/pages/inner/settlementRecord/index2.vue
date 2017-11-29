@@ -190,7 +190,6 @@ import {mapGetters,mapActions} from 'vuex'
     cityList
   },
    created() {
-     console.log( this.$store.state.users.confirmRecord)
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
@@ -214,6 +213,7 @@ import {mapGetters,mapActions} from 'vuex'
       
   },
     mounted(){
+      this.setConfirmRecord("123")
        var cityId = this.$route.query.cityId
       setTimeout(()=>{
          this.remoteCityList.map((item)=>{
@@ -246,8 +246,9 @@ import {mapGetters,mapActions} from 'vuex'
         },
         deep:true
       },
-      'this.$store.state.users.confirmRecord':{
-        handler:function(val){
+      '$store.state.users.confirmRecord':{
+        handler:function(val,old){
+          console.log("新值"+val,"旧值"+old)
           if(val==true){
             window.location.reload()
             this.setConfirmRecord(false)

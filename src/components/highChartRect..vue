@@ -202,12 +202,13 @@ export default {
           color: '#058DC7',
           data: this.orderNumber,
           pointPadding: 0.3,
-          pointPlacement: -0.2
+          pointPlacement: -0.2,
+          maxPointWidth: 20
         }, {
           name: '实际收益',
           color: '#50B432',
           data: this.consumeMoney,
-         
+          maxPointWidth: 20,
           pointPadding: 0.3,
           pointPlacement: 0.2,
           yAxis: 1
