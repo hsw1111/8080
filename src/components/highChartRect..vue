@@ -199,13 +199,13 @@ export default {
         },
         series: [{
           name: '单数',
-          color: '#996600',
+          color: '#058DC7',
           data: this.orderNumber,
           pointPadding: 0.3,
           pointPlacement: -0.2
         }, {
           name: '实际收益',
-          color: '#00cdcd',
+          color: '#50B432',
           data: this.consumeMoney,
          
           pointPadding: 0.3,

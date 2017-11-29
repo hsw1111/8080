@@ -540,7 +540,7 @@ import $ from 'jquery'
 import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
 import {thousandFormat} from '../../../util/util.js'
   export default {
     computed:{
@@ -626,6 +626,7 @@ import {thousandFormat} from '../../../util/util.js'
        
     },
     methods:{
+      ...mapActions(['setConfirmRecord']),
       openDialog(){
         this.dialogVisible = true;
       },
@@ -671,6 +672,8 @@ import {thousandFormat} from '../../../util/util.js'
                 })
                 that.isSettled = false
                 that.status = true
+                // 结算成功修改vuex中的值
+                this.setConfirmRecord = true
               }
               if(code == 0 ){
                 that.$message({

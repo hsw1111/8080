@@ -4,7 +4,7 @@
     <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div>
 		<div id="earD_header">
       <div class="earD_con">
-        <div style="padding-left: 20px;margin-bottom: -3px;" v-show="remoteCityList.length>1">
+        <div style="padding-left: 20px;margin-bottom: -2px;" v-show="remoteCityList.length>1">
           <span class="joinPlace" style="margin-top:5px">加盟区域</span>
            <city-list v-bind:joinCity="remoteCityList" v-on:listenToChildEvetn="showMsgFormChild"></city-list>
         </div>

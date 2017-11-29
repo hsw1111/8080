@@ -18,10 +18,14 @@ const state = {
     cityName:'',
     franchiseeUserIconUrl:'',
     settelListId:'',
-    recodeCityId:''
+    recodeCityId:'',
+    confirmRecord:false
 }
 
 const mutations = {
+    confirmRecord(state,confirmRecord){
+        state.confirmRecord = confirmRecord
+    },
     recodeCityId(state,cityId){
         state.recodeCityId = cityId
     },
@@ -82,6 +86,9 @@ const mutations = {
     }
 }
 const actions = {
+  setConfirmRecord(context,confirmRecord){
+      context.commit('confirmRecord',confirmRecord)
+  },
   setCityId(context,id){
       context.commit('recodeCityId',id)
   },
@@ -115,7 +122,8 @@ const getters = {
     cityName: state => state.cityName,
     franchiseeUserIconUrl: state => state.franchiseeUserIconUrl,
     settelListId: state => state.settelListId,
-    cityId: state => state.recodeCityId
+    cityId: state => state.recodeCityId,
+    confirmRecord: state => state.confirmRecord,
 }
 export default {
   state,

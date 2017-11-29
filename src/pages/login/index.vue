@@ -194,6 +194,13 @@ export default {
     },
     ...mapActions(['addMenu','loadRoutes','setUserName','setCityName','setfranchiseeUserIconUrl']), 
     getVerCode(val) {
+      // 验证手机号码不为空等
+      if(val==''){
+        this.$message({
+          type: 'error',
+          message: '手机号为空'
+        })
+      }
       var that = this
       var $btn = $('button.getVerCode')
       var text = $btn.text()

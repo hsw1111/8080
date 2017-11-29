@@ -20,7 +20,7 @@ module.exports = {
        jquery:['jquery','axios'],
        highcharts:['highcharts'],
        moment:['moment'],
-       'xlsx':['xlsx']
+    //    'xlsx':['xlsx']
     },
    
     module: {
@@ -106,7 +106,7 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
            //  name: ['vendor','manifest'] // Specify the common bundle's name.
-           name:['vue','iview','jquery','highcharts','moment','xlsx','manifest']
+           name:['vue','iview','jquery','highcharts','moment','manifest']
         }),
        //  new webpack.HashedModuleIdsPlugin({
        //      hashFunction: 'sha256',

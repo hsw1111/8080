@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted:function(){
-      var url = localStorage.getItem('franchiseeUserIconUrl')
+      var url = window.localStorage.getItem('franchiseeUserIconUrl')
       if(url!='null'){
            this.isIconUrl = false
            this.isImgShow = true
@@ -81,7 +81,7 @@ export default {
           this.isIconUrl = true
            this.isImgShow = false
       }
-        var info = localStorage.getItem('franchiseeUser')
+        var info = window.localStorage.getItem('franchiseeUser')
         var name = JSON.parse(info).name
         var userName = JSON.parse(info).userName
         if(name === 'null' || name === ''){
@@ -111,20 +111,21 @@ export default {
         }, 200);
         console.log(this.cityName)
   },
+  // 发现监听时无头像会图裂
   watch:{
-    franchiseeUserIconUrl:{
-        handler:function(n,o){
-                console.log(n)
-                if(n!='null'){
-                    this.isIconUrl = false
-                    this.isImgShow = true
-                }else{
-                    this.isIconUrl = true
-                    this.isImgShow = false
-                }
-        },
-        deep:true
-    }  
+    // franchiseeUserIconUrl:{
+    //     handler:function(n,o){
+    //             console.log(n)
+    //             if(n!='null'){
+    //                 this.isIconUrl = false
+    //                 this.isImgShow = true
+    //             }else{
+    //                 this.isIconUrl = true
+    //                 this.isImgShow = false
+    //             }
+    //     },
+    //     deep:true
+    // }  
   }
 }
 </script>

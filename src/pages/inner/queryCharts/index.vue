@@ -86,11 +86,11 @@ div.queryCharts div.watchButton span {
 }
 
 div.queryCharts div.watchButton span.orderNum {
-  background: #996600;
+  background: #058DC7;
 }
 
 div.queryCharts div.watchButton span.orderMoney {
-  background: #00cdcd;
+  background: #50B432;
 }
 
 div.queryCharts div.watchButton i {

@@ -96,7 +96,11 @@ import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
 import cityList from '../../../components/cityList.vue'
+import {mapGetters} from 'vuex'
   export default {
+    computed:{
+      ...mapGetters(['confirmRecord'])
+    },
     data(){
       return {
         cityCodeList:[],
@@ -185,7 +189,7 @@ import cityList from '../../../components/cityList.vue'
     cityList
   },
    created() {
-     
+     console.log( this.$store.state.users.confirmRecord)
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
@@ -241,6 +245,16 @@ import cityList from '../../../components/cityList.vue'
         },
         deep:true
       },
+      'this.$store.state.users.confirmRecord':{
+        handler:function(val){
+          if(val==true){
+            window.location.reload()
+            this.$store.state.users.confirmRecord = false
+          }else{
+
+          }
+        }
+      }
     }
   }
 </script>
