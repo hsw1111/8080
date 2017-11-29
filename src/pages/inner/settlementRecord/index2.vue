@@ -96,7 +96,7 @@ import request from 'superagent'
 import moment from 'moment'
 import { host } from '../../../config/index'
 import cityList from '../../../components/cityList.vue'
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
   export default {
     computed:{
       ...mapGetters(['confirmRecord'])
@@ -116,6 +116,7 @@ import {mapGetters} from 'vuex'
       }
     },
     methods:{
+      ...mapActions(['setConfirmRecord']),
        showMsgFormChild(data){
       // 子组件像父组件传值,目的是获取被选中的cityCode
       this.cityCodeList = data
@@ -249,7 +250,7 @@ import {mapGetters} from 'vuex'
         handler:function(val){
           if(val==true){
             window.location.reload()
-            this.$store.state.users.confirmRecord = false
+            this.setConfirmRecord(false)
           }else{
 
           }

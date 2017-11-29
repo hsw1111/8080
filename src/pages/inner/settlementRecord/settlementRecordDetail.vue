@@ -673,7 +673,7 @@ import {thousandFormat} from '../../../util/util.js'
                 that.isSettled = false
                 that.status = true
                 // 结算成功修改vuex中的值
-                that.setConfirmRecord = true
+                that.setConfirmRecord(true)
               }
               if(code == 0 ){
                 that.$message({
