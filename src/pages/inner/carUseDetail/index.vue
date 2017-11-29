@@ -99,7 +99,7 @@
                  min-width="15%"
               >
                 <template scope="scope">
-                   {{(scope.row.grantAmount).thousandFormat()}}
+                   {{(scope.row.balanceAmount).thousandFormat()}}
                 </template>
 
               </el-table-column>
