@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-title data-title="蜜蜂出行加盟商管理平台"></div>  
-    <div class="topHeader"><h1>蜜蜂出行加盟商管理平台<span>加盟商端</span></h1></div>
+    <!-- <div v-title data-title="蜜蜂出行加盟商管理平台"></div>  
+    <div class="topHeader"><h1>蜜蜂出行加盟商管理平台<span>加盟商端</span></h1></div> -->
     <div id="login" :style="{backgroundImage: 'url(' +bg + ')'}">
       <div id="cover">
             <div class="content">
@@ -69,9 +69,9 @@
             </div>
       </div>
     </div>
-    <div class="footer">
+    <!-- <div class="footer">
       <h4>北京蜜蜂出行科技有限公司版权所有©2017</h4>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -124,7 +124,7 @@ export default {
       }
     };
     return {
-       bg:require('../../assets/img/1.jpg'),
+       bg:require('../../assets/img/bg-jms.jpg'),
       showErrorMsg:false,
       showMessage:'',
       showUserNameError:false,
@@ -465,6 +465,10 @@ div.showErrorMsg{color: red;
     margin-top: 10px;
     margin-left: 60px;
     font-size: 14px;}
+.getVerCode {
+  color: #444;
+}
+
 button.login {
     width: 275px;
     height: 36px;
@@ -474,7 +478,7 @@ button.login {
     background: rgba(241, 194, 52, 1);
     color: #fff !important;
     cursor: pointer;
-    margin-left: 60px;
+    margin-left: 44px;
 }
 
 button.login:hover {
@@ -489,11 +493,11 @@ button.login:active {
 
 div.signIn {
     font-size: 24px;
-    padding-left: 60px;
+    padding-left: 44px;
     border-radius: 4px;
     color: #000;
     font-weight: 400;
-    margin-top: 38px;
+    margin-top: 20px;
 }
 
 div.topHeader h1 {
@@ -501,15 +505,17 @@ div.topHeader h1 {
     color: rgba(102, 102, 102, 1);
     font-weight: normal;
     padding-left: 20px;
-    position:relative;
+    position: relative;
 }
 div.topHeader h1 span {
-    line-height: initial;
+    margin-left: 10px;
+    font-size: 14px;
     position: absolute;
-    left:383px;
-    bottom:25px;
-    font-size:14px;
+    left: 371px;
+    bottom: 25px;
+    line-height:initial;
 }
+
 div.footer {
     position: absolute;
     bottom: 0;
@@ -525,23 +531,23 @@ div.footer h4 {
 
 div#login {
     width: 100%;
+   
     background-position: left;
     border-radius: 4px;
     overflow: hidden;
     position: absolute;
     left: 0;
     right: 0;
-    top: 90px;
-    bottom: 90px;
+    top: 0;
+    bottom: 0;
     background-size: cover;
 }
 
 #cover {
-    /* background: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%; */
     position: relative;
     height: 100%;
+    width:1200px;
+    margin:0 auto;
 }
 
 div#login div.content {
@@ -551,10 +557,6 @@ div#login div.content {
 
 div#login div.content header {
     width: 100%;
-    /* height: 40px;
-  line-height: 40px;
-  margin-bottom: 20px;
-  padding-top: 10%; */
 }
 
 div#login div.content header p {
@@ -572,17 +574,17 @@ div#login div.content header p {
 
 div#login div.content div.loginForm {
     border-radius: 4px;
-    width: 390px;
+    width: 360px;
     /* margin: 0 auto; */
     float: right;
     color: #fff;
     background: #fff;
-    height: 334px;
+    height: 282px;
     margin-right: 80px;
-    right:20px;
-    top:50%;
-    margin-top:-167px;
-    position: absolute
+    right: 20px;
+    top: 50%;
+    margin-top: -167px;
+    position: absolute;
 }
 
 div#login div.content div.loginForm form.el-form {
@@ -600,6 +602,10 @@ div#login div.content div.loginForm form.el-form input {
 .userClass label {
     color: #fff;
     font-size: 18px;
+}
+  
+.userClass .el-form-item__content{
+  margin-left:44px!important
 }
 
 .userClass input {
@@ -622,12 +628,11 @@ div#login div.content div.loginForm form.el-form input {
 }
 
 button.forget_psd {
-    margin-right: 20px;
     border-radius: 0;
     border: none;
     margin-top: 10px;
     float: right;
-    margin-right: 42px;
+    margin-right: 26px;
     background: #fff;
     color: #000;
     cursor: pointer;
@@ -635,7 +640,8 @@ button.forget_psd {
 
 button.forget_psd:hover {
     background: #fff;
-    color: #fff;
+    /* color: #fff; */
+    text-decoration: underline;
     border: none;
 }
 
@@ -684,5 +690,13 @@ button.restConfirm:hover{background:rgba(248,126,43,0.9);}
 button.restCancel:hover{border: 1px solid rgb(248,126,43);
 		color: rgb(248,126,43);}    
 div.el-dialog__wrapper.forgetPsd .el-dialog__footer{padding-bottom: 23px;padding-top:0;}
+
+.my_input {
+      border: 1px solid #888585;
+      height: 36px;
+      text-indent: .8em;
+      outline: none;
+}
+
 </style>
 

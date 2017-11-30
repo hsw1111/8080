@@ -214,6 +214,7 @@ import {mapGetters,mapActions} from 'vuex'
       
   },
     mounted(){
+      this.setConfirmRecord("123")
        var cityId = this.$route.query.cityId
       setTimeout(()=>{
          this.remoteCityList.map((item)=>{
