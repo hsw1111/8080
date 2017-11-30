@@ -566,12 +566,7 @@ import {thousandFormat} from '../../../util/util.js'
       }
     },
      mounted(){
-        const io = require('socket.io-client');
-        const ws = io.connect('http://localhost:3000')
-        ws.emit('join',{type:'detail'})
-        ws.on('broadcast_join', function (data) {
-              console.log(data.type);
-          });
+        
        document.title="结算单"
         this.month = this.$route.query.month
         this.wType = this.$route.query.wType
@@ -677,8 +672,14 @@ import {thousandFormat} from '../../../util/util.js'
                 })
                 that.isSettled = false
                 that.status = true
-                // 结算成功修改vuex中的值
-                //that.setConfirmRecord(true)
+                // 结算成功修改vuex中的值为true
+                // that.setConfirmRecord(true)
+                const io = require('socket.io-client');
+                const ws = io.connect("http://10.31.147.119:3000")
+                ws.emit('join',{type:'detail'})
+                ws.on('broadcast_join', function (data) {
+                      console.log(data.type);
+                  });
               }
               if(code == 0 ){
                 that.$message({

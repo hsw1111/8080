@@ -153,7 +153,7 @@ export default {
       if (value === '') {
         callback(new Error('请输入用户名'))
       } else if (!checkUserName(value)) {
-        callback('用户名格式：必须英文字母开头 不可以为汉字')
+        callback('用户名格式：必须为英文或数字的组合')
       } else {
         callback()
       }
