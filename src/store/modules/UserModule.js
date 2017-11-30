@@ -24,7 +24,7 @@ const state = {
 
 const mutations = {
     confirmRecord(state,confirmRecord){
-        state.confirmRecord = confirmRecord
+        state.confirmRecord = !state.confirmRecord
     },
     recodeCityId(state,cityId){
         state.recodeCityId = cityId
@@ -86,8 +86,8 @@ const mutations = {
     }
 }
 const actions = {
-  setConfirmRecord(context,confirmRecord){
-      context.commit('confirmRecord',confirmRecord)
+  setConfirmRecord(context){
+      context.commit('confirmRecord')
   },
   setCityId(context,id){
       context.commit('recodeCityId',id)

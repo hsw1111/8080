@@ -97,6 +97,7 @@ import moment from 'moment'
 import { host } from '../../../config/index'
 import cityList from '../../../components/cityList.vue'
 import {mapGetters,mapActions} from 'vuex'
+
   export default {
     computed:{
       ...mapGetters(['confirmRecord'])
@@ -190,7 +191,6 @@ import {mapGetters,mapActions} from 'vuex'
     cityList
   },
    created() {
-     console.log( this.$store.state.users.confirmRecord)
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
@@ -228,10 +228,19 @@ import {mapGetters,mapActions} from 'vuex'
          }
        })
       },200)
-      
+      var that = this;
       document.title="结算管理"
         $(".sign").removeClass('is-active')
       $('.sign[name="1402"]').addClass('is-active')
+      const io = require('socket.io-client');
+      const ws = io.connect('http://localhost:3000')
+      ws.emit('join',{type:'index2'})
+      ws.on('broadcast_join', function (data) {
+            console.log(data.type);
+            if(data.type=='detail'){
+               that.loadData(that.currentPage3)
+            }
+        });
     },
     watch:{
       'cityCodeList':{
@@ -246,16 +255,12 @@ import {mapGetters,mapActions} from 'vuex'
         },
         deep:true
       },
-      'this.$store.state.users.confirmRecord':{
-        handler:function(val){
-          if(val==true){
-            window.location.reload()
-            this.setConfirmRecord(false)
-          }else{
-
-          }
+      'confirmRecord':{
+          handler:function(n,o){
+            console.log(n)
+          },
+          deep:true
         }
-      }
     }
   }
 </script>
