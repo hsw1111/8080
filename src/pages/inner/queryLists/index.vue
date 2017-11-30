@@ -3,6 +3,7 @@
    <div v-title data-title="订单数据"></div> 
    <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div>
     <h3>
+      <span class="queryLists_info">订单数据每10分钟自动统计</span>
       <button class="btn_list" @click="handeClick">查看统计图</button>
       <h1>{{$store.state.moment}}</h1>
     </h3>
@@ -75,6 +76,13 @@
   </div>
 </template>
 <style scoped>
+.queryLists_info {
+    float: left;
+    color: #ddd;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 50px;
+ }
 div.el-notification{right:-330px;}
 .datashow {
   /* width: 100%; */

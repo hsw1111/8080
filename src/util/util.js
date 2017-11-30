@@ -67,7 +67,8 @@ export function siblings (elem) {
    */
   export function checkUserName (string) {
     if (string !== '') {
-      var reg = /^[a-zA-Z][\w]{0,}$/
+      // var reg = /^[a-zA-Z][\w]{0,}$/
+      var reg = /^[A-Za-z0-9]+$/
       return reg.test(string)
     }
   }

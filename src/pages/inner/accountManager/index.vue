@@ -53,7 +53,7 @@
                 </el-form-item>
                 <el-form-item label="所属角色" prop="roleName">
                   <el-select v-model="editAccount.roleName" @change="changeRole" placeholder="选择角色类型" :remote-method="remoteMethod" remote :loading="isloading" :disabled="isDisabled">
-                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value">
+                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value" style="padding-top:7px;padding-left:7px">
                     </el-option>
                     <!--<el-option label="管理员" value="管理员"></el-option>-->
                     <!-- <el-option label="加盟商" value="加盟商"></el-option> -->

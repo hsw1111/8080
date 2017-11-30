@@ -104,14 +104,26 @@
     <div style="background:#fff;">
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
-          <el-col :span="6" style="text-align:center">
+          <el-col :span="6" style="text-align:center;margin-left: -30px;">
             <span class="earn" style="position:relative;">当前已为您赚到<span class="settle">{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}</span>
               <i class="wait">
                 已结算 + 待结算 + 待确认 + 当前周期收益
-                <el-tooltip id="tips" class="item" effect="light" style="width:200px" placement="top">
-                  <div slot="content">当前周期收益每10分钟更新一次；<br/>等于当前未生成结算单的周期内合</br>计的订单实际收入减去合计运营管理费。</div>
+                <el-popover
+                  slot="reference"
+                  ref="popover1"
+                  placement="top-start"
+                  offset="100"
+                  width="280"
+                  trigger="hover">
+                  <p>当前周期收益每10分钟更新一次;</p>
+                  <p>等于当前未生成结算单的周期内合计的订单实际收入</p>
+                  <p>减去合计运营管理费。</p>
+                </el-popover>
+                <i class="icon iconfont icon-wenhao" v-popover:popover1 style="cursor:pointer;margin-left:0px;color:#ccc;font-size:18px;vertical-align:middle"></i>
+                <!-- <el-tooltip id="tips" effect="light" style="width:200px" placement="top">
+                  <div slot="content"></div>
                   <i class="icon iconfont icon-wenhao" style="cursor:pointer;margin-left:0px;color:#ccc;font-size:18px;vertical-align:middle"></i>
-                </el-tooltip>
+                </el-tooltip> -->
               </i>
             </span>
           </el-col>
