@@ -209,7 +209,7 @@
 </style>
 
 <script>
-import $ from 'jquery'
+
 
 const cityOptions = ['2天以上没有消费数据', '行驶速度超过标准速度', '有骑行数据但没有计费的', '扫码失败次数5次以上', '车辆不在运营范围内的']
 

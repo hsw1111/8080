@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "compression-webpack-plugin": "^1.0.1",
     "element-ui": "^1.4.3",
     "element-upload": "^1.0.0",
     "moment": "^2.18.1",

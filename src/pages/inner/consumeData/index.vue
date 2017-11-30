@@ -27,9 +27,9 @@
 </template>
 <script>
 import cityList from "../../../components/cityList.vue";
-import $ from "jquery";
+// import $ from "jquery";
 import { siblings } from "../../../../utils/index.js";
-import moment from "moment";
+// import moment from "moment";
 import { mapActions, mapGetters } from "vuex";
 import request  from 'superagent'
 import { host } from "../../../config/index";

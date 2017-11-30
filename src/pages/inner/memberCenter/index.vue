@@ -318,7 +318,7 @@ body {
 
 <script>
 import { updateEmail } from '../../../api/modifyEmail.api'
-import $ from 'jquery'
+// import $ from 'jquery'
 import request from 'superagent'
 import { host } from '../../../config/index.js'
 import {mapState, mapActions, mapGetters } from 'vuex'  

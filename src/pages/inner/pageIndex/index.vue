@@ -351,7 +351,7 @@ import myCanvas from "../../../components/highChartRectIndex.vue";
 // import Gamp from '../../../components/map.vue'
 import request from "superagent";
 import { host } from "../../../config/index";
-import $ from "jquery";
+// import $ from "jquery";
 export default {
   data: function() {
     return {

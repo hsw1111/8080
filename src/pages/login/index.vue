@@ -9,7 +9,7 @@
                 <p>蜜蜂出行加盟商管理平台</p>
               </header>
               <div class="loginForm">
-                <div class="logo"><img src="../../assets/img/footer.png"></div> 
+                <!-- <div class="logo"><img src="../../assets/img/footer.png"></div>  -->
                 <div class="signIn">
                   登录
                 </div>

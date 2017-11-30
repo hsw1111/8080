@@ -75,8 +75,8 @@
 <script>
 import cityList from '../../../components/cityList.vue'
 import request from 'superagent'
-import moment from 'moment'
-import $ from 'jquery'
+// import moment from 'moment'
+// import $ from 'jquery'
 // import Vue from 'vue'
 import { host } from '../../../config/index.js'
 export default {

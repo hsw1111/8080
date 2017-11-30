@@ -13,9 +13,8 @@ var Highcharts = require('highcharts')
 // 在 Highcharts 加载之后加载功能模块
 require('highcharts/modules/exporting')(Highcharts)
 import request from 'superagent'
-import moment from 'moment'
 import { host } from '../config/index'
-import $ from 'jquery'
+// import $ from 'jquery'
 import {mapGetters} from 'vuex'
 // import Vue from 'vue'
 export default {

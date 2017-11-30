@@ -87,10 +87,10 @@ div.hasData{line-height: 60px;text-align: center;height: 60px;color:#9e9090;widt
 </style>
 <script>
   import request from 'superagent'
-  import $ from 'jquery'
+  // import $ from 'jquery'
    import {checkPositiveNumber} from '../../../../utils/index.js'
    import {host} from '../../../config/index'
-  import moment from 'moment'
+  // import moment from 'moment'
   export default {
     data: function () {
       return {

@@ -191,8 +191,8 @@
   </div>
 </template>
 <script>
-import $ from 'jquery'
-import moment from 'moment'
+// import $ from 'jquery'
+// import moment from 'moment'
 import request from 'superagent'
 import {host} from '../../../config/index'
 import {thousand,thousandFormat} from '../../../util/util.js'

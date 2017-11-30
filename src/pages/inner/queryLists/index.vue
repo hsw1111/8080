@@ -140,9 +140,9 @@ div.queryLists h3 button {
 .el-pagination{    margin-left: 0px;padding-left: 0;margin-top: 14px;}
 </style>
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import request from 'superagent'
-import moment from 'moment'
+// import moment from 'moment'
 import { host } from '../../../config/index.js'
 import {mapGetters,mapActions} from 'vuex'
 export default {

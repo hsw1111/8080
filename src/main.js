@@ -108,10 +108,10 @@ new Vue({
   },
   mounted() {
     this.checkInput()
-    this.checkoutSeesion()
+    //this.checkoutSeesion()
   },
   beforeUpdate: function () {
-    this.checkoutSeesion()
+    //this.checkoutSeesion()
 
   },
   watch: {

@@ -5,6 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 // Create multiple instances
 const extractCSS = new ExtractTextPlugin('stylesheets/[name].[hash].css');
@@ -16,10 +17,9 @@ module.exports = {
        //  vendor:['jquery','moment','lodash','highcharts']
        vue:['vue','vue-router','vuex'],
        iview:['iview'],
-       lodash:['lodash'],
-       jquery:['jquery','axios'],
+       axios:['axios'],
        highcharts:['highcharts'],
-       moment:['moment'],
+       superagent:['superagent']
     //    'xlsx':['xlsx']
     },
    
@@ -99,14 +99,29 @@ module.exports = {
         ]
     },
     plugins: [
+        new CompressionWebpackPlugin({ //gzip 压缩
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: new RegExp(
+                '\\.(js|css|html)$'    //压缩 js 与 css/html
+            ),
+            threshold: 10240,
+            minRatio: 0.8
+        }),
         new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
             title: 'Production',
-            template: './src/template/index.html'
+            template: './src/template/index.html',
+            minify: {
+                removeComments: true,        //去注释
+                collapseWhitespace: true,    //压缩空格
+                removeAttributeQuotes: true  //去除属性引用
+            },
+            chunksSortMode: 'dependency'
         }),
         new webpack.optimize.CommonsChunkPlugin({
            //  name: ['vendor','manifest'] // Specify the common bundle's name.
-           name:['vue','iview','jquery','highcharts','moment','manifest']
+           name:['vue','iview','axios','highcharts','superagent','manifest']
         }),
        //  new webpack.HashedModuleIdsPlugin({
        //      hashFunction: 'sha256',

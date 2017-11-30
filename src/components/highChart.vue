@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-  import moment from 'moment'
   import request from 'superagent'
   import HighchartsNoData from 'highcharts-no-data-to-display'
   import { host } from '../config/index'

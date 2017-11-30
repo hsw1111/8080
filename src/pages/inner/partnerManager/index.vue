@@ -315,9 +315,9 @@
 </style>
 
 <script>
-  import $ from 'jquery'
+  // import $ from 'jquery'
   import request from 'superagent'
-  import moment from 'moment'
+  // import moment from 'moment'
   import {host} from '../../../config/index'
 export default {
   data() {

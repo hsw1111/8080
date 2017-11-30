@@ -10,7 +10,6 @@ var Highcharts = require('highcharts')
 require('highcharts/modules/exporting')(Highcharts)
 import request from 'superagent'
 import { host } from '../config/index'
-import moment from 'moment'
 export default {
   data() {
     return {

@@ -297,7 +297,7 @@ div.gmap{
 <script>
 // import AMap from 'AMap'
 import { siblings } from '../../../../utils/index.js'
-import moment from 'moment'
+// import moment from 'moment'
 import request from 'superagent'
 var map, auto, placeSearch, heatmap, driving, citysearch
 import {host} from '../../../config/index'

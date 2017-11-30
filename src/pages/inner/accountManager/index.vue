@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import { checkPositiveNumber } from '../../../../utils/index.js'
 import { getAllAccount } from '../../../api/getAllAccount.api'
 import { modifyAccountState } from '../../../api/modifyAccountState.api'

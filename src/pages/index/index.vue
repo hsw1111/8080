@@ -30,7 +30,6 @@
 <script>
     import myHeader from '../../components/head.vue'
     import siderBar from '../../components/siderBar.vue'
-    import $ from 'jquery'
     import {setCookie,getCookie,delCookie } from '../../../utils/index'
     export default {
       components: {

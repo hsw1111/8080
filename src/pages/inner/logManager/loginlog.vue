@@ -158,8 +158,8 @@
     div.el-tabs__nav{display: none}
 </style>
 <script>
-  import $ from 'jquery'
-  import moment from 'moment'
+  // import $ from 'jquery'
+  // import moment from 'moment'
   import request from 'superagent'
   import {siblings, checkPositiveNumber} from '../../../../utils/index.js'
   import {host} from '../../../config/index'
