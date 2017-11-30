@@ -105,7 +105,15 @@
       <div class="settlementInfo module">
         <el-row v-loading="loading5">
           <el-col :span="6" style="text-align:center">
-            <span class="earn" style="position:relative;">当前已为您赚到<span class="settle">{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}</span><i class="wait">已结算 + 待结算 + 待确认 + 当前周期收益</i></span>
+            <span class="earn" style="position:relative;">当前已为您赚到<span class="settle">{{franchiseeAllIncome===null?'暂无数据':'￥' + new Number(franchiseeAllIncome).thousandFormat()}}</span>
+              <i class="wait">
+                已结算 + 待结算 + 待确认 + 当前周期收益
+                <el-tooltip id="tips" class="item" effect="light" style="width:200px" placement="top">
+                  <div slot="content">当前周期收益每10分钟更新一次；<br/>等于当前未生成结算单的周期内合</br>计的订单实际收入减去合计运营管理费。</div>
+                  <i class="icon iconfont icon-wenhao" style="cursor:pointer;margin-left:0px;color:#ccc;font-size:18px;vertical-align:middle"></i>
+                </el-tooltip>
+              </i>
+            </span>
           </el-col>
           <el-col :span="6" style="text-align:center">
             已结算<span class="settle">{{alreadyWidthDrawMoney===null?'暂无数据':'￥' + new Number(alreadyWidthDrawMoney).thousandFormat()}}</span>
@@ -123,10 +131,19 @@
       </div>
     </div>
   
-  
+     <el-popover
+      ref="popover"
+      placement="top-start"
+      title="标题"
+      width="200"
+      trigger="hover"
+      content="当前周期收益每10分钟更新一次；
+等于当前未生成结算单的周期内合计的订单实际收入减去合计运营管理费。">
+    </el-popover>
   </div>
 </template>
 <style scoped>
+
 div.mapHeader {
   background: #fff;
 }
@@ -379,7 +396,8 @@ export default {
       canWidthDrawMoney: "",
       franchiseeAllIncome: "",
       pendingWidthDrawMoney: "",
-      status: []
+      status: [],
+      notice:false
     };
   },
   created() {
@@ -571,7 +589,20 @@ export default {
             }
           }
         });
-    }
+    },
+    mouseLeaveHandler() {
+      
+      $('div.el-notification').stop().animate({ right: '-330px' }, 500,function(){
+        this.notice = false
+      }) 
+      
+      
+    },
+    mouseEnterHandler() {
+      this.notice = true
+      $('div.el-notification').stop().animate({ right: '1px' }, 500)
+    },
+    
   },
   mounted: function() {
     $(".sign").removeClass("is-active");

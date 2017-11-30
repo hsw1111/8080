@@ -213,7 +213,7 @@ import {mapGetters,mapActions} from 'vuex'
       
   },
     mounted(){
-      this.setConfirmRecord("123")
+  
        var cityId = this.$route.query.cityId
       setTimeout(()=>{
          this.remoteCityList.map((item)=>{
@@ -246,7 +246,7 @@ import {mapGetters,mapActions} from 'vuex'
         },
         deep:true
       },
-      '$store.state.users.confirmRecord':{
+      'this.$store.state.users.confirmRecord':{
         handler:function(val,old){
           console.log("新值"+val,"旧值"+old)
           if(val==true){

@@ -106,7 +106,7 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
            //  name: ['vendor','manifest'] // Specify the common bundle's name.
-           name:['vue','iview','jquery','highcharts','moment','manifest']
+           name:['vue','iview','jquery','highcharts','moment','manifest','element-ui','sur']
         }),
        //  new webpack.HashedModuleIdsPlugin({
        //      hashFunction: 'sha256',
