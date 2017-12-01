@@ -118,11 +118,16 @@ export default {
           console.log(error);
         } else {
           var result = JSON.parse(res.text);
-          var arr = result.data.map(list => {
-            return { cityName: list.cityName, code: list.cityId, id: list.id };
-          });
+          if(result.data==null){
+            return
+          }else{
+            var arr = result.data.map(list => {
+                return { cityName: list.cityName, code: list.cityId, id: list.id };
+              });
+            
+              this.remoteCityList = arr
+          }
          
-          this.remoteCityList = arr
          
         
         }

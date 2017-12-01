@@ -13,6 +13,7 @@
     "babel-preset-minify": "^0.2.0",
     "babili-webpack-plugin": "^0.1.2",
     "clean-webpack-plugin": "^0.1.16",
+    "compression-webpack-plugin": "^1.0.1",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
@@ -43,7 +44,8 @@
     "webpack": "^3.5.6",
     "webpack-dev-server": "^2.7.1",
     "webpack-merge": "^4.1.0",
-    "xlsx": "^0.11.3"
+    "xlsx": "^0.11.3",
+    "zepto": "^1.2.0"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

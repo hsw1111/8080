@@ -6,7 +6,7 @@ import Element from 'element-ui'
 import './assets/font/iconfont.css'
 import router from './router/index.js'
 import store from './store/store'
-import $ from 'jquery'
+// import $ from 'jquery'
 import request from 'superagent'
 import {
   host
