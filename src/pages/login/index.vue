@@ -76,7 +76,7 @@
 </template>
 <script>
 import request from 'superagent'
-import $ from 'jquery'
+// import $ from 'jquery'
 import { checkMobile, IsEmpty,setCookie,getCookie,delCookie } from '../../../utils/index.js'
 import { host } from '../../config/index'
 import {mapState, mapActions, mapGetters } from 'vuex'  

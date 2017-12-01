@@ -309,7 +309,6 @@ div.el-notification {
 </style>
 
 <script>
-// import $ from "jquery";
 import request from "superagent";
 // import moment from "moment";
 import cityList from "../../../components/cityList.vue";
@@ -396,7 +395,7 @@ export default {
     $('.sign[name="1401"]').addClass("is-active");
     this.loading2 = true
     // this.$router.push('/index/earningsDetail?type=getRevenueCurDay&cityId=' + this.$route.query.cityId)
-    //this.loadData(this.currentPage3)
+    this.loadData(this.currentPage3)
   },
   methods: {
     showMsgFormChild(data) {
@@ -755,11 +754,16 @@ export default {
           console.log(error);
         } else {
           var result = JSON.parse(res.text);
-          var arr = result.data.map(list => {
-            return { cityName: list.cityName, code: list.cityId, id: list.id };
-          });
+          if(result.data==null){
+            return
+          }else{
+              var arr = result.data.map(list => {
+              return { cityName: list.cityName, code: list.cityId, id: list.id };
+            });
 
-          this.remoteCityList = arr;
+            this.remoteCityList = arr;
+          }
+          
         }
       });
   },

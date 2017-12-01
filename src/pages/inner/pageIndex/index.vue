@@ -116,8 +116,8 @@
                   width="280"
                   trigger="hover">
                   <p>当前周期收益每10分钟更新一次;</p>
-                  <p>等于当前未生成结算单的周期内合计的订单实际收入</p>
-                  <p>减去合计运营管理费。</p>
+                  <p>等于当前未生成结算单的周期内合计订单实际收入</p>
+                  <p>扣除了授权费（或运营管理费）的金额。</p>
                 </el-popover>
                 <i class="icon iconfont icon-wenhao" v-popover:popover1 style="cursor:pointer;margin-left:0px;color:#ccc;font-size:18px;vertical-align:middle"></i>
                 <!-- <el-tooltip id="tips" effect="light" style="width:200px" placement="top">

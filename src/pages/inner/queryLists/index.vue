@@ -148,7 +148,7 @@ div.queryLists h3 button {
 .el-pagination{    margin-left: 0px;padding-left: 0;margin-top: 14px;}
 </style>
 <script>
-// import $ from 'jquery'
+// import $ from ''
 import request from 'superagent'
 // import moment from 'moment'
 import { host } from '../../../config/index.js'
@@ -217,6 +217,7 @@ export default {
       })
     },
     mouseEnterHandler(){
+      console.log(1)
       this.notice = true
       $('div.el-notification').stop().animate({right:'1px'},500)
     },
