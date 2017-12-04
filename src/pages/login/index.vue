@@ -271,7 +271,7 @@ export default {
                 // 手机号未注册过
                 that.$message({
                   type: 'error',
-                  message: '手机号未绑定，请注册'
+                  message: '手机号未绑定，请联系(平台)管理员重置密码'
                 })
               }
             }
@@ -631,12 +631,13 @@ div#login div.content div.loginForm form.el-form input {
 button.forget_psd {
     border-radius: 0;
     border: none;
-    margin-top: 10px;
+    margin-top: 11px;
     float: right;
-    margin-right: 26px;
+    margin-right: 30px;
     background: #fff;
     color: #000;
     cursor: pointer;
+    padding:10px 8px!important
 }
 
 button.forget_psd:hover {

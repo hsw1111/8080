@@ -16,7 +16,9 @@
                     <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
                     <span class="username">{{userName}}</span>
                     <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
+                     <el-tooltip class="item" effect="dark" content="退出" placement="bottom">
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
+                     </el-tooltip>
                 </div>
             </el-col>
         </el-row>
@@ -58,7 +60,7 @@ export default {
                 var code = JSON.parse(res.text).resultCode
                 var message = JSON.parse(res.text).message
                 if(code === 1){
-                  window.sessionStorage.clear()
+                  window.localStorage.clear()
                   this.setfranchiseeUserIconUrl('')
                    this.$router.push('/login') 
                 }else{

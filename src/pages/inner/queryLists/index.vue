@@ -1,13 +1,24 @@
 <template>
   <div class="queryLists">
    <div v-title data-title="订单数据"></div> 
-   <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div>
+   <!-- <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div> -->
     <h3>
       <span class="queryLists_info">订单数据每10分钟自动统计</span>
       <button class="btn_list" @click="handeClick">查看统计图</button>
       <h1>{{$store.state.moment}}</h1>
     </h3>
     <div>
+       <el-popover
+          slot="reference"
+          ref="popover1"
+          placement="top-end"
+          width="252"
+          title="数据项说明"
+          trigger="hover">
+          <p>实际收益=用户实际支付金额,</p>
+          <p>为本订单扣除了优惠券、赠送余额支付的金额。</p>
+        </el-popover>
+        <i class="icon iconfont icon-wenhao" v-popover:popover1 style='cursor:pointer;margin-left:0px;color:orange;font-size:18px;vertical-align:middle;float:right'></i>
       <el-table
         :data="lists"
         v-loading="loading2"
@@ -52,8 +63,8 @@
           min-width="80"
           label="实际收益(元)"
           prop='actualMoney'
-           :render-header="rendHeader"
           >
+           <!-- :render-header="rendHeader" -->
              <template scope="scope">
                 {{new Number(scope.row.actualMoney).thousandFormat()}}
               </template>
@@ -99,7 +110,7 @@ div.el-notification{right:-330px;}
 
 div.queryLists h3 {
   text-align: right;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 }
 
 div.queryLists {
@@ -175,6 +186,7 @@ export default {
       var type = this.$store.state.users.consumeDataType
     this.currentPage3 = 1
     var that = this
+    console.log(this.cityId)
     request
       .post(host + 'beepartner/franchisee/statistics/franchiseeStatistics')
       .withCredentials()
@@ -211,41 +223,41 @@ export default {
         }
       })
     },
-     mouseLeaveHandler(){
-      $('div.el-notification').stop().animate({right:'-330px'},500,function(){
-         this.notice = false
-      })
-    },
-    mouseEnterHandler(){
-      console.log(1)
-      this.notice = true
-      $('div.el-notification').stop().animate({right:'1px'},500)
-    },
-    rendHeader(h,{column,$index}){
-       return  h('div',{
-         class:{
-           tips:true,
-           cell:true
-         },
-         attrs:{
-           style:'background:#eee;margin-left:-20px;width:240px;'
-         }
-       },[
-         h('span','实际收益（元）'),
-         h('i',{
-           class:{
-             'icon iconfont icon-wenhao':true
-           },
-           attrs:{
-             style:'cursor:pointer;margin-left:0px;color:orange;font-size:18px;vertical-align:middle'
-           },
-           on: {
-            mouseenter: this.mouseEnterHandler,
-            mouseleave: this.mouseLeaveHandler
-          }
-         })
-       ])
-    },
+    //  mouseLeaveHandler(){
+    //   $('div.el-notification').stop().animate({right:'-330px'},500,function(){
+    //      this.notice = false
+    //   })
+    // },
+    // mouseEnterHandler(){
+    //   console.log(1)
+    //   this.notice = true
+    //   $('div.el-notification').stop().animate({right:'1px'},500)
+    // },
+    // rendHeader(h,{column,$index}){
+    //    return  h('div',{
+    //      class:{
+    //        tips:true,
+    //        cell:true
+    //      },
+    //      attrs:{
+    //        style:'background:#eee;margin-left:-20px;width:240px;'
+    //      }
+    //    },[
+    //      h('span','实际收益（元）'),
+    //      h('i',{
+    //        class:{
+    //          'icon iconfont icon-wenhao':true
+    //        },
+    //        attrs:{
+    //          style:'cursor:pointer;margin-left:0px;color:orange;font-size:18px;vertical-align:middle'
+    //        },
+    //        on: {
+    //         mouseenter: this.mouseEnterHandler,
+    //         mouseleave: this.mouseLeaveHandler
+    //       }
+    //      })
+    //    ])
+    // },
     handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },

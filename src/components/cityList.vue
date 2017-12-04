@@ -20,14 +20,9 @@ export default {
   },
   props:["joinCity"],
   updated:function(){
-      var lis = document.querySelectorAll('li.citySelect')
-      for(var i = 0;i < lis.length;i++){
-          var code = lis[i].getAttribute('cityId');
-           this.cityCodeList.push(code)
-      }
-    //    var $li = document.querySelector('li.citySelect')
-    //    var code = $li.getAttribute('cityId');
-    //    this.cityCodeList.push(code)
+       var $li = document.querySelector('li.citySelect')
+       var code = $li.getAttribute('cityId');
+       this.cityCodeList.push(code)
        this.$emit('listenToChildEvetn',[...this.cityCodeList])
     var cityStr = []
     this.cityList.map( item => {

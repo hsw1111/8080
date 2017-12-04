@@ -6,7 +6,7 @@
 				<h1>
 					<!-- <img src="../../../assets/homepage/2.jpg"> -->
 					<el-upload class="my_upload" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-						<img v-if="imageUrl" :src="imageUrl" class="avatar">
+						<img v-if="imageUrl" :src="imageUrl" class="avatar" title="点击更换头像，使用jpg,png,jpeg格式。">
 						<!-- <img src="../../../assets/homepage/2.jpg"> -->
                     	<i v-else style="font-size: 180px; color: #fff;" class="icon iconfont icon-touxiang"></i>
 						<!-- <h3>点击上传营业执照</h3> -->

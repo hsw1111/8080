@@ -88,7 +88,7 @@
                   <el-row>
                     <el-col :span="6">+{{statu.balanceAmountStr}}</el-col>
                     <el-col :span="8">车辆：{{statu.bikeCode}}</el-col>
-                    <el-col :span="10">{{statu.endTimeStr}}</el-col>
+                    <el-col :span="10" style="text-align:right">{{statu.endTimeStr}}</el-col>
                   </el-row>
                 </li>
               </ul>

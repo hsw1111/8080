@@ -86,13 +86,14 @@ export default {
     handleChangeType(e) {
       switch (e.target.innerText) {
         case "日": {
+           this.form.data1 = "";
+          this.form.data2 = "";
           this.form.type = "date";
           this.$router.push({ query: { type: "daily" } });
-          this.form.formatType = "yyyy-MM-DD";
+          this.form.formatType = "yyyy-MM-dd";
           this.datetype = "daily";
           this.$store.commit("recodeConsumeDataType", this.datetype);
-          this.form.data1 = "";
-          this.form.data2 = "";
+         
           break;
         }
         case "周": {
@@ -225,11 +226,16 @@ export default {
           console.log(error);
         } else {
           var result = JSON.parse(res.text);
-          var arr = result.data.map(list => {
+          if(result.data==null){
+            return
+          }else{
+            var arr = result.data.map(list => {
             return { cityName: list.cityName, code: list.cityId, id: list.id };
           });
 
           this.remoteCityList = arr;
+          }
+          
         }
       });
   },
@@ -260,6 +266,7 @@ export default {
       handler: function(n, o) {
         //console.log('搞事情')
         this.setCityId(this.cityCodeList.join());
+        
       },
       deep: true
     },

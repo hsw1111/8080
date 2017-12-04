@@ -295,12 +295,12 @@ export default {
       this.currentPage3 = 1
       this.isSearch = true
       var that = this
-      if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '') {
-        this.$message({
-          message: '请输入查询条件',
-          type: 'warning'
-        })   
-      } else {
+      // if (this.terminalNumber === '' && this.form.data1 === '' && this.form.data2 === '') {
+      //   this.$message({
+      //     message: '请输入查询条件',
+      //     type: 'warning'
+      //   })   
+      // } else {
         this.isQuery = true
         var startTime, endTime
         if (this.form.data1 === '' || this.form.data2 === '') {
@@ -409,7 +409,7 @@ export default {
 
         }
         return
-      }
+      // }
     },
     tableDataDel(arr) {
       var arrDeled = []
