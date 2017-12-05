@@ -45,7 +45,7 @@
         <el-table-column prop="cars" label="认购车辆数" min-width="80">
         </el-table-column>
         <el-table-column label="操作" prop="del">
-          <template scope="scope">
+          <template slot-scope="scope">
             <a style="color:#444; margin-right:10px; cursor: pointer;" @click="goDetail(scope.row.partnerId)" title="查看">
               <i class="el-icon-document"></i>
             </a>

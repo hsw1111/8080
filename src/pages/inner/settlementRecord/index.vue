@@ -30,7 +30,7 @@
     <div id="settleRed_table">
       <el-table :data="tableData" v-loading="loading2" element-loading-text="拼命加载中" style="width: 100%" @cell-click='goDetail' :empty-text="emptyText">
         <el-table-column label="结算月份" myId="withdrawalCode" myAdmin='id' min-width="100">
-          <template scope="scope">
+          <template slot-scope="scope">
             <router-link style="text-decoration:none;color:#000;" :to="'/index/applysubmitted/' + scope.row.withDrawMonth + '&' + scope.row.wType + '&' + scope.row.cityId"> {{scope.row.withDrawMonth}}</router-link>
           </template>
         </el-table-column>

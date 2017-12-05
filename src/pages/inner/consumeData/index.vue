@@ -144,7 +144,7 @@ export default {
         if (_endTime > _startTime) {
           if (_endTime > 1 && _startTime <= 1) {
             this.$message({
-              type: "error",
+              type: "warning",
               message: "开始日期不能为空"
             });
           } else {
@@ -173,14 +173,18 @@ export default {
           }
         } else {
           if (_endTime <= 1) {
+            // this.$message({
+            //   type: "error",
+            //   message: "结束日期不能为空"
+            // });
             this.$message({
-              type: "error",
-              message: "结束日期不能为空"
+              type: "warning",
+              message: "开始日期不能大于结束日期"
             });
           } else {
             if (_endTime < _startTime) {
               this.$message({
-                type: "error",
+                type: "warning",
                 message: "开始日期不能大于结束日期"
               });
               return;
@@ -270,94 +274,94 @@ export default {
       },
       deep: true
     },
-    "form.data1": {
-      handler: function(val, oldVal) {
-        if (
-          val.toString().length === 0 &&
-          this.form.data2.toString().length === 0
-        ) {
-          var timeType = this.$route.query.type;
-          if (timeType != null) {
-            if (timeType === "daily") {
-              this.isDay = true;
-              this.isWeek = false;
-              this.isMonth = false;
-            } else if (timeType === "weekly") {
-              this.isDay = false;
-              this.isWeek = true;
-              this.isMonth = false;
-            } else {
-              this.isDay = false;
-              this.isWeek = false;
-              this.isMonth = true;
-            }
-          } else {
-          }
+    // "form.data1": {
+    //   handler: function(val, oldVal) {
+    //     if (
+    //       val.toString().length === 0 &&
+    //       this.form.data2.toString().length === 0
+    //     ) {
+    //       var timeType = this.$route.query.type;
+    //       if (timeType != null) {
+    //         if (timeType === "daily") {
+    //           this.isDay = true;
+    //           this.isWeek = false;
+    //           this.isMonth = false;
+    //         } else if (timeType === "weekly") {
+    //           this.isDay = false;
+    //           this.isWeek = true;
+    //           this.isMonth = false;
+    //         } else {
+    //           this.isDay = false;
+    //           this.isWeek = false;
+    //           this.isMonth = true;
+    //         }
+    //       } else {
+    //       }
 
-          this.$store.commit("recodeConsumeDataType", timeType);
-          this.getDateByTimeLine();
-        }
-        var startTime = new Date(val).getTime();
-        var endTime = new Date(this.form.data2).getTime();
-        endTime = isNaN(endTime) ? 0 : endTime;
-        if (startTime > endTime && endTime.toString().length > 1) {
-          this.$message({
-            type: "error",
-            message: "开始日期不能大于结束日期"
-          });
-        } else if (startTime > endTime && endTime.toString().length === 1) {
-        } else {
-          return;
-        }
-      },
-      deep: true
-    },
-    "form.data2": {
-      handler: function(val, oldVal) {
-        if (
-          val.toString().length === 0 &&
-          this.form.data1.toString().length === 0
-        ) {
-          var timeType = this.$route.query.type;
-          if (timeType != null) {
-            if (timeType === "daily") {
-              this.isDay = true;
-              this.isWeek = false;
-              this.isMonth = false;
-            } else if (timeType === "weekly") {
-              this.isDay = false;
-              this.isWeek = true;
-              this.isMonth = false;
-            } else {
-              this.isDay = false;
-              this.isWeek = false;
-              this.isMonth = true;
-            }
-          } else {
-          }
+    //       this.$store.commit("recodeConsumeDataType", timeType);
+    //       this.getDateByTimeLine();
+    //     }
+    //     var startTime = new Date(val).getTime();
+    //     var endTime = new Date(this.form.data2).getTime();
+    //     endTime = isNaN(endTime) ? 0 : endTime;
+    //     if (startTime > endTime && endTime.toString().length > 1) {
+    //       this.$message({
+    //         type: "warning",
+    //         message: "开始日期不能大于结束日期"
+    //       });
+    //     } else if (startTime > endTime && endTime.toString().length === 1) {
+    //     } else {
+    //       return;
+    //     }
+    //   },
+    //   deep: true
+    // },
+    // "form.data2": {
+    //   handler: function(val, oldVal) {
+    //     if (
+    //       val.toString().length === 0 &&
+    //       this.form.data1.toString().length === 0
+    //     ) {
+    //       var timeType = this.$route.query.type;
+    //       if (timeType != null) {
+    //         if (timeType === "daily") {
+    //           this.isDay = true;
+    //           this.isWeek = false;
+    //           this.isMonth = false;
+    //         } else if (timeType === "weekly") {
+    //           this.isDay = false;
+    //           this.isWeek = true;
+    //           this.isMonth = false;
+    //         } else {
+    //           this.isDay = false;
+    //           this.isWeek = false;
+    //           this.isMonth = true;
+    //         }
+    //       } else {
+    //       }
 
-          this.$store.commit("recodeConsumeDataType", timeType);
-          this.getDateByTimeLine();
-        }
-        var endTime = new Date(val).getTime();
-        var startTime = new Date(this.form.data1).getTime();
-        startTime = isNaN(startTime) ? 0 : startTime;
-        if (endTime < startTime && startTime.toString().length > 1) {
-          this.$message({
-            type: "error",
-            message: "开始日期不能大于结束日期"
-          });
-        } else if (endTime > startTime && startTime.toString().length === 1) {
-          this.$message({
-            type: "error",
-            message: "开始日期不能为空"
-          });
-        } else {
-          return;
-        }
-      },
-      deep: true
-    }
+    //       this.$store.commit("recodeConsumeDataType", timeType);
+    //       this.getDateByTimeLine();
+    //     }
+    //     var endTime = new Date(val).getTime();
+    //     var startTime = new Date(this.form.data1).getTime();
+    //     startTime = isNaN(startTime) ? 0 : startTime;
+    //     if (endTime < startTime && startTime.toString().length > 1) {
+    //       this.$message({
+    //         type: "warning",
+    //         message: "开始日期不能大于结束日期"
+    //       });
+    //     } else if (endTime > startTime && startTime.toString().length === 1) {
+    //       this.$message({
+    //         type: "warning",
+    //         message: "开始日期不能为空"
+    //       });
+    //     } else {
+    //       return;
+    //     }
+    //   },
+    //   deep: true
+    // }
   }
 };
 </script>

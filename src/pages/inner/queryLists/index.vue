@@ -35,27 +35,27 @@
           prop="totalBill"
           label="订单数"
           min-width="120">
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{new Number(scope.row.totalBill).thousand()}}
               </template>
         </el-table-column>
         <el-table-column
           prop="totalMoney"
           label="订单总额(元)">
-             <template scope="scope">
+             <template slot-scope="scope">
                 {{new Number(scope.row.totalMoney).thousandFormat()}}
               </template>
         </el-table-column>
         <el-table-column
           prop="totalDiscount"
           label="优惠券支付总额(元)">
-             <template scope="scope">
+             <template slot-scope="scope">
                 {{new Number(scope.row.totalDiscount).thousandFormat()}}
               </template>
         </el-table-column>
          <el-table-column
           label="赠送金额支付(元)">
-             <template scope="scope">
+             <template slot-scope="scope">
                 {{new Number(scope.row.grantAmount).thousandFormat()}}
               </template>
         </el-table-column>
@@ -65,7 +65,7 @@
           prop='actualMoney'
           >
            <!-- :render-header="rendHeader" -->
-             <template scope="scope">
+             <template slot-scope="scope">
                 {{new Number(scope.row.actualMoney).thousandFormat()}}
               </template>
         </el-table-column>

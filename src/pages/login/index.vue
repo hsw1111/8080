@@ -223,10 +223,10 @@ export default {
               var code = JSON.parse(res.text).resultCode
               var message = JSON.parse(res.text).message
               if (code === 1) {
-                that.$message({
-                  type: 'success',
-                  message: message
-                })
+                // that.$message({
+                //   type: 'success',
+                //   message: message
+                // })
                 that.sendPhoneCode = true
                 if(that.sendPhoneCode){
                   // 手机已经绑定，可以找回密码
@@ -468,6 +468,7 @@ div.showErrorMsg{color: red;
 }
 .getVerCode {
   color: #444;
+  width:102px;
 }
 
 button.login {

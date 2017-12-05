@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-title data-title="车辆详情"></div>
-    <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div>
+    <!-- <div v-show="notice" class="el-notification" style="top: 16px; z-index: 2000;"><i class="el-notification__icon el-icon-warning"></i><div class="el-notification__group is-with-icon"><h2 class="el-notification__title">温馨提示</h2><div class="el-notification__content">实际收益=用户实际支付金额，为本订单扣除了优惠券、赠送余额支付的金额。</div></div></div> -->
       <div class="carUseDetail">
         <div class="detailTitle">
           <h3>车辆详情</h3>
@@ -54,10 +54,21 @@
             </ul>
           </el-col> -->
         </el-row>
+        <el-popover
+          slot="reference"
+          ref="popover1"
+          placement="top-end"
+          width="252"
+          title="数据项说明"
+          trigger="hover">
+          <p>实际收益=用户实际支付金额,</p>
+          <p>为本订单扣除了优惠券、赠送余额支付的金额。</p>
+        </el-popover>
         <el-row class="record">
           
           <el-tabs v-model="activeName">
             <el-tab-pane class="incomeRecord recodeTable" label="收益记录" name="first">
+              <i class="icon iconfont icon-wenhao" v-popover:popover1 style='cursor:pointer;margin-left:0px;color:orange;font-size:18px;vertical-align:middle;float:right'></i>
               <el-table
               :data="tableData"
               style="width:100%"
@@ -70,35 +81,35 @@
               <el-table-column label="骑行时间(分钟)" prop="rideTime"
               min-width="15%"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                     {{(scope.row.rideTime).thousand()}}
                 </template>
               </el-table-column>
               <el-table-column label="骑行里程(米)" min-width="15%" prop="rideMileage">
-                <template scope="scope">
+                <template slot-scope="scope">
                     {{(scope.row.rideMileage).thousand()}}
                 </template>
               </el-table-column>
               <el-table-column label="订单费用(元)" prop="actualAmount" min-width="10%">
-                <template scope="scope">
+                <template slot-scope="scope">
                     {{(scope.row.actualAmount).thousandFormat()}}
                 </template>
               </el-table-column>
               <el-table-column label="优惠券支付(元)" prop="couponAmount" min-width="12%">
-                <template scope="scope">
+                <template slot-scope="scope">
                     {{(scope.row.couponAmount).thousandFormat()}}
                 </template>
               </el-table-column>
               <el-table-column label="赠送金额支付(元)"  min-width="12%">
-                  <template scope="scope">
+                  <template slot-scope="scope">
                     {{(scope.row.grantAmount).thousandFormat()}}
                   </template>
               </el-table-column>
               <el-table-column label="实际收益(元)" prop="balanceAmount"
-                 :render-header="rendHeader"
                  min-width="15%"
               >
-                <template scope="scope">
+               <!-- :render-header="rendHeader" -->
+                <template slot-scope="scope">
                    {{(scope.row.balanceAmount).thousandFormat()}}
                 </template>
 
@@ -261,40 +272,40 @@ export default {
   },
 
   methods: {
-     mouseLeaveHandler(){
-      $('div.el-notification').animate({right:'-330px'},500,function(){
-         this.notice = false
-      })
-    },
-    mouseEnterHandler(){
-      this.notice = true
-      $('div.el-notification').animate({right:'1px'},500)
-    },
-    rendHeader(h,{column,$index}){
-       return  h('div',{
-         class:{
-           tips:true,
-           cell:true
-         },
-         attrs:{
-           style:'background:#eee;margin-left:-20px;'
-         }
-       },[
-         h('span','实际收益(元)'),
-         h('i',{
-           class:{
-             'icon iconfont icon-wenhao':true
-           },
-           attrs:{
-             style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
-           },
-           on: {
-            mouseenter: this.mouseEnterHandler,
-            mouseleave: this.mouseLeaveHandler
-          }
-         })
-       ])
-    },
+    //  mouseLeaveHandler(){
+    //   $('div.el-notification').animate({right:'-330px'},500,function(){
+    //      this.notice = false
+    //   })
+    // },
+    // mouseEnterHandler(){
+    //   this.notice = true
+    //   $('div.el-notification').animate({right:'1px'},500)
+    // },
+    // rendHeader(h,{column,$index}){
+    //    return  h('div',{
+    //      class:{
+    //        tips:true,
+    //        cell:true
+    //      },
+    //      attrs:{
+    //        style:'background:#eee;margin-left:-20px;'
+    //      }
+    //    },[
+    //      h('span','实际收益(元)'),
+    //      h('i',{
+    //        class:{
+    //          'icon iconfont icon-wenhao':true
+    //        },
+    //        attrs:{
+    //          style:'cursor:pointer;margin-left:10px;color:orange;font-size:18px;vertical-align:middle'
+    //        },
+    //        on: {
+    //         mouseenter: this.mouseEnterHandler,
+    //         mouseleave: this.mouseLeaveHandler
+    //       }
+    //      })
+    //    ])
+    // },
     handleSizeChange(val) {
         // console.log(`每页 ${val} 条`);
       },

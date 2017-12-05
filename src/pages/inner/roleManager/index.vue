@@ -5,7 +5,8 @@
       <label>
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="角色名称">
-            <el-input v-model="roleName" v-on:blur="initRole" placeholder="请输入角色名称"></el-input>
+            <!-- <el-input v-model="roleName" v-on:blur="initRole" placeholder="请输入角色名称"></el-input> -->
+            <el-input v-model="roleName"  placeholder="请输入角色名称"></el-input>
           </el-form-item>
         </el-form>
       </label>
@@ -41,7 +42,7 @@
         <el-table-column prop="roleName" label="角色名称" min-width="160"></el-table-column>
         <el-table-column prop="description" label="备注" min-width="160"></el-table-column>
         <el-table-column label="包含用户" min-width="170">
-          <template scope="scope">
+          <template slot-scope="scope">
             <ul class="roleList">
               <el-tag v-for="name in scope.row.franchiseeUserList" :key="name" type="gray">
                 {{name + ''}}
@@ -51,7 +52,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="del" label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <i class="el-icon-edit" style="margin-right:10px;" @click="openEditRole(scope)" title="修改"></i>
             <i class="el-icon-close" title="删除" @click="handleDeleteRole(scope)"></i>
           </template>
@@ -408,50 +409,51 @@ export default {
           }
         })
     },
-    initRole() {
-      this.isQuery = false
-      this.currentPage3 = 1
-      if (this.roleName.trim().length === 0) {
-        this.isSearch = false
-        var that = this
-        request
-          .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
-          .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-          .send({
-            currentPage: 1,
-            roleName: this.roleName.trim()
-          })
-          .end((err, res) => {
-            if (err) {
-              console.log(err)
-            } else {
-              var result = JSON.parse(res.text).data
-              var totalPage = JSON.parse(res.text).totalPage
-              var newArr = result.map((item) => {
-                var arr = item.franchiseeUserList.map((item) => {
-                  return item.userName
-                })
-                return Object.assign({}, item, { franchiseeUserList: arr })
-              })
-              if (totalPage > 1) {
-                this.pageShow = true
-              } else {
-                this.pageShow = false
-              }
-              this.totalItems = Number(JSON.parse(res.text).totalItems)
-              that.tableData = newArr
-              that.initData = that.tableData
-            }
-          })
-      }
-    },
+    // initRole() {
+    //   this.isQuery = false
+    //   this.currentPage3 = 1
+    //   if (this.roleName.trim().length === 0) {
+    //     this.isSearch = false
+    //     var that = this
+    //     request
+    //       .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
+    //       .withCredentials()
+    //       .set({
+    //         'content-type': 'application/x-www-form-urlencoded'
+    //       })
+    //       .send({
+    //         currentPage: 1,
+    //         roleName: this.roleName.trim()
+    //       })
+    //       .end((err, res) => {
+    //         if (err) {
+    //           console.log(err)
+    //         } else {
+    //           var result = JSON.parse(res.text).data
+    //           var totalPage = JSON.parse(res.text).totalPage
+    //           var newArr = result.map((item) => {
+    //             var arr = item.franchiseeUserList.map((item) => {
+    //               return item.userName
+    //             })
+    //             return Object.assign({}, item, { franchiseeUserList: arr })
+    //           })
+    //           if (totalPage > 1) {
+    //             this.pageShow = true
+    //           } else {
+    //             this.pageShow = false
+    //           }
+    //           this.totalItems = Number(JSON.parse(res.text).totalItems)
+    //           that.tableData = newArr
+    //           that.initData = that.tableData
+    //         }
+    //       })
+    //   }
+    // },
     queryRole() {
       this.isSearch = true
       var that = this
-      if (this.roleName.trim().length !== 0) {
+      //无需判断输入内容是否为空
+      // if (this.roleName.trim().length !== 0) {
         this.isQuery = true
         request
           .post(host + 'beepartner/franchisee/Role/findFranchiseeRole')
@@ -485,7 +487,7 @@ export default {
               that.initData = that.tableData
             }
           })
-      }
+      // }
     },
     openAddRole() {
       this.dialogFormVisible = true

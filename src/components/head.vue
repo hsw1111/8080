@@ -12,9 +12,9 @@
                     <span v-if='modelShow'>{{cityName}}</span>
                 </h3>
                 <div class="admin">
-                    <i v-show="isIconUrl" class="icon iconfont icon-touxiang"></i>
-                    <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl">
-                    <span class="username">{{userName}}</span>
+                    <i v-show="isIconUrl" class="icon iconfont icon-touxiang"  @click="$router.push({path:'/index/memberCenter'})"></i>
+                    <img v-show="isImgShow" class="userIcon" :src="franchiseeUserIconUrl"  @click="$router.push({path:'/index/memberCenter'})">
+                    <span class="username"  @click="$router.push({path:'/index/memberCenter'})">{{userName}}</span>
                     <i v-if="hidden" class="icon iconfont icon-xinfeng"></i>
                      <el-tooltip class="item" effect="dark" content="退出" placement="bottom">
                     <i class="icon iconfont icon-tuichu" @click="handleLoginOut"></i>
@@ -140,7 +140,8 @@ img.userIcon{width: 30px;
     margin-top: 20px;
     line-height: 0;
     border-radius: 30px;
-    overflow: hidden;}
+    overflow: hidden;
+    cursor:pointer}
 header {
     height: 65px;
     line-height: 65px;
@@ -195,6 +196,7 @@ div.admin span.username {
     font-size: 14px;
     margin-right: 15px;
     margin-left:5px;
+    cursor:pointer;
 }
 
 div.admin i.iconfont {

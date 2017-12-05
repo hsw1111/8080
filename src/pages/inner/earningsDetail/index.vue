@@ -56,7 +56,7 @@
         label="车辆编号"
         min-width='60'
         >
-         <template scope="scope">
+         <template slot-scope="scope">
             <!-- <a>{{scope.row.bikeCode}}</a> -->
             <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/index/carManager/carUseDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
             <!-- <a @click="$router.push({path:'/carUseDetail', query: {code:scope.row.bikeCode}})">{{scope.row.bikeCode}}</a>  -->
@@ -72,7 +72,7 @@
         label="骑行时间(分钟)"
        
        >
-       <template scope="scope">
+       <template slot-scope="scope">
          {{new Number(scope.row.rideTime).thousand()}}
        </template>
       </el-table-column>
@@ -81,7 +81,7 @@
         label="骑行里程(米)"
        
         >
-            <template scope="scope">
+            <template slot-scope="scope">
               {{new Number(scope.row.rideMileage).thousand()}}
             </template>
       </el-table-column>
@@ -90,7 +90,7 @@
         label="订单费用(元)"
        
         >
-           <template scope="scope">
+           <template slot-scope="scope">
               {{new Number(scope.row.orderMoney).thousandFormat()}}
             </template>
       </el-table-column>
@@ -99,7 +99,7 @@
         label="优惠券支付(元)"
         
        >
-         <template scope="scope">
+         <template slot-scope="scope">
               {{new Number(scope.row.couponAmount).thousandFormat()}}
             </template>
       </el-table-column>
@@ -107,7 +107,7 @@
         label="赠送金额支付(元)"
        
        >
-         <template scope="scope">
+         <template slot-scope="scope">
               {{new Number(scope.row.grantAmount).thousandFormat()}}
             </template>
       </el-table-column>
@@ -116,7 +116,7 @@
         label="实际收益(元)"
        >
         <!-- :render-header="rendHeader" -->
-         <template scope="scope">
+         <template slot-scope="scope">
               {{new Number(scope.row.balanceAmount).thousandFormat()}}
             </template>
       </el-table-column>

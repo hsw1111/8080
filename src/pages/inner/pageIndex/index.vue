@@ -87,8 +87,8 @@
                 <li v-bind:key="statu.carNum" v-for="statu of status">
                   <el-row>
                     <el-col :span="6">+{{statu.balanceAmountStr}}</el-col>
-                    <el-col :span="8">车辆：{{statu.bikeCode}}</el-col>
-                    <el-col :span="10" style="text-align:right">{{statu.endTimeStr}}</el-col>
+                    <el-col :span="8" style="text-align:center">车辆：{{statu.bikeCode}}</el-col>
+                    <el-col :span="10" style="text-align:right;padding-right:10px">{{statu.endTimeStr}}</el-col>
                   </el-row>
                 </li>
               </ul>
@@ -279,6 +279,7 @@ div.status div.list ul li div.el-col-12 {
 div.status div.list ul li div.el-col-6:nth-child(1) {
   padding-left: 10px;
 }
+
 
 div.datas {
   padding: 0;

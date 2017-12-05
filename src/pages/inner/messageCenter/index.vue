@@ -15,7 +15,7 @@
            min-width="20%"
            label-class-name="tableTitle"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span style="margin-left:-10px;" v-bind:class="{unRead:true,read:scope.row.isRead}"></span>
               <span class="title">{{scope.row.title}}</span>
             </template>
@@ -24,7 +24,7 @@
            label="消息内容"
            min-width="40%"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
                 <span class="detail" ref="tdShow">{{scope.row.content}}</span>
                 <span class="open" @click="showMordWords(scope.row)" v-show="scope.row.tdshow">{{scope.row.changeText}}</span>
             </template>
@@ -39,7 +39,7 @@
             label="操作"
             min-width="10%"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <i v-bind:title='scope.row.isRead===0?"点击设置为已读":" "' v-bind:class='scope.row.isRead===0?"unread icon iconfont icon-xinfeng":"read icon iconfont icon-xinfeng"'></i>
             </template>
           </el-table-column>

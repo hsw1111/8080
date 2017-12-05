@@ -25,7 +25,7 @@
             width="250"
            label="结算单周期"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="date">
                <router-link target="_blank" style="color:#0202ff;text-decoration:none;" v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:cityName}}"> {{scope.row.withDrawMonth}}</router-link>
              </span>
@@ -43,7 +43,7 @@
            prop="applyMoney"
            label="最终收益(￥)"
         >
-           <template scope="scope">
+           <template slot-scope="scope">
              <span class="profit">{{new Number(scope.row.applyMoney).thousandFormat()}}</span>
           </template>
         </el-table-column>
@@ -51,7 +51,7 @@
            prop="status"
            label="状态"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span :class="{wait:scope.row.statusName=='待确认'?true:false}">
              {{scope.row.statusName}}
             </span>
@@ -61,7 +61,7 @@
          <el-table-column
            label="操作"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <div v-show="scope.row.statusName==='待确认'">
                 <router-link target="_blank" :class="{active:scope.row.statusName==='待确认'?true:false,normal:scope.row.statusName==='待确认'?false:true}"  v-bind:to="{path:'/index/settlementRecord/detail', query: {month:scope.row.withDrawMonth, wType: scope.row.wType, cityId: cityCodeList.join(),cityName:cityName}}">确认结算</router-link>
             </div>
@@ -74,7 +74,7 @@
            prop="description"
            label="财务备注"
         >
-           <template scope="scope">
+           <template slot-scope="scope">
              <span class="profit">{{scope.row.description}}</span>
           </template>
         </el-table-column>

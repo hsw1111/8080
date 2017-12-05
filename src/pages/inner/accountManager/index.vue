@@ -4,11 +4,13 @@
     <div id="am_search">
       <label>
         <span>关键字</span>
-        <input type="text" placeholder="用户名\姓名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input">
+        <!-- <input type="text" placeholder="用户名\姓名" v-on:blur="initQuery" v-model="accountOrUsername" class="account_my_input"> -->
+        <input type="text" placeholder="用户名\姓名"  v-model="accountOrUsername" class="account_my_input">
       </label>
       <label>
         <span>联系方式</span>
-        <input type="text" placeholder="手机号\邮箱" v-on:blur="initQuery" v-model="telOrMail" class="account_my_input">
+        <!-- <input type="text" placeholder="手机号\邮箱" v-on:blur="initQuery" v-model="telOrMail" class="account_my_input"> -->
+        <input type="text" placeholder="手机号\邮箱"  v-model="telOrMail" class="account_my_input">
       </label>
       <el-button id="accountSearchBtn" @click="queryAccountInfo" class="timeSelect_button">查询</el-button>
     </div>
@@ -30,13 +32,13 @@
         <el-table-column prop="roleName" label="角色" min-width="120">
         </el-table-column>
         <el-table-column label="状态" min-width="120" style="font-size:12px;">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-switch v-on:change="changeState(scope)" v-model="scope.row.status" on-text="启用" off-text="冻结" on-color="#13ce66" off-color="#ff4949">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column prop="del" label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <a href="javascript:;"></a>
             <i class="el-icon-edit" @click="openEdit(scope)" title="修改" style="margin-right:10px;"></i>
             </a>
@@ -226,42 +228,43 @@ export default {
         }
       })
     },
-    initQuery() {
-      var that = this
-      this.isQuery = false
-      this.currentPage = 1
-      if (this.accountOrUsername.trim().length === 0 && this.telOrMail.trim().length === 0 && this.isQuery === false) {
-      this.isSearch = false
-        getAllAccount({}, function(error, res) {
-          if (error) {
-            console.log(error)
-            setTimeout(function() {
-              that.loading = false
-              that.loadingText = '服务器链接超时'
-            }, 5000)
-            setTimeout(function() {
-              that.emptyText = '暂无数据'
-            }, 6000)
-          } else {
-            that.loading = false
-            that.totalPage = JSON.parse(res.text).totalPage
-            var arr = JSON.parse(res.text).data
-            if (that.totalPage > 1) {
-              that.emptyText = ' '
-              that.pageShow = true
-            } else {
-              that.emptyText = '暂无数据'
-              that.pageShow = false
-            }
-            that.totalItems = Number(JSON.parse(res.text).totalItems)
-            that.$store.state.accountMangerData = that.handleData(arr)
-            that.initData = that.$store.state.accountMangerData
-            that.tableData = that.$store.state.accountMangerData
-            //that.setPage(arr,that.totalPage)
-          }
-        })
-      }
-    },
+    // 无需失去焦点自动查询，一切以查询按钮为主
+    // initQuery() {
+    //   var that = this
+    //   this.isQuery = false
+    //   this.currentPage = 1
+    //   if (this.accountOrUsername.trim().length === 0 && this.telOrMail.trim().length === 0 && this.isQuery === false) {
+    //   this.isSearch = false
+    //     getAllAccount({}, function(error, res) {
+    //       if (error) {
+    //         console.log(error)
+    //         setTimeout(function() {
+    //           that.loading = false
+    //           that.loadingText = '服务器链接超时'
+    //         }, 5000)
+    //         setTimeout(function() {
+    //           that.emptyText = '暂无数据'
+    //         }, 6000)
+    //       } else {
+    //         that.loading = false
+    //         that.totalPage = JSON.parse(res.text).totalPage
+    //         var arr = JSON.parse(res.text).data
+    //         if (that.totalPage > 1) {
+    //           that.emptyText = ' '
+    //           that.pageShow = true
+    //         } else {
+    //           that.emptyText = '暂无数据'
+    //           that.pageShow = false
+    //         }
+    //         that.totalItems = Number(JSON.parse(res.text).totalItems)
+    //         that.$store.state.accountMangerData = that.handleData(arr)
+    //         that.initData = that.$store.state.accountMangerData
+    //         that.tableData = that.$store.state.accountMangerData
+    //         //that.setPage(arr,that.totalPage)
+    //       }
+    //     })
+    //   }
+    // },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },

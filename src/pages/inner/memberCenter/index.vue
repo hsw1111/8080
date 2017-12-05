@@ -5,8 +5,8 @@
 			<div id="home_header">
 				<h1>
 					<!-- <img src="../../../assets/homepage/2.jpg"> -->
-					<el-upload class="my_upload" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-						<img v-if="imageUrl" :src="imageUrl" class="avatar" title="点击更换头像，使用jpg,png,jpeg格式。">
+					<el-upload class="my_upload"  title="点击更换头像，使用jpg,png,jpeg格式。" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+						<img v-if="imageUrl" :src="imageUrl" class="avatar">
 						<!-- <img src="../../../assets/homepage/2.jpg"> -->
                     	<i v-else style="font-size: 180px; color: #fff;" class="icon iconfont icon-touxiang"></i>
 						<!-- <h3>点击上传营业执照</h3> -->
@@ -479,6 +479,11 @@ export default {
 	mounted() {
 
 		this.imageUrl = this.franchiseeUserIconUrl
+		// 判断如果imageUrl为字符串null,则为false不显示
+		if(this.imageUrl=="null"){
+			this.imageUrl = false
+		}
+		console.log(this.imageUrl)
 		this.getInfo()
 		$(".sign").removeClass('is-active')
 		$('.sign[name="1600"]').addClass('is-active')

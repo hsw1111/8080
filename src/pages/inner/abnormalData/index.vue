@@ -53,7 +53,7 @@
       <el-table-column
         prop="readAlready"
         label="">
-        <template scope="scope">
+        <template slot-scope="scope">
 				  <el-checkbox v-model="tableData[0].readAlready">设为已读</el-checkbox>
 				</template>
       </el-table-column>

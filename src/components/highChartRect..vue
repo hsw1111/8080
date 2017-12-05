@@ -188,19 +188,33 @@ export default {
         legend: {
           shadow: false
         },
+        // plotOptions: {
+        //   column: {
+        //     grouping: false,
+        //     shadow: false,
+        //     borderWidth: 0,
+        //     maxPointWidth:30,
+        //   }
+        // },
         plotOptions: {
-          column: {
-            grouping: false,
-            shadow: false,
-            borderWidth: 0,
-            maxPointWidth:30
-          }
+          series:{
+            // groupPadding: 0.4,
+          },
+            column: {
+                // pointPadding: 0,
+                borderWidth: 0,
+                grouping: false,
+                // groupPadding: 0.4,
+                shadow: false,
+                maxPointWidth:30,
+            }
         },
         series: [{
           name: '单数',
           color: '#058DC7',
           data: this.orderNumber,
           pointPadding: 0.3,
+          
           pointPlacement: -0.2,
           maxPointWidth: 20
         }, {

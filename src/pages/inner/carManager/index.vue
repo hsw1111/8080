@@ -15,7 +15,8 @@
             <el-col>
               <el-form-item class="filtercar el-col-12">
                 <span class="labelAlign">关键字</span>
-                <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号">
+                <!-- <input v-model="terminalNumber" v-on:input='inputChange' class="carMan_bar" placeholder="车辆号\终端编号"> -->
+                <input v-model="terminalNumber"  class="carMan_bar" placeholder="车辆号\终端编号">
               </el-form-item>
               <el-form-item class="filtercar el-col-12">
                 <span class="labelAlign">运营状态</span>
@@ -47,7 +48,7 @@
   
       <el-table :data="tableData" style="width: 100% font-size:13px; color: #6c6c6c;" v-loading="loading2" element-loading-text="拼命加载中" :empty-text='emptyText'>
         <el-table-column min-width="30" label="车辆号" prop='bikeCode'>
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <a>{{scope.row.bikeCode}}</a> -->
             <router-link style="color:rgb(118, 103, 233); text-decoration: none;" target='_blank' v-bind:to="{path:'/index/carManager/carUseDetail', query: {code:scope.row.bikeCode}}">{{scope.row.bikeCode}}</router-link>
             <!-- <a @click="$router.push({path:'/carUseDetail', query: {code:scope.row.bikeCode}})">{{scope.row.bikeCode}}</a>  -->
@@ -430,62 +431,62 @@ export default {
       // console.log('arrDeled:', arrDeled)
       return arrDeled
     },
-    inputChange() {
-      if (this.form.data1 === '' && this.form.data2 === '' && this.terminalNumber === '' && this.checkList.length === 0) {
-        this.isQuery = false
-        this.isSearch = false
-        this.mountedWay()
-      } else {  
-        this.isQuery = true
-        var startTime = null
-        var endTime = null
-        if (this.form.data1 === '' || this.form.data2 === '') {
-          startTime = ''
-          endTime = ''
-        } else {
-          startTime = moment(this.form.data1).format('YYYY-MM-DD')
-          endTime = moment(this.form.data2).format('YYYY-MM-DD')
-        }
+    // inputChange() {
+    //   if (this.form.data1 === '' && this.form.data2 === '' && this.terminalNumber === '' && this.checkList.length === 0) {
+    //     this.isQuery = false
+    //     this.isSearch = false
+    //     this.mountedWay()
+    //   } else {  
+    //     this.isQuery = true
+    //     var startTime = null
+    //     var endTime = null
+    //     if (this.form.data1 === '' || this.form.data2 === '') {
+    //       startTime = ''
+    //       endTime = ''
+    //     } else {
+    //       startTime = moment(this.form.data1).format('YYYY-MM-DD')
+    //       endTime = moment(this.form.data2).format('YYYY-MM-DD')
+    //     }
 
-        var radio = this.checkList.toString()
-        return
-        request
-          .post(host + 'beepartner/franchisee/bike/findBike')
-          .withCredentials()
-          .set({
-            'content-type': 'application/x-www-form-urlencoded'
-          })
-          .send({
-            cityId:this.cityCodeList.join(),
-            'startOnlineTime': startTime,
-            'endOnlineTime': endTime,
-            'bikeState': radio,
-            'keyName': this.terminalNumber,
-            currentPage:this.currentPage3
-          })
-          .end((error, res) => {
-            if (error) {
-              console.log('error:', error)
-            } else {
-              console.log(JSON.parse(res.text).data)
-              var data = (JSON.parse(res.text)).data
-              var newData = this.tableDataDel(data)
-              this.pagetotal = (JSON.parse(res.text)).totalPage
-              this.totalItems = Number(JSON.parse((JSON.parse(res.text)).totalItems))
-              // loading 关闭
-              this.loading2 = false
-              this.tableData = newData
-              if (this.pagetotal > 1) {
-                this.pageShow = true
-              } else {
-                this.pageShow = false
-                return
-              }
-            }
-          })
-        return
-      }
-    },
+    //     var radio = this.checkList.toString()
+    //     return
+    //     request
+    //       .post(host + 'beepartner/franchisee/bike/findBike')
+    //       .withCredentials()
+    //       .set({
+    //         'content-type': 'application/x-www-form-urlencoded'
+    //       })
+    //       .send({
+    //         cityId:this.cityCodeList.join(),
+    //         'startOnlineTime': startTime,
+    //         'endOnlineTime': endTime,
+    //         'bikeState': radio,
+    //         'keyName': this.terminalNumber,
+    //         currentPage:this.currentPage3
+    //       })
+    //       .end((error, res) => {
+    //         if (error) {
+    //           console.log('error:', error)
+    //         } else {
+    //           console.log(JSON.parse(res.text).data)
+    //           var data = (JSON.parse(res.text)).data
+    //           var newData = this.tableDataDel(data)
+    //           this.pagetotal = (JSON.parse(res.text)).totalPage
+    //           this.totalItems = Number(JSON.parse((JSON.parse(res.text)).totalItems))
+    //           // loading 关闭
+    //           this.loading2 = false
+    //           this.tableData = newData
+    //           if (this.pagetotal > 1) {
+    //             this.pageShow = true
+    //           } else {
+    //             this.pageShow = false
+    //             return
+    //           }
+    //         }
+    //       })
+    //     return
+    //   }
+    // },
     mountedWay() {
       this.loading2 = true
       // 切换城市清空表单信息
@@ -664,14 +665,14 @@ export default {
     //   },
     //   deep: true
     // },
-    'terminalNumber':{
-      handler:function(n,o){
-        if(n.length==0){
-           this.mountedWay()
-        }
-      },
-      deep:true
-    }
+    // 'terminalNumber':{
+    //   handler:function(n,o){
+    //     if(n.length==0){
+    //        this.mountedWay()
+    //     }
+    //   },
+    //   deep:true
+    // }
   }
 }
 </script>

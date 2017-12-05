@@ -98,7 +98,7 @@
             <el-table-column
               label="操作类别"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{scope.row.type===0?'登录':'注销'}}
               </template>
             </el-table-column>
