@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_326099_clcpine46y1fw29.css">
+  <!-- <script type="text/javascript" src="http://momentjs.cn/downloads/moment.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+  <style>
+     ::selection {
+      background: #ccf;
+    }
+
+
+    body {
+      font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
+    }
+    *{
+      margin:0;padding:0;
+    }
+
+    .el-table th>.cell {
+      word-wrap: normal;
+      text-overflow: ellipsis;
+      line-height: 30px;
+      width: 100%;
+      box-sizing: border-box;
+      font-weight: 500;
+      background: #eee;
+    }
+
+    .el-table th {
+      white-space: nowrap;
+      overflow: hidden;
+      background-color: #eee !important;
+      text-align: left;
+    }
+
+    .el-table td,
+    .el-table th.is-leaf {
+      border-bottom: 1px solid #eee !important;
+    }
+
+    .el-table {
+      border: 1px solid #eee !important;
+      border-right: none !important;
+    }
+
+    div.el-dialog__header {
+      border-bottom: 1px solid #eee;
+      height: 59px;
+      font-size: 24px;
+      line-height: 59px;
+      padding: 0px 20px 0;
+    }
+
+    div.el-dialog__header .el-dialog__title {
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    div.el-dialog__header .el-dialog__headerbtn {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    div.el-dialog__header .el-dialog__headerbtn i.el-dialog__close {
+      color: #000;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    div.el-dialog__body div.el-input {
+      width: initial
+    }
+
+    .el-loading-spinner .path {
+      animation: loading-dash 1.5s ease-in-out infinite;
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: 0;
+      stroke-width: 2;
+      stroke: #ddd !important;
+      stroke-linecap: round;
+    }
+
+    .el-loading-spinner .el-loading-text {
+      color: #ddd !important;
+      margin: 3px 0;
+      font-size: 14px;
+    }
+
+    a.el-upload-list__item-name {
+      display: none;
+    }
+  </style>
+  <!-- <script src="http://webapi.amap.com/maps?v=1.3&key=be5a7197ab40935cc8900dde70543450"></script>  -->
+</head>
+
+<body onbeforeunload="return myFunction()">
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+<script type="text/javascript" src="http://momentjs.cn/downloads/moment.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+  
+  function myFunction(){
+      if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
+          window.localStorage.clear()
+      } else {
+         //
+      }
+    
+  }
+ 
+
+</script>
+
+</html>
