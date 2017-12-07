@@ -108,6 +108,11 @@ module.exports = {
             threshold: 10240,
             minRatio: 0.8
         }),
+        new webpack.DefinePlugin({
+            'process.env': {
+              NODE_ENV: '"production"'
+            }
+          }),
         new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
             title: 'Production',

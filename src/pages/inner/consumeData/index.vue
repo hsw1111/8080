@@ -71,7 +71,7 @@ export default {
     }
     this.$store.commit("recodeConsumeDataType", timeType);
     this.getDateByTimeLine();
-    this.setCityId(this.cityCodeList.join());
+    // this.setCityId(this.cityCodeList.join());
     
   },
   computed: {
@@ -137,73 +137,56 @@ export default {
         var _endTime = new Date(this.form.data2).getTime();
         _endTime = isNaN(_endTime) ? 0 : _endTime;
         _startTime = isNaN(_startTime) ? 0 : _startTime;
-        var _startTime = new Date(this.form.data1).getTime();
-        var _endTime = new Date(this.form.data2).getTime();
-        _endTime = isNaN(_endTime) ? 0 : _endTime;
-        _startTime = isNaN(_startTime) ? 0 : _startTime;
-        if (_endTime > _startTime) {
-          if (_endTime > 1 && _startTime <= 1) {
-            this.$message({
-              type: "warning",
-              message: "开始日期不能为空"
-            });
-          } else {
-            if (this.datetype === "daily") {
-              var timeStart = moment(this.form.data1).format("YYYY-MM-DD");
-              var timeEnd = moment(this.form.data2).format("YYYY-MM-DD");
-              var newObj = {};
-              newObj.startTime = timeStart;
-              newObj.endTime = timeEnd;
-            } else if (this.datetype === "weekly") {
-              var timeStart = moment(this.form.data1).format("YYYY年第WW周");
-              var timeEnd = moment(this.form.data2).format("YYYY年第WW周");
-              var newObj = {};
-              newObj.startTime = timeStart;
-              newObj.endTime = timeEnd;
-            } else {
-              var timeStart = moment(this.form.data1).format("YYYY-MM");
-              var timeEnd = moment(this.form.data2).format("YYYY-MM");
-              var newObj = {};
-              newObj.startTime = timeStart;
-              newObj.endTime = timeEnd;
-            }
-            this.$store.commit("setTimeLine", newObj);
-            //this.form.data1 = ''
-            //this.form.data2 = ''
-          }
-        } else {
-          if (_endTime <= 1) {
-            // this.$message({
-            //   type: "error",
-            //   message: "结束日期不能为空"
-            // });
-            this.$message({
-              type: "warning",
-              message: "开始日期不能大于结束日期"
-            });
-          } else {
-            if (_endTime < _startTime) {
+        
+         if(_startTime!="" &&_endTime!=""&&_endTime<_startTime){
               this.$message({
-                type: "warning",
-                message: "开始日期不能大于结束日期"
-              });
-              return;
-            }
+                type: 'warning',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+        }
+        // if (_endTime > _startTime) {
+          // if (_endTime > 1 && _startTime <= 1) {
+          //   this.$message({
+          //     type: "warning",
+          //     message: "开始日期不能为空"
+          //   });
+          // }
+           else {
+            // if (this.datetype === "daily") {
+            //   var timeStart = moment(this.form.data1).format("YYYY-MM-DD");
+            //   var timeEnd = moment(this.form.data2).format("YYYY-MM-DD");
+            //   var newObj = {};
+            //   newObj.startTime = timeStart;
+            //   newObj.endTime = timeEnd;
+            // } else if (this.datetype === "weekly") {
+            //   var timeStart = moment(this.form.data1).format("YYYY年第WW周");
+            //   var timeEnd = moment(this.form.data2).format("YYYY年第WW周");
+            //   var newObj = {};
+            //   newObj.startTime = timeStart;
+            //   newObj.endTime = timeEnd;
+            // } else {
+            //   var timeStart = moment(this.form.data1).format("YYYY-MM");
+            //   var timeEnd = moment(this.form.data2).format("YYYY-MM");
+            //   var newObj = {};
+            //   newObj.startTime = timeStart;
+            //   newObj.endTime = timeEnd;
+            // }
             if (this.datetype === "daily") {
-              var timeStart = moment(this.form.data1).format("YYYY-MM-DD");
-              var timeEnd = moment(this.form.data2).format("YYYY-MM-DD");
+              var timeStart = this.form.data1==""?"":moment(this.form.data1).format("YYYY-MM-DD");
+              var timeEnd = this.form.data2==""?"":moment(this.form.data2).format("YYYY-MM-DD");
               var newObj = {};
               newObj.startTime = timeStart;
               newObj.endTime = timeEnd;
             } else if (this.datetype === "weekly") {
-              var timeStart = moment(this.form.data1).format("YYYY年第WW周");
-              var timeEnd = moment(this.form.data2).format("YYYY年第WW周");
+              var timeStart = this.form.data1==""?"":moment(this.form.data1).format("YYYY年第WW周");
+              var timeEnd = this.form.data2==""?"":moment(this.form.data2).format("YYYY年第WW周");
               var newObj = {};
               newObj.startTime = timeStart;
               newObj.endTime = timeEnd;
             } else {
-              var timeStart = moment(this.form.data1).format("YYYY-MM");
-              var timeEnd = moment(this.form.data2).format("YYYY-MM");
+              var timeStart = this.form.data1==""?"":moment(this.form.data1).format("YYYY-MM");
+              var timeEnd = this.form.data2==""?"": moment(this.form.data2).format("YYYY-MM");
               var newObj = {};
               newObj.startTime = timeStart;
               newObj.endTime = timeEnd;
@@ -211,8 +194,49 @@ export default {
             this.$store.commit("setTimeLine", newObj);
             //this.form.data1 = ''
             //this.form.data2 = ''
-          }
-        }
+           }
+        //   } else {
+        //   if (_endTime <= 1) {
+        //     // this.$message({
+        //     //   type: "error",
+        //     //   message: "结束日期不能为空"
+        //     // });
+        //     this.$message({
+        //       type: "warning",
+        //       message: "开始日期不能大于结束日期"
+        //     });
+        //   } else {
+        //     if (_endTime < _startTime) {
+        //       this.$message({
+        //         type: "warning",
+        //         message: "开始日期不能大于结束日期"
+        //       });
+        //       return;
+        //     }
+        //     if (this.datetype === "daily") {
+        //       var timeStart = moment(this.form.data1).format("YYYY-MM-DD");
+        //       var timeEnd = moment(this.form.data2).format("YYYY-MM-DD");
+        //       var newObj = {};
+        //       newObj.startTime = timeStart;
+        //       newObj.endTime = timeEnd;
+        //     } else if (this.datetype === "weekly") {
+        //       var timeStart = moment(this.form.data1).format("YYYY年第WW周");
+        //       var timeEnd = moment(this.form.data2).format("YYYY年第WW周");
+        //       var newObj = {};
+        //       newObj.startTime = timeStart;
+        //       newObj.endTime = timeEnd;
+        //     } else {
+        //       var timeStart = moment(this.form.data1).format("YYYY-MM");
+        //       var timeEnd = moment(this.form.data2).format("YYYY-MM");
+        //       var newObj = {};
+        //       newObj.startTime = timeStart;
+        //       newObj.endTime = timeEnd;
+        //     }
+        //     this.$store.commit("setTimeLine", newObj);
+        //     //this.form.data1 = ''
+        //     //this.form.data2 = ''
+        //   }
+        // }
       }
     }
   },
@@ -220,7 +244,7 @@ export default {
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
-      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .post(host + "beepartner/franchisee/city/findCitysByCityPartner")
       .withCredentials()
       .set({
         "content-type": "application/x-www-form-urlencoded"
@@ -361,9 +385,9 @@ export default {
     //     }
     //   },
     //   deep: true
-    // }
-  }
-};
+    }
+  
+}
 </script>
 <style scoped>
 

@@ -405,7 +405,7 @@ export default {
     $('.sign[name="1401"]').addClass("is-active");
     this.loading2 = true
     // this.$router.push('/index/earningsDetail?type=getRevenueCurDay&cityId=' + this.$route.query.cityId)
-    this.loadData(this.currentPage3)
+    // this.loadData(this.currentPage3)
   },
   methods: {
     showMsgFormChild(data) {
@@ -454,6 +454,7 @@ export default {
     loadData(currentPage) {
        this.loading2 = true
       var type = this.$route.query.type;
+      console.log("-------------loadData------------",this.cityCodeList.join())
       if (type === "getRevenueCurDay") {
         this.isDay = true;
         this.isWeek = false;
@@ -509,8 +510,7 @@ export default {
           "content-type": "application/x-www-form-urlencoded"
         })
         .send({
-          // cityId: this.cityCodeList.join(),
-          cityId: this.cityCodeList[0],
+          cityId: this.cityCodeList.join(),
           type: type,
           startTime: this.startTime,
           endTime: this.endTime,
@@ -563,6 +563,13 @@ export default {
       }
     },
     export_excel() {
+      if(this.tableData.length==0){
+         this.$message({
+          type: 'warning',
+          message:"当前无数据!"
+        })
+        return
+       }
       this.$confirm("确认导出吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -755,7 +762,7 @@ export default {
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
-      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .post(host + "beepartner/franchisee/city/findCitysByCityPartner")
       .withCredentials()
       .set({
         "content-type": "application/x-www-form-urlencoded"
@@ -783,6 +790,7 @@ export default {
       handler: function(n, o) {
         this.loading2 = true;
         this.currentPage3 = 1;
+        // this.timeLine = ""
         this.loadData(this.currentPage3);
         this.remoteCityList.map((item)=>{
           if(item.code===n.join()){

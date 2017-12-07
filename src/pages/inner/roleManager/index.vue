@@ -520,7 +520,7 @@ export default {
       this.$refs.editRuleForm.validate((valid) => {
         if (valid) {
           request
-            .post(host + 'beepartner/admin/Role/updateRole')
+            .post(host + 'beepartner/franchisee/Role/updateRole')
             .withCredentials()
             .set({
               'content-type': 'application/x-www-form-urlencoded'

@@ -241,7 +241,7 @@ export default {
     //this.bikeInfo.code = '000000009' 
     this.loading2 = true
     this.bikeInfo.code = this.$route.query.code
-    request.post(host + 'beepartner/admin/Bike/getBikeDetail')
+    request.post(host + 'beepartner/franchisee/Bike/getBikeDetail')
      .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -484,7 +484,7 @@ export default {
     currentPage3:{
       handler: function(val,oldVal){
       this.loading2 = true
-       request.post(host + 'beepartner/admin/Bike/getBikeDetail')
+       request.post(host + 'beepartner/franchisee/Bike/getBikeDetail')
         .withCredentials()
           .set({
             'content-type': 'application/x-www-form-urlencoded'
@@ -594,7 +594,7 @@ div.carUseDetail div.battery ul li span.capacity {
 }
 
 div.carUseDetail div.record {
-  margin-top: 50px;
+  margin-top: 25px;
   padding: 10px;
 }
 

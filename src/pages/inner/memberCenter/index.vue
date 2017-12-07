@@ -5,7 +5,7 @@
 			<div id="home_header">
 				<h1>
 					<!-- <img src="../../../assets/homepage/2.jpg"> -->
-					<el-upload class="my_upload"  title="点击更换头像，使用jpg,png,jpeg格式。" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+					<el-upload class="my_upload"  title="点击更换头像，使用jpg，png，jpeg格式。" :show-file-list="true" :with-credentials='true' action='' :http-request='uploadWay' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 						<img v-if="imageUrl" :src="imageUrl" class="avatar">
 						<!-- <img src="../../../assets/homepage/2.jpg"> -->
                     	<i v-else style="font-size: 180px; color: #fff;" class="icon iconfont icon-touxiang"></i>

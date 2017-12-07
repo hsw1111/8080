@@ -1,6 +1,11 @@
-import login from '../pages/login/index.vue'
-import index from '../pages/index/index.vue'
-import NotFoundPage from '../pages/404/index.vue'
+// import login from '../pages/login/index.vue'
+const login = resolve => require.ensure([], () => resolve(require('../pages/login/index.vue')), 'login')
+// import index from '../pages/index/index.vue'
+const index = resolve => require.ensure([], () => resolve(require('../pages/index/index.vue')), 'index')
+
+// import NotFoundPage from '../pages/404/index.vue'
+const NotFoundPage = resolve => require.ensure([], () => resolve(require('../pages/404/index.vue')), 'NotFoundPage')
+
 import MenuModule from '../store/modules/MenuModule.js'
 export default [
     {

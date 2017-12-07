@@ -36,7 +36,7 @@
                 <el-date-picker v-model='form.data1' type="date" placeholder="选择日期"></el-date-picker>
                 <span class="division">至</span>
                 <el-date-picker v-model='form.data2' type="date" placeholder="选择日期"></el-date-picker>
-                <button class="my_btn" @click="searchByTimeline" style="font-size: 14px;line-height:36px">查询</button>
+                <input type="button" class="my_btn" @click="searchByTimeline" style="font-size: 14px;line-height:36px" value="查询">
                 <!--<button @click='searchByTimeline'>查询</button>-->
               </el-form-item>
             </el-col>
@@ -109,7 +109,7 @@ export default {
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
-      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .post(host + "beepartner/franchisee/city/findCitysByCityPartner")
       .withCredentials()
       .set({
         "content-type": "application/x-www-form-urlencoded"
@@ -172,40 +172,50 @@ export default {
       // this.searchByTimeline()
       var radio = this.checkList.toString()
       var startTime, endTime
-      if (this.form.data1 === '' || this.form.data2 === '') {
-        startTime = ''
-        endTime = ''
-      } else {
-        startTime = moment(this.form.data1).format('YYYY-MM-DD')
-        endTime = moment(this.form.data2).format('YYYY-MM-DD')
-      }
+      // if (this.form.data1 === '' || this.form.data2 === '') {
+      //   startTime = ''
+      //   endTime = ''
+      // } else {
+      //   startTime = moment(this.form.data1).format('YYYY-MM-DD')
+      //   endTime = moment(this.form.data2).format('YYYY-MM-DD')
+      // }
+       startTime = this.form.data1 == ''?"":moment(this.form.data1).format('YYYY-MM-DD')
+       endTime = this.form.data2 === ''?"":moment(this.form.data2).format('YYYY-MM-DD')
+
        var _startTime = new Date(this.form.data1).getTime()
         var _endTime = new Date(this.form.data2).getTime()
         _endTime = isNaN(_endTime) ? 0 : _endTime
         _startTime = isNaN(_startTime) ? 0 : _startTime
-
-         if (_endTime > 1 && _startTime <= 1) {
-            this.$message({
-              type: 'warning',
-              message: '开始日期不能为空'
-            })
-            return
-          } 
-        if (_endTime < 0) {
-            this.$message({
-              type: 'warning',
-              message: '结束日期不能为空'
-            })
-          } else {
-            if(_endTime<_startTime){
+         if(_startTime!="" &&_endTime!=""&&_endTime<_startTime){
               this.$message({
                 type: 'warning',
                 message: '开始日期不能大于结束日期'
               })
               return
-            }
-          }
-          console.log(_startTime,_endTime)
+        }
+
+      //    if (_endTime > 1 && _startTime <= 1) {
+      //       this.$message({
+      //         type: 'warning',
+      //         message: '开始日期不能为空'
+      //       })
+      //       return
+      //     } 
+      //   if (_endTime < 0) {
+      //       this.$message({
+      //         type: 'warning',
+      //         message: '结束日期不能为空'
+      //       })
+      //     } else {
+      //       if(_endTime<_startTime){
+      //         this.$message({
+      //           type: 'warning',
+      //           message: '开始日期不能大于结束日期'
+      //         })
+      //         return
+      //       }
+      //     }
+          // console.log(_startTime,_endTime)
       // 根据用户选择不同状态进行数据的筛选
       this.isQuery = true
       if (this.checkList.length > 0) {
@@ -269,6 +279,7 @@ export default {
           .end((error, res) => {
             if (error) {
               this.loading2 = false
+               this.pageShow = false
               this.emptyText = '暂无数据'
               console.log('error:', error)
                this.loading2 = false
@@ -284,6 +295,7 @@ export default {
               if (this.pagetotal > 1) {
                 this.pageShow = true
               } else {
+                this.pageShow = false
                 this.emptyText = '暂无数据'
                 return
               }
@@ -304,26 +316,35 @@ export default {
       // } else {
         this.isQuery = true
         var startTime, endTime
-        if (this.form.data1 === '' || this.form.data2 === '') {
-          startTime = null
-          endTime = null
-        } else {
-          startTime = moment(this.form.data1).format('YYYY-MM-DD')
-          endTime = moment(this.form.data2).format('YYYY-MM-DD')
-        }
+        // if (this.form.data1 === '' || this.form.data2 === '') {
+        //   startTime = null
+        //   endTime = null
+        // } else {
+        //   startTime = moment(this.form.data1).format('YYYY-MM-DD')
+        //   endTime = moment(this.form.data2).format('YYYY-MM-DD')
+        // }
+         startTime = this.form.data1 == ''?"":moment(this.form.data1).format('YYYY-MM-DD')
+        endTime = this.form.data2 === ''?"":moment(this.form.data2).format('YYYY-MM-DD')
         var radio = this.checkList.toString()
         var _startTime = new Date(this.form.data1).getTime()
         var _endTime = new Date(this.form.data2).getTime()
         _endTime = isNaN(_endTime) ? 0 : _endTime
         _startTime = isNaN(_startTime) ? 0 : _startTime
-        console.log(_endTime, _startTime)
-        if (_endTime > _startTime) {
-          if (_endTime > 1 && _startTime <= 1) {
-            this.$message({
-              type: 'warning',
-              message: '开始日期不能为空'
-            })
-          } else {
+        if(_startTime!="" &&_endTime!=""&&_endTime<_startTime){
+              this.$message({
+                type: 'warning',
+                message: '开始日期不能大于结束日期'
+              })
+              return
+        }
+        // console.log(_endTime, _startTime)
+        // if (_endTime > _startTime) {
+        //   if (_endTime > 1 && _startTime <= 1) {
+        //     this.$message({
+        //       type: 'warning',
+        //       message: '开始日期不能为空'
+        //     })
+        //   } else {
             this.loading2 = true
             request
               .post(host + 'beepartner/franchisee/bike/findBike')
@@ -361,55 +382,55 @@ export default {
                   }
                 }
               })
-          }
-        } else {
-            if(_endTime<_startTime){
-              this.$message({
-                type: 'warning',
-                message: '开始日期不能大于结束日期'
-              })
-              return
-            }
-            request
-              .post(host + 'beepartner/franchisee/bike/findBike')
-              .withCredentials()
-              .set({
-                'content-type': 'application/x-www-form-urlencoded'
-              })
-              .send({
-                cityId:this.cityCodeList.join(),
-                'startOnlineTime': startTime,
-                'endOnlineTime': endTime,
-                'bikeState': radio,
-                'keyName': this.terminalNumber,
-                currentPage:this.currentPage3
-              })
-              .end((error, res) => {
-                if (error) {
-                  this.loading2 = false
-                  this.emptyText = '暂无数据'
-                  console.log('error:', error)
-                } else {
-                  var data = JSON.parse(res.text).data
-                  var newData = this.tableDataDel(data)
-                  this.pagetotal = (JSON.parse(res.text)).totalPage
-                  this.tableData = newData
-                  this.totalItems = Number((JSON.parse(res.text)).totalItems)
-                  // loading 关闭
-                  this.loading2 = false
-                  if (this.pagetotal > 1) {
-                    this.pageShow = true
-                  } else {
-                    this.emptyText = '暂无数据'
-                    this.pageShow = false
-                    return
-                  }
-                }
-              })
+          // }
+        // } else {
+        //     if(_endTime<_startTime){
+        //       this.$message({
+        //         type: 'warning',
+        //         message: '开始日期不能大于结束日期'
+        //       })
+        //       return
+        //     }
+        //     request
+        //       .post(host + 'beepartner/franchisee/bike/findBike')
+        //       .withCredentials()
+        //       .set({
+        //         'content-type': 'application/x-www-form-urlencoded'
+        //       })
+        //       .send({
+        //         cityId:this.cityCodeList.join(),
+        //         'startOnlineTime': startTime,
+        //         'endOnlineTime': endTime,
+        //         'bikeState': radio,
+        //         'keyName': this.terminalNumber,
+        //         currentPage:this.currentPage3
+        //       })
+        //       .end((error, res) => {
+        //         if (error) {
+        //           this.loading2 = false
+        //           this.emptyText = '暂无数据'
+        //           console.log('error:', error)
+        //         } else {
+        //           var data = JSON.parse(res.text).data
+        //           var newData = this.tableDataDel(data)
+        //           this.pagetotal = (JSON.parse(res.text)).totalPage
+        //           this.tableData = newData
+        //           this.totalItems = Number((JSON.parse(res.text)).totalItems)
+        //           // loading 关闭
+        //           this.loading2 = false
+        //           if (this.pagetotal > 1) {
+        //             this.pageShow = true
+        //           } else {
+        //             this.emptyText = '暂无数据'
+        //             this.pageShow = false
+        //             return
+        //           }
+        //         }
+        //       })
           
 
-        }
-        return
+        // }
+        // return
       // }
     },
     tableDataDel(arr) {

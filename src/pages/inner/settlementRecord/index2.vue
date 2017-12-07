@@ -193,7 +193,7 @@ import {mapGetters,mapActions} from 'vuex'
     // 初始化调用查询可加盟城市的接口,动态渲染数据
     var that = this;
     request
-      .post(host + "beepartner/admin/city/findCitysByCityPartner")
+      .post(host + "beepartner/franchisee/city/findCitysByCityPartner")
       .withCredentials()
       .set({
         "content-type": "application/x-www-form-urlencoded"

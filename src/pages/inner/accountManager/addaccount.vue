@@ -167,7 +167,7 @@ export default {
             callback(new Error('手机号格式不正确'))
         } else {
             request
-            .post(host + 'beepartner/admin/User/AdminUserUserNameOrPhone')
+            .post(host + 'beepartner/franchisee/User/AdminUserUserNameOrPhone')
             .withCredentials()
             .set({
                 'content-type': 'application/x-www-form-urlencoded'

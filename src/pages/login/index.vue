@@ -91,7 +91,7 @@ export default {
           if (res === true) {
             return callback()
           } else {
-            callback(new Error('手机格式格式不正确！！！'))
+            callback(new Error('手机号格式不正确！！！'))
           }
         }, 1000)
       }

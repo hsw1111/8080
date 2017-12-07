@@ -168,7 +168,7 @@ export default {
           opposite: true
         }],
         credits: {
-          enabled: true,
+          enabled: false,
           text: "北京蜜蜂出行科技有限公司",
           href: "javascript:void(0)"
         },
@@ -188,23 +188,20 @@ export default {
         legend: {
           shadow: false
         },
-        // plotOptions: {
-        //   column: {
-        //     grouping: false,
-        //     shadow: false,
-        //     borderWidth: 0,
-        //     maxPointWidth:30,
-        //   }
-        // },
         plotOptions: {
-          series:{
-            // groupPadding: 0.4,
-          },
+          // series:{
+          //   borderWidth: 0,
+          //       // grouping: false,
+          //       groupPadding: 0.1,
+          //       pointPadding: 0.1,
+          //       shadow: false,
+          //       maxPointWidth:30,
+          // },
             column: {
                 // pointPadding: 0,
                 borderWidth: 0,
                 grouping: false,
-                // groupPadding: 0.4,
+                // groupPadding: 0.8,
                 shadow: false,
                 maxPointWidth:30,
             }
@@ -213,15 +210,15 @@ export default {
           name: '单数',
           color: '#058DC7',
           data: this.orderNumber,
+          // pointWidth:10,
           pointPadding: 0.3,
-          
           pointPlacement: -0.2,
-          maxPointWidth: 20
+          
         }, {
           name: '实际收益',
           color: '#50B432',
           data: this.consumeMoney,
-          maxPointWidth: 20,
+          // pointWidth: 10,
           pointPadding: 0.3,
           pointPlacement: 0.2,
           yAxis: 1
