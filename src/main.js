@@ -84,6 +84,10 @@ new Vue({
       }
     },
     checkoutSeesion() {
+      console.log(this.$route)
+      if(this.$route.path=='/login'){
+        return
+      }
       request
         .post(host + 'beepartner/franchisee/Own/findFranchiseeUserOwn')
         .withCredentials()

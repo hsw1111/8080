@@ -142,6 +142,7 @@ export default {
       editAccountRule: {
         userName: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
         passWord: [{ required: true, trigger: 'blur', message: '请输入用密码' }],
+        roleName: [{ required: true, trigger: 'blur', message: '请选择角色名称' }],
       },
       isSearch: false
     }

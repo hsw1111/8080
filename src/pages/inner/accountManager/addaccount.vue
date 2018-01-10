@@ -230,7 +230,7 @@ export default {
           { required: true, message: '请填写密码', trigger: 'blur' },
           { min: 6, max: 20, message: '请使用6-20位字符，包含字母、数字、下划线', trigger: 'blur' }
         ],
-        roleName: [{ validator: validateRole, trigger: 'change', required: false }],
+        roleName: [{ validator: validateRole, trigger: 'change', required: true }],
         name: [
           { message: '请输入姓名', trigger: 'blur' },
         ],

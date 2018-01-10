@@ -31,7 +31,7 @@
               结算周期：{{month}}
             </div>
             <div class="tips">
-              本期结算金额：<span>{{actProfitStr}}</span>元
+              本期结算金额：<span>{{new Number(actProfitStr).thousandFormat()}}</span>元
             </div>
           </div>
           <span slot="footer" class="dialog-footer">
@@ -675,7 +675,7 @@ import {thousandFormat} from '../../../util/util.js'
                 // 结算成功修改vuex中的值为true
                 // that.setConfirmRecord(true)
                 const io = require('socket.io-client');
-                const ws = io.connect("http://10.31.147.119:3000")
+                const ws = io.connect("http://47.94.39.104:3000")
                 ws.emit('join',{type:'detail'})
                 ws.on('broadcast_join', function (data) {
                       console.log(data.type);

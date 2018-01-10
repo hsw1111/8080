@@ -203,14 +203,15 @@ export default {
                 grouping: false,
                 // groupPadding: 0.8,
                 shadow: false,
-                maxPointWidth:30,
+                maxPointWidth:60,
+
             }
         },
         series: [{
           name: '单数',
           color: '#058DC7',
           data: this.orderNumber,
-          // pointWidth:10,
+          // pointWidth:20,
           pointPadding: 0.3,
           pointPlacement: -0.2,
           
@@ -218,7 +219,7 @@ export default {
           name: '实际收益',
           color: '#50B432',
           data: this.consumeMoney,
-          // pointWidth: 10,
+          // pointWidth: 20,
           pointPadding: 0.3,
           pointPlacement: 0.2,
           yAxis: 1

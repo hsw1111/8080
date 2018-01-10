@@ -233,7 +233,7 @@ import {mapGetters,mapActions} from 'vuex'
         $(".sign").removeClass('is-active')
       $('.sign[name="1402"]').addClass('is-active')
       const io = require('socket.io-client');
-      const ws = io.connect("http://10.31.147.119:3000")
+      const ws = io.connect("http://47.94.39.104:3000")
       ws.emit('join',{type:'index2'})
       ws.on('broadcast_join', function (data) {
             console.log(data.type);

@@ -19,7 +19,7 @@ const state = {
     franchiseeUserIconUrl:'',
     settelListId:'',
     recodeCityId:'',
-    confirmRecord:false
+    confirmRecord:false,
 }
 
 const mutations = {

@@ -182,12 +182,12 @@ export default {
       console.log(this.$refs)
       this.$refs.modifyRulesForm.validate((valid) => {
         if (valid) {
-          this.$confirm('确认修改吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '信息有误',
-            type: 'warning'
-          })
-        .then(() => {
+          // this.$confirm('确认修改吗?', '提示', {
+          //   confirmButtonText: '确定',
+          //   cancelButtonText: '信息有误',
+          //   type: 'warning'
+          // })
+        // .then(() => {
           that.loading = true
           setTimeout(() => {
             request.post(host + 'beepartner/franchisee/Own/updateFranchiseeUser')
@@ -213,9 +213,13 @@ export default {
                     that.loading = false
                     that.$message({
                       message: '恭喜你，密码修改成功',
-                      type: 'success'
+                      type: 'success',
+                      duration:1000
                     })
-                    that.$router.push('./')
+                    setTimeout(function(){
+                      that.$router.push('./')
+                    },1500)
+                   
                   } else {
                     that.loading = false
                     this.$message.error(message)
@@ -223,12 +227,12 @@ export default {
                 }
               })
           }, 1000)
-        }).catch(() => {
-          // this.$message({
-          //   type: 'info',
-          //   message: '修改已取消！'
-          // })
-        })
+        // }).catch(() => {
+        //   // this.$message({
+        //   //   type: 'info',
+        //   //   message: '修改已取消！'
+        //   // })
+        // })
         } else {
           console.log('error submit!!')
           return false

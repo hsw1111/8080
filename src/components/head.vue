@@ -61,7 +61,7 @@ export default {
                 var message = JSON.parse(res.text).message
                 if(code === 1){
                   window.localStorage.clear()
-                  this.setfranchiseeUserIconUrl('')
+                //   this.setfranchiseeUserIconUrl('')
                    this.$router.push('/login') 
                 }else{
                     that.$message({
@@ -115,19 +115,19 @@ export default {
   },
   // 发现监听时无头像会图裂
   watch:{
-    // franchiseeUserIconUrl:{
-    //     handler:function(n,o){
-    //             console.log(n)
-    //             if(n!='null'){
-    //                 this.isIconUrl = false
-    //                 this.isImgShow = true
-    //             }else{
-    //                 this.isIconUrl = true
-    //                 this.isImgShow = false
-    //             }
-    //     },
-    //     deep:true
-    // }  
+    franchiseeUserIconUrl:{
+        handler:function(n,o){
+                console.log(n)
+                if(n!=null){
+                    this.isIconUrl = false
+                    this.isImgShow = true
+                }else{
+                    this.isIconUrl = true
+                    this.isImgShow = false
+                }
+        },
+        deep:true
+    }  
   }
 }
 </script>
