@@ -37,6 +37,8 @@ export default {
     generateCharts(categories, data) {
       Highcharts.chart('container', {
         /** Highcharts 配置 */
+        colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00',
+                '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         lang: {
           printChart: '打印图表',
           contextButtonTitle: '图表导出菜单',
@@ -93,6 +95,7 @@ export default {
             name: ' ',
             color: '#74f7af',
             data: data,
+            colorByPoint:true,
             tooltip: {
               valueSuffix: '单',
               useHTML: true,
@@ -157,7 +160,8 @@ export default {
               var _time = [];
                 var res = data.map((item) => {
                  _time.push(item.statisticId.split('').reverse().splice(0,2).reverse().join('') + ':00')
-                  return {color:that.randomColor(), y: item.totalBill }
+                  // return {color:that.randomColor(), y: item.totalBill }
+                  return {y: item.totalBill }
                 })
                 this.data = res
                
